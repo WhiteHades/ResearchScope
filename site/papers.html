@@ -77,8 +77,13 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="library-toolbar">
     <div>
-      <h1 class="text-2xl font-bold mb-2">📄 Papers</h1>
-      <p class="text-sm mb-4" style="color:var(--rs-muted)">Scored by importance, readability, and content potential. Click any row to expand.
+      <h1 class="text-2xl font-bold mb-1">📄 arXiv Preprints</h1>
+      <p class="text-xs mb-1" style="color:var(--rs-muted)">
+        <span class="badge badge-arxiv">Section 1 of 3</span>
+        <a href="conferences" style="color:var(--rs-muted)" class="ml-2 hover:underline">🎓 A* Conferences</a>
+        <a href="journals"    style="color:var(--rs-muted)" class="ml-2 hover:underline">📖 Q1 Journals</a>
+      </p>
+      <p class="text-sm mb-4" style="color:var(--rs-muted)">Top 1,000 preprints from arXiv — scored by contribution depth, novelty, and citation velocity. Click any row to expand.
         <button onclick="document.getElementById('scoring-explainer').classList.toggle('hidden')"
           class="ml-2 text-xs font-semibold underline" style="color:var(--rs-primary)">How scoring works ↓</button>
       </p>
@@ -126,15 +131,7 @@
         <option value="empirical">Empirical</option>
         <option value="systems">Systems</option>
       </select>
-      <select id="filter-source" class="rs-select">
-        <option value="">All Sources</option>
-        <option value="arxiv">arXiv</option>
-        <option value="openreview">OpenReview (ICLR/NeurIPS)</option>
-        <option value="acl_anthology">ACL Anthology</option>
-        <option value="pmlr">PMLR (ICML)</option>
-        <option value="cvf">CVF (CVPR/ICCV)</option>
-        <option value="semantic_scholar">Semantic Scholar</option>
-      </select>
+      <!-- source locked to arXiv on this page -->
       <select id="filter-year" class="rs-select"><option value="">All Years</option></select>
       <select id="sort-by" class="rs-select">
         <option value="paper_score">Sort: Paper Score</option>
@@ -370,7 +367,7 @@ function applyFilters() {
     difficulty: document.getElementById('filter-difficulty').value,
     type:       document.getElementById('filter-type').value,
     year:       document.getElementById('filter-year').value,
-    source:     document.getElementById('filter-source').value,
+    source:     'arxiv',   // arXiv preprints page — source locked
     sortBy:     document.getElementById('sort-by').value,
   };
   currentPage = 1;
@@ -401,7 +398,7 @@ const debouncedFilter = debounce(applyFilters, 300);
 
   // Attach filter listeners
   ['search-input','filter-tag','filter-difficulty','filter-type',
-   'filter-year','filter-source','sort-by'].forEach(id => {
+   'filter-year','sort-by'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.addEventListener('input', debouncedFilter);
   });

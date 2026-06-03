@@ -27,23 +27,18 @@ class SiteGenerator:
     # Venues treated as arXiv / unclassified (not conference proceedings)
     _ARXIV_VENUES = {"arXiv", "Unknown", "", None}
 
-    # Frontend slice sizes — 500 arXiv + 500 conference = 1 000 total
-    MAX_FRONTEND_ARXIV = 500
-    MAX_FRONTEND_CONF  = 500
+    # ── Frontend slice sizes — 1 000 per section × 3 sections = 3 000 total ──
+    # Section 1: arXiv preprints  (papers.json)
+    MAX_FRONTEND_ARXIV = 1_000
+    # Section 2: A* conference papers only  (conferences.json)
+    MAX_FRONTEND_CONF  = 1_000
+    # Section 3: Q1 journal papers  (journals.json)
+    MAX_FRONTEND_JOURNAL = 1_000
 
     # ── GitHub hard limit: 100 MB per file ────────────────────────────────────
-    # papers_db.json  — full format with AI enrichment ~9.2 KB/paper
-    #   7,500 × 9.2 KB = 69 MB  (worst-case 12 KB/paper → 90 MB)  ✓ safe
-    MAX_DB_PAPERS = 7_500
-    # conferences_db.json — slim format ~3.9 KB/paper
-    #   20,000 × 3.9 KB = 78 MB  ✓ safe (Supabase holds all, JSON is fallback)
-    MAX_CONF_DB_PAPERS = 20_000
-    # conferences.json — slim, browser-served
-    MAX_CONF_FRONTEND_PAPERS = 5_000
-    # journals_db.json — slim format, ~4 KB/paper
-    #   5,000 × 4 KB = 20 MB  ✓ safe
-    MAX_JOURNAL_DB_PAPERS       = 5_000
-    MAX_JOURNAL_FRONTEND_PAPERS = 2_000
+    MAX_DB_PAPERS             = 7_500
+    MAX_CONF_DB_PAPERS        = 20_000
+    MAX_JOURNAL_DB_PAPERS     = 5_000
     # authors.json — slim, no paper_ids; ~0.4 KB/author
     #   5,000 × 0.4 KB = 2 MB  ✓ safe
     MAX_AUTHORS = 5_000
@@ -64,38 +59,33 @@ class SiteGenerator:
     ) -> None:
         os.makedirs(output_dir, exist_ok=True)
 
-        # papers are already sorted by paper_score descending from the pipeline.
-        # Split into three pools: arXiv, conferences, journals.
+        # Papers already sorted by paper_score descending from the pipeline.
+        # Split into three independent pools.
         arxiv_papers   = [p for p in papers if p.source_type == "preprint" or p.venue in self._ARXIV_VENUES]
         journal_papers = [p for p in papers if p.source_type == "journal"]
         conf_papers    = [p for p in papers if p.source_type == "conference" and p.venue not in self._ARXIV_VENUES]
+        # Section 2 is A* only — the most impactful conference research
+        a_star_papers  = [p for p in conf_papers if p.conference_rank == "A*"]
 
         # ── Persistent stores (committed to git, used by next pipeline run) ──────
-        # arXiv store — rolling, age-filtered by the pipeline before it arrives here
         self._write(output_dir, "papers_db.json",
                     [p.to_dict() for p in arxiv_papers[: self.MAX_DB_PAPERS]])
-        # Conference store — permanent, never expires.
         self._write(output_dir, "conferences_db.json",
                     [self._slim(p) for p in conf_papers[: self.MAX_CONF_DB_PAPERS]])
-        # Journal store — permanent, never expires.
         self._write(output_dir, "journals_db.json",
                     [self._slim(p) for p in journal_papers[: self.MAX_JOURNAL_DB_PAPERS]])
 
-        # ── Frontend slice — top 500 arXiv + top 500 conference ─────────────────
-        frontend_papers = (
-            arxiv_papers[: self.MAX_FRONTEND_ARXIV]
-            + conf_papers[: self.MAX_FRONTEND_CONF]
-        )
+        # ── Section 1: arXiv preprints — top 1 000 by paper_score ───────────────
         self._write(output_dir, "papers.json",
-                    [self._slim(p) for p in frontend_papers])
+                    [self._slim(p) for p in arxiv_papers[: self.MAX_FRONTEND_ARXIV]])
 
-        # ── Conferences page — top N conference papers (browser-served) ─────────
+        # ── Section 2: A* conference papers — top 1 000 by paper_score ──────────
         self._write(output_dir, "conferences.json",
-                    [self._slim(p) for p in conf_papers[: self.MAX_CONF_FRONTEND_PAPERS]])
+                    [self._slim(p) for p in a_star_papers[: self.MAX_FRONTEND_CONF]])
 
-        # ── Journals page — top N journal papers (browser-served) ───────────────
+        # ── Section 3: Q1 journal papers — top 1 000 by paper_score ─────────────
         self._write(output_dir, "journals.json",
-                    [self._slim(p) for p in journal_papers[: self.MAX_JOURNAL_FRONTEND_PAPERS]])
+                    [self._slim(p) for p in journal_papers[: self.MAX_FRONTEND_JOURNAL]])
 
         # ── Search index — arXiv DB + top conference papers ─────────────────────
         # _search_entry is ultra-light (~250 B/paper) so 20 K entries ≈ 5 MB — safe.

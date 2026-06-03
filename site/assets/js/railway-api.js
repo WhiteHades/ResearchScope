@@ -57,12 +57,15 @@ async function _queryPapers({
   page = 1, pageSize = 25,
   search = '', tag = '', difficulty = '', type = '',
   source = '', year = '', sortBy = 'paper_score',
+  rank = '', venue = '',
   tagNormalizeMap = {},
 } = {}) {
   const params = new URLSearchParams({ page, page_size: pageSize });
   if (search) params.set('search', search);
   if (tag)    params.set('tag', tag);
   if (year)   params.set('year', year);
+  if (rank)   params.set('rank', rank);
+  if (venue)  params.set('venue', venue);
   if (source === 'arxiv')           params.set('source_type', 'preprint');
   else if (source === 'conference') params.set('source_type', 'conference');
   else if (source === 'journal')    params.set('source_type', 'journal');
@@ -126,10 +129,18 @@ async function _fetchTopPapers(limit = 500) {
   return [];
 }
 
-async function _fetchConferencePapers(limit = 2000) {
+async function _fetchConferencePapers(limit = 1000) {
   try {
-    const json = await _apiFetch(`/papers/conferences?page_size=${Math.min(limit, 100)}&page=1`);
-    if (json?.results?.length) return json.results;
+    const PAGE = 100;
+    const results = [];
+    for (let page = 1; results.length < limit; page++) {
+      const need = Math.min(PAGE, limit - results.length);
+      const json = await _apiFetch(`/papers/conferences?page_size=${need}&page=${page}&rank=A*`);
+      if (!json?.results?.length) break;
+      results.push(...json.results);
+      if (json.results.length < need) break;
+    }
+    if (results.length) return results;
   } catch { /* fall through */ }
   if (_sb?.fetchConferencePapers) return _sb.fetchConferencePapers(limit);
   return [];
