@@ -1,17 +1,24 @@
 from __future__ import annotations
 
+import logging
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.database import init_db
 from app.routers import auth, favourites, papers, pipeline, search
+
+log = logging.getLogger(__name__)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await init_db()
+    try:
+        from app.database import init_db
+        await init_db()
+    except Exception as exc:
+        log.error("DB init failed (app still starting): %s", exc)
     yield
 
 
@@ -38,7 +45,8 @@ app.include_router(pipeline.router)
 
 @app.get("/health")
 async def health():
-    return {"status": "ok"}
+    db_ok = bool(os.environ.get("DATABASE_URL"))
+    return {"status": "ok", "db_configured": db_ok}
 
 
 @app.get("/")
