@@ -48,9 +48,19 @@ async def health():
     db_url  = os.environ.get("DATABASE_URL", "")
     db_priv = os.environ.get("DATABASE_PRIVATE_URL", "")
     pg_host = os.environ.get("PGHOST", "")
-    db_ok   = bool(db_url or db_priv or pg_host)
     via     = "DATABASE_URL" if db_url else ("DATABASE_PRIVATE_URL" if db_priv else ("PGHOST" if pg_host else "none"))
-    return {"status": "ok", "db_configured": db_ok, "via": via}
+
+    db_live = False
+    try:
+        from app.database import get_engine
+        from sqlalchemy import text
+        async with get_engine().connect() as conn:
+            await conn.execute(text("SELECT 1"))
+        db_live = True
+    except Exception:
+        pass
+
+    return {"status": "ok", "db_configured": via != "none", "db_live": db_live, "via": via}
 
 
 @app.get("/")

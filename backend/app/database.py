@@ -39,7 +39,13 @@ def _database_url() -> str:
 
 
 def _make_engine():
-    return create_async_engine(_database_url(), pool_pre_ping=True)
+    url = _database_url()
+    # asyncpg needs ssl=True when connecting through Railway's TCP proxy
+    return create_async_engine(
+        url,
+        pool_pre_ping=True,
+        connect_args={"ssl": "require"},
+    )
 
 
 _engine = None
