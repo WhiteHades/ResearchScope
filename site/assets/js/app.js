@@ -469,78 +469,71 @@ function copyPotdLink(url, btn) {
 
 // ── Nav builder ────────────────────────────────────────────────────────
 function buildDropdownNav() {
-  const nav = document.querySelector('.rs-nav');
-  if (!nav) return;
-
-  // Target the desktop links container (has font-medium + flex-1 + hidden lg:flex)
-  const linksDiv = nav.querySelector('.hidden.lg\\:flex[class*="font-medium"]');
-  if (!linksDiv) return;
+  const linksDiv = document.getElementById('rs-nav-links');
+  const mobLinks  = document.getElementById('rs-mob-links');
+  if (!linksDiv && !mobLinks) return;
 
   const page = window.location.pathname.split('/').pop() || 'index.html';
 
   function navLink(href, label) {
-    const active = href === page ? ' active' : '';
-    return `<a href="${href}" class="text-sm font-medium px-2 py-1 rounded${active}" style="color:var(--rs-muted);text-decoration:none;transition:color .15s;white-space:nowrap"
-      onmouseover="this.style.color='var(--rs-primary)'" onmouseout="this.style.color=this.classList.contains('active')?'var(--rs-primary)':'var(--rs-muted)'"
-      >${label}</a>`;
+    const cls = 'rs-nav-top-link' + (href === page ? ' active' : '');
+    return `<a href="${href}" class="${cls}">${label}</a>`;
   }
 
   function dropdown(label, items) {
-    const hasActive = items.some(i => i[0] && i[0] === page);
+    const hasActive = items.some(([href]) => href && href === page);
     const rows = items.map(([href, lbl, divider]) => {
       if (divider) return `<div class="rs-nav-dd-divider"></div>`;
-      const active = href === page ? ' active' : '';
-      return `<a href="${href}" class="${active}">${lbl}</a>`;
+      return `<a href="${href}"${href === page ? ' class="active"' : ''}>${lbl}</a>`;
     }).join('');
-    return `
-      <div class="rs-nav-dd">
-        <button class="rs-nav-dd-btn${hasActive ? ' active' : ''}">${label} <span class="rs-nav-dd-arrow">▾</span></button>
-        <div class="rs-nav-dd-menu">${rows}</div>
-      </div>`;
+    return `<div class="rs-nav-dd">
+      <button class="rs-nav-dd-btn${hasActive ? ' active' : ''}">${label}<span class="rs-nav-dd-arrow">▾</span></button>
+      <div class="rs-nav-dd-menu">${rows}</div>
+    </div>`;
   }
 
-  linksDiv.innerHTML =
-    navLink('papers.html', 'Papers') +
-    dropdown('Venues', [
-      ['conferences.html', '🎓 Conferences'],
-      ['journals.html', '📖 Journals'],
-      [null, null, true],
-      ['conference-recommender.html', 'Conference Recommender'],
-      ['journal-recommender.html', 'Journal Recommender'],
-    ]) +
-    dropdown('Discover', [
-      ['topics.html', 'Topics'],
-      ['gaps.html', 'Research Gaps'],
-      ['digest.html', '📬 Digest'],
-    ]) +
-    dropdown('People', [
-      ['authors.html', 'Authors'],
-      ['labs.html', 'Labs & Unis'],
-    ]) +
-    navLink('deadlines.html', '📅 Deadlines');
+  if (linksDiv) {
+    linksDiv.innerHTML =
+      navLink('papers.html', 'Papers') +
+      dropdown('Venues', [
+        ['conferences.html', '🎓 Conferences'],
+        ['journals.html',    '📖 Journals'],
+        [null, null, true],
+        ['conference-recommender.html', 'Conference Recommender'],
+        ['journal-recommender.html',    'Journal Recommender'],
+      ]) +
+      dropdown('Discover', [
+        ['topics.html', 'Topics'],
+        ['gaps.html',   'Research Gaps'],
+        ['digest.html', '📬 Digest'],
+      ]) +
+      dropdown('People', [
+        ['authors.html', 'Authors'],
+        ['labs.html',    'Labs & Unis'],
+      ]) +
+      navLink('deadlines.html', '📅 Deadlines');
+  }
 
-  // Rebuild mobile menu
-  const mobileLinks = document.querySelector('#mobile-menu .flex.flex-col');
-  if (mobileLinks) {
-    const cur = page;
-    const ml = (href, label) =>
-      `<a href="${href}" class="mobile-nav-link${href === cur ? ' active' : ''}">${label}</a>`;
-    mobileLinks.innerHTML =
-      ml('index.html', 'Home') +
+  if (mobLinks) {
+    const ml = (href, lbl) =>
+      `<a href="${href}" class="mobile-nav-link${href === page ? ' active' : ''}">${lbl}</a>`;
+    const sec = t => `<p class="mobile-nav-section">${t}</p>`;
+    mobLinks.innerHTML =
+      ml('index.html',  'Home') +
       ml('papers.html', 'Papers') +
-      `<p class="mobile-nav-section">Venues</p>` +
-      ml('conferences.html', '🎓 Conferences') +
-      ml('journals.html', '📖 Journals') +
-      ml('conference-recommender.html', 'Conference Recommender') +
-      ml('journal-recommender.html', 'Journal Recommender') +
-      `<p class="mobile-nav-section">Discover</p>` +
+      sec('Venues') +
+      ml('conferences.html',           '🎓 Conferences') +
+      ml('journals.html',              '📖 Journals') +
+      ml('conference-recommender.html','Conference Recommender') +
+      ml('journal-recommender.html',   'Journal Recommender') +
+      sec('Discover') +
       ml('topics.html', 'Topics') +
-      ml('gaps.html', 'Research Gaps') +
+      ml('gaps.html',   'Research Gaps') +
       ml('digest.html', '📬 Digest') +
-      `<p class="mobile-nav-section">People</p>` +
-      ml('authors.html', 'Authors') +
-      ml('labs.html', 'Labs & Unis') +
-      ml('deadlines.html', '📅 Deadlines') +
+      sec('People') +
+      ml('authors.html',    'Authors') +
+      ml('labs.html',       'Labs & Unis') +
+      ml('deadlines.html',  '📅 Deadlines') +
       ml('favourites.html', '⭐ My Favourites');
   }
 }
