@@ -3,9 +3,15 @@
  *
  * Overrides window._rs_supabase with Railway-backed implementations so
  * all existing pages work without changes. Also adds auth + favourites.
+ *
+ * Fallback chain: Railway API → Supabase → static JSON
+ * Sign-in is NEVER required for browsing — only for favourites.
  */
 
 const RS_API = 'https://researchscope-production.up.railway.app';
+
+// Save the Supabase client loaded before us so we can fall back to it
+const _sb = window._rs_supabase || null;
 
 // ── Auth state ────────────────────────────────────────────────────────────────
 
@@ -50,54 +56,69 @@ async function _queryPapers({
   page = 1, pageSize = 25,
   search = '', tag = '', difficulty = '', type = '',
   source = '', year = '', sortBy = 'paper_score',
+  tagNormalizeMap = {},
 } = {}) {
   const params = new URLSearchParams({ page, page_size: pageSize });
   if (search) params.set('search', search);
   if (tag)    params.set('tag', tag);
   if (year)   params.set('year', year);
-
-  // Map source filter → source_type
-  if (source === 'arxiv')         params.set('source_type', 'preprint');
+  if (source === 'arxiv')           params.set('source_type', 'preprint');
   else if (source === 'conference') params.set('source_type', 'conference');
   else if (source === 'journal')    params.set('source_type', 'journal');
 
+  // 1. Try Railway
   try {
     const json = await _apiFetch(`/papers?${params}`);
-    return { data: json.results || [], count: json.total || 0, error: null };
+    if (json && (json.total > 0 || json.results?.length > 0))
+      return { data: json.results || [], count: json.total || 0, error: null };
   } catch (e) {
-    console.warn('[railway] queryPapers failed:', e.message);
-    return { data: [], count: 0, error: e };
+    console.warn('[railway] queryPapers failed, falling back to Supabase:', e.message);
   }
+
+  // 2. Fall back to Supabase
+  if (_sb?.queryPapers) {
+    return _sb.queryPapers({ page, pageSize, search, tag, difficulty, type, source, year, sortBy, tagNormalizeMap });
+  }
+
+  return { data: [], count: 0, error: null };
 }
 
 async function _fetchTopPapers(limit = 500) {
   try {
-    const json = await _apiFetch(`/papers?page_size=${limit}&page=1`);
-    return json.results || [];
-  } catch { return []; }
+    const json = await _apiFetch(`/papers?page_size=${Math.min(limit, 100)}&page=1`);
+    if (json?.results?.length) return json.results;
+  } catch { /* fall through */ }
+  if (_sb?.fetchTopPapers) return _sb.fetchTopPapers(limit);
+  return [];
 }
 
 async function _fetchConferencePapers(limit = 2000) {
   try {
     const json = await _apiFetch(`/papers/conferences?page_size=${Math.min(limit, 100)}&page=1`);
-    return json.results || [];
-  } catch { return []; }
+    if (json?.results?.length) return json.results;
+  } catch { /* fall through */ }
+  if (_sb?.fetchConferencePapers) return _sb.fetchConferencePapers(limit);
+  return [];
 }
 
 async function _fetchJournalPapers(limit = 2000) {
   try {
     const json = await _apiFetch(`/papers/journals?page_size=${Math.min(limit, 100)}&page=1`);
-    return json.results || [];
-  } catch { return []; }
+    if (json?.results?.length) return json.results;
+  } catch { /* fall through */ }
+  return [];
 }
 
 async function _searchPapersQuick(query, limit = 5) {
   if (!query || query.trim().length < 2) return [];
+  // 1. Try Railway full-text search
   try {
-    const params = new URLSearchParams({ q: query.trim(), limit });
-    const json = await _apiFetch(`/search?${params}`);
-    return json.results || [];
-  } catch { return []; }
+    const json = await _apiFetch(`/search?${new URLSearchParams({ q: query.trim(), limit })}`);
+    if (json?.results?.length) return json.results;
+  } catch { /* fall through */ }
+  // 2. Fall back to Supabase
+  if (_sb?.searchPapersQuick) return _sb.searchPapersQuick(query, limit);
+  return [];
 }
 
 // ── Auth API ──────────────────────────────────────────────────────────────────
