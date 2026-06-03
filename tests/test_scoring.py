@@ -13,7 +13,7 @@ _YEAR = datetime.now(timezone.utc).year
 
 
 def _paper(year: int, citations: int = 0, abstract: str = "", tags: list[str] | None = None,
-           rank: str = "") -> Paper:
+           rank: str = "", source_type: str = "conference") -> Paper:
     return Paper(
         id=f"p{year}{citations}",
         title="Test Paper",
@@ -22,6 +22,7 @@ def _paper(year: int, citations: int = 0, abstract: str = "", tags: list[str] | 
         abstract=abstract,
         tags=tags or [],
         conference_rank=rank,
+        source_type=source_type,
     )
 
 
@@ -76,8 +77,14 @@ class TestPaperScorer:
         assert result is sample_paper
 
     def test_very_old_paper_low_score(self):
-        old = self.scorer.score(_paper(_YEAR - 15))
+        old = self.scorer.score(_paper(_YEAR - 15, rank=""))
         assert old.paper_score < 3.0
+
+    def test_preprint_rank_does_not_boost(self):
+        """Preprints have no peer-review signal; rank should not affect quality_hint."""
+        no_rank = self.scorer.score(_paper(_YEAR, rank="",   source_type="preprint"))
+        a_star  = self.scorer.score(_paper(_YEAR, rank="A*", source_type="preprint"))
+        assert a_star.paper_score == no_rank.paper_score
 
     def test_novelty_positive_words_boost(self):
         generic = self.scorer.score(_paper(_YEAR, abstract="We compare two methods."))

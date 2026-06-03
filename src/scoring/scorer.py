@@ -1,15 +1,23 @@
 """
 Multi-score system for ResearchScope.
 
-Four independent scores, each with a breakdown dict and a plain-English reason:
+Four independent scores, each 0–10 with a breakdown dict and plain-English reason:
 
-1. paper_score       — "what matters"         (0–10)
-2. read_first_score  — "what to read first"   (0–10)
-3. content_potential — "worth talking about"  (0–10)
-4. author momentum   — used by aggregator
+  1. paper_score            — "how significant is this paper" (impact + quality)
+  2. read_first_score       — "what should I read first" (clarity + accessibility)
+  3. content_potential_score — "worth discussing publicly" (outreach / creator value)
+  4. author_momentum_score  — used by aggregator, not stored on paper
 
-All weights come from config/weights.yaml but fall back to hard-coded defaults
-so the scorer works without PyYAML installed.
+v2 algorithm changes vs v1:
+  - Recency weight cut from 0.35 → 0.12; exponential decay instead of linear
+  - Completeness removed (metadata presence ≠ paper quality)
+  - citation_velocity added (0.15): rewards fast-rising papers independent of age
+  - contribution_depth added (0.15): abstract structure completeness check
+  - quality_hint (0.25): now source-type aware (preprint / conference / journal)
+  - novelty (0.12): length-normalized, capped at 4 unique signals, tighter regexes
+  - practical/surprise regexes narrowed to cut false positives on common vocab
+  - paper_type adjustments: survey/replication reduce score; dataset/negative boost
+  - author_momentum gains recent_velocity component
 """
 from __future__ import annotations
 
@@ -23,17 +31,16 @@ from src.normalization.schema import Author, Paper
 
 _CURRENT_YEAR = datetime.now(timezone.utc).year
 
-# ── Config helpers ───────────────────────────────────────────────────────────
+# ── Weight config ─────────────────────────────────────────────────────────────
 
 def _load_weights() -> dict[str, Any]:
-    cfg_path = Path(__file__).parent.parent.parent / "config" / "weights.yaml"
+    cfg = Path(__file__).resolve().parents[2] / "config" / "weights.yaml"
     try:
         import yaml  # type: ignore
-        with open(cfg_path, encoding="utf-8") as fh:
+        with open(cfg, encoding="utf-8") as fh:
             return yaml.safe_load(fh) or {}
     except Exception:
-        pass
-    return {}
+        return {}
 
 _WEIGHTS: dict[str, Any] = _load_weights()
 
@@ -41,52 +48,119 @@ def _w(score_name: str, component: str, default: float) -> float:
     return float((_WEIGHTS.get(score_name) or {}).get(component, default))
 
 def _rank_score(rank: str) -> float:
-    table = {"A*": 10.0, "A": 7.5, "B": 5.0, "C": 3.0, "": 0.0}
-    return table.get(rank, 0.0)
+    return {"A*": 10.0, "A": 7.5, "B": 5.0, "C": 3.0}.get(rank, 0.0)
 
 
-# ── Novelty keywords ─────────────────────────────────────────────────────────
+# ── Novelty regex (phrase-level, not single words) ────────────────────────────
 
 _NOVELTY_POSITIVE = re.compile(
-    r"\b(novel|new|first|propose|introduce|we present|outperform|state.of.the.art|"
-    r"sota|surpass|achieve|improve|advance|breakthrough|superior|exceed)\b",
+    r"\b("
+    r"we propose|we introduce|we present a novel|we develop a|"
+    r"for the first time|first to (apply|train|use|show|propose|achieve)|"
+    r"novel (approach|method|framework|architecture|algorithm|technique)|"
+    r"outperform(s|ed)? (all |existing |prior |state.of.the.art|sota)|"
+    r"state.of.the.art (results?|performance|accuracy)|"
+    r"surpass(es|ed)? (all |existing |previous |prior )|"
+    r"significant(ly)? (improve|outperform|advance|surpass|reduce|exceed)|"
+    r"achieves? (state.of.the.art|sota|the best|new (high|low|record))|"
+    r"(new|best) (state.of.the.art|sota|benchmark record)"
+    r")\b",
     re.IGNORECASE,
 )
 _NOVELTY_NEGATIVE = re.compile(
-    r"\b(survey|overview|tutorial|review|we compare|we replicate|replication)\b",
+    r"\b(survey of|overview of|tutorial on|review of|we compare existing|"
+    r"we replicate|replication study|systematic review|meta.analysis|"
+    r"we summarize|we categorize|literature review)\b",
     re.IGNORECASE,
 )
 
-_FOUNDATIONAL_KWORDS = re.compile(
-    r"\b(foundational|seminal|attention is all|bert|transformer|gpt|imagenet|"
-    r"resnet|widely used|widely adopted|introduced by|pioneered)\b",
+# ── Contribution depth (abstract structure) ───────────────────────────────────
+
+_CD_PROBLEM = re.compile(
+    r"\b(we address|we tackle|the (challenge|problem|issue|limitation) of|"
+    r"existing (methods|approaches|systems|models) (fail|lack|struggle|cannot|suffer)|"
+    r"prior (work|methods|approaches) (cannot|do not|fail to|lack)|"
+    r"it (is|remains) (unclear|unknown|challenging|difficult) (how|whether|to))\b",
     re.IGNORECASE,
 )
-_CLARITY_INDICATORS = re.compile(
-    r"\b(we propose|we present|in this paper|in this work|we show|we demonstrate|"
-    r"our approach|our method|our model|we introduce)\b",
+_CD_METHOD = re.compile(
+    r"\b(we propose|we introduce|we present|we develop|we design|we build|"
+    r"our (method|approach|model|framework|system|algorithm|architecture|pipeline)|"
+    r"this (paper|work) (proposes|introduces|presents|develops|describes))\b",
     re.IGNORECASE,
 )
+_CD_EVALUATION = re.compile(
+    r"\b(we (evaluate|demonstrate|validate|benchmark|test|assess|verify)|"
+    r"(evaluated?|tested?) on [\w\-\s]+(dataset|benchmark|corpus|task|collection)|"
+    r"experiment(s|al) (show|demonstrate|confirm|reveal|suggest|indicate)|"
+    r"on \d+ (dataset|benchmark|task|language|domain))\b",
+    re.IGNORECASE,
+)
+_CD_QUANTITATIVE = re.compile(
+    r"(\b\d+\.?\d*\s*(%|percent|pp)\s*(improvement|gain|increase|accuracy|f1|bleu|rouge)|"
+    r"outperform(s|ed)?\s+(by\s+)?\d|"
+    r"\+\s*\d+\.?\d*\s*(point|pp|bleu|rouge|f1|accuracy|%)|"
+    r"\d+\.?\d*[x×]\s*(faster|speedup|better|improvement)|"
+    r"reduce(s|d)?\s+\w+\s+by\s+\d+)",
+    re.IGNORECASE,
+)
+_CD_LIMITATIONS = re.compile(
+    r"\b(limitation|we note that|however,? (our|this)|future work|future direction|"
+    r"we leave (this|it|the)|does not (handle|support|address|consider)|"
+    r"not yet applicable|cannot generalize)\b",
+    re.IGNORECASE,
+)
+
+# ── Practical / surprise / explain / broad (narrowed to cut false positives) ──
+
 _SURPRISE_KWORDS = re.compile(
-    r"\b(surprising|unexpected|counter.intuitive|contrary|surprisingly|"
-    r"against intuition|puzzle|paradox|we find that|interestingly)\b",
+    r"\b(surprisingly\b|counter.intuitive|counterintuitive|"
+    r"contrary to (expectation|prior work|conventional wisdom|common belief)|"
+    r"challenge(s|d)? (the|existing|conventional) (assumption|belief|wisdom|understanding)|"
+    r"we find (that|this) (surprisingly|unexpectedly)|"
+    r"paradox(ically)?|unexpected(ly)? (effective|strong|poor|fail|succeed))\b",
     re.IGNORECASE,
 )
 _PRACTICAL_KWORDS = re.compile(
-    r"\b(deploy|production|real.world|practical|application|industry|"
-    r"downstream|benchmark|use case|system|product)\b",
+    r"\b(deployed? (in|at|on|to)\b|in production\b|production (system|deployment|environment)\b|"
+    r"real.world (deployment|application|use case|scenario|setting|system)\b|"
+    r"million.s? (user|request|query|call)\b|"
+    r"latency of \d|inference (latency|speed|time|throughput)\b|serving \d+|"
+    r"on.device\b|edge (inference|deployment|device|computing)\b|"
+    r"industrial (setting|deployment|application|use)\b|"
+    r"industry (adoption|use|application)\b)\b",
     re.IGNORECASE,
 )
 _EXPLAIN_KWORDS = re.compile(
-    r"\b(simple|intuitive|straightforward|easy to|visuali[zs]|interpretable|"
-    r"explainable)\b",
+    r"\b(simple(r|st)? than|requires (no|only a?)|without (training|fine.tuning|labels)\b|"
+    r"(easily|straightforwardly) (extendable|applicable|interpretable)\b|"
+    r"intuitive(ly)?\b|interpretable\b|explainable\b|plug.and.play\b|"
+    r"drop.in replacement\b|out.of.the.box\b)\b",
     re.IGNORECASE,
 )
 _BROAD_KWORDS = re.compile(
-    r"\b(general|generaliz|cross.domain|multi.task|zero.shot|few.shot|"
-    r"robust|diverse|broad)\b",
+    r"\b(across (domains?|tasks?|languages?|modalities?|dataset)\b|"
+    r"domain.agnostic\b|task.agnostic\b|language.agnostic\b|"
+    r"zero.shot (generali[sz]|transfer|on)\b|few.shot (generali[sz]|on)\b|"
+    r"general.purpose\b|multi.task (learning|model|framework)\b|"
+    r"generali[sz](es?|ation) (well|to|across)\b|broadly applicable\b)\b",
     re.IGNORECASE,
 )
+_FOUNDATIONAL_KWORDS = re.compile(
+    r"\b(foundational|seminal|widely (used|adopted|cited)|"
+    r"standard (benchmark|approach|architecture|practice)|"
+    r"introduced (by|in)|pioneered|built on top of|"
+    r"transformer|attention (is all|mechanism)|bert\b|gpt\b|resnet\b|"
+    r"imagenet|word2vec|backpropagation)\b",
+    re.IGNORECASE,
+)
+_CLARITY_INDICATORS = re.compile(
+    r"\b(we propose|we present|in this (paper|work)|we show|we demonstrate|"
+    r"our (approach|method|model)|we introduce|this (work|paper) (proposes?|presents?|introduces?))\b",
+    re.IGNORECASE,
+)
+
+# ── Hot tags ──────────────────────────────────────────────────────────────────
 
 _HOT_TAGS = {
     "Large Language Models", "Transformer Architectures", "Diffusion Models",
@@ -94,19 +168,27 @@ _HOT_TAGS = {
     "Code Generation & Synthesis", "AI Safety & Alignment", "AI Agents & Tool Use",
 }
 
+# ── Paper-type score adjustments (added after base score, then clamped 0–10) ──
 
-# ── Renowned author list ──────────────────────────────────────────────────────
-# Names are split into two groups:
-#
-#   UNAMBIGUOUS — globally rare full names; matched on name alone.
-#   AMBIGUOUS   — names common in Chinese/Korean/Vietnamese naming conventions
-#                 (e.g. "Kaiming He", "Danqi Chen"); only credited when the paper
-#                 also comes from a recognised prestigious institution, to avoid
-#                 false positives on different researchers sharing the same name.
-#
-# Score: 10 → Tier-1 match, 7 → Tier-2 match, 4 → Tier-3 match.
+_TYPE_ADJUSTMENTS: dict[str, dict[str, float]] = {
+    "survey":          {"paper": -0.5, "read": +1.5, "content": +0.5},
+    "tutorial":        {"paper": -0.5, "read": +2.0, "content": +0.5},
+    "replication":     {"paper": -1.5, "read": +0.5, "content": -0.5},
+    "negative_result": {"paper": -0.5, "read": +0.5, "content": +2.0},
+    "dataset":         {"paper":  0.0, "read": +0.5, "content": +1.5},
+    "benchmark":       {"paper":  0.0, "read": +0.5, "content": +1.5},
+    "theory":          {"paper": +0.5, "read": +1.0, "content": -0.5},
+    "systems":         {"paper": +0.5, "read":  0.0, "content": +1.0},
+    "position":        {"paper": -0.5, "read": +0.5, "content": +1.0},
+}
 
-# ── Tier 1: Turing Award winners, lab co-founders, seminal paper authors ──────
+
+# ── Renowned-author lists ─────────────────────────────────────────────────────
+# Tier 1: Turing Award winners, lab co-founders, seminal-paper authors
+# Tier 2: prominent researchers at top labs / universities
+# Tier 3: well-known contributors
+# Ambiguous names (East Asian) require institution confirmation to avoid false positives.
+
 _T1_UNAMBIGUOUS: frozenset[str] = frozenset({
     "Geoffrey Hinton", "Yann LeCun", "Yoshua Bengio",
     "Ilya Sutskever", "Demis Hassabis", "Shane Legg",
@@ -114,15 +196,10 @@ _T1_UNAMBIGUOUS: frozenset[str] = frozenset({
     "Diederik Kingma", "John Schulman", "Alec Radford",
     "Tom B. Brown", "Jacob Devlin", "Ashish Vaswani",
     "Noam Shazeer", "Niki Parmar", "David Silver",
-    "Oriol Vinyals", "Jeff Dean", "Andrew Ng",
-    "Fei-Fei Li", "Jürgen Schmidhuber",
+    "Oriol Vinyals", "Jeff Dean", "Andrew Ng", "Fei-Fei Li",
+    "Jürgen Schmidhuber",
 })
-_T1_AMBIGUOUS: frozenset[str] = frozenset({
-    # Rare but possible collision in large author pools
-    "Jimmy Lei Ba",
-})
-
-# ── Tier 2: prominent researchers at top labs / universities ──────────────────
+_T1_AMBIGUOUS: frozenset[str] = frozenset({"Jimmy Lei Ba"})
 _T2_UNAMBIGUOUS: frozenset[str] = frozenset({
     "Pieter Abbeel", "Sergey Levine", "Chelsea Finn",
     "Percy Liang", "Christopher Manning", "Dan Jurafsky",
@@ -136,13 +213,7 @@ _T2_UNAMBIGUOUS: frozenset[str] = frozenset({
     "Jakob Foerster", "Koray Kavukcuoglu", "Raia Hadsell",
     "Nando de Freitas", "Marc Lanctot",
 })
-_T2_AMBIGUOUS: frozenset[str] = frozenset({
-    # East Asian names that could realistically collide
-    "Yejin Choi",   # Korean — "Choi" is very common
-    "Quoc V. Le",   # Vietnamese — uncommon but possible
-})
-
-# ── Tier 3: well-known contributors ──────────────────────────────────────────
+_T2_AMBIGUOUS: frozenset[str] = frozenset({"Yejin Choi", "Quoc V. Le"})
 _T3_UNAMBIGUOUS: frozenset[str] = frozenset({
     "Mike Lewis", "Omer Levy", "Veselin Stoyanov",
     "Kenton Lee", "Ming-Wei Chang", "Tim Salimans",
@@ -152,27 +223,14 @@ _T3_UNAMBIGUOUS: frozenset[str] = frozenset({
     "Ruslan Salakhutdinov", "George Dahl", "Laurent Dinh",
     "Vinod Nair", "Dragomir Radev", "Leslie Kaelbling",
 })
-_T3_AMBIGUOUS: frozenset[str] = frozenset({
-    # Chinese names — highly collision-prone even as full names
-    "Kaiming He",   # "He" + "Kaiming" both occur independently
-    "Danqi Chen",   # "Chen" is among the most common Chinese surnames
-    "Jimmy Ba",     # "Ba" is uncommon but "Jimmy Ba" could recur
-})
+_T3_AMBIGUOUS: frozenset[str] = frozenset({"Kaiming He", "Danqi Chen", "Jimmy Ba"})
 
-# ── Lowercased lookup sets ────────────────────────────────────────────────────
 _T1_UNAMB_LOWER = frozenset(n.lower() for n in _T1_UNAMBIGUOUS)
 _T1_AMB_LOWER   = frozenset(n.lower() for n in _T1_AMBIGUOUS)
 _T2_UNAMB_LOWER = frozenset(n.lower() for n in _T2_UNAMBIGUOUS)
 _T2_AMB_LOWER   = frozenset(n.lower() for n in _T2_AMBIGUOUS)
 _T3_UNAMB_LOWER = frozenset(n.lower() for n in _T3_UNAMBIGUOUS)
 _T3_AMB_LOWER   = frozenset(n.lower() for n in _T3_AMBIGUOUS)
-
-
-# ── Institution prestige tiers ────────────────────────────────────────────────
-# Tier 1 (score 10): frontier AI labs and top-3 CS universities
-# Tier 2 (score 7):  major industry research + elite universities
-# Tier 3 (score 4):  strong universities and known research orgs
-# Detection: checked against affiliations_raw first; falls back to abstract scan.
 
 _TIER1_INSTITUTIONS = re.compile(
     r"\b(openai|deepmind|google\s*(?:brain|research|deepmind)?|anthropic|"
@@ -202,13 +260,19 @@ _TIER3_INSTITUTIONS = re.compile(
 # ── PaperScorer ───────────────────────────────────────────────────────────────
 
 class PaperScorer:
-    """Compute all paper scores and attach breakdowns."""
+    """Compute all paper scores and attach breakdowns. v2 algorithm."""
 
     def score(self, paper: Paper) -> Paper:
-        paper.paper_score = self._paper_score(paper)
-        paper.read_first_score = self._read_first_score(paper)
-        paper.content_potential_score = self._content_potential_score(paper)
-        paper.interestingness_score = round(
+        adj = _TYPE_ADJUSTMENTS.get(paper.paper_type or "", {})
+
+        ps  = self._paper_score(paper)
+        rfs = self._read_first_score(paper)
+        cps = self._content_potential_score(paper)
+
+        paper.paper_score             = round(max(min(ps  + adj.get("paper",   0.0), 10.0), 0.0), 2)
+        paper.read_first_score        = round(max(min(rfs + adj.get("read",    0.0), 10.0), 0.0), 2)
+        paper.content_potential_score = round(max(min(cps + adj.get("content", 0.0), 10.0), 0.0), 2)
+        paper.interestingness_score   = round(
             0.5 * paper.paper_score + 0.5 * paper.content_potential_score, 2
         )
         return paper
@@ -218,104 +282,97 @@ class PaperScorer:
     def _paper_score(self, paper: Paper) -> float:
         text = f"{paper.title} {paper.abstract}"
 
-        recency      = self._recency(paper.year)
-        novelty      = self._novelty(text)
-        quality      = self._quality_hint(paper)
-        completeness = self._completeness(paper)
-        inst_prestige   = self._institution_prestige(paper)
-        author_prestige = self._author_prestige(paper)
+        recency  = self._recency(paper.year)
+        novelty  = self._novelty(text)
+        quality  = self._quality_hint(paper)
+        velocity = self._citation_velocity(paper)
+        depth    = self._contribution_depth(paper.abstract)
+        inst     = self._institution_prestige(paper)
+        author_p = self._author_prestige(paper)
 
-        w_r  = _w("paper_score", "recency",            0.28)
-        w_n  = _w("paper_score", "novelty",             0.22)
-        w_q  = _w("paper_score", "quality_hint",        0.18)
-        w_c  = _w("paper_score", "completeness",        0.07)
-        w_ip = _w("paper_score", "institution_prestige", 0.15)
-        w_ap = _w("paper_score", "author_prestige",      0.10)
+        w_re = _w("paper_score", "recency",              0.12)
+        w_no = _w("paper_score", "novelty",              0.12)
+        w_qu = _w("paper_score", "quality_hint",         0.25)
+        w_ve = _w("paper_score", "citation_velocity",    0.15)
+        w_de = _w("paper_score", "contribution_depth",   0.15)
+        w_in = _w("paper_score", "institution_prestige", 0.12)
+        w_au = _w("paper_score", "author_prestige",      0.09)
 
-        raw = (recency * w_r + novelty * w_n + quality * w_q
-               + completeness * w_c + inst_prestige * w_ip + author_prestige * w_ap)
+        raw = (recency  * w_re + novelty   * w_no + quality  * w_qu
+               + velocity * w_ve + depth   * w_de + inst     * w_in
+               + author_p * w_au)
         score = round(min(max(raw, 0.0), 10.0), 2)
 
         paper.score_breakdown["paper_score"] = {
-            "score": score,
-            "recency": round(recency, 2),
-            "novelty": round(novelty, 2),
-            "quality_hint": round(quality, 2),
-            "completeness": round(completeness, 2),
-            "institution_prestige": round(inst_prestige, 2),
-            "author_prestige": round(author_prestige, 2),
-            "reason": self._paper_reason(score, recency, novelty, quality, inst_prestige, author_prestige),
+            "score":              score,
+            "recency":            round(recency,  2),
+            "novelty":            round(novelty,  2),
+            "quality_hint":       round(quality,  2),
+            "citation_velocity":  round(velocity, 2),
+            "contribution_depth": round(depth,    2),
+            "institution":        round(inst,     2),
+            "author_prestige":    round(author_p, 2),
+            "reason": self._paper_reason(
+                score, recency, novelty, quality, velocity, depth, inst, author_p
+            ),
         }
         return score
 
     @staticmethod
-    def _paper_reason(
-        score: float, recency: float, novelty: float, quality: float,
-        inst_prestige: float = 0.0, author_prestige: float = 0.0,
-    ) -> str:
+    def _paper_reason(score: float, recency: float, novelty: float,
+                      quality: float, velocity: float, depth: float,
+                      inst: float, author_p: float) -> str:
         parts = []
-        if recency >= 7:
-            parts.append("recently published")
-        elif recency <= 2:
-            parts.append("older work")
-        if novelty >= 7:
-            parts.append("strong novelty signals")
-        elif novelty <= 3:
-            parts.append("limited novelty language")
-        if quality >= 7:
-            parts.append("high-quality venue / citation count")
-        if author_prestige >= 8:
-            parts.append("renowned author")
-        elif inst_prestige >= 8:
-            parts.append("top-tier lab or university")
-        elif inst_prestige >= 5 or author_prestige >= 5:
-            parts.append("reputable institution")
-        if not parts:
-            parts.append("average on all dimensions")
+        if recency >= 8:   parts.append("very recent")
+        elif recency <= 3: parts.append("older work")
+        if novelty >= 7:   parts.append("strong contribution language")
+        if quality >= 7:   parts.append("high-quality venue / citations")
+        if velocity >= 6:  parts.append("fast-rising citations")
+        if depth >= 7:     parts.append("well-structured contribution")
+        if author_p >= 8:  parts.append("renowned author")
+        elif inst >= 8:    parts.append("top-tier institution")
+        if not parts:      parts.append("average across all dimensions")
         return f"Paper scores {score:.1f}/10 — {', '.join(parts)}."
 
     # ── 2. Read-first score ───────────────────────────────────────────────────
 
     def _read_first_score(self, paper: Paper) -> float:
-        text = f"{paper.title} {paper.abstract}"
-
-        clarity      = self._clarity(paper.abstract)
-        foundational = self._foundational(text)
+        clarity       = self._clarity(paper.abstract)
+        abstract_qual = self._abstract_quality(paper.abstract)
+        foundational  = self._foundational(f"{paper.title} {paper.abstract}")
         accessibility = self._accessibility(paper.difficulty_level)
-        topic_centrality = self._topic_centrality(paper.tags)
+        topic_central = self._topic_centrality(paper.tags)
 
-        w_cl = _w("read_first_score", "clarity",         0.30)
-        w_fo = _w("read_first_score", "foundational",    0.25)
-        w_ac = _w("read_first_score", "accessibility",   0.25)
-        w_tc = _w("read_first_score", "topic_centrality", 0.20)
+        w_cl = _w("read_first_score", "clarity",          0.25)
+        w_aq = _w("read_first_score", "abstract_quality", 0.20)
+        w_fo = _w("read_first_score", "foundational",     0.20)
+        w_ac = _w("read_first_score", "accessibility",    0.20)
+        w_tc = _w("read_first_score", "topic_centrality", 0.15)
 
-        raw = (clarity * w_cl + foundational * w_fo
-               + accessibility * w_ac + topic_centrality * w_tc)
+        raw = (clarity * w_cl + abstract_qual * w_aq + foundational * w_fo
+               + accessibility * w_ac + topic_central * w_tc)
         score = round(min(max(raw, 0.0), 10.0), 2)
 
         paper.score_breakdown["read_first_score"] = {
-            "score": score,
-            "clarity": round(clarity, 2),
-            "foundational": round(foundational, 2),
-            "accessibility": round(accessibility, 2),
-            "topic_centrality": round(topic_centrality, 2),
+            "score":            score,
+            "clarity":          round(clarity,       2),
+            "abstract_quality": round(abstract_qual, 2),
+            "foundational":     round(foundational,  2),
+            "accessibility":    round(accessibility, 2),
+            "topic_centrality": round(topic_central, 2),
             "reason": self._read_reason(score, clarity, foundational, accessibility),
         }
         return score
 
     @staticmethod
-    def _read_reason(score: float, clarity: float, foundational: float, access: float) -> str:
+    def _read_reason(score: float, clarity: float, foundational: float,
+                     access: float) -> str:
         parts = []
-        if clarity >= 7:
-            parts.append("well-written abstract")
-        if foundational >= 6:
-            parts.append("foundational concepts")
-        if access >= 7:
-            parts.append("accessible for most readers")
-        elif access <= 3:
-            parts.append("requires significant background")
-        if not parts:
-            parts.append("average readability and accessibility")
+        if clarity >= 7:      parts.append("well-structured abstract")
+        if foundational >= 6: parts.append("foundational concepts")
+        if access >= 8:       parts.append("accessible to most readers")
+        elif access <= 3:     parts.append("requires significant background")
+        if not parts:         parts.append("average readability")
         return f"Read-first {score:.1f}/10 — {', '.join(parts)}."
 
     # ── 3. Content potential score ────────────────────────────────────────────
@@ -323,154 +380,180 @@ class PaperScorer:
     def _content_potential_score(self, paper: Paper) -> float:
         text = f"{paper.title} {paper.abstract}"
 
-        surprise    = self._surprise(text)
-        practical   = self._practical(text)
-        explain     = self._explainability(text)
-        broad       = self._broad_relevance(text)
-        trend       = self._trend_alignment(paper.tags)
+        practical = self._practical(text)
+        broad     = self._broad_relevance(text)
+        surprise  = self._surprise(text)
+        trend     = self._trend_alignment(paper.tags)
+        explain   = self._explainability(text)
 
-        w_su = _w("content_potential_score", "surprise",        0.25)
-        w_pr = _w("content_potential_score", "practical_value", 0.25)
-        w_ex = _w("content_potential_score", "explainability",  0.20)
-        w_br = _w("content_potential_score", "broad_relevance", 0.20)
-        w_tr = _w("content_potential_score", "trend_alignment", 0.10)
+        w_pr = _w("content_potential_score", "practical_value", 0.28)
+        w_br = _w("content_potential_score", "broad_relevance", 0.22)
+        w_su = _w("content_potential_score", "surprise",        0.18)
+        w_tr = _w("content_potential_score", "trend_alignment", 0.18)
+        w_ex = _w("content_potential_score", "explainability",  0.14)
 
-        raw = (surprise * w_su + practical * w_pr + explain * w_ex
-               + broad * w_br + trend * w_tr)
+        raw = (practical * w_pr + broad * w_br + surprise * w_su
+               + trend * w_tr + explain * w_ex)
         score = round(min(max(raw, 0.0), 10.0), 2)
 
         paper.score_breakdown["content_potential"] = {
-            "score": score,
-            "surprise": round(surprise, 2),
-            "practical_value": round(practical, 2),
-            "explainability": round(explain, 2),
-            "broad_relevance": round(broad, 2),
-            "trend_alignment": round(trend, 2),
+            "score":           score,
+            "practical":       round(practical, 2),
+            "broad_relevance": round(broad,     2),
+            "surprise":        round(surprise,  2),
+            "trend_alignment": round(trend,     2),
+            "explainability":  round(explain,   2),
             "reason": self._content_reason(score, surprise, practical, trend),
         }
         paper.content_potential_score = score
         return score
 
     @staticmethod
-    def _content_reason(score: float, surprise: float, practical: float, trend: float) -> str:
+    def _content_reason(score: float, surprise: float, practical: float,
+                        trend: float) -> str:
         parts = []
-        if surprise >= 6:
-            parts.append("surprising or unexpected results")
-        if practical >= 6:
-            parts.append("clear practical applications")
-        if trend >= 7:
-            parts.append("hot topic right now")
-        if not parts:
-            parts.append("solid but not especially viral")
+        if surprise >= 5:  parts.append("surprising or counter-intuitive results")
+        if practical >= 6: parts.append("real-world deployment value")
+        if trend >= 7:     parts.append("hot topic right now")
+        if not parts:      parts.append("solid but niche audience")
         return f"Content potential {score:.1f}/10 — {', '.join(parts)}."
 
-    # ── Component helpers ─────────────────────────────────────────────────────
+    # ── Component implementations ─────────────────────────────────────────────
 
     @staticmethod
     def _recency(year: int) -> float:
+        """Exponential decay: age=0→10, age=2→6.9, age=5→3.2, age=10→1.0."""
         if not year:
             return 0.0
         age = _CURRENT_YEAR - year
         if age < 0:
             return 10.0
-        if age >= 10:
+        if age >= 15:
             return 0.0
-        return round(10.0 * (1 - age / 10), 2)
+        return round(10.0 * math.exp(-0.185 * age), 2)
 
     @staticmethod
     def _novelty(text: str) -> float:
-        pos = len(_NOVELTY_POSITIVE.findall(text))
-        neg = len(_NOVELTY_NEGATIVE.findall(text))
-        raw = min(pos * 1.5, 10.0) - min(neg * 2.0, 5.0)
-        return round(max(raw, 0.0), 2)
+        """
+        Phrase-level novelty, length-normalized.
+        Caps at 4 unique signals; divides by abstract-length factor so
+        long papers can't inflate score by repeating the same phrases.
+        Survey/review markers subtract strongly.
+        """
+        pos_matches = list(_NOVELTY_POSITIVE.finditer(text))
+        neg_matches = _NOVELTY_NEGATIVE.findall(text)
+        words = max(len(text.split()), 1)
+
+        pos_capped    = min(len({m.group(0).lower()[:30] for m in pos_matches}), 4)
+        length_factor = max(1.0, words / 80.0)
+        pos_norm      = (pos_capped / length_factor) * 2.5   # 0–10 range
+
+        neg_penalty = min(len(neg_matches) * 2.5, 5.0)
+        return round(max(min(pos_norm - neg_penalty, 10.0), 0.0), 2)
 
     @staticmethod
     def _quality_hint(paper: Paper) -> float:
+        """
+        Source-type aware quality.
+        Preprints: citations only (no peer-review signal available).
+        Conference: venue rank dominates, citations confirm.
+        Journal: balanced between rank and citations.
+        """
         rank_s = _rank_score(paper.conference_rank)
-        cite_s = min(10.0 * math.log1p(paper.citations) / math.log1p(1000), 10.0) if paper.citations else 0.0
-        # if no conference rank, citations dominate
-        if rank_s == 0:
+        cite_s = 0.0
+        if paper.citations and paper.citations > 0:
+            cite_s = min(10.0 * math.log1p(paper.citations) / math.log1p(2000), 10.0)
+
+        src = (paper.source_type or "").lower()
+        if src == "preprint":
             return round(cite_s, 2)
-        return round(rank_s * 0.7 + cite_s * 0.3, 2)
+        if src in ("conference", "workshop"):
+            return round(rank_s * 0.65 + cite_s * 0.35, 2) if rank_s > 0 else round(cite_s * 0.8, 2)
+        if src == "journal":
+            return round(rank_s * 0.55 + cite_s * 0.45, 2)
+        return round(rank_s * 0.6 + cite_s * 0.4, 2)
+
+    @staticmethod
+    def _citation_velocity(paper: Paper) -> float:
+        """
+        Citations per year, log-normalized to 0–10.
+        150 cites/year → 10. Age floor of 0.5 years prevents divide-by-zero
+        on brand-new papers and inflated scores on papers fetched within days.
+        """
+        if not paper.citations or paper.citations <= 0:
+            return 0.0
+        age = max(_CURRENT_YEAR - (paper.year or _CURRENT_YEAR), 0.5)
+        velocity = paper.citations / age
+        return round(min(10.0 * math.log1p(velocity) / math.log1p(150), 10.0), 2)
+
+    @staticmethod
+    def _contribution_depth(abstract: str) -> float:
+        """
+        Structural completeness of the abstract.
+        Five elements × 2 points each = 10 max.
+        Rewards abstracts that describe problem → method → evaluation →
+        quantitative results → scope/limitations.
+        """
+        if not abstract:
+            return 0.0
+        score = 0.0
+        if _CD_PROBLEM.search(abstract):      score += 2.0
+        if _CD_METHOD.search(abstract):       score += 2.0
+        if _CD_EVALUATION.search(abstract):   score += 2.0
+        if _CD_QUANTITATIVE.search(abstract): score += 2.0
+        if _CD_LIMITATIONS.search(abstract):  score += 2.0
+        return round(min(score, 10.0), 2)
+
+    @staticmethod
+    def _abstract_quality(abstract: str) -> float:
+        """Word-count adequacy + structural-indicator count."""
+        if not abstract:
+            return 0.0
+        words = len(abstract.split())
+        if words < 30:    length_s = 0.0
+        elif words < 80:  length_s = 3.0
+        elif words < 300: length_s = min(7.0, 3.0 + (words - 80) / 40)
+        else:             length_s = max(3.0, 7.0 - (words - 300) / 200)
+
+        struct_s = min(len(_CLARITY_INDICATORS.findall(abstract)) * 1.5, 3.0)
+        return round(min(length_s + struct_s, 10.0), 2)
 
     @classmethod
     def _author_prestige(cls, paper: Paper) -> float:
-        """
-        Score 0–10 based on whether any author is in the curated renowned-author list.
-
-        Unambiguous names (globally rare) are matched on name alone.
-        Ambiguous names (common in Chinese/Korean/Vietnamese naming conventions)
-        require the paper to also pass the institution prestige check — this
-        prevents a random researcher named "Kaiming He" from getting free credit.
-        """
         authors_lower = {a.lower() for a in (paper.authors or [])}
         inst_ok = cls._institution_prestige(paper) > 0
 
-        # Tier 1
-        if authors_lower & _T1_UNAMB_LOWER:
-            return 10.0
-        if inst_ok and (authors_lower & _T1_AMB_LOWER):
-            return 10.0
-
-        # Tier 2
-        if authors_lower & _T2_UNAMB_LOWER:
-            return 7.0
-        if inst_ok and (authors_lower & _T2_AMB_LOWER):
-            return 7.0
-
-        # Tier 3
-        if authors_lower & _T3_UNAMB_LOWER:
-            return 4.0
-        if inst_ok and (authors_lower & _T3_AMB_LOWER):
-            return 4.0
-
+        if authors_lower & _T1_UNAMB_LOWER:              return 10.0
+        if inst_ok and (authors_lower & _T1_AMB_LOWER):  return 10.0
+        if authors_lower & _T2_UNAMB_LOWER:              return 7.0
+        if inst_ok and (authors_lower & _T2_AMB_LOWER):  return 7.0
+        if authors_lower & _T3_UNAMB_LOWER:              return 4.0
+        if inst_ok and (authors_lower & _T3_AMB_LOWER):  return 4.0
         return 0.0
 
     @staticmethod
     def _institution_prestige(paper: Paper) -> float:
         """
-        Score 0–10 based on author affiliations or abstract mentions of known
-        high-prestige institutions.  Checks affiliations_raw first (populated
-        when Semantic Scholar returns affiliation data); falls back to scanning
-        the abstract so papers that mention their lab still get credit.
+        Affiliations_raw checked first; falls back to abstract only when no
+        affiliation data is available (prevents crediting a paper that merely
+        cites a top lab in its text).
         """
-        # Build a single string to search: affiliations > abstract fallback
         sources = list(paper.affiliations_raw or [])
-        if not sources:
-            sources = [paper.abstract or ""]
-
-        combined = " ".join(sources)
-        if _TIER1_INSTITUTIONS.search(combined):
-            return 10.0
-        if _TIER2_INSTITUTIONS.search(combined):
-            return 7.0
-        if _TIER3_INSTITUTIONS.search(combined):
-            return 4.0
+        combined = " ".join(sources) if sources else (paper.abstract or "")
+        if _TIER1_INSTITUTIONS.search(combined): return 10.0
+        if _TIER2_INSTITUTIONS.search(combined): return 7.0
+        if _TIER3_INSTITUTIONS.search(combined): return 4.0
         return 0.0
 
     @staticmethod
-    def _completeness(paper: Paper) -> float:
-        score = 0.0
-        if paper.abstract: score += 3.0
-        if paper.authors:  score += 2.0
-        if paper.pdf_url:  score += 1.0
-        if paper.summary:  score += 1.5
-        if paper.tags:     score += 1.5
-        if paper.limitations: score += 1.0
-        return round(min(score, 10.0), 2)
-
-    @staticmethod
     def _clarity(abstract: str) -> float:
-        words = len(abstract.split()) if abstract else 0
-        structure = len(_CLARITY_INDICATORS.findall(abstract))
-        word_score = min(words / 25.0, 5.0)
-        struct_score = min(structure * 1.5, 5.0)
-        return round(word_score + struct_score, 2)
+        words  = len(abstract.split()) if abstract else 0
+        struct = len(_CLARITY_INDICATORS.findall(abstract or ""))
+        return round(min(words / 30.0, 5.0) + min(struct * 1.5, 5.0), 2)
 
     @staticmethod
     def _foundational(text: str) -> float:
-        hits = len(_FOUNDATIONAL_KWORDS.findall(text))
-        return round(min(hits * 3.0, 10.0), 2)
+        return round(min(len(_FOUNDATIONAL_KWORDS.findall(text)) * 2.5, 10.0), 2)
 
     @staticmethod
     def _accessibility(difficulty_level: str) -> float:
@@ -478,33 +561,27 @@ class PaperScorer:
 
     @staticmethod
     def _topic_centrality(tags: list[str]) -> float:
-        hot = sum(1 for t in tags if t in _HOT_TAGS)
-        return round(min(hot * 2.5, 10.0), 2)
+        return round(min(sum(1 for t in (tags or []) if t in _HOT_TAGS) * 2.5, 10.0), 2)
 
     @staticmethod
     def _surprise(text: str) -> float:
-        hits = len(_SURPRISE_KWORDS.findall(text))
-        return round(min(hits * 3.0, 10.0), 2)
+        return round(min(len(_SURPRISE_KWORDS.findall(text)) * 4.0, 10.0), 2)
 
     @staticmethod
     def _practical(text: str) -> float:
-        hits = len(_PRACTICAL_KWORDS.findall(text))
-        return round(min(hits * 1.5, 10.0), 2)
+        return round(min(len(_PRACTICAL_KWORDS.findall(text)) * 3.0, 10.0), 2)
 
     @staticmethod
     def _explainability(text: str) -> float:
-        hits = len(_EXPLAIN_KWORDS.findall(text))
-        return round(min(hits * 2.0, 10.0), 2)
+        return round(min(len(_EXPLAIN_KWORDS.findall(text)) * 3.0, 10.0), 2)
 
     @staticmethod
     def _broad_relevance(text: str) -> float:
-        hits = len(_BROAD_KWORDS.findall(text))
-        return round(min(hits * 1.5, 10.0), 2)
+        return round(min(len(_BROAD_KWORDS.findall(text)) * 2.5, 10.0), 2)
 
     @staticmethod
     def _trend_alignment(tags: list[str]) -> float:
-        hot = sum(1 for t in tags if t in _HOT_TAGS)
-        return round(min(hot * 2.5, 10.0), 2)
+        return round(min(sum(1 for t in (tags or []) if t in _HOT_TAGS) * 2.5, 10.0), 2)
 
 
 # ── AuthorMomentumScorer ──────────────────────────────────────────────────────
@@ -518,40 +595,44 @@ class AuthorMomentumScorer:
             author.momentum_score = 0.0
             return author
 
-        current_year = _CURRENT_YEAR
-        recent = [p for p in author_papers if current_year - p.year <= 2]
-        prior  = [p for p in author_papers if 2 < current_year - p.year <= 4]
+        recent = [p for p in author_papers if _CURRENT_YEAR - p.year <= 2]
+        prior  = [p for p in author_papers if 2 < _CURRENT_YEAR - p.year <= 4]
 
-        # components
         recent_output    = min(len(recent) * 1.5, 10.0)
-        avg_quality      = (sum(p.paper_score for p in author_papers) / len(author_papers)) if author_papers else 0.0
+        avg_quality      = sum(p.paper_score for p in author_papers) / len(author_papers)
         acceleration     = min((len(recent) / max(len(prior), 1)) * 5.0, 10.0)
         topic_strength   = self._topic_strength(author_papers)
         conf_strength    = self._conference_strength(author_papers)
+        recent_velocity  = (
+            sum(PaperScorer._citation_velocity(p) for p in recent) / len(recent)
+            if recent else 0.0
+        )
 
-        w_ro = _w("author_momentum", "recent_output",       0.30)
-        w_aq = _w("author_momentum", "avg_quality",         0.25)
-        w_ac = _w("author_momentum", "acceleration",        0.20)
-        w_ts = _w("author_momentum", "topic_strength",      0.15)
-        w_cs = _w("author_momentum", "conference_strength", 0.10)
+        w_ro = _w("author_momentum", "recent_output",        0.25)
+        w_aq = _w("author_momentum", "avg_quality",          0.25)
+        w_ac = _w("author_momentum", "acceleration",         0.15)
+        w_ts = _w("author_momentum", "topic_strength",       0.15)
+        w_cs = _w("author_momentum", "conference_strength",  0.10)
+        w_rv = _w("author_momentum", "recent_velocity",      0.10)
 
         raw = (recent_output * w_ro + avg_quality * w_aq + acceleration * w_ac
-               + topic_strength * w_ts + conf_strength * w_cs)
+               + topic_strength * w_ts + conf_strength * w_cs + recent_velocity * w_rv)
         author.momentum_score = round(min(max(raw, 0.0), 10.0), 2)
         author.avg_paper_score = round(avg_quality, 2)
         author.momentum_breakdown = {
-            "recent_output": round(recent_output, 2),
-            "avg_quality": round(avg_quality, 2),
-            "acceleration": round(acceleration, 2),
-            "topic_strength": round(topic_strength, 2),
-            "conference_strength": round(conf_strength, 2),
+            "recent_output":      round(recent_output,    2),
+            "avg_quality":        round(avg_quality,      2),
+            "acceleration":       round(acceleration,     2),
+            "topic_strength":     round(topic_strength,   2),
+            "conference_strength":round(conf_strength,    2),
+            "recent_velocity":    round(recent_velocity,  2),
         }
         return author
 
     @staticmethod
     def _topic_strength(papers: list[Paper]) -> float:
-        hot_count = sum(1 for p in papers for t in p.tags if t in _HOT_TAGS)
-        return round(min(hot_count * 0.8, 10.0), 2)
+        hot = sum(1 for p in papers for t in (p.tags or []) if t in _HOT_TAGS)
+        return round(min(hot * 0.8, 10.0), 2)
 
     @staticmethod
     def _conference_strength(papers: list[Paper]) -> float:

@@ -2,38 +2,44 @@
 # All component weights within a score sum to 1.0.
 # Scores are all normalised to 0–10.
 
-# ── Paper score ("what matters") ────────────────────────────────────────────
+# ── Paper score ("what matters") — v2 ──────────────────────────────────────
 # Measures how significant / important a paper is to the field.
+# v2 changes: recency cut from 0.35→0.12 to end score clustering;
+#   completeness removed; citation_velocity + contribution_depth added.
 paper_score:
-  recency:         0.35   # how recently published
-  novelty:         0.30   # abstract-level novelty signals
-  quality_hint:    0.25   # conference rank + citation proxy
-  completeness:    0.10   # how much metadata we have
+  recency:              0.12   # exponential decay (age=0→10, age=5→3.2)
+  novelty:              0.12   # phrase-level, length-normalized, max 4 signals
+  quality_hint:         0.25   # source-type aware: rank+cites for conf, cites-only for preprints
+  citation_velocity:    0.15   # citations/year log-normalized; rewards fast-rising papers
+  contribution_depth:   0.15   # abstract structure: problem+method+eval+results+scope
+  institution_prestige: 0.12   # affiliations_raw → abstract fallback
+  author_prestige:      0.09   # tiered renowned-author list with ambiguity guard
 
-# ── Read-first score ("what should I read first") ───────────────────────────
-# Measures how valuable/accessible this paper is to read right now.
+# ── Read-first score ("what should I read first") — v2 ──────────────────────
 read_first_score:
-  clarity:         0.30   # abstract clarity & length
-  foundational:    0.25   # foundational-keyword density
-  accessibility:   0.25   # inverse difficulty
-  topic_centrality: 0.20  # how central is this topic
+  clarity:          0.25   # structural indicators + word count
+  abstract_quality: 0.20   # length adequacy + clarity indicators (new)
+  foundational:     0.20   # foundational-concept keyword density
+  accessibility:    0.20   # inverse difficulty level
+  topic_centrality: 0.15   # hot-topic tag overlap
 
-# ── Content potential score ("worth discussing publicly") ────────────────────
-# Measures creator / outreach potential.
+# ── Content potential score ("worth discussing publicly") — v2 ───────────────
+# Practical + broad lead because they predict social shareability best.
 content_potential_score:
-  surprise:        0.25   # unexpected or counterintuitive claims
-  practical_value: 0.25   # clear real-world application
-  explainability:  0.20   # can be explained simply
-  broad_relevance: 0.20   # not too niche
-  trend_alignment: 0.10   # aligns with hot topics
+  practical_value: 0.28   # deployment / production / real-world (narrowed regex)
+  broad_relevance: 0.22   # cross-domain generalization signals
+  surprise:        0.18   # counter-intuitive results (narrowed to specific phrases)
+  trend_alignment: 0.18   # hot-topic tag overlap
+  explainability:  0.14   # simple / intuitive / plug-and-play language
 
-# ── Author momentum score ─────────────────────────────────────────────────────
+# ── Author momentum score — v2 ───────────────────────────────────────────────
 author_momentum:
-  recent_output:       0.30   # papers in last 2 years
-  avg_quality:         0.25   # avg paper_score of author's papers
-  acceleration:        0.20   # output growth vs. prior 2 years
-  topic_strength:      0.15   # how focused on trending topics
-  conference_strength: 0.10   # ratio of A/A* papers
+  recent_output:        0.25   # papers in last 2 years
+  avg_quality:          0.25   # avg paper_score across all author papers
+  acceleration:         0.15   # output growth vs. prior 2-year window
+  topic_strength:       0.15   # hot-topic tag count in author's papers
+  conference_strength:  0.10   # ratio of A / A* papers
+  recent_velocity:      0.10   # avg citation velocity of recent papers (new)
 
 # ── Lab momentum score ────────────────────────────────────────────────────────
 lab_momentum:
