@@ -591,6 +591,24 @@ window.rsLogout = function() {
   }
 };
 
+// ── Supabase → static JSON fallback helper ────────────────────────────────────
+
+async function _sbFetch(method, limit, staticPath) {
+  // 1. Try Supabase
+  if (_sb?.[method]) {
+    try {
+      const result = await _sb[method](limit);
+      if (Array.isArray(result) && result.length) return result;
+    } catch { /* fall through */ }
+  }
+  // 2. Static JSON fallback
+  try {
+    const res = await fetch(staticPath);
+    const data = await res.json();
+    return Array.isArray(data) ? (limit ? data.slice(0, limit) : data) : [];
+  } catch { return []; }
+}
+
 // ── Override window._rs_supabase ──────────────────────────────────────────────
 
 window._rs_supabase = {
@@ -601,11 +619,11 @@ window._rs_supabase = {
   fetchJournalPapers:    _fetchJournalPapers,
   searchPapersQuick:     _searchPapersQuick,
   // Keep Supabase-only methods as no-ops (authors/topics/gaps still use static JSON)
-  fetchAllAuthors:  () => Promise.resolve([]),
-  fetchAllTopics:   () => Promise.resolve([]),
-  fetchAllGaps:     () => Promise.resolve([]),
-  fetchAllLabs:     () => Promise.resolve([]),
-  getDb:            () => null,
+  fetchAllAuthors:  (n) => _sbFetch('fetchAllAuthors', n, 'data/authors.json'),
+  fetchAllTopics:   (n) => _sbFetch('fetchAllTopics',  n, 'data/topics.json'),
+  fetchAllGaps:     (n) => _sbFetch('fetchAllGaps',    n, 'data/gaps.json'),
+  fetchAllLabs:     (n) => _sbFetch('fetchAllLabs',    n, 'data/labs.json'),
+  getDb:            () => _sb?.getDb?.() ?? null,
 };
 
 // ── Public API surface ────────────────────────────────────────────────────────
