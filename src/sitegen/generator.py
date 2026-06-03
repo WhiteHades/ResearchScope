@@ -7,6 +7,7 @@ Also copies them into site/data/ so they are published on GitHub Pages.
 from __future__ import annotations
 
 import json
+import logging
 import os
 import shutil
 from datetime import datetime, timezone
@@ -14,6 +15,8 @@ from pathlib import Path
 
 from src.normalization.schema import Author, Lab, Paper, ResearchGap, Topic, University
 from src import storage
+
+log = logging.getLogger(__name__)
 
 
 class SiteGenerator:

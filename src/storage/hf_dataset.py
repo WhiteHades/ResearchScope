@@ -103,6 +103,27 @@ def _jsonl_bytes(rows: list[dict]) -> bytes:
     return buf.getvalue()
 
 
+def _upload_with_retry(api: Any, *, path_or_fileobj, path_in_repo: str, commit_message: str) -> None:
+    """Upload a file to HF Hub with one retry on 429."""
+    import time
+    for attempt in range(2):
+        try:
+            api.upload_file(
+                path_or_fileobj=path_or_fileobj,
+                path_in_repo=path_in_repo,
+                repo_id=_REPO_ID,
+                repo_type=_REPO_TYPE,
+                commit_message=commit_message,
+            )
+            return
+        except Exception as exc:
+            if "429" in str(exc) and attempt == 0:
+                log.warning("[hf] rate-limited, waiting 60s before retry…")
+                time.sleep(60)
+                continue
+            raise
+
+
 def push(papers: list[dict] | None = None) -> bool:
     """Push papers to HF Hub. Returns True if pushed, False if skipped."""
     token = os.environ.get("HF_TOKEN", "").strip()
@@ -131,15 +152,16 @@ def push(papers: list[dict] | None = None) -> bool:
     except Exception as exc:
         log.warning("[hf] could not create repo: %s", exc)
 
+    today = datetime.now(timezone.utc).date()
+
     # ── Raw split ─────────────────────────────────────────────────────────────
     raw_rows = [_to_raw(p) for p in papers if p.get("title")]
     log.info("[hf] pushing %d raw paper records …", len(raw_rows))
-    api.upload_file(
+    _upload_with_retry(
+        api,
         path_or_fileobj=_jsonl_bytes(raw_rows),
         path_in_repo="data/papers.jsonl",
-        repo_id=_REPO_ID,
-        repo_type=_REPO_TYPE,
-        commit_message=f"update papers.jsonl ({len(raw_rows):,} papers) [{datetime.now(timezone.utc).date()}]",
+        commit_message=f"update papers.jsonl ({len(raw_rows):,} papers) [{today}]",
     )
 
     # ── Instruction split ─────────────────────────────────────────────────────
@@ -147,11 +169,10 @@ def push(papers: list[dict] | None = None) -> bool:
     for p in papers:
         instruct_rows.extend(_to_instruct_rows(p))
     log.info("[hf] pushing %d instruction rows …", len(instruct_rows))
-    api.upload_file(
+    _upload_with_retry(
+        api,
         path_or_fileobj=_jsonl_bytes(instruct_rows),
         path_in_repo="data/instruct.jsonl",
-        repo_id=_REPO_ID,
-        repo_type=_REPO_TYPE,
         commit_message=f"update instruct.jsonl ({len(instruct_rows):,} rows) [{datetime.now(timezone.utc).date()}]",
     )
 
@@ -220,10 +241,9 @@ instruct = load_dataset("kishormorol/researchscope-papers", data_files="data/ins
 Paper metadata is aggregated from open sources. Text content follows the original licenses of each source (arXiv CC0, ACL CC BY, etc.).
 Dataset schema: CC BY 4.0.
 """
-    api.upload_file(
+    _upload_with_retry(
+        api,
         path_or_fileobj=card.encode("utf-8"),
         path_in_repo="README.md",
-        repo_id=_REPO_ID,
-        repo_type=_REPO_TYPE,
         commit_message="update dataset card",
     )
