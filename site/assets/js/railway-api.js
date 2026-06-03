@@ -175,6 +175,7 @@ const _favsApi = {
 function _buildModal() {
   const el = document.createElement('div');
   el.id = 'rs-auth-modal';
+  el.classList.add('hidden');
   el.innerHTML = `
   <div class="rs-modal-backdrop" onclick="rsCloseModal()"></div>
   <div class="rs-modal-box">
