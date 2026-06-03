@@ -53,6 +53,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           RAILWAY_DATABASE_URL: ${{ secrets.RAILWAY_DATABASE_URL }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           echo "Running full conference backfill..."
           python src/pipeline.py --conferences-only --max-results 1000

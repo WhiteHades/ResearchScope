@@ -48,6 +48,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           RAILWAY_DATABASE_URL: ${{ secrets.RAILWAY_DATABASE_URL }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           TODAY_MODE="${{ github.event.inputs.today_mode || 'true' }}"
           TODAY_MAX="${{ github.event.inputs.today_max || '2000' }}"

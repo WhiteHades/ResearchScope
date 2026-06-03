@@ -134,6 +134,10 @@ class SiteGenerator:
         from src.storage import railway_store
         railway_store.sync(papers=paper_dicts)
 
+        # Push to Hugging Face Hub dataset (for LLM training)
+        from src.storage import hf_dataset
+        hf_dataset.push(papers=paper_dicts)
+
     # ── Helpers ───────────────────────────────────────────────────────────────
 
     # Creator-content and internal fields never needed by the browser UI

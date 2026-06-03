@@ -35,6 +35,7 @@ from src.clustering.clusterer import TopicClusterer
 from src.connectors.acl_connector import ACLAnthologyConnector
 from src.connectors.arxiv_connector import ArxivConnector
 from src.connectors.cvf_connector import CVFConnector
+from src.connectors.openalex_connector import OpenAlexConnector
 from src.connectors.openreview_connector import OpenReviewConnector
 from src.connectors.pmlr_connector import PMLRConnector
 from src.connectors.semantic_scholar_connector import SemanticScholarConnector
@@ -364,6 +365,27 @@ def run_pipeline(
                         fetched = []
                     log.info("    → %d papers", len(fetched))
                     all_papers.extend(fetched)
+
+    # ── OpenAlex (always, unless skip_conferences) ────────────────────────────
+    if not skip_conferences:
+        if conferences_only:
+            log.info("  [openalex] bulk-fetching ML/NLP/CV/IR papers …")
+            try:
+                fetched = OpenAlexConnector(from_year=2022).fetch_all()
+                log.info("    → %d papers", len(fetched))
+                all_papers.extend(fetched)
+            except Exception as exc:
+                log.warning("  [openalex] fetch_all failed: %s", exc)
+        else:
+            log.info("  [openalex] keyword search …")
+            oa = OpenAlexConnector()
+            for query in (queries or _DEFAULT_QUERIES)[:5]:
+                try:
+                    fetched = oa.fetch(query, max_results=max_results_per_query)
+                    log.info("    [openalex] '%s' → %d", query, len(fetched))
+                    all_papers.extend(fetched)
+                except Exception as exc:
+                    log.warning("  [openalex] '%s' failed: %s", query, exc)
 
     log.info("Fetched %d papers total (before dedup)", len(all_papers))
 
