@@ -10,17 +10,38 @@ log = logging.getLogger(__name__)
 
 
 def _database_url() -> str:
-    url = os.environ.get("DATABASE_URL", "")
-    if not url:
-        raise RuntimeError("DATABASE_URL environment variable is not set")
-    return url.replace("postgresql://", "postgresql+asyncpg://")
+    """
+    Resolve the database URL from environment variables.
+    Railway may inject the connection as DATABASE_URL, DATABASE_PRIVATE_URL,
+    or as individual PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE variables.
+    """
+    # 1. Standard DATABASE_URL
+    for key in ("DATABASE_URL", "DATABASE_PRIVATE_URL", "DATABASE_PUBLIC_URL"):
+        url = os.environ.get(key, "").strip()
+        if url:
+            log.info("Using database URL from %s", key)
+            return url.replace("postgresql://", "postgresql+asyncpg://")
+
+    # 2. Individual PG* variables (Railway injects these too)
+    host = os.environ.get("PGHOST", "").strip()
+    if host:
+        port     = os.environ.get("PGPORT", "5432").strip()
+        user     = os.environ.get("PGUSER", "postgres").strip()
+        password = os.environ.get("PGPASSWORD", "").strip()
+        dbname   = os.environ.get("PGDATABASE", "railway").strip()
+        url = f"postgresql+asyncpg://{user}:{password}@{host}:{port}/{dbname}"
+        log.info("Using database URL built from PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE")
+        return url
+
+    raise RuntimeError(
+        "No database connection found. Set DATABASE_URL or PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE."
+    )
 
 
 def _make_engine():
     return create_async_engine(_database_url(), pool_pre_ping=True)
 
 
-# Lazily initialized so a missing DATABASE_URL doesn't crash at import time
 _engine = None
 _session_factory = None
 

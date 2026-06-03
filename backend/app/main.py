@@ -45,8 +45,12 @@ app.include_router(pipeline.router)
 
 @app.get("/health")
 async def health():
-    db_ok = bool(os.environ.get("DATABASE_URL"))
-    return {"status": "ok", "db_configured": db_ok}
+    db_url  = os.environ.get("DATABASE_URL", "")
+    db_priv = os.environ.get("DATABASE_PRIVATE_URL", "")
+    pg_host = os.environ.get("PGHOST", "")
+    db_ok   = bool(db_url or db_priv or pg_host)
+    via     = "DATABASE_URL" if db_url else ("DATABASE_PRIVATE_URL" if db_priv else ("PGHOST" if pg_host else "none"))
+    return {"status": "ok", "db_configured": db_ok, "via": via}
 
 
 @app.get("/")
