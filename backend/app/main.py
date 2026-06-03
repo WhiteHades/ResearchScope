@@ -30,11 +30,20 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# Restrict to known frontend origins. Set ALLOWED_ORIGINS on Railway to add
+# additional origins (comma-separated), e.g. for local development.
+_raw = os.environ.get(
+    "ALLOWED_ORIGINS",
+    "https://kishormorol.github.io",
+)
+_allowed_origins = [o.strip() for o in _raw.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=_allowed_origins,
+    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
+    allow_credentials=True,
 )
 
 @app.exception_handler(Exception)
