@@ -118,15 +118,21 @@ class SiteGenerator:
         # Mirror into site/data/ so Pages always has the latest data
         self._mirror_to_site(output_dir)
 
-        # Sync ALL papers (no cap) to Supabase when credentials are available
+        paper_dicts = [p.to_dict() for p in papers]
+
+        # Sync to Supabase when credentials are available
         from src.storage import supabase_store
         supabase_store.sync(
-            papers=[p.to_dict() for p in papers],
+            papers=paper_dicts,
             authors=[a.to_dict() for a in authors],
             topics=[t.to_dict() for t in topics],
             gaps=[g.to_dict() for g in gaps],
             labs=[l.to_dict() for l in (labs or [])],
         )
+
+        # Sync to Railway PostgreSQL (used by FastAPI backend)
+        from src.storage import railway_store
+        railway_store.sync(papers=paper_dicts)
 
     # ── Helpers ───────────────────────────────────────────────────────────────
 
