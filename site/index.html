@@ -123,42 +123,73 @@
 </nav>
 
 <!-- ── Hero ────────────────────────────────────────────────────────── -->
-<section class="hero-gradient text-white py-16 sm:py-24 px-4">
+<section class="hero-gradient text-white" style="padding:4.5rem 1rem 3.5rem">
   <div class="max-w-4xl mx-auto text-center">
-    <!-- Badge -->
-    <div class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full mb-6" style="background:rgba(255,255,255,.15);backdrop-filter:blur(8px)">
-      <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block"></span>
+    <!-- Live badge -->
+    <div class="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full mb-7"
+         style="background:rgba(255,255,255,.12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18)">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block"></span>
       Updated daily · Mon–Fri
     </div>
-    <h1 class="text-4xl sm:text-6xl font-extrabold mb-5 leading-tight tracking-tight">
-      CS Research Intelligence,<br class="hidden sm:block"/> Not Just Paper Lists
+
+    <h1 style="font-size:clamp(2rem,6vw,3.75rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;margin-bottom:1.25rem">
+      CS Research Intelligence,<br class="hidden sm:block"/>
+      <span style="opacity:.85">Not Just Paper Lists</span>
     </h1>
-    <p class="text-lg sm:text-xl opacity-85 mb-8 max-w-2xl mx-auto leading-relaxed">
-      Papers scored by impact · Conferences &amp; journals ranked · Research gaps surfaced ·
-      Find where to submit your next paper
+
+    <p style="font-size:clamp(.95rem,2vw,1.15rem);opacity:.82;max-width:38rem;margin:0 auto 2.25rem;line-height:1.65">
+      83,000+ papers scored by impact · Conferences &amp; journals ranked ·
+      Research gaps surfaced · Find where to submit your next paper
     </p>
+
+    <!-- CTAs -->
     <div class="flex flex-wrap gap-3 justify-center mb-10">
-      <a href="papers.html" class="flex items-center gap-2 bg-white text-indigo-700 font-semibold px-6 py-3 rounded-xl hover:bg-indigo-50 transition shadow-lg">
-        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      <a href="papers.html"
+         class="flex items-center gap-2 font-semibold px-6 py-2.5 rounded-xl transition"
+         style="background:#fff;color:#4338ca;box-shadow:0 4px 18px rgba(0,0,0,.2);font-size:.9rem">
+        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
         Browse Papers
       </a>
-      <a href="conference-recommender.html" class="flex items-center gap-2 border-2 border-white/50 text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/10 transition">
-        🎓 Conference Recommender
+      <a href="conference-recommender.html"
+         class="flex items-center gap-2 font-semibold px-5 py-2.5 rounded-xl transition"
+         style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);font-size:.9rem">
+        🎓 Conference Match
       </a>
-      <a href="journal-recommender.html" class="flex items-center gap-2 border-2 border-white/50 text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/10 transition">
-        📖 Journal Recommender
+      <a href="gaps.html"
+         class="flex items-center gap-2 font-semibold px-5 py-2.5 rounded-xl transition"
+         style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);font-size:.9rem">
+        🔍 Research Gaps
       </a>
     </div>
-    <!-- Inline stats -->
-    <div class="flex flex-wrap justify-center gap-6 sm:gap-10 text-sm opacity-80">
-      <div><span class="font-bold text-xl" id="stat-papers">–</span><br>Papers</div>
-      <div><span class="font-bold text-xl" id="stat-authors">–</span><br>Authors</div>
-      <div><span class="font-bold text-xl" id="stat-topics">–</span><br>Topics</div>
-      <div><span class="font-bold text-xl" id="stat-gaps">–</span><br>Research Gaps</div>
-      <div><span class="font-bold text-xl" id="stat-labs">–</span><br>Labs</div>
-      <div><span class="font-bold text-xl" id="stat-unis">–</span><br>Universities</div>
+
+    <!-- Stats row -->
+    <div class="flex flex-wrap justify-center gap-8 sm:gap-12"
+         style="font-size:.85rem;opacity:.85">
+      <div class="text-center">
+        <div class="font-black text-2xl leading-none mb-0.5" id="stat-papers">–</div>
+        <div style="opacity:.7;font-size:.78rem;font-weight:500">Papers</div>
+      </div>
+      <div class="text-center">
+        <div class="font-black text-2xl leading-none mb-0.5" id="stat-authors">–</div>
+        <div style="opacity:.7;font-size:.78rem;font-weight:500">Authors</div>
+      </div>
+      <div class="text-center">
+        <div class="font-black text-2xl leading-none mb-0.5" id="stat-topics">–</div>
+        <div style="opacity:.7;font-size:.78rem;font-weight:500">Topics</div>
+      </div>
+      <div class="text-center">
+        <div class="font-black text-2xl leading-none mb-0.5" id="stat-gaps">–</div>
+        <div style="opacity:.7;font-size:.78rem;font-weight:500">Research Gaps</div>
+      </div>
+      <div class="text-center">
+        <div class="font-black text-2xl leading-none mb-0.5" id="stat-labs">–</div>
+        <div style="opacity:.7;font-size:.78rem;font-weight:500">Labs</div>
+      </div>
     </div>
-    <p id="stat-generated" class="text-xs opacity-50 mt-4"></p>
+    <p id="stat-generated" class="text-xs mt-4" style="opacity:.4"></p>
   </div>
 </section>
 
@@ -176,51 +207,57 @@
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 mb-10">
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
-    <a href="papers.html" class="rs-card p-5 flex gap-4 items-start hover:shadow-md transition group no-underline" style="text-decoration:none;color:inherit">
-      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl" style="background:rgba(79,70,229,.1)">📄</div>
+    <a href="papers.html" class="rs-card p-5 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
+      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl"
+           style="background:linear-gradient(135deg,rgba(79,70,229,.12),rgba(99,102,241,.08));border:1px solid rgba(79,70,229,.15)">📄</div>
       <div>
-        <h3 class="font-bold mb-1 group-hover:text-indigo-600 transition">Paper Browser</h3>
-        <p class="text-xs" style="color:var(--rs-muted)">60K+ papers scored by impact, novelty, and venue rank. Filter by topic, year, difficulty, or source type.</p>
+        <h3 class="font-bold text-sm mb-1" style="letter-spacing:-.01em">Paper Browser</h3>
+        <p class="text-xs leading-relaxed" style="color:var(--rs-muted)">83K+ papers scored by impact, novelty, and venue rank. Filter by topic, year, difficulty, or source.</p>
       </div>
     </a>
 
-    <a href="conferences.html" class="rs-card p-5 flex gap-4 items-start hover:shadow-md transition group no-underline" style="text-decoration:none;color:inherit">
-      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl" style="background:rgba(16,185,129,.1)">🎓</div>
+    <a href="conferences.html" class="rs-card p-5 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
+      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl"
+           style="background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(5,150,105,.08));border:1px solid rgba(16,185,129,.18)">🎓</div>
       <div>
-        <h3 class="font-bold mb-1 group-hover:text-emerald-600 transition">Conferences &amp; Journals</h3>
-        <p class="text-xs" style="color:var(--rs-muted)">A* conferences (NeurIPS, ICML, ACL…) and Q1 journals (JMLR, TPAMI, Nature MI…) with papers, deadlines, and rankings.</p>
+        <h3 class="font-bold text-sm mb-1" style="letter-spacing:-.01em">Conferences &amp; Journals</h3>
+        <p class="text-xs leading-relaxed" style="color:var(--rs-muted)">A* venues (NeurIPS, ICML, ACL…) and Q1 journals with papers, deadlines, and rankings.</p>
       </div>
     </a>
 
-    <a href="conference-recommender.html" class="rs-card p-5 flex gap-4 items-start hover:shadow-md transition group no-underline" style="text-decoration:none;color:inherit">
-      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl" style="background:rgba(245,158,11,.1)">🎯</div>
+    <a href="conference-recommender.html" class="rs-card p-5 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
+      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl"
+           style="background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(217,119,6,.08));border:1px solid rgba(245,158,11,.2)">🎯</div>
       <div>
-        <h3 class="font-bold mb-1 group-hover:text-amber-600 transition">Venue Recommenders</h3>
-        <p class="text-xs" style="color:var(--rs-muted)">Paste your title and abstract — get ranked conference or journal matches with deadline info, IF, and reviewer expectations.</p>
+        <h3 class="font-bold text-sm mb-1" style="letter-spacing:-.01em">Venue Recommender</h3>
+        <p class="text-xs leading-relaxed" style="color:var(--rs-muted)">Paste title + abstract — get ranked conference or journal matches with deadlines and reviewer expectations.</p>
       </div>
     </a>
 
-    <a href="topics.html" class="rs-card p-5 flex gap-4 items-start hover:shadow-md transition group no-underline" style="text-decoration:none;color:inherit">
-      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl" style="background:rgba(99,102,241,.1)">🗂</div>
+    <a href="topics.html" class="rs-card p-5 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
+      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl"
+           style="background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(109,40,217,.08));border:1px solid rgba(139,92,246,.18)">🗂</div>
       <div>
-        <h3 class="font-bold mb-1 group-hover:text-indigo-600 transition">Topic Explorer</h3>
-        <p class="text-xs" style="color:var(--rs-muted)">80+ research topics clustered by theme. Reading paths from Beginner to Frontier, with trend scores and paper counts.</p>
+        <h3 class="font-bold text-sm mb-1" style="letter-spacing:-.01em">Topic Explorer</h3>
+        <p class="text-xs leading-relaxed" style="color:var(--rs-muted)">80+ research topics clustered by theme with reading paths from Beginner to Frontier and trend scores.</p>
       </div>
     </a>
 
-    <a href="gaps.html" class="rs-card p-5 flex gap-4 items-start hover:shadow-md transition group no-underline" style="text-decoration:none;color:inherit">
-      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl" style="background:rgba(239,68,68,.1)">🔍</div>
+    <a href="gaps.html" class="rs-card p-5 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
+      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl"
+           style="background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(185,28,28,.08));border:1px solid rgba(239,68,68,.18)">🔍</div>
       <div>
-        <h3 class="font-bold mb-1 group-hover:text-red-600 transition">Research Gaps</h3>
-        <p class="text-xs" style="color:var(--rs-muted)">Gaps extracted automatically from papers — explicit, pattern-based, and starter ideas. Find your next research direction.</p>
+        <h3 class="font-bold text-sm mb-1" style="letter-spacing:-.01em">Research Gaps</h3>
+        <p class="text-xs leading-relaxed" style="color:var(--rs-muted)">Gaps extracted from papers — explicit, pattern-based, and starter ideas. Find your next direction.</p>
       </div>
     </a>
 
-    <a href="authors.html" class="rs-card p-5 flex gap-4 items-start hover:shadow-md transition group no-underline" style="text-decoration:none;color:inherit">
-      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl" style="background:rgba(6,182,212,.1)">👩‍🔬</div>
+    <a href="authors.html" class="rs-card p-5 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
+      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl"
+           style="background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(8,145,178,.08));border:1px solid rgba(6,182,212,.18)">👩‍🔬</div>
       <div>
-        <h3 class="font-bold mb-1 group-hover:text-cyan-600 transition">Authors &amp; Labs</h3>
-        <p class="text-xs" style="color:var(--rs-muted)">Researchers ranked by momentum — who's publishing the most impactful work right now, not just career citations.</p>
+        <h3 class="font-bold text-sm mb-1" style="letter-spacing:-.01em">Authors &amp; Labs</h3>
+        <p class="text-xs leading-relaxed" style="color:var(--rs-muted)">Researchers ranked by momentum — who's publishing the most impactful work right now.</p>
       </div>
     </a>
 
