@@ -75,22 +75,30 @@ async function _queryPapers({
     console.warn('[railway] queryPapers failed, falling back to Supabase:', e.message);
   }
 
-  // 2. Fall back to Supabase
+  // 2. Fall back to Supabase — swallow errors so papers.html never sees them
   if (_sb?.queryPapers) {
     try {
-      return await _sb.queryPapers({ page, pageSize, search, tag, difficulty, type, source, year, sortBy, tagNormalizeMap });
+      const result = await _sb.queryPapers({ page, pageSize, search, tag, difficulty, type, source, year, sortBy, tagNormalizeMap });
+      if (!result.error) return result;
+      console.warn('[supabase] queryPapers error, falling back to static JSON:', result.error?.message || result.error);
     } catch (e) {
-      console.warn('[supabase] queryPapers failed, falling back to static JSON:', e.message);
+      console.warn('[supabase] queryPapers threw, falling back to static JSON:', e.message);
     }
   }
 
-  // 3. Last resort — static JSON
+  // 3. Last resort — static JSON (always works, no auth needed)
   try {
     const res = await fetch('data/papers.json');
     const all = await res.json();
     const start = (page - 1) * pageSize;
-    return { data: all.slice(start, start + pageSize), count: all.length, error: null };
-  } catch { /* ignore */ }
+    const filtered = search
+      ? all.filter(p => (p.title||'').toLowerCase().includes(search.toLowerCase()) ||
+                        (p.abstract||'').toLowerCase().includes(search.toLowerCase()))
+      : all;
+    return { data: filtered.slice(start, start + pageSize), count: filtered.length, error: null };
+  } catch (e) {
+    console.warn('[static] papers.json failed:', e.message);
+  }
 
   return { data: [], count: 0, error: null };
 }
@@ -100,7 +108,12 @@ async function _fetchTopPapers(limit = 500) {
     const json = await _apiFetch(`/papers?page_size=${Math.min(limit, 100)}&page=1`);
     if (json?.results?.length) return json.results;
   } catch { /* fall through */ }
-  if (_sb?.fetchTopPapers) return _sb.fetchTopPapers(limit);
+  try { if (_sb?.fetchTopPapers) return await _sb.fetchTopPapers(limit); } catch { /* fall through */ }
+  try {
+    const res = await fetch('data/papers.json');
+    const all = await res.json();
+    return all.slice(0, limit);
+  } catch { /* ignore */ }
   return [];
 }
 
