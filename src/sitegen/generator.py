@@ -134,9 +134,12 @@ class SiteGenerator:
         from src.storage import railway_store
         railway_store.sync(papers=paper_dicts)
 
-        # Push to Hugging Face Hub dataset (for LLM training)
-        from src.storage import hf_dataset
-        hf_dataset.push(papers=paper_dicts)
+        # Push to Hugging Face Hub dataset (for LLM training) — non-fatal
+        try:
+            from src.storage import hf_dataset
+            hf_dataset.push(papers=paper_dicts)
+        except Exception as exc:
+            log.warning("HF dataset push failed (non-fatal): %s", exc)
 
     # ── Helpers ───────────────────────────────────────────────────────────────
 
