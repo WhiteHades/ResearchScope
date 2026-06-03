@@ -17,6 +17,13 @@ SECRET_KEY  = os.environ.get("JWT_SECRET", "change-me-in-production")
 ALGORITHM   = "HS256"
 TOKEN_TTL_H = int(os.environ.get("JWT_TTL_HOURS", "72"))
 
+if SECRET_KEY == "change-me-in-production":
+    import logging as _logging
+    _logging.getLogger(__name__).warning(
+        "JWT_SECRET is not set — using insecure default. "
+        "Set the JWT_SECRET environment variable before deploying."
+    )
+
 pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
 bearer  = HTTPBearer()
 

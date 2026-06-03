@@ -40,7 +40,7 @@ app.add_middleware(
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     log.error("Unhandled error on %s: %s: %s", request.url.path, type(exc).__name__, exc)
-    return JSONResponse(status_code=500, content={"detail": f"{type(exc).__name__}: {exc}"})
+    return JSONResponse(status_code=500, content={"detail": "Internal server error"})
 
 app.include_router(papers.router)
 app.include_router(search.router)

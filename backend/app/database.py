@@ -38,13 +38,19 @@ def _database_url() -> str:
     )
 
 
+def _ssl_mode(url: str) -> str:
+    # Local connections don't have SSL; Railway's public proxy requires it.
+    if any(h in url for h in ("localhost", "127.0.0.1", "[::1]")):
+        return "disable"
+    return os.environ.get("DATABASE_SSL", "require")
+
+
 def _make_engine():
     url = _database_url()
-    # asyncpg needs ssl=True when connecting through Railway's TCP proxy
     return create_async_engine(
         url,
         pool_pre_ping=True,
-        connect_args={"ssl": "require"},
+        connect_args={"ssl": _ssl_mode(url)},
     )
 
 

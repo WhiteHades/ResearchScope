@@ -69,8 +69,8 @@ async function _queryPapers({
   // 1. Try Railway
   try {
     const json = await _apiFetch(`/papers?${params}`);
-    if (json && (json.total > 0 || json.results?.length > 0))
-      return { data: json.results || [], count: json.total || 0, error: null };
+    if (json && Array.isArray(json.results))
+      return { data: json.results, count: json.total ?? 0, error: null };
   } catch (e) {
     console.warn('[railway] queryPapers failed, falling back to Supabase:', e.message);
   }
@@ -105,8 +105,16 @@ async function _queryPapers({
 
 async function _fetchTopPapers(limit = 500) {
   try {
-    const json = await _apiFetch(`/papers?page_size=${Math.min(limit, 100)}&page=1`);
-    if (json?.results?.length) return json.results;
+    const PAGE = 100; // backend max page_size
+    const results = [];
+    for (let page = 1; results.length < limit; page++) {
+      const need = Math.min(PAGE, limit - results.length);
+      const json = await _apiFetch(`/papers?page_size=${need}&page=${page}`);
+      if (!json?.results?.length) break;
+      results.push(...json.results);
+      if (json.results.length < need) break; // last page
+    }
+    if (results.length) return results;
   } catch { /* fall through */ }
   try { if (_sb?.fetchTopPapers) return await _sb.fetchTopPapers(limit); } catch { /* fall through */ }
   try {
@@ -154,6 +162,8 @@ const _authApi = {
       method: 'POST',
       body: JSON.stringify({ email, password, name }),
     });
+    // Save token immediately so the account is recoverable even if /auth/me fails.
+    _auth.save(data.access_token, {});
     const user = await _apiFetch('/auth/me', {
       headers: { Authorization: `Bearer ${data.access_token}` },
     });
@@ -166,8 +176,10 @@ const _authApi = {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
-    _auth.save(data.access_token, {});
-    const user = await _apiFetch('/auth/me');
+    // Fetch profile before persisting so a /auth/me failure leaves no partial state.
+    const user = await _apiFetch('/auth/me', {
+      headers: { Authorization: `Bearer ${data.access_token}` },
+    });
     _auth.save(data.access_token, user);
     return user;
   },
@@ -512,7 +524,7 @@ function _injectAuthButton() {
 
   wrap.addEventListener('click', (e) => {
     const menu = document.getElementById('rs-user-menu');
-    if (!menu) { rsOpenModal(); return; }
+    if (!menu) { if (!_auth.isLoggedIn()) rsOpenModal(); return; }
     menu.remove();
   });
 }
