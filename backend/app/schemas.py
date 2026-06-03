@@ -68,14 +68,23 @@ class UserOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class ProfileUpdateIn(BaseModel):
+    name: str | None = None
+
+
 # ── Favourites ────────────────────────────────────────────────────────────────
 
 class FavouriteOut(BaseModel):
     paper_id: str
     created_at: datetime
+    notes: str | None = None
     paper: PaperOut | None = None
 
     model_config = {"from_attributes": True}
+
+
+class FavouriteNoteIn(BaseModel):
+    notes: str | None = None
 
 
 # ── Search ────────────────────────────────────────────────────────────────────

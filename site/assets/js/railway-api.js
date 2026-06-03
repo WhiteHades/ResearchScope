@@ -188,6 +188,16 @@ const _authApi = {
     _updateAuthNav();
   },
 
+  async updateProfile(data) {
+    const user = await _apiFetch('/auth/me', {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+    _auth.save(_auth.token(), user);
+    _updateAuthNav();
+    return user;
+  },
+
   isLoggedIn: () => _auth.isLoggedIn(),
   currentUser: () => _auth.user(),
 };
@@ -203,6 +213,12 @@ const _favsApi = {
   },
   async remove(paperId) {
     return _apiFetch(`/favourites/${encodeURIComponent(paperId)}`, { method: 'DELETE' });
+  },
+  async updateNotes(paperId, notes) {
+    return _apiFetch(`/favourites/${encodeURIComponent(paperId)}/notes`, {
+      method: 'PATCH',
+      body: JSON.stringify({ notes }),
+    });
   },
 };
 
@@ -288,9 +304,14 @@ function _showUserMenu() {
   const menu = document.createElement('div');
   menu.id = 'rs-user-menu';
   menu.innerHTML = `
-    <div style="padding:.6rem 1rem;font-size:.75rem;color:var(--rs-muted,#888);border-bottom:1px solid var(--rs-border,#e5e7eb)">${escHtml(user?.email || '')}</div>
+    <div style="padding:.65rem 1rem;border-bottom:1px solid var(--rs-border,#e5e7eb)">
+      <div style="font-size:.82rem;font-weight:700;color:var(--rs-text,#111)">${escHtml(user?.name || user?.email || '')}</div>
+      ${user?.name ? `<div style="font-size:.72rem;color:var(--rs-muted,#888)">${escHtml(user.email || '')}</div>` : ''}
+    </div>
+    <a href="profile">👤 Profile &amp; Settings</a>
     <a href="favourites">⭐ My Favourites</a>
-    <button onclick="rsLogout()">Sign out</button>`;
+    <div style="height:1px;background:var(--rs-border,#e5e7eb);margin:.25rem 0"></div>
+    <button onclick="rsLogout()" style="color:#dc2626">Sign out</button>`;
   wrap.appendChild(menu);
 
   setTimeout(() => document.addEventListener('click', function close(e) {

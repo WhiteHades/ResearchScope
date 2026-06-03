@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile – ResearchScope</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center h-14 gap-2">
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">🔭 ResearchScope</a>
+      <div class="flex items-center gap-2 justify-end" style="flex:1">
+        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+  <!-- Not logged in -->
+  <div id="profile-gate" class="hidden rs-card p-8 text-center">
+    <p class="text-lg font-semibold mb-2">Sign in to view your profile</p>
+    <a href="signin?returnTo=profile" class="inline-block mt-2 px-5 py-2 rounded-lg text-white font-semibold text-sm" style="background:var(--rs-primary)">Sign in</a>
+  </div>
+
+  <!-- Loading -->
+  <div id="profile-loading"><div class="spinner"></div></div>
+
+  <!-- Profile content -->
+  <div id="profile-body" class="hidden space-y-6">
+
+    <!-- Avatar + identity -->
+    <div class="rs-card p-6 flex items-center gap-5">
+      <div id="profile-avatar"
+           style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#7c3aed);
+                  display:flex;align-items:center;justify-content:center;
+                  font-size:1.4rem;font-weight:800;color:#fff;flex-shrink:0">
+        ?
+      </div>
+      <div class="min-w-0">
+        <p id="profile-name-display" class="font-bold text-lg leading-tight"></p>
+        <p id="profile-email-display" class="text-sm" style="color:var(--rs-muted)"></p>
+        <p id="profile-since" class="text-xs mt-0.5" style="color:var(--rs-muted)"></p>
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="profile-stats">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-favs">–</div>
+        <div class="stat-label">Saved papers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-notes">–</div>
+        <div class="stat-label">Papers with notes</div>
+      </div>
+      <div class="stat-card sm:col-span-1 col-span-2">
+        <div class="stat-value" id="stat-days">–</div>
+        <div class="stat-label">Days as member</div>
+      </div>
+    </div>
+
+    <!-- Edit name -->
+    <div class="rs-card p-5">
+      <h2 class="font-bold text-sm mb-3">Display name</h2>
+      <div class="flex gap-2">
+        <input id="name-input" class="rs-input" type="text" placeholder="Your name (optional)" autocomplete="name"/>
+        <button id="name-save-btn" onclick="saveName()"
+          class="px-4 py-2 rounded-lg text-sm font-semibold text-white shrink-0"
+          style="background:var(--rs-primary)">Save</button>
+      </div>
+      <p id="name-status" class="text-xs mt-2 hidden"></p>
+    </div>
+
+    <!-- Quick links -->
+    <div class="rs-card p-5">
+      <h2 class="font-bold text-sm mb-3">Quick links</h2>
+      <div class="grid grid-cols-2 gap-2">
+        <a href="favourites" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
+           style="background:var(--rs-bg);border:1px solid var(--rs-border)">
+          <span>⭐</span> My Favourites
+        </a>
+        <a href="papers" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
+           style="background:var(--rs-bg);border:1px solid var(--rs-border)">
+          <span>📄</span> Browse Papers
+        </a>
+        <a href="gaps" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
+           style="background:var(--rs-bg);border:1px solid var(--rs-border)">
+          <span>🔍</span> Research Gaps
+        </a>
+        <a href="conference-recommender" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
+           style="background:var(--rs-bg);border:1px solid var(--rs-border)">
+          <span>🎓</span> Venue Recommender
+        </a>
+      </div>
+    </div>
+
+    <!-- Danger zone -->
+    <div class="rs-card p-5" style="border-color:#fecaca">
+      <h2 class="font-bold text-sm mb-1" style="color:#dc2626">Sign out</h2>
+      <p class="text-xs mb-3" style="color:var(--rs-muted)">You can sign back in any time — your favourites and notes are saved.</p>
+      <button onclick="rsLogout()"
+        class="px-4 py-2 rounded-lg text-sm font-semibold"
+        style="background:#fef2f2;color:#dc2626;border:1.5px solid #fecaca">
+        Sign out
+      </button>
+    </div>
+
+  </div>
+</main>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/railway-api.js"></script>
+<script>
+(async () => {
+  const loading = document.getElementById('profile-loading');
+  const gate    = document.getElementById('profile-gate');
+  const body    = document.getElementById('profile-body');
+
+  if (!window._rs_api.auth.isLoggedIn()) {
+    loading.classList.add('hidden');
+    gate.classList.remove('hidden');
+    return;
+  }
+
+  // Load user + favourites in parallel
+  let user, favs = [];
+  try {
+    [user, favs] = await Promise.all([
+      window._rs_api.auth.isLoggedIn() ? (async () => {
+        const u = window._rs_api.auth.currentUser();
+        return u?.email ? u : await fetch(
+          'https://researchscope-production.up.railway.app/auth/me',
+          { headers: { Authorization: `Bearer ${localStorage.getItem('rs_jwt')}` } }
+        ).then(r => r.json());
+      })() : Promise.resolve(null),
+      window._rs_api.favourites.list().catch(() => []),
+    ]);
+  } catch (e) {
+    loading.classList.add('hidden');
+    gate.classList.remove('hidden');
+    return;
+  }
+
+  if (!user) { loading.classList.add('hidden'); gate.classList.remove('hidden'); return; }
+
+  // Avatar initial
+  const initial = (user.name || user.email || '?')[0].toUpperCase();
+  document.getElementById('profile-avatar').textContent = initial;
+  document.getElementById('profile-name-display').textContent = user.name || user.email || '';
+  document.getElementById('profile-email-display').textContent = user.name ? user.email || '' : '';
+  document.getElementById('name-input').value = user.name || '';
+
+  // Member since
+  if (user.created_at) {
+    const joined = new Date(user.created_at);
+    const daysSince = Math.floor((Date.now() - joined) / 86400000);
+    document.getElementById('profile-since').textContent =
+      `Member since ${joined.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}`;
+    document.getElementById('stat-days').textContent = daysSince > 0 ? daysSince : '<1';
+  }
+
+  // Stats
+  const withNotes = Array.isArray(favs) ? favs.filter(f => f.notes && f.notes.trim()).length : 0;
+  document.getElementById('stat-favs').textContent  = Array.isArray(favs) ? favs.length : '–';
+  document.getElementById('stat-notes').textContent = withNotes;
+
+  loading.classList.add('hidden');
+  body.classList.remove('hidden');
+})();
+
+async function saveName() {
+  const input  = document.getElementById('name-input');
+  const btn    = document.getElementById('name-save-btn');
+  const status = document.getElementById('name-status');
+  const name   = input.value.trim();
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  try {
+    const user = await window._rs_api.auth.updateProfile({ name: name || null });
+    document.getElementById('profile-name-display').textContent = user.name || user.email || '';
+    document.getElementById('profile-email-display').textContent = user.name ? user.email || '' : '';
+    document.getElementById('profile-avatar').textContent = (user.name || user.email || '?')[0].toUpperCase();
+    status.textContent = '✓ Name updated';
+    status.style.color = '#16a34a';
+    status.classList.remove('hidden');
+    setTimeout(() => status.classList.add('hidden'), 2500);
+  } catch (e) {
+    status.textContent = 'Could not save: ' + e.message;
+    status.style.color = '#dc2626';
+    status.classList.remove('hidden');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save';
+  }
+}
+</script>
+</body>
+</html>

@@ -8,7 +8,7 @@ from sqlalchemy.orm import selectinload
 from app.auth import get_current_user
 from app.database import get_db
 from app.models import Favourite, Paper, User
-from app.schemas import FavouriteOut
+from app.schemas import FavouriteNoteIn, FavouriteOut
 
 router = APIRouter(prefix="/favourites", tags=["favourites"])
 
@@ -57,3 +57,19 @@ async def remove_favourite(
         raise HTTPException(status_code=404, detail="Not in favourites")
     await db.delete(fav)
     await db.commit()
+
+
+@router.patch("/{paper_id}/notes", response_model=FavouriteOut)
+async def update_notes(
+    paper_id: str,
+    body: FavouriteNoteIn,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    fav = await db.get(Favourite, (current_user.id, paper_id))
+    if not fav:
+        raise HTTPException(status_code=404, detail="Not in favourites")
+    fav.notes = body.notes.strip() if body.notes else None
+    await db.commit()
+    await db.refresh(fav)
+    return fav

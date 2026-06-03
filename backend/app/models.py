@@ -66,6 +66,7 @@ class Favourite(Base):
     user_id    = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
     paper_id   = Column(String, ForeignKey("papers.id", ondelete="CASCADE"), primary_key=True)
     created_at = Column(DateTime, server_default=func.now())
+    notes      = Column(Text, nullable=True)
 
     user  = relationship("User", back_populates="favourites")
     paper = relationship("Paper", back_populates="favourited_by")

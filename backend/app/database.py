@@ -83,8 +83,13 @@ async def get_db():
 
 async def init_db() -> None:
     try:
+        from sqlalchemy import text
         async with get_engine().begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
+            # Idempotent migration: add notes column if not present
+            await conn.execute(text(
+                "ALTER TABLE favourites ADD COLUMN IF NOT EXISTS notes TEXT"
+            ))
         log.info("Database tables initialised.")
     except Exception as exc:
         log.error("Database init failed: %s", exc)
