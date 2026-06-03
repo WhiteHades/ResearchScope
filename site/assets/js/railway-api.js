@@ -77,8 +77,20 @@ async function _queryPapers({
 
   // 2. Fall back to Supabase
   if (_sb?.queryPapers) {
-    return _sb.queryPapers({ page, pageSize, search, tag, difficulty, type, source, year, sortBy, tagNormalizeMap });
+    try {
+      return await _sb.queryPapers({ page, pageSize, search, tag, difficulty, type, source, year, sortBy, tagNormalizeMap });
+    } catch (e) {
+      console.warn('[supabase] queryPapers failed, falling back to static JSON:', e.message);
+    }
   }
+
+  // 3. Last resort — static JSON
+  try {
+    const res = await fetch('data/papers.json');
+    const all = await res.json();
+    const start = (page - 1) * pageSize;
+    return { data: all.slice(start, start + pageSize), count: all.length, error: null };
+  } catch { /* ignore */ }
 
   return { data: [], count: 0, error: null };
 }
