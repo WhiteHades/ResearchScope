@@ -43,6 +43,9 @@ _VENUE_META: dict[str, tuple[str, str]] = {
 
 # Venues included in fetch_all()
 _DEFAULT_SYNC_VENUES = ["acl", "emnlp", "naacl", "eacl", "coling", "tacl", "findings"]
+
+# ACL venues that are journals, not conferences
+_JOURNAL_VENUES = {"tacl", "cl"}
 # Venues used for keyword fetch()
 _DEFAULT_SEARCH_VENUES = ["acl", "emnlp", "naacl", "eacl"]
 
@@ -241,6 +244,7 @@ class ACLAnthologyConnector(BaseConnector):
         year     = self._parse_year(record.get("year", ""))
 
         venue_name, rank = _VENUE_META.get(venue_key, (venue_key.upper(), ""))
+        src_type = "journal" if venue_key in _JOURNAL_VENUES else "conference"
 
         paper_url = record.get("url") or f"https://aclanthology.org/{paper_id}"
         pdf_url   = record.get("pdf", "") or f"{paper_url}.pdf"
@@ -248,7 +252,7 @@ class ACLAnthologyConnector(BaseConnector):
         return Paper(
             id=f"acl:{paper_id}",
             source=self.source_name,
-            source_type="conference",
+            source_type=src_type,
             title=title,
             abstract=abstract,
             authors=authors,

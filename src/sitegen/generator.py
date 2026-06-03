@@ -37,6 +37,10 @@ class SiteGenerator:
     MAX_CONF_DB_PAPERS = 20_000
     # conferences.json — slim, browser-served
     MAX_CONF_FRONTEND_PAPERS = 5_000
+    # journals_db.json — slim format, ~4 KB/paper
+    #   5,000 × 4 KB = 20 MB  ✓ safe
+    MAX_JOURNAL_DB_PAPERS       = 5_000
+    MAX_JOURNAL_FRONTEND_PAPERS = 2_000
     # authors.json — slim, no paper_ids; ~0.4 KB/author
     #   5,000 × 0.4 KB = 2 MB  ✓ safe
     MAX_AUTHORS = 5_000
@@ -58,19 +62,21 @@ class SiteGenerator:
         os.makedirs(output_dir, exist_ok=True)
 
         # papers are already sorted by paper_score descending from the pipeline.
-        # Split into arXiv and conference pools — each has its own DB and size cap.
-        arxiv_papers = [p for p in papers if p.venue in self._ARXIV_VENUES]
-        conf_papers  = [p for p in papers if p.venue not in self._ARXIV_VENUES]
+        # Split into three pools: arXiv, conferences, journals.
+        arxiv_papers   = [p for p in papers if p.source_type == "preprint" or p.venue in self._ARXIV_VENUES]
+        journal_papers = [p for p in papers if p.source_type == "journal"]
+        conf_papers    = [p for p in papers if p.source_type == "conference" and p.venue not in self._ARXIV_VENUES]
 
         # ── Persistent stores (committed to git, used by next pipeline run) ──────
         # arXiv store — rolling, age-filtered by the pipeline before it arrives here
         self._write(output_dir, "papers_db.json",
                     [p.to_dict() for p in arxiv_papers[: self.MAX_DB_PAPERS]])
         # Conference store — permanent, never expires.
-        # Capped at MAX_CONF_DB_PAPERS using slim format to stay under GitHub's 100 MB limit
-        # (~5 KB/paper × 10 000 ≈ 50 MB).  Papers are already sorted by paper_score desc.
         self._write(output_dir, "conferences_db.json",
                     [self._slim(p) for p in conf_papers[: self.MAX_CONF_DB_PAPERS]])
+        # Journal store — permanent, never expires.
+        self._write(output_dir, "journals_db.json",
+                    [self._slim(p) for p in journal_papers[: self.MAX_JOURNAL_DB_PAPERS]])
 
         # ── Frontend slice — top 500 arXiv + top 500 conference ─────────────────
         frontend_papers = (
@@ -83,6 +89,10 @@ class SiteGenerator:
         # ── Conferences page — top N conference papers (browser-served) ─────────
         self._write(output_dir, "conferences.json",
                     [self._slim(p) for p in conf_papers[: self.MAX_CONF_FRONTEND_PAPERS]])
+
+        # ── Journals page — top N journal papers (browser-served) ───────────────
+        self._write(output_dir, "journals.json",
+                    [self._slim(p) for p in journal_papers[: self.MAX_JOURNAL_FRONTEND_PAPERS]])
 
         # ── Search index — arXiv DB + top conference papers ─────────────────────
         # _search_entry is ultra-light (~250 B/paper) so 20 K entries ≈ 5 MB — safe.

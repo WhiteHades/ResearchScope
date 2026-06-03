@@ -176,6 +176,22 @@ def _load_conference_papers() -> list[Paper]:
         return []
 
 
+def _load_journal_papers() -> list[Paper]:
+    """Load all journal papers from journals_db.json — they never expire."""
+    journal_file = _SITE_DATA / "journals_db.json"
+    if not journal_file.exists():
+        return []
+    try:
+        with open(journal_file, encoding="utf-8") as fh:
+            raw = json.load(fh)
+        papers = [Paper.from_dict(d) for d in raw]
+        log.info("Loaded %d journal papers from DB", len(papers))
+        return papers
+    except Exception as exc:
+        log.warning("Could not load journal papers: %s", exc)
+        return []
+
+
 # ── Default queries ───────────────────────────────────────────────────────────
 
 _DEFAULT_QUERIES = [
@@ -323,6 +339,15 @@ def run_pipeline(
             except Exception as exc:
                 log.warning("  [s2] bulk fetch_all failed: %s", exc)
 
+            # S2 bulk fetch — top 18 CS journals
+            log.info("  [s2] bulk-fetching top CS journals (2022-2025) …")
+            try:
+                fetched = SemanticScholarConnector().fetch_journals()
+                log.info("    → %d journal papers", len(fetched))
+                all_papers.extend(fetched)
+            except Exception as exc:
+                log.warning("  [s2] journal fetch failed: %s", exc)
+
         else:
             # ── Keyword-query mode (used in daily pipeline if skip_conferences=False) ──
             conf_queries = queries[:4]
@@ -352,17 +377,19 @@ def run_pipeline(
     # ── Accumulate existing papers ────────────────────────────────────────────
     if accumulate:
         if conferences_only:
-            # Conference sync: accumulate existing conference papers (no expiry)
+            # Conference sync: accumulate existing conference + journal papers (no expiry)
             # and also bring in arXiv papers so the site output stays complete.
-            existing_conf  = _load_conference_papers()
-            existing_arxiv = _load_arxiv_papers(max_age_days=max_age_days)
-            all_papers = all_papers + existing_conf + existing_arxiv
+            existing_conf    = _load_conference_papers()
+            existing_journals = _load_journal_papers()
+            existing_arxiv   = _load_arxiv_papers(max_age_days=max_age_days)
+            all_papers = all_papers + existing_conf + existing_journals + existing_arxiv
         else:
             # Daily arXiv run: accumulate existing arXiv (age-filtered)
-            # and bring in conference papers so they stay in the frontend output.
-            existing_arxiv = _load_arxiv_papers(max_age_days=max_age_days)
-            existing_conf  = _load_conference_papers()
-            all_papers = all_papers + existing_arxiv + existing_conf
+            # and bring in conference + journal papers so they stay in the frontend output.
+            existing_arxiv   = _load_arxiv_papers(max_age_days=max_age_days)
+            existing_conf    = _load_conference_papers()
+            existing_journals = _load_journal_papers()
+            all_papers = all_papers + existing_arxiv + existing_conf + existing_journals
         log.info("Total with existing: %d papers", len(all_papers))
 
     # ── Stage 1b: Enrich arXiv papers with S2 affiliations ───────────────────

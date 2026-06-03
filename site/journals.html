@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Journals – ResearchScope</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center h-14 gap-2">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">
+        🔭 ResearchScope
+      </a>
+      <div class="hidden lg:flex items-center justify-center gap-3 text-sm font-medium whitespace-nowrap flex-1">
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">📬 Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">📅 Upcoming</a>
+      </div>
+      <div class="flex items-center gap-2 justify-end" style="flex:1">
+        <div class="search-wrap hidden lg:block">
+          <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+          </svg>
+          <input id="global-search" class="search-input" type="search" placeholder="Search papers, authors…" autocomplete="off"/>
+          <div id="search-dropdown" class="search-dropdown hidden"></div>
+        </div>
+        <a href="https://github.com/kishormorol/ResearchScope" target="_blank" rel="noopener" class="github-star-btn hidden lg:inline-flex" aria-label="Star on GitHub">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+          Star
+          <span class="github-star-count">–</span>
+        </a>
+        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
+        <button id="mobile-menu-btn" class="lg:hidden p-1 rounded" aria-label="Open menu" aria-expanded="false">
+          <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-border);background:var(--rs-surface)">
+    <div class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
+      <a href="index.html" class="mobile-nav-link">Home</a>
+      <a href="papers.html" class="mobile-nav-link">Papers</a>
+      <a href="topics.html" class="mobile-nav-link">Topics</a>
+      <a href="digest.html" class="mobile-nav-link">📬 Weekly Digest</a>
+      <a href="conferences.html" class="mobile-nav-link">Conferences</a>
+      <a href="journals.html" class="mobile-nav-link">Journals</a>
+      <a href="authors.html" class="mobile-nav-link">Authors</a>
+      <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines.html" class="mobile-nav-link">📅 Upcoming Conferences</a>
+    </div>
+  </div>
+</nav>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <h1 class="text-2xl font-bold mb-2">📖 Journal Explorer</h1>
+  <p class="text-sm mb-6" style="color:var(--rs-muted)">
+    Top 20 CS journals by impact and CORE ranking. Papers fetched via Semantic Scholar and ACL Anthology.
+    Covers JMLR, TMLR, TACL, TPAMI, IJCV, AIJ, TNNLS, NMI, CSUR, TIP, MLJ, TKDE, DAMI,
+    Neural Networks, Pattern Recognition, CL, IPM, JACM, CACM, and TOIS.
+  </p>
+
+  <!-- Journal registry table -->
+  <div class="rs-card p-6 mb-8">
+    <h2 class="font-bold mb-4">📋 Journal Registry</h2>
+    <div class="overflow-x-auto">
+      <table class="rs-table">
+        <thead>
+          <tr><th>Journal</th><th>Short</th><th>Area</th><th>Rank</th><th>Source</th></tr>
+        </thead>
+        <tbody id="journals-body">
+          <tr><td colspan="5"><div class="spinner"></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="flex flex-wrap gap-2 mb-6">
+    <button onclick="filterArea('all')"   id="btn-all"     class="area-btn area-btn-active">All areas</button>
+    <button onclick="filterArea('ML')"    id="btn-ML"      class="area-btn">ML</button>
+    <button onclick="filterArea('NLP')"   id="btn-NLP"     class="area-btn">NLP</button>
+    <button onclick="filterArea('CV')"    id="btn-CV"      class="area-btn">CV</button>
+    <button onclick="filterArea('AI')"    id="btn-AI"      class="area-btn">AI</button>
+    <button onclick="filterArea('DM')"    id="btn-DM"      class="area-btn">Data Mining</button>
+    <button onclick="filterArea('IR')"    id="btn-IR"      class="area-btn">IR</button>
+    <button onclick="filterArea('General');" id="btn-General" class="area-btn">General</button>
+  </div>
+
+  <!-- Papers by journal -->
+  <h2 class="text-xl font-bold mb-4">📄 Papers by Journal</h2>
+  <div id="journal-papers"><div class="spinner"></div></div>
+</div>
+
+<footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
+  <p class="font-semibold mb-2">🔭 ResearchScope</p>
+  <p>Open-source CS research intelligence &middot; Updated daily via GitHub Actions &middot; Built for researchers and creators</p>
+  <p class="mt-3 font-medium" style="color:var(--rs-text)">Data Sources</p>
+  <p class="mt-1">
+    <a href="https://arxiv.org" target="_blank" class="hover:underline" style="color:var(--rs-primary)">arXiv</a> (metadata CC0) &middot;
+    <a href="https://aclanthology.org" target="_blank" class="hover:underline" style="color:var(--rs-primary)">ACL Anthology</a> (CC BY 4.0 / CC BY-NC-SA 3.0) &middot;
+    <a href="https://proceedings.mlr.press" target="_blank" class="hover:underline" style="color:var(--rs-primary)">PMLR</a> (CC BY 4.0) &middot;
+    <a href="https://www.semanticscholar.org" target="_blank" class="hover:underline" style="color:var(--rs-primary)">Semantic Scholar</a>
+  </p>
+  <p class="mt-2">
+    <a href="https://github.com/kishormorol/ResearchScope" target="_blank" class="hover:underline" style="color:var(--rs-primary)">GitHub</a>
+    &middot; <a href="https://github.com/kishormorol/ResearchScope/blob/main/ROADMAP.md" class="hover:underline" style="color:var(--rs-primary)">Roadmap</a>
+    &middot; MIT License &copy; 2026 Md Kishor Morol
+  </p>
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script>
+const JOURNALS = [
+  {name:'Journal of Machine Learning Research',                        short:'JMLR',  area:'ML',      rank:'A*', source:'Semantic Scholar'},
+  {name:'Transactions on Machine Learning Research',                   short:'TMLR',  area:'ML',      rank:'A*', source:'Semantic Scholar'},
+  {name:'Transactions of the ACL',                                     short:'TACL',  area:'NLP',     rank:'A*', source:'ACL Anthology'},
+  {name:'IEEE Trans. Pattern Analysis & Machine Intelligence',         short:'TPAMI', area:'CV',      rank:'A*', source:'Semantic Scholar'},
+  {name:'International Journal of Computer Vision',                    short:'IJCV',  area:'CV',      rank:'A*', source:'Semantic Scholar'},
+  {name:'Artificial Intelligence',                                     short:'AIJ',   area:'AI',      rank:'A*', source:'Semantic Scholar'},
+  {name:'IEEE Trans. Neural Networks & Learning Systems',              short:'TNNLS', area:'ML',      rank:'A*', source:'Semantic Scholar'},
+  {name:'Nature Machine Intelligence',                                 short:'NMI',   area:'ML',      rank:'A*', source:'Semantic Scholar'},
+  {name:'ACM Computing Surveys',                                       short:'CSUR',  area:'General', rank:'A*', source:'Semantic Scholar'},
+  {name:'IEEE Transactions on Image Processing',                       short:'TIP',   area:'CV',      rank:'A*', source:'Semantic Scholar'},
+  {name:'Machine Learning',                                            short:'MLJ',   area:'ML',      rank:'A*', source:'Semantic Scholar'},
+  {name:'IEEE Trans. Knowledge & Data Engineering',                    short:'TKDE',  area:'DM',      rank:'A*', source:'Semantic Scholar'},
+  {name:'Data Mining and Knowledge Discovery',                         short:'DAMI',  area:'DM',      rank:'A*', source:'Semantic Scholar'},
+  {name:'Neural Networks',                                             short:'NN',    area:'ML',      rank:'A',  source:'Semantic Scholar'},
+  {name:'Pattern Recognition',                                         short:'PR',    area:'CV',      rank:'A',  source:'Semantic Scholar'},
+  {name:'Computational Linguistics',                                   short:'CL',    area:'NLP',     rank:'A*', source:'ACL Anthology'},
+  {name:'Information Processing & Management',                         short:'IPM',   area:'IR',      rank:'A',  source:'Semantic Scholar'},
+  {name:'Journal of the ACM',                                          short:'JACM',  area:'General', rank:'A*', source:'Semantic Scholar'},
+  {name:'Nature Communications',                                       short:'NatComms', area:'General', rank:'A*', source:'Semantic Scholar'},
+  {name:'ACM Transactions on Information Systems',                     short:'TOIS',  area:'IR',      rank:'A*', source:'Semantic Scholar'},
+];
+
+document.getElementById('journals-body').innerHTML = JOURNALS.map(j => `
+  <tr>
+    <td class="font-medium">${escHtml(j.name)}</td>
+    <td><span class="badge badge-tag">${escHtml(j.short)}</span></td>
+    <td class="text-sm" style="color:var(--rs-muted)">${escHtml(j.area)}</td>
+    <td>${j.rank ? rankBadge(j.rank) : '—'}</td>
+    <td class="text-sm" style="color:var(--rs-muted)">${escHtml(j.source)}</td>
+  </tr>`).join('');
+
+// ── Area filter ───────────────────────────────────────────────────────────────
+let _currentArea = 'all';
+let _allPapers   = [];
+
+function filterArea(area) {
+  _currentArea = area;
+  document.querySelectorAll('.area-btn').forEach(b => b.classList.remove('area-btn-active'));
+  const btn = document.getElementById('btn-' + area);
+  if (btn) btn.classList.add('area-btn-active');
+  renderPapers(_allPapers);
+}
+
+function journalArea(venue) {
+  const j = JOURNALS.find(j => j.short === venue || j.name === venue);
+  return j ? j.area : 'General';
+}
+
+function renderPapers(papers) {
+  // Group by venue
+  const byVenue = {};
+  papers.forEach(p => {
+    const v = p.venue || 'Unknown';
+    if (_currentArea !== 'all' && journalArea(v) !== _currentArea) return;
+    if (!byVenue[v]) byVenue[v] = [];
+    byVenue[v].push(p);
+  });
+
+  if (!Object.keys(byVenue).length) {
+    showEmpty('journal-papers', 'No papers found for this filter.');
+    return;
+  }
+
+  const sorted = Object.entries(byVenue).sort((a, b) => b[1].length - a[1].length);
+  let html = '<div class="space-y-2">';
+  for (const [venue, vPapers] of sorted) {
+    const top  = [...vPapers].sort((a, b) => (b.paper_score || 0) - (a.paper_score || 0)).slice(0, 5);
+    const rank = top[0]?.conference_rank || '';
+    const tags = [...new Set(vPapers.flatMap(p => p.tags || []))].slice(0, 5);
+    const id   = 'journal-' + venue.replace(/\W+/g, '_');
+    html += `
+    <div class="rs-card overflow-hidden">
+      <button onclick="toggleSection('${id}')" class="w-full flex items-center gap-3 p-4 text-left hover:bg-black/5 transition-colors">
+        <span class="text-base" id="${id}-arrow">▶</span>
+        <h3 class="font-bold text-base flex-1">${escHtml(venue)}</h3>
+        ${rank ? rankBadge(rank) : ''}
+        <span class="text-sm ml-auto" style="color:var(--rs-muted)">${vPapers.length} papers</span>
+      </button>
+      <div id="${id}" class="hidden px-5 pb-5">
+        <div class="flex flex-wrap gap-1 mb-4">
+          ${tags.map(t => `<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
+        </div>
+        <p class="text-xs font-semibold uppercase mb-3" style="color:var(--rs-muted)">Top Papers</p>
+        <div class="space-y-3">
+          ${top.map(p => {
+            const url     = p.paper_url || p.url || '#';
+            const snippet = (p.abstract || '').slice(0, 160).trim();
+            const year    = p.year ? `<span class="badge badge-tag">${p.year}</span>` : '';
+            return `<div class="flex items-start gap-3">
+              <span class="badge badge-score mt-0.5 shrink-0">⭐ ${(+p.paper_score || 0).toFixed(1)}</span>
+              <div class="min-w-0">
+                <a href="${escHtml(url)}" target="_blank" class="text-sm font-medium hover:underline">${escHtml(p.title)}</a>
+                ${snippet ? `<p class="text-xs mt-0.5 mb-1" style="color:var(--rs-muted)">${escHtml(snippet)}…</p>` : ''}
+                <div class="flex gap-1 flex-wrap mt-0.5">
+                  ${year}
+                  ${difficultyBadge(p)}
+                  ${(p.tags || []).slice(0, 2).map(t => `<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
+                </div>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>`;
+  }
+  html += '</div>';
+  document.getElementById('journal-papers').innerHTML = html;
+}
+
+function toggleSection(id) {
+  const el    = document.getElementById(id);
+  const arrow = document.getElementById(id + '-arrow');
+  const open  = el.classList.toggle('hidden');
+  arrow.textContent = open ? '▶' : '▼';
+}
+
+(async () => {
+  const papers = await fetchData('data/journals.json');
+  if (!papers || !papers.length) {
+    showEmpty('journal-papers', 'No journal papers yet. Run: python src/pipeline.py --conferences-only');
+    return;
+  }
+  _allPapers = papers;
+  renderPapers(papers);
+})();
+</script>
+<style>
+.area-btn {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid var(--rs-border);
+  background: var(--rs-surface);
+  color: var(--rs-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.area-btn:hover { color: var(--rs-primary); border-color: var(--rs-primary); }
+.area-btn-active { background: var(--rs-primary); color: #fff; border-color: var(--rs-primary); }
+</style>
+</body>
+</html>

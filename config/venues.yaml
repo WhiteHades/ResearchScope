@@ -91,16 +91,14 @@ venues:
     short: AAAI
     rank: "A*"
     area: AI
-    source: proceedings
-    planned: true
+    source: semantic_scholar
 
   - id: ijcai
     name: "International Joint Conference on Artificial Intelligence"
     short: IJCAI
     rank: "A*"
     area: AI
-    source: proceedings
-    planned: true
+    source: semantic_scholar
 
   # Vision
   - id: cvpr
@@ -133,8 +131,7 @@ venues:
     short: CHI
     rank: "A*"
     area: HCI
-    source: acm_dl
-    planned: true
+    source: semantic_scholar
 
   # Systems / IR
   - id: sigir
@@ -142,16 +139,14 @@ venues:
     short: SIGIR
     rank: "A*"
     area: IR
-    source: acm_dl
-    planned: true
+    source: semantic_scholar
 
   - id: www
     name: "ACM Web Conference"
     short: WWW
     rank: "A*"
     area: Web
-    source: acm_dl
-    planned: true
+    source: semantic_scholar
 
   # arXiv (not a conference)
   - id: arxiv
@@ -160,6 +155,148 @@ venues:
     rank: ""
     area: all
     source: arxiv
+
+# ── Journals ──────────────────────────────────────────────────────────────────
+journals:
+  - id: jmlr
+    name: "Journal of Machine Learning Research"
+    short: JMLR
+    rank: "A*"
+    area: ML
+    source: semantic_scholar
+
+  - id: tmlr
+    name: "Transactions on Machine Learning Research"
+    short: TMLR
+    rank: "A*"
+    area: ML
+    source: semantic_scholar
+
+  - id: tacl
+    name: "Transactions of the Association for Computational Linguistics"
+    short: TACL
+    rank: "A*"
+    area: NLP
+    source: acl_anthology
+
+  - id: tpami
+    name: "IEEE Transactions on Pattern Analysis and Machine Intelligence"
+    short: TPAMI
+    rank: "A*"
+    area: CV
+    source: semantic_scholar
+
+  - id: ijcv
+    name: "International Journal of Computer Vision"
+    short: IJCV
+    rank: "A*"
+    area: CV
+    source: semantic_scholar
+
+  - id: aij
+    name: "Artificial Intelligence"
+    short: AIJ
+    rank: "A*"
+    area: AI
+    source: semantic_scholar
+
+  - id: tnnls
+    name: "IEEE Transactions on Neural Networks and Learning Systems"
+    short: TNNLS
+    rank: "A*"
+    area: ML
+    source: semantic_scholar
+
+  - id: nature_mi
+    name: "Nature Machine Intelligence"
+    short: NMI
+    rank: "A*"
+    area: ML
+    source: semantic_scholar
+
+  - id: csur
+    name: "ACM Computing Surveys"
+    short: CSUR
+    rank: "A*"
+    area: General
+    source: semantic_scholar
+
+  - id: tip
+    name: "IEEE Transactions on Image Processing"
+    short: TIP
+    rank: "A*"
+    area: CV
+    source: semantic_scholar
+
+  - id: mlj
+    name: "Machine Learning"
+    short: MLJ
+    rank: "A*"
+    area: ML
+    source: semantic_scholar
+
+  - id: tkde
+    name: "IEEE Transactions on Knowledge and Data Engineering"
+    short: TKDE
+    rank: "A*"
+    area: DM
+    source: semantic_scholar
+
+  - id: dami
+    name: "Data Mining and Knowledge Discovery"
+    short: DAMI
+    rank: "A*"
+    area: DM
+    source: semantic_scholar
+
+  - id: neural_networks
+    name: "Neural Networks"
+    short: NN
+    rank: "A"
+    area: ML
+    source: semantic_scholar
+
+  - id: pattern_recognition
+    name: "Pattern Recognition"
+    short: PR
+    rank: "A"
+    area: CV
+    source: semantic_scholar
+
+  - id: comp_linguistics
+    name: "Computational Linguistics"
+    short: CL
+    rank: "A*"
+    area: NLP
+    source: acl_anthology
+
+  - id: ipm
+    name: "Information Processing & Management"
+    short: IPM
+    rank: "A"
+    area: IR
+    source: semantic_scholar
+
+  - id: jacm
+    name: "Journal of the ACM"
+    short: JACM
+    rank: "A*"
+    area: General
+    source: semantic_scholar
+
+  - id: nature_comms
+    name: "Nature Communications"
+    short: NatComms
+    rank: "A*"
+    area: General
+    source: semantic_scholar
+
+  - id: tois
+    name: "ACM Transactions on Information Systems"
+    short: TOIS
+    rank: "A*"
+    area: IR
+    source: semantic_scholar
 
 # Venue name → ID mapping (used to normalise noisy venue strings)
 aliases:

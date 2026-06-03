@@ -1,9 +1,10 @@
 """
 Semantic Scholar connector.
 
-Covers ICLR, NeurIPS, ICML, AAAI, IJCAI, CVPR, ICCV, ECCV, CHI via the
-public S2 paper-search API.  An API key (SEMANTIC_SCHOLAR_API_KEY env var) raises
-the rate limit from ~1 req/s to 10 req/s but is not required.
+Covers ICLR, NeurIPS, ICML, AAAI, IJCAI, CVPR, ICCV, ECCV, CHI, SIGIR, WWW
+and 18 top CS journals via the public S2 paper-search API.
+An API key (SEMANTIC_SCHOLAR_API_KEY env var) raises the rate limit from
+~1 req/s to 10 req/s but is not required.
 """
 from __future__ import annotations
 
@@ -46,21 +47,64 @@ _BULK_VENUES: dict[str, list[int]] = {
 
 # Short venue names accepted by the S2 ?venue= filter → (canonical, rank)
 _VENUES: dict[str, tuple[str, str]] = {
-    "ICLR":   ("ICLR",    "A*"),
-    "NeurIPS":("NeurIPS",  "A*"),
-    "ICML":   ("ICML",    "A*"),
-    "AAAI":   ("AAAI",    "A*"),
-    "IJCAI":  ("IJCAI",   "A*"),
-    "CVPR":   ("CVPR",    "A*"),
-    "ICCV":   ("ICCV",    "A*"),
-    "ECCV":   ("ECCV",    "A*"),
-    "CHI":    ("CHI",     "A*"),
-    "SIGMOD": ("SIGMOD",  "A*"),
-    "KDD":    ("KDD",     "A*"),
-    "WWW":    ("WWW",     "A"),
-    "SIGIR":  ("SIGIR",   "A"),
-    "WSDM":   ("WSDM",    "A"),
-    "ICSE":   ("ICSE",    "A"),
+    # Conferences
+    "ICLR":   ("ICLR",   "A*"),
+    "NeurIPS":("NeurIPS", "A*"),
+    "ICML":   ("ICML",   "A*"),
+    "AAAI":   ("AAAI",   "A*"),
+    "IJCAI":  ("IJCAI",  "A*"),
+    "CVPR":   ("CVPR",   "A*"),
+    "ICCV":   ("ICCV",   "A*"),
+    "ECCV":   ("ECCV",   "A*"),
+    "CHI":    ("CHI",    "A*"),
+    "SIGMOD": ("SIGMOD", "A*"),
+    "KDD":    ("KDD",    "A*"),
+    "WWW":    ("WWW",    "A*"),
+    "SIGIR":  ("SIGIR",  "A*"),
+    "WSDM":   ("WSDM",   "A"),
+    "ICSE":   ("ICSE",   "A*"),
+    # Journals
+    "JMLR":                                    ("JMLR",    "A*"),
+    "TMLR":                                    ("TMLR",    "A*"),
+    "TPAMI":                                   ("TPAMI",   "A*"),
+    "IJCV":                                    ("IJCV",    "A*"),
+    "Artificial Intelligence":                 ("AIJ",     "A*"),
+    "TNNLS":                                   ("TNNLS",   "A*"),
+    "Nature Machine Intelligence":             ("NMI",     "A*"),
+    "ACM Computing Surveys":                   ("CSUR",    "A*"),
+    "IEEE Transactions on Image Processing":   ("TIP",     "A*"),
+    "Machine Learning":                        ("MLJ",     "A*"),
+    "TKDE":                                    ("TKDE",    "A*"),
+    "Data Mining and Knowledge Discovery":     ("DAMI",    "A*"),
+    "Neural Networks":                         ("NN",      "A"),
+    "Pattern Recognition":                     ("PR",      "A"),
+    "Information Processing & Management":     ("IPM",     "A"),
+    "Journal of the ACM":                      ("JACM",    "A*"),
+    "Nature Communications":                   ("NatComms","A*"),
+    "ACM Transactions on Information Systems": ("TOIS",    "A*"),
+}
+
+# Journal venues for bulk fetch (key → years). TACL and CL are excluded here
+# because they are already fetched by the ACL Anthology connector.
+_JOURNAL_VENUES: dict[str, list[int]] = {
+    "JMLR":                                    [2022, 2023, 2024, 2025],
+    "TMLR":                                    [2022, 2023, 2024, 2025],
+    "TPAMI":                                   [2022, 2023, 2024],
+    "IJCV":                                    [2022, 2023, 2024],
+    "Artificial Intelligence":                 [2022, 2023, 2024],
+    "TNNLS":                                   [2022, 2023, 2024],
+    "Nature Machine Intelligence":             [2022, 2023, 2024, 2025],
+    "ACM Computing Surveys":                   [2022, 2023, 2024],
+    "IEEE Transactions on Image Processing":   [2022, 2023, 2024],
+    "Machine Learning":                        [2022, 2023, 2024],
+    "TKDE":                                    [2022, 2023, 2024],
+    "Data Mining and Knowledge Discovery":     [2022, 2023, 2024],
+    "Neural Networks":                         [2022, 2023, 2024],
+    "Pattern Recognition":                     [2022, 2023, 2024],
+    "Information Processing & Management":     [2022, 2023, 2024],
+    "Journal of the ACM":                      [2022, 2023, 2024],
+    "Nature Communications":                   [2022, 2023, 2024],
+    "ACM Transactions on Information Systems": [2022, 2023, 2024],
 }
 
 # Throttle: unauthenticated = ~1 req/s; with key = 10 req/s
@@ -105,8 +149,36 @@ class SemanticScholarConnector(BaseConnector):
 
         return all_papers
 
+    def fetch_journals(self, venues: dict[str, list[int]] | None = None) -> list[Paper]:
+        """Bulk-fetch ALL papers from top CS journals. Sets source_type='journal'."""
+        target = venues or _JOURNAL_VENUES
+        all_papers: list[Paper] = []
+        seen: set[str] = set()
+
+        for venue_key, years in target.items():
+            venue_name, rank = _VENUES.get(venue_key, (venue_key, ""))
+            for year in years:
+                try:
+                    papers = self._bulk_fetch_venue_year(
+                        venue_key, venue_name, rank, year, source_type="journal"
+                    )
+                    log.info("[s2] journal %s %d → %d papers", venue_key, year, len(papers))
+                    for p in papers:
+                        if p.id not in seen:
+                            seen.add(p.id)
+                            all_papers.append(p)
+                except Exception as exc:
+                    log.warning("[s2] journal %s %d failed: %s", venue_key, year, exc)
+
+        return all_papers
+
     def _bulk_fetch_venue_year(
-        self, venue_key: str, venue_name: str, rank: str, year: int
+        self,
+        venue_key: str,
+        venue_name: str,
+        rank: str,
+        year: int,
+        source_type: str = "conference",
     ) -> list[Paper]:
         """Paginate through ALL S2 papers for a venue+year using the bulk endpoint."""
         papers: list[Paper] = []
@@ -133,7 +205,7 @@ class SemanticScholarConnector(BaseConnector):
                 data = json.loads(resp.read())
 
             for rec in data.get("data", []):
-                p = self._record_to_paper(rec, venue_name, rank)
+                p = self._record_to_paper(rec, venue_name, rank, source_type=source_type)
                 if p:
                     papers.append(p)
 
@@ -199,6 +271,7 @@ class SemanticScholarConnector(BaseConnector):
         rec: dict[str, Any],
         venue_name: str,
         rank: str,
+        source_type: str = "conference",
     ) -> Paper | None:
         title = (rec.get("title") or "").strip()
         if not title:
@@ -244,7 +317,7 @@ class SemanticScholarConnector(BaseConnector):
         return Paper(
             id=f"s2:{s2_id}",
             source=self.source_name,
-            source_type="conference",
+            source_type=source_type,
             title=title,
             abstract=abstract,
             authors=authors,
