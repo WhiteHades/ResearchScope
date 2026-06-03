@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Journal Recommender – ResearchScope</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/conference-recommender.css"/>
+</head>
+<body>
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center h-14 gap-2">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">🔭 ResearchScope</a>
+      <div class="hidden lg:flex items-center justify-center gap-3 text-sm font-medium whitespace-nowrap flex-1">
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">📬 Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">📅 Upcoming</a>
+      </div>
+      <div class="flex items-center gap-2 justify-end" style="flex:1">
+        <div class="search-wrap hidden lg:block">
+          <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+          </svg>
+          <input id="global-search" class="search-input" type="search" placeholder="Search papers, authors…" autocomplete="off"/>
+          <div id="search-dropdown" class="search-dropdown hidden"></div>
+        </div>
+        <a href="https://github.com/kishormorol/ResearchScope" target="_blank" rel="noopener" class="github-star-btn hidden lg:inline-flex" aria-label="Star on GitHub">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+          Star <span class="github-star-count">–</span>
+        </a>
+        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+  <!-- Header + cross-link -->
+  <div class="mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+    <div>
+      <h1 class="text-3xl font-extrabold mb-2">📖 Journal Recommender</h1>
+      <p class="text-sm max-w-2xl" style="color:var(--rs-muted)">
+        Paste your title and abstract to match your manuscript against ResearchScope journal profiles.
+        Results show topic fit, impact factor, review timeline, and similar accepted papers.
+        Fit labels are advisory — not acceptance predictions.
+      </p>
+    </div>
+    <a href="conference-recommender.html"
+       class="shrink-0 inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-lg border"
+       style="border-color:var(--rs-border);color:var(--rs-primary)">
+      🎓 Switch to Conference Recommender →
+    </a>
+  </div>
+
+  <div class="recommender-shell">
+    <!-- Input panel -->
+    <section class="recommender-panel recommender-column">
+      <div class="recommender-form">
+        <div>
+          <label for="paper-title" class="block text-sm font-semibold mb-1">Paper title</label>
+          <input id="paper-title" class="rs-input" type="text" placeholder="Enter your title here"/>
+        </div>
+        <div>
+          <label for="paper-abstract" class="block text-sm font-semibold mb-1">Abstract</label>
+          <textarea id="paper-abstract" class="rs-input recommender-textarea"
+            placeholder="Paste your abstract here. Include problem, method, experiments, and main contribution."></textarea>
+          <div id="abstract-counter" class="abstract-counter">0 chars</div>
+        </div>
+        <div class="recommender-control-grid">
+          <div>
+            <label for="paper-field" class="block text-sm font-semibold mb-1">Field <span style="font-weight:400;color:var(--rs-muted)">(auto-detects)</span></label>
+            <select id="paper-field" class="rs-select"></select>
+            <div id="field-hint" class="abstract-counter"></div>
+          </div>
+          <div>
+            <label for="contribution-type" class="block text-sm font-semibold mb-1">Contribution type</label>
+            <select id="contribution-type" class="rs-select"></select>
+          </div>
+        </div>
+        <button id="recommend-btn" class="w-full font-semibold px-4 py-2.5 rounded-lg text-white" style="background:var(--rs-primary)">
+          Recommend journals
+        </button>
+      </div>
+    </section>
+
+    <!-- Results panel -->
+    <section class="recommender-column">
+      <div id="recommender-status" class="recommender-panel text-sm" style="color:var(--rs-muted)">Loading journal data…</div>
+      <div id="recommender-results" class="space-y-4 mt-4"></div>
+    </section>
+  </div>
+</main>
+
+<footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
+  <p class="font-semibold mb-2">🔭 ResearchScope</p>
+  <p>Open-source CS research intelligence &middot; Updated daily via GitHub Actions</p>
+  <p class="mt-2">
+    <a href="https://github.com/kishormorol/ResearchScope" target="_blank" class="hover:underline" style="color:var(--rs-primary)">GitHub</a>
+    &middot; MIT License &copy; 2026 Md Kishor Morol
+  </p>
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/railway-api.js"></script>
+<script>
+let recommenderIndex = null;
+
+const STOP_WORDS = new Set(['a','an','and','are','as','at','be','by','can','for','from','has','have','in','into','is','it','its','may','method','model','models','of','on','or','our','paper','propose','show','study','that','the','their','these','this','to','use','using','via','we','with','which','new','novel','methods','task','tasks','achieve','achieves','approach','approaches','based','different','first','however','results']);
+const PLACEHOLDER_WORDS = new Set(['lorem','ipsum','dolor','sit','amet','consectetur','todo','tbd','placeholder','dummy','sample']);
+
+const FIELD_HINTS = {
+  ML:      ['machine','learning','optimization','representation','bayesian','reinforcement','training','gradient'],
+  NLP:     ['language','nlp','translation','linguistic','multilingual','summarization','dialogue','llm'],
+  CV:      ['vision','image','video','visual','segmentation','detection','recognition','diffusion'],
+  AI:      ['agent','planning','reasoning','knowledge','decision','autonomous','logic'],
+  HCI:     ['human','user','interface','interaction','usability','participants','qualitative'],
+  IR:      ['retrieval','ranking','query','relevance','recommendation','rag'],
+  DM:      ['mining','graph','graphs','discovery','anomaly','causal'],
+  General: ['survey','review','benchmark','dataset','empirical','application'],
+};
+
+function tokenize(text) {
+  return (text || '').toLowerCase().match(/[a-z][a-z0-9+-]{2,}/g)?.filter(w => !STOP_WORDS.has(w) && w.length <= 32) || [];
+}
+
+function inferField(title, abstract) {
+  const tokens = new Set(tokenize(`${title} ${abstract}`));
+  let best = 'ML', bestScore = 0;
+  for (const [field, hints] of Object.entries(FIELD_HINTS)) {
+    const score = hints.filter(h => tokens.has(h)).length;
+    if (score > bestScore) { best = field; bestScore = score; }
+  }
+  return best;
+}
+
+function draftQuality(title, abstract) {
+  const text = `${title || ''} ${abstract || ''}`.trim();
+  const tokens = tokenize(text);
+  const informative = tokens.filter(t => !PLACEHOLDER_WORDS.has(t));
+  const uniqueInformative = new Set(informative);
+  if (text.length < 80)      return { ok: false, reason: 'Add a title and at least a short abstract before matching.' };
+  if (/\blorem\s+ipsum\b/i.test(text)) return { ok: false, reason: 'Enter a real abstract before matching.' };
+  if (informative.length < 35 || uniqueInformative.size < 18)
+    return { ok: false, reason: 'Add more details: problem, method, datasets, evaluation, and contribution.' };
+  return { ok: true, tokens: informative, uniqueTokens: uniqueInformative };
+}
+
+function weightedKeywordScore(queryTokens, weightedKeywords) {
+  let score = 0;
+  const matched = [];
+  (weightedKeywords || []).forEach(item => {
+    const keyword = item.term || item;
+    const weight  = Number(item.weight || 0.25);
+    const parts   = tokenize(keyword);
+    if (!parts.length) return;
+    const hits = parts.filter(p => queryTokens.has(p)).length;
+    if (hits === parts.length) {
+      score += weight * (parts.length > 1 ? 18 : 12);
+      matched.push(keyword);
+    } else if (hits > 0) {
+      score += weight * 4 * (hits / parts.length);
+    }
+  });
+  return { score, matched: [...new Set(matched)].slice(0, 10) };
+}
+
+function contribAdjust(venue, contribType) {
+  if (contribType === 'any') return 0;
+  if (contribType === 'survey' && ['CSUR','ACM Computing Surveys'].includes(venue.short)) return 10;
+  if (contribType === 'extended') return 2;
+  if (contribType === 'empirical') return 1;
+  return 0;
+}
+
+function fitLabel(score) {
+  if (score >= 24) return { label: 'Strong fit',   cls: 'recommender-fit-strong' };
+  if (score >= 14) return { label: 'Moderate fit', cls: 'recommender-fit-moderate' };
+  return                  { label: 'Stretch fit',  cls: 'recommender-fit-stretch' };
+}
+
+function similarPapers(venue, queryTokens) {
+  return (venue.sample_papers || [])
+    .map(p => {
+      const hits    = (p.terms || []).filter(t => queryTokens.has(t)).length;
+      const tagHits = (p.tags  || []).filter(t => tokenize(t).some(x => queryTokens.has(x))).length;
+      return { ...p, sim: hits + tagHits * 2 };
+    })
+    .filter(p => p.sim > 0)
+    .sort((a, b) => b.sim - a.sim)
+    .slice(0, 4);
+}
+
+function recommendJournals() {
+  const title    = document.getElementById('paper-title').value.trim();
+  const abstract = document.getElementById('paper-abstract').value.trim();
+  const fieldSel = document.getElementById('paper-field').value;
+  const contribType = document.getElementById('contribution-type').value;
+  const status   = document.getElementById('recommender-status');
+  const resultsEl = document.getElementById('recommender-results');
+
+  if (!recommenderIndex) { status.textContent = 'Journal data not loaded yet.'; return; }
+
+  const quality = draftQuality(title, abstract);
+  if (!quality.ok) { status.textContent = quality.reason; resultsEl.innerHTML = ''; return; }
+
+  const autoField = fieldSel === 'auto' ? inferField(title, abstract) : null;
+  const field     = autoField || fieldSel;
+  const queryTokens = quality.uniqueTokens;
+
+  const ranked = recommenderIndex.venues.map(venue => {
+    const overlap       = weightedKeywordScore(queryTokens, venue.weighted_keywords || []);
+    const fieldBonus    = field === 'any' ? 0 : (venue.field === field ? 8 : -4);
+    const contribBonus  = contribAdjust(venue, contribType);
+    const rawScore      = Math.max(0, overlap.score + fieldBonus + contribBonus);
+    return { venue, score: rawScore, breakdown: { overlap: overlap.score, field: fieldBonus, contrib: contribBonus },
+             matched: overlap.matched, fit: fitLabel(rawScore), similar: similarPapers(venue, queryTokens), detectedField: autoField };
+  })
+    .filter(item => item.matched.length || item.score >= 14)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 8);
+
+  if (!ranked.length || ranked[0].matched.length === 0) {
+    status.textContent = 'No reliable journal match yet. Add more field-specific terms to your abstract.';
+    resultsEl.innerHTML = '';
+    return;
+  }
+
+  const detectedNote = autoField
+    ? ` <span class="field-detected-badge">Auto-detected: ${escHtml(autoField)}</span>` : '';
+  status.innerHTML = `
+    <div class="font-semibold" style="color:var(--rs-text)">Top journal recommendations${detectedNote}</div>
+    <p class="mt-1">Ranked by topic overlap and field match. Fit labels are advisory — check each journal's scope and aims before submitting.</p>`;
+  resultsEl.innerHTML = ranked.map(renderResult).join('');
+}
+
+function breakdownBars(bd, topScore) {
+  const cap = Math.max(topScore, 1);
+  const pct = v => Math.max(0, Math.min(100, Math.round((v / cap) * 100)));
+  const row = (label, cls, val) => {
+    if (val <= 0) return '';
+    return `<div class="flex items-center gap-2 text-xs" style="color:var(--rs-muted)">
+      <span style="width:5.5rem;flex-shrink:0">${label}</span>
+      <div class="breakdown-bar"><div class="${cls}" style="width:${pct(val)}%"></div></div>
+      <span style="width:2rem;text-align:right">+${Math.round(val)}</span>
+    </div>`;
+  };
+  return `<div class="space-y-1 mt-2">
+    ${row('Topic overlap', 'breakdown-fill-overlap', bd.overlap)}
+    ${row('Field match',   'breakdown-fill-field',   bd.field)}
+    ${row('Type boost',    'breakdown-fill-maturity', bd.contrib)}
+  </div>`;
+}
+
+function renderResult(item, index) {
+  const v   = item.venue;
+  const mw  = Math.min(100, Math.round(item.score * 3));
+  const oa  = v.open_access ? '<span class="badge" style="background:#dcfce7;color:#166534">Open Access</span>' : '';
+  const ifBadge = v.impact_factor != null
+    ? `<span class="badge badge-tag">IF ${v.impact_factor}</span>` : '';
+  const websiteLink = v.website
+    ? `<a href="${escHtml(v.website)}" target="_blank" rel="noopener" class="text-xs hover:underline" style="color:var(--rs-primary)">${escHtml(v.website.replace(/^https?:\/\//, ''))}</a>` : '';
+
+  const similarHtml = item.similar.length
+    ? item.similar.map(p => `
+      <div class="recommender-paper">
+        <a href="${escHtml(p.url||'#')}" target="_blank" rel="noopener" class="text-sm font-semibold hover:underline">${escHtml(p.title)}</a>
+        <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${escHtml(p.venue||v.short)} ${escHtml(String(p.year||''))}</div>
+        ${p.abstract ? `<div class="paper-abstract-snippet">${escHtml(p.abstract.slice(0,160))}…</div>` : ''}
+      </div>`).join('')
+    : '<p class="text-xs" style="color:var(--rs-muted)">No closely matching indexed papers for this query.</p>';
+
+  return `
+  <article class="recommender-result">
+    <div class="recommender-result-head">
+      <div class="recommender-result-title">
+        <div class="text-xs font-bold uppercase tracking-widest" style="color:var(--rs-muted)">#${index+1} recommendation</div>
+        <h2 class="text-lg font-bold mt-1">${escHtml(v.short)}${v.name&&v.name!==v.short?' — '+escHtml(v.name):''}</h2>
+        <div class="flex gap-1 flex-wrap items-center mt-2">
+          <span class="badge ${item.fit.cls}">${item.fit.label}</span>
+          ${v.rank ? rankBadge(v.rank) : ''}
+          <span class="badge badge-tag">${escHtml(v.field)}</span>
+          ${ifBadge}
+          ${oa}
+        </div>
+        ${v.publisher ? `<p class="text-xs mt-1" style="color:var(--rs-muted)">${escHtml(v.publisher)}</p>` : ''}
+        ${websiteLink ? `<div class="mt-1">${websiteLink}</div>` : ''}
+      </div>
+      <div class="recommender-score">
+        <div class="text-xs font-semibold" style="color:var(--rs-muted)">Fit score</div>
+        <div class="text-2xl font-black" style="color:var(--rs-primary)">${Math.round(item.score)}</div>
+        <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${item.matched.length} signals</div>
+      </div>
+    </div>
+
+    <div class="recommender-meter mt-3"><div class="recommender-meter-fill" style="width:${mw}%"></div></div>
+    ${breakdownBars(item.breakdown, item.score)}
+
+    <div class="grid md:grid-cols-2 gap-4 mt-4">
+      <div>
+        <p class="text-xs font-bold uppercase mb-1" style="color:var(--rs-muted)">Review timeline</p>
+        <p class="text-sm font-semibold" style="color:var(--rs-text)">${escHtml(v.review_weeks)} weeks (typical)</p>
+        <p class="text-xs mt-1" style="color:var(--rs-muted)">Rolling submission — no fixed deadlines. Allow 2–3 revision rounds.</p>
+      </div>
+      <div>
+        <p class="text-xs font-bold uppercase mb-1" style="color:var(--rs-muted)">Matched signals</p>
+        <p class="text-xs" style="color:var(--rs-muted)">${item.matched.length ? escHtml(item.matched.join(' · ')) : 'Mostly field or type match; topic overlap is weak.'}</p>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <p class="text-xs font-bold uppercase mb-2" style="color:var(--rs-muted)">Editor / reviewer expectations</p>
+      <ul class="text-sm space-y-1 list-disc list-inside">
+        ${(v.expectations||[]).map(e=>`<li>${escHtml(e)}</li>`).join('')}
+      </ul>
+    </div>
+
+    <div class="mt-4">
+      <p class="text-xs font-bold uppercase mb-2" style="color:var(--rs-muted)">Similar published papers (${item.similar.length})</p>
+      <div class="space-y-3">${similarHtml}</div>
+    </div>
+  </article>`;
+}
+
+function updateCounter() {
+  const el = document.getElementById('paper-abstract');
+  const ct = document.getElementById('abstract-counter');
+  if (!el||!ct) return;
+  const words = el.value.trim() ? el.value.trim().split(/\s+/).length : 0;
+  ct.textContent = `${el.value.length} chars · ~${words} words`;
+}
+
+function populateControls(index) {
+  const fieldEl   = document.getElementById('paper-field');
+  const contribEl = document.getElementById('contribution-type');
+  fieldEl.innerHTML = `<option value="auto">Auto-detect from text</option>` +
+    index.fields.filter(f => f.id !== 'any')
+      .map(f => `<option value="${escHtml(f.id)}">${escHtml(f.label)}</option>`).join('');
+  contribEl.innerHTML = (index.contribution_types || [])
+    .map(c => `<option value="${escHtml(c.id)}">${escHtml(c.label)}</option>`).join('');
+}
+
+(async () => {
+  recommenderIndex = await fetchData('data/journal_recommender.json');
+  const status = document.getElementById('recommender-status');
+  if (!recommenderIndex || !recommenderIndex.venues) {
+    status.textContent = 'Journal recommender data unavailable. Run: python src/sitegen/journal_recommender.py';
+    return;
+  }
+  populateControls(recommenderIndex);
+  status.innerHTML = `
+    <div class="font-semibold" style="color:var(--rs-text)">Ready</div>
+    <p class="mt-1">${recommenderIndex.venues.length} journal profiles loaded. Enter a title and abstract — field is auto-detected or pick one manually.</p>`;
+  document.getElementById('recommend-btn').addEventListener('click', recommendJournals);
+  document.getElementById('paper-abstract').addEventListener('input', updateCounter);
+  document.getElementById('paper-abstract').addEventListener('input', debounce(() => {
+    const t = document.getElementById('paper-title').value.trim();
+    const a = document.getElementById('paper-abstract').value.trim();
+    if (t && a.length > 80 && document.getElementById('paper-field').value === 'auto') {
+      const detected = inferField(t, a);
+      const hint = document.getElementById('field-hint');
+      if (hint) hint.textContent = `Detected: ${detected}`;
+    }
+  }, 400));
+})();
+</script>
+</body>
+</html>

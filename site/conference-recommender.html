@@ -69,11 +69,18 @@
 </nav>
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div class="mb-6">
-    <h1 class="text-3xl font-extrabold mb-2">Conference Recommender</h1>
-    <p class="text-sm max-w-3xl" style="color:var(--rs-muted)">
-      Paste a title and abstract to compare your draft against precomputed ResearchScope conference profiles. Results are fit labels, not acceptance predictions.
-    </p>
+  <div class="mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+    <div>
+      <h1 class="text-3xl font-extrabold mb-2">🎓 Conference Recommender</h1>
+      <p class="text-sm max-w-2xl" style="color:var(--rs-muted)">
+        Paste a title and abstract to compare your draft against precomputed ResearchScope conference profiles. Results are fit labels, not acceptance predictions.
+      </p>
+    </div>
+    <a href="journal-recommender.html"
+       class="shrink-0 inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-lg border"
+       style="border-color:var(--rs-border);color:var(--rs-primary)">
+      📖 Switch to Journal Recommender →
+    </a>
   </div>
 
   <div class="recommender-shell">

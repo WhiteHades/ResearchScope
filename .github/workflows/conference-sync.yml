@@ -83,6 +83,10 @@ jobs:
         run: |
           python src/sitegen/conference_recommender.py
 
+      - name: Build journal recommender data
+        run: |
+          python src/sitegen/journal_recommender.py
+
       - name: Commit updated data
         run: |
           set -euo pipefail
