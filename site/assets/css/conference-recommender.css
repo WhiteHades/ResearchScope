@@ -52,34 +52,48 @@
   resize: vertical;
 }
 
+.recommender-fit-excellent {
+  background: #d1fae5;
+  color: #064e3b;
+  border: 1px solid #6ee7b7;
+}
 .recommender-fit-strong {
   background: #dcfce7;
   color: #166534;
 }
-
 .recommender-fit-moderate {
   background: #fef9c3;
   color: #854d0e;
 }
-
 .recommender-fit-stretch {
   background: #fee2e2;
   color: #991b1b;
 }
+.recommender-fit-unlikely {
+  background: #f3f4f6;
+  color: #6b7280;
+}
 
+[data-theme="dark"] .recommender-fit-excellent {
+  background: #064e3b;
+  color: #6ee7b7;
+  border-color: #065f46;
+}
 [data-theme="dark"] .recommender-fit-strong {
   background: #14532d;
   color: #86efac;
 }
-
 [data-theme="dark"] .recommender-fit-moderate {
   background: #713f12;
   color: #fde68a;
 }
-
 [data-theme="dark"] .recommender-fit-stretch {
   background: #7f1d1d;
   color: #fca5a5;
+}
+[data-theme="dark"] .recommender-fit-unlikely {
+  background: #1f2937;
+  color: #9ca3af;
 }
 
 .recommender-meter {
@@ -188,4 +202,48 @@
   line-height: 1.45;
   color: var(--rs-muted);
   margin-top: 0.2rem;
+}
+
+/* Signal chips */
+.signal-strong { background: #dcfce7; color: #166534; }
+.signal-moderate { background: #eff6ff; color: #1d4ed8; }
+[data-theme="dark"] .signal-strong  { background: #14532d; color: #86efac; }
+[data-theme="dark"] .signal-moderate { background: #1e3a5f; color: #93c5fd; }
+
+/* Coverage bar */
+.coverage-bar { height: 5px; border-radius: 3px; background: var(--rs-border); overflow: hidden; }
+.coverage-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg,#06b6d4,#4f46e5); }
+
+/* Rationale row */
+.venue-rationale {
+  font-size: .82rem;
+  line-height: 1.55;
+  color: var(--rs-text);
+  padding: .6rem .85rem;
+  border-radius: .5rem;
+  background: var(--rs-primary-50, #eef2ff);
+  border-left: 3px solid var(--rs-primary);
+  margin-top: .75rem;
+}
+
+/* Score ring */
+.score-ring-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .2rem;
+}
+.score-ring-value {
+  font-size: 1.75rem;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+[data-theme="dark"] .score-ring-value {
+  background: linear-gradient(135deg, #818cf8, #a78bfa);
+  -webkit-background-clip: text;
+  background-clip: text;
 }

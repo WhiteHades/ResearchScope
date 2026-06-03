@@ -115,7 +115,17 @@
 <script>
 let recommenderIndex = null;
 
-const STOP_WORDS = new Set(['a','an','and','are','as','at','be','by','can','for','from','has','have','in','into','is','it','its','may','method','model','models','of','on','or','our','paper','propose','show','study','that','the','their','these','this','to','use','using','via','we','with','which','new','novel','methods','task','tasks','achieve','achieves','approach','approaches','based','different','first','however','results']);
+const STOP_WORDS = new Set([
+  'a','an','and','are','as','at','be','been','being','by','can','could','did','do','does',
+  'for','from','had','has','have','having','how','in','into','is','it','its','may','me',
+  'method','model','models','must','not','now','of','on','or','other','our','out','own',
+  'paper','present','propose','proposed','she','show','shows','so','some','such',
+  'than','that','the','their','them','there','these','they','this','those','through',
+  'to','too','up','use','using','via','was','we','well','were','what','when','where',
+  'which','while','who','will','with','would','you','your',
+  'achieve','achieves','approach','approaches','based','different','first',
+  'however','methods','new','novel','results','study','task','tasks','work',
+]);
 const PLACEHOLDER_WORDS = new Set(['lorem','ipsum','dolor','sit','amet','consectetur','todo','tbd','placeholder','dummy','sample']);
 
 const FIELD_HINTS = {
@@ -135,8 +145,30 @@ function qBadge(q) {
   return `<span class="badge" style="${cls}">${escHtml(q)}</span>`;
 }
 
+const STRUCTURE_PATTERNS = {
+  problem:      /we (address|tackle|study|investigate|focus on|aim to)|the (problem of|challenge of|task of|issue of|limitation of)|existing (methods|approaches|systems|models) (fail|suffer|cannot|lack)|prior work|previous (methods|work)/i,
+  method:       /we (propose|introduce|present|develop|design|build|create)|our (method|approach|model|system|framework|algorithm)|this (paper|work) (proposes|introduces|presents|develops)/i,
+  evaluation:   /we (evaluate|test|validate|demonstrate|benchmark|assess)|experiment(s|al)|on (the |)([\w-]+ )?(dataset|benchmark|corpus|task)|compar(e|ing|ison) (with|against|to)|\d+ (dataset|benchmark)/i,
+  contribution: /outperform|state.of.the.art|sota|surpass|significant(ly)?|novel|first (to|work)|improve(s|d|ment)?|better than|superior|our (results|method) (show|achieve)/i,
+  datasets:     /\d+[,\d]*[km]?\s*(sample|example|instance|image|token|document|sentence|record)s?|\b(imagenet|coco|squad|glue|superglue|wmt|ms.?marco|wikipedia)\b/i,
+};
+const NOVELTY_SIGNALS = [
+  'outperform','outperforms','state-of-the-art','state of the art','sota',
+  'surpass','significant','significantly','novel','first to','improve','improves',
+  'improvement','superior','we propose','we introduce','we present','advance','demonstrate',
+];
+
 function tokenize(text) {
   return (text || '').toLowerCase().match(/[a-z][a-z0-9+-]{2,}/g)?.filter(w => !STOP_WORDS.has(w) && w.length <= 32) || [];
+}
+
+function extractBigrams(text) {
+  const toks = tokenize(text);
+  const bigrams = new Set();
+  for (let i = 0; i < toks.length - 1; i++) {
+    if (toks[i] !== toks[i+1]) bigrams.add(`${toks[i]} ${toks[i+1]}`);
+  }
+  return bigrams;
 }
 
 function inferField(title, abstract) {
@@ -154,16 +186,101 @@ function draftQuality(title, abstract) {
   const tokens = tokenize(text);
   const informative = tokens.filter(t => !PLACEHOLDER_WORDS.has(t));
   const uniqueInformative = new Set(informative);
-  if (text.length < 80)      return { ok: false, reason: 'Add a title and at least a short abstract before matching.' };
-  if (/\blorem\s+ipsum\b/i.test(text)) return { ok: false, reason: 'Enter a real abstract before matching.' };
+  if (text.length < 80)
+    return { ok: false, reason: 'Add a title and at least a short abstract before matching.' };
+  if (/\blorem\s+ipsum\b/i.test(text))
+    return { ok: false, reason: 'Enter a real abstract before matching.' };
   if (informative.length < 35 || uniqueInformative.size < 18)
     return { ok: false, reason: 'Add more details: problem, method, datasets, evaluation, and contribution.' };
   return { ok: true, tokens: informative, uniqueTokens: uniqueInformative };
 }
 
-function weightedKeywordScore(queryTokens, weightedKeywords) {
+function analyzeAbstract(title, abstract) {
+  const fullText = `${title} ${abstract}`;
+  const absText = abstract || '';
+  const wordCount = absText.trim() ? absText.trim().split(/\s+/).length : 0;
+  const structure = Object.fromEntries(
+    Object.entries(STRUCTURE_PATTERNS).map(([k,re]) => [k, re.test(absText)])
+  );
+  const lower = fullText.toLowerCase();
+  const noveltyFound = [...new Set(NOVELTY_SIGNALS.filter(s => lower.includes(s.toLowerCase())))].slice(0, 6);
+  const tokens = new Set(tokenize(fullText));
+  const fieldScores = {};
+  for (const [f,hints] of Object.entries(FIELD_HINTS))
+    fieldScores[f] = hints.filter(h => tokens.has(h)).length;
+  const sortedFields = Object.entries(fieldScores).filter(([,s])=>s>0).sort(([,a],[,b])=>b-a).slice(0,4);
+  const suggestions = [];
+  if (!structure.problem)      suggestions.push('Frame the problem: "we address…" or "existing methods fail to…"');
+  if (!structure.method)       suggestions.push('Describe your approach: "we propose…" or "our method…"');
+  if (!structure.evaluation)   suggestions.push('Mention evaluation: "we evaluate on…" or reference datasets');
+  if (!structure.contribution) suggestions.push('State your gains: "outperforms", "state-of-the-art", or quantified improvements');
+  if (wordCount < 100)         suggestions.push(`Short abstract (${wordCount} words) — journals expect 150–250 words`);
+  return { structure, noveltyFound, fieldScores, sortedFields, wordCount,
+           structureScore: Object.values(structure).filter(Boolean).length, suggestions };
+}
+
+function renderAnalysisPanel(analysis) {
+  const check = ok => ok
+    ? `<svg width="11" height="11" fill="none" stroke="#16a34a" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>`
+    : `<svg width="11" height="11" fill="none" stroke="#dc2626" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>`;
+  const structRows = [
+    ['Problem framing',    analysis.structure.problem],
+    ['Method description', analysis.structure.method],
+    ['Evaluation',         analysis.structure.evaluation],
+    ['Contribution claim', analysis.structure.contribution],
+    ['Dataset mention',    analysis.structure.datasets],
+  ];
+  const noveltyHtml = analysis.noveltyFound.length
+    ? analysis.noveltyFound.map(s=>`<span class="badge signal-strong" style="font-size:.62rem">${escHtml(s)}</span>`).join(' ')
+    : `<span class="text-xs" style="color:var(--rs-muted)">None — add explicit claims</span>`;
+  const fieldHtml = analysis.sortedFields.slice(0,3).map(([f,s])=>
+    `<div class="flex items-center gap-1.5 text-xs">
+       <span style="min-width:2.25rem;font-weight:700;color:var(--rs-primary)">${escHtml(f)}</span>
+       <div style="flex:1;height:4px;border-radius:2px;background:var(--rs-border)">
+         <div style="height:100%;border-radius:2px;background:var(--rs-primary);width:${Math.min(100,s*22)}%"></div>
+       </div>
+       <span style="color:var(--rs-muted);font-size:.68rem">${s}</span>
+     </div>`).join('');
+  const wc = analysis.wordCount;
+  const wcColor = wc < 80 ? '#dc2626' : wc < 120 ? '#d97706' : '#16a34a';
+  const wcLabel = wc < 80 ? 'too short' : wc < 120 ? 'borderline' : '✓ good';
+  const sc = analysis.structureScore;
+  const quality = sc >= 4 ? 'Strong' : sc >= 3 ? 'Good' : sc >= 2 ? 'Fair' : 'Weak';
+  const qColor  = sc >= 4 ? '#16a34a' : sc >= 3 ? '#2563eb' : sc >= 2 ? '#d97706' : '#dc2626';
+  const tipsHtml = analysis.suggestions.length
+    ? `<div class="mt-3 p-2.5 rounded-lg space-y-1" style="background:var(--rs-primary-50,#eef2ff);border:1px solid rgba(79,70,229,.18)">
+        ${analysis.suggestions.map(s=>`<div class="text-xs" style="color:var(--rs-primary)">💡 ${escHtml(s)}</div>`).join('')}
+       </div>`
+    : `<div class="mt-3 p-2.5 rounded-lg text-xs" style="background:#f0fdf4;border:1px solid #bbf7d0;color:#166534">✓ Abstract looks well-structured — good basis for matching.</div>`;
+  return `
+  <div class="recommender-panel mb-4" style="border-left:3px solid var(--rs-primary)">
+    <div class="flex items-center justify-between mb-3">
+      <p class="text-xs font-bold uppercase tracking-wider" style="color:var(--rs-muted)">Abstract Analysis</p>
+      <span class="text-xs font-semibold px-2 py-0.5 rounded-full" style="background:${qColor}18;color:${qColor}">${quality} structure (${sc}/5)</span>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <div>
+        <p class="text-xs font-semibold mb-2" style="color:var(--rs-text)">Sections detected</p>
+        <div class="space-y-1.5">${structRows.map(([l,ok])=>`
+          <div class="flex items-center gap-1.5 text-xs" style="color:${ok?'var(--rs-text)':'var(--rs-muted)'}">${check(ok)} ${escHtml(l)}</div>`).join('')}</div>
+        <p class="text-xs mt-2.5" style="color:var(--rs-muted)">${wc} words · <span style="color:${wcColor};font-weight:600">${wcLabel}</span></p>
+      </div>
+      <div>
+        <p class="text-xs font-semibold mb-2" style="color:var(--rs-text)">Novelty / claim signals</p>
+        <div class="flex flex-wrap gap-1">${noveltyHtml}</div>
+      </div>
+      <div>
+        <p class="text-xs font-semibold mb-2" style="color:var(--rs-text)">Field signals</p>
+        <div class="space-y-1.5">${fieldHtml||`<span class="text-xs" style="color:var(--rs-muted)">No strong signals</span>`}</div>
+      </div>
+    </div>
+    ${tipsHtml}
+  </div>`;
+}
+
+function weightedKeywordScore(queryTokens, weightedKeywords, queryBigrams) {
   let score = 0;
-  const matched = [];
+  const strong = [], moderate = [];
   (weightedKeywords || []).forEach(item => {
     const keyword = item.term || item;
     const weight  = Number(item.weight || 0.25);
@@ -171,13 +288,26 @@ function weightedKeywordScore(queryTokens, weightedKeywords) {
     if (!parts.length) return;
     const hits = parts.filter(p => queryTokens.has(p)).length;
     if (hits === parts.length) {
-      score += weight * (parts.length > 1 ? 18 : 12);
-      matched.push(keyword);
+      const isPhrase = parts.length > 1;
+      const phraseBonus = (isPhrase && queryBigrams?.has(parts.join(' '))) ? 1.5 : 1.0;
+      const pts = weight * (isPhrase ? 20 : 12) * phraseBonus;
+      score += pts;
+      ;(pts >= 5 ? strong : moderate).push(keyword);
     } else if (hits > 0) {
       score += weight * 4 * (hits / parts.length);
+      moderate.push(keyword);
     }
   });
-  return { score, matched: [...new Set(matched)].slice(0, 10) };
+  const top20 = (weightedKeywords || []).slice(0, 20);
+  const covered = top20.filter(item => { const p = tokenize(item.term||item); return p.length && p.every(t => queryTokens.has(t)); }).length;
+  const coverage = top20.length ? Math.round((covered / top20.length) * 100) : 0;
+  return {
+    score,
+    matched:  [...new Set([...strong,...moderate])].slice(0, 10),
+    strong:   [...new Set(strong)].slice(0, 5),
+    moderate: [...new Set(moderate)].slice(0, 5),
+    coverage,
+  };
 }
 
 function contribAdjust(venue, contribType) {
@@ -188,10 +318,24 @@ function contribAdjust(venue, contribType) {
   return 0;
 }
 
-function fitLabel(score) {
+function fitLabel(score, coverage = 0) {
+  if (score >= 35 || (score >= 28 && coverage >= 35))
+    return { label: 'Excellent fit', cls: 'recommender-fit-excellent' };
   if (score >= 24) return { label: 'Strong fit',   cls: 'recommender-fit-strong' };
   if (score >= 14) return { label: 'Moderate fit', cls: 'recommender-fit-moderate' };
-  return                  { label: 'Stretch fit',  cls: 'recommender-fit-stretch' };
+  if (score >= 7)  return { label: 'Stretch fit',  cls: 'recommender-fit-stretch' };
+  return               { label: 'Unlikely fit',  cls: 'recommender-fit-unlikely' };
+}
+
+function generateRationale(item) {
+  const { venue, score, strong = [], moderate = [] } = item;
+  const top = (strong.length ? strong : moderate).slice(0, 3);
+  if (!top.length) return `Primarily a field-based match — topic overlap is weak.`;
+  const sigs = top.map(s=>`<em>${escHtml(s)}</em>`).join(', ');
+  if (score >= 35) return `Excellent alignment on ${sigs}. Your abstract directly matches ${escHtml(venue.short)}'s core themes.`;
+  if (score >= 24) return `Strong overlap on ${sigs}. ${escHtml(venue.short)} regularly publishes this work — align your framing to journal conventions.`;
+  if (score >= 14) return `Partial match on ${sigs}. Plausible but competitive — ensure scope fits the journal and contribution is explicit.`;
+  return `Weak overlap. Check whether ${escHtml(venue.short)} fits your work, or add more field-specific language.`;
 }
 
 function similarPapers(venue, queryTokens) {
@@ -207,46 +351,56 @@ function similarPapers(venue, queryTokens) {
 }
 
 function recommendJournals() {
-  const title    = document.getElementById('paper-title').value.trim();
-  const abstract = document.getElementById('paper-abstract').value.trim();
-  const fieldSel = document.getElementById('paper-field').value;
+  const title       = document.getElementById('paper-title').value.trim();
+  const abstract    = document.getElementById('paper-abstract').value.trim();
+  const fieldSel    = document.getElementById('paper-field').value;
   const contribType = document.getElementById('contribution-type').value;
-  const status   = document.getElementById('recommender-status');
-  const resultsEl = document.getElementById('recommender-results');
+  const status      = document.getElementById('recommender-status');
+  const resultsEl   = document.getElementById('recommender-results');
 
   if (!recommenderIndex) { status.textContent = 'Journal data not loaded yet.'; return; }
 
   const quality = draftQuality(title, abstract);
   if (!quality.ok) { status.textContent = quality.reason; resultsEl.innerHTML = ''; return; }
 
-  const autoField = fieldSel === 'auto' ? inferField(title, abstract) : null;
-  const field     = autoField || fieldSel;
-  const queryTokens = quality.uniqueTokens;
+  const autoField    = fieldSel === 'auto' ? inferField(title, abstract) : null;
+  const field        = autoField || fieldSel;
+  const queryTokens  = quality.uniqueTokens;
+  const queryBigrams = extractBigrams(`${title} ${abstract}`);
+  const analysis     = analyzeAbstract(title, abstract);
 
   const ranked = recommenderIndex.venues.map(venue => {
-    const overlap       = weightedKeywordScore(queryTokens, venue.weighted_keywords || []);
+    const overlap       = weightedKeywordScore(queryTokens, venue.weighted_keywords || [], queryBigrams);
     const fieldBonus    = field === 'any' ? 0 : (venue.field === field ? 8 : -4);
     const contribBonus  = contribAdjust(venue, contribType);
-    const rawScore      = Math.max(0, overlap.score + fieldBonus + contribBonus);
-    return { venue, score: rawScore, breakdown: { overlap: overlap.score, field: fieldBonus, contrib: contribBonus },
-             matched: overlap.matched, fit: fitLabel(rawScore), similar: similarPapers(venue, queryTokens), detectedField: autoField };
+    const noveltyBonus  = analysis.noveltyFound.length >= 2 ? 3 : analysis.noveltyFound.length >= 1 ? 1 : 0;
+    const rawScore      = Math.max(0, overlap.score + fieldBonus + contribBonus + noveltyBonus);
+    return {
+      venue, score: rawScore,
+      breakdown: { overlap: overlap.score, field: fieldBonus, contrib: contribBonus },
+      matched: overlap.matched, strong: overlap.strong, moderate: overlap.moderate,
+      coverage: overlap.coverage,
+      fit: fitLabel(rawScore, overlap.coverage),
+      similar: similarPapers(venue, queryTokens), detectedField: autoField,
+    };
   })
     .filter(item => item.matched.length || item.score >= 14)
     .sort((a, b) => b.score - a.score)
     .slice(0, 8);
 
   if (!ranked.length || ranked[0].matched.length === 0) {
-    status.textContent = 'No reliable journal match yet. Add more field-specific terms to your abstract.';
-    resultsEl.innerHTML = '';
+    status.innerHTML = `<div class="font-semibold" style="color:var(--rs-text)">No reliable match yet</div>
+      <p class="mt-1">Add more field-specific terms, dataset references, and evaluation details to your abstract.</p>`;
+    resultsEl.innerHTML = renderAnalysisPanel(analysis);
     return;
   }
 
   const detectedNote = autoField
     ? ` <span class="field-detected-badge">Auto-detected: ${escHtml(autoField)}</span>` : '';
   status.innerHTML = `
-    <div class="font-semibold" style="color:var(--rs-text)">Top journal recommendations${detectedNote}</div>
-    <p class="mt-1">Ranked by topic overlap and field match. Fit labels are advisory — check each journal's scope and aims before submitting.</p>`;
-  resultsEl.innerHTML = ranked.map(renderResult).join('');
+    <div class="font-semibold" style="color:var(--rs-text)">Top ${ranked.length} journal recommendations${detectedNote}</div>
+    <p class="mt-1">Ranked by topic overlap and field match. Fit labels are advisory — check each journal's scope before submitting.</p>`;
+  resultsEl.innerHTML = renderAnalysisPanel(analysis) + ranked.map(renderResult).join('');
 }
 
 function breakdownBars(bd, topScore) {
@@ -267,17 +421,45 @@ function breakdownBars(bd, topScore) {
   </div>`;
 }
 
+function ifContext(ifVal) {
+  if (ifVal == null) return '';
+  if (ifVal >= 20)   return `<span class="text-xs" style="color:#16a34a;font-weight:600">Top 1% in CS</span>`;
+  if (ifVal >= 10)   return `<span class="text-xs" style="color:#2563eb;font-weight:600">Top 5% in CS</span>`;
+  if (ifVal >= 6)    return `<span class="text-xs" style="color:#7c3aed;font-weight:600">Q1 journal</span>`;
+  return '';
+}
+
 function renderResult(item, index) {
-  const v   = item.venue;
-  const mw  = Math.min(100, Math.round(item.score * 3));
-  const oa  = v.open_access ? '<span class="badge" style="background:#dcfce7;color:#166534">Open Access</span>' : '';
-  const ifBadge = v.impact_factor != null
-    ? `<span class="badge badge-tag">IF ${v.impact_factor}</span>` : '';
+  const v  = item.venue;
+  const mw = Math.min(100, Math.round(item.score * 2.8));
+  const oa = v.open_access ? '<span class="badge" style="background:#dcfce7;color:#166534">Open Access</span>' : '';
+  const ifBadge = v.impact_factor != null ? `<span class="badge badge-tag">IF ${v.impact_factor}</span>` : '';
   const websiteLink = v.website
-    ? `<a href="${escHtml(v.website)}" target="_blank" rel="noopener" class="text-xs hover:underline" style="color:var(--rs-primary)">${escHtml(v.website.replace(/^https?:\/\//, ''))}</a>` : '';
+    ? `<a href="${escHtml(v.website)}" target="_blank" rel="noopener" class="text-xs hover:underline" style="color:var(--rs-primary)">${escHtml(v.website.replace(/^https?:\/\//,''))}</a>` : '';
+
+  const strongHtml = item.strong?.length
+    ? item.strong.map(s=>`<span class="badge signal-strong" style="font-size:.65rem">${escHtml(s)}</span>`).join(' ') : '';
+  const moderateHtml = item.moderate?.length
+    ? item.moderate.map(s=>`<span class="badge signal-moderate" style="font-size:.65rem">${escHtml(s)}</span>`).join(' ') : '';
+
+  const coverageBar = `
+    <div class="flex items-center gap-2 text-xs mt-2" style="color:var(--rs-muted)">
+      <span style="flex-shrink:0">Topic coverage</span>
+      <div class="coverage-bar" style="flex:1"><div class="coverage-fill" style="width:${item.coverage}%"></div></div>
+      <span style="flex-shrink:0;font-weight:600">${item.coverage}%</span>
+    </div>`;
+
+  // Review timeline detail
+  const reviewWeeks = v.review_weeks || '8–16';
+  const [low] = reviewWeeks.toString().split(/[–-]/);
+  const reviewNote = parseInt(low) >= 16
+    ? `Long review cycle — budget time for multiple rounds.`
+    : parseInt(low) <= 6
+    ? `Fast-turnaround journal — expect quicker decisions.`
+    : `Allow 2–3 revision rounds; rolling submission year-round.`;
 
   const similarHtml = item.similar.length
-    ? item.similar.map(p => `
+    ? item.similar.map(p=>`
       <div class="recommender-paper">
         <a href="${escHtml(p.url||'#')}" target="_blank" rel="noopener" class="text-sm font-semibold hover:underline">${escHtml(p.title)}</a>
         <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${escHtml(p.venue||v.short)} ${escHtml(String(p.year||''))}</div>
@@ -289,45 +471,51 @@ function renderResult(item, index) {
   <article class="recommender-result">
     <div class="recommender-result-head">
       <div class="recommender-result-title">
-        <div class="text-xs font-bold uppercase tracking-widest" style="color:var(--rs-muted)">#${index+1} recommendation</div>
-        <h2 class="text-lg font-bold mt-1">${escHtml(v.short)}${v.name&&v.name!==v.short?' — '+escHtml(v.name):''}</h2>
-        <div class="flex gap-1 flex-wrap items-center mt-2">
+        <div class="text-xs font-bold uppercase tracking-widest" style="color:var(--rs-muted)">#${index+1}</div>
+        <h2 class="text-lg font-bold mt-0.5">${escHtml(v.short)}${v.name&&v.name!==v.short?' — '+escHtml(v.name):''}</h2>
+        <div class="flex gap-1 flex-wrap items-center mt-1.5">
           <span class="badge ${item.fit.cls}">${item.fit.label}</span>
-          ${v.rank ? qBadge(v.rank === 'A*' ? 'Q1' : v.rank === 'A' ? 'Q2' : v.rank) : ''}
+          ${v.rank ? qBadge(v.rank==='A*'?'Q1':v.rank==='A'?'Q2':v.rank) : ''}
           <span class="badge badge-tag">${escHtml(v.field)}</span>
-          ${ifBadge}
-          ${oa}
+          ${ifBadge} ${oa}
         </div>
-        ${v.publisher ? `<p class="text-xs mt-1" style="color:var(--rs-muted)">${escHtml(v.publisher)}</p>` : ''}
+        <div class="flex items-center gap-2 mt-1">
+          ${v.publisher ? `<p class="text-xs" style="color:var(--rs-muted)">${escHtml(v.publisher)}</p>` : ''}
+          ${ifContext(v.impact_factor)}
+        </div>
         ${websiteLink ? `<div class="mt-1">${websiteLink}</div>` : ''}
       </div>
-      <div class="recommender-score">
-        <div class="text-xs font-semibold" style="color:var(--rs-muted)">Fit score</div>
-        <div class="text-2xl font-black" style="color:var(--rs-primary)">${Math.round(item.score)}</div>
-        <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${item.matched.length} signals</div>
+      <div class="score-ring-wrap">
+        <div class="score-ring-value">${Math.round(item.score)}</div>
+        <div class="text-xs" style="color:var(--rs-muted)">${item.matched.length} signals</div>
       </div>
     </div>
 
+    <div class="venue-rationale">${generateRationale(item)}</div>
+
     <div class="recommender-meter mt-3"><div class="recommender-meter-fill" style="width:${mw}%"></div></div>
     ${breakdownBars(item.breakdown, item.score)}
+    ${coverageBar}
+
+    ${strongHtml || moderateHtml ? `
+    <div class="mt-3">
+      <p class="text-xs font-bold uppercase mb-1.5" style="color:var(--rs-muted)">Matched signals</p>
+      ${strongHtml ? `<div class="flex flex-wrap gap-1 mb-1"><span class="text-xs" style="color:var(--rs-muted);min-width:4rem">Strong:</span>${strongHtml}</div>` : ''}
+      ${moderateHtml ? `<div class="flex flex-wrap gap-1"><span class="text-xs" style="color:var(--rs-muted);min-width:4rem">Partial:</span>${moderateHtml}</div>` : ''}
+    </div>` : ''}
 
     <div class="grid md:grid-cols-2 gap-4 mt-4">
       <div>
         <p class="text-xs font-bold uppercase mb-1" style="color:var(--rs-muted)">Review timeline</p>
-        <p class="text-sm font-semibold" style="color:var(--rs-text)">${escHtml(v.review_weeks)} weeks (typical)</p>
-        <p class="text-xs mt-1" style="color:var(--rs-muted)">Rolling submission — no fixed deadlines. Allow 2–3 revision rounds.</p>
+        <p class="text-sm font-semibold" style="color:var(--rs-text)">${escHtml(String(reviewWeeks))} weeks typical</p>
+        <p class="text-xs mt-1" style="color:var(--rs-muted)">${reviewNote}</p>
       </div>
       <div>
-        <p class="text-xs font-bold uppercase mb-1" style="color:var(--rs-muted)">Matched signals</p>
-        <p class="text-xs" style="color:var(--rs-muted)">${item.matched.length ? escHtml(item.matched.join(' · ')) : 'Mostly field or type match; topic overlap is weak.'}</p>
+        <p class="text-xs font-bold uppercase mb-2" style="color:var(--rs-muted)">Editor / reviewer expectations</p>
+        <ul class="text-sm space-y-1 list-disc list-inside" style="color:var(--rs-text)">
+          ${(v.expectations||[]).map(e=>`<li>${escHtml(e)}</li>`).join('')}
+        </ul>
       </div>
-    </div>
-
-    <div class="mt-4">
-      <p class="text-xs font-bold uppercase mb-2" style="color:var(--rs-muted)">Editor / reviewer expectations</p>
-      <ul class="text-sm space-y-1 list-disc list-inside">
-        ${(v.expectations||[]).map(e=>`<li>${escHtml(e)}</li>`).join('')}
-      </ul>
     </div>
 
     <div class="mt-4">
