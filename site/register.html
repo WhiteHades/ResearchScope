@@ -100,7 +100,7 @@
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-3">
-      <a href="index.html" class="flex items-center gap-2 font-bold text-lg" style="color:var(--rs-primary)">
+      <a href="./" class="flex items-center gap-2 font-bold text-lg" style="color:var(--rs-primary)">
         🔭 ResearchScope
       </a>
       <div class="ml-auto flex items-center gap-2">
@@ -142,7 +142,7 @@
       <h1 style="font-size:1.4rem;font-weight:700;color:var(--rs-text);margin:0 0 .3rem">Create your account</h1>
       <p style="font-size:.85rem;color:var(--rs-muted);margin:0 0 1.75rem">
         Already have one?
-        <a id="signin-link" href="signin.html"
+        <a id="signin-link" href="signin"
            style="color:var(--rs-primary);font-weight:600;text-decoration:none">
           Sign in →
         </a>
@@ -221,7 +221,7 @@
 <script>
 (function () {
   const params   = new URLSearchParams(window.location.search);
-  const returnTo = params.get('returnTo') || 'index.html';
+  const returnTo = params.get('returnTo') || './';
 
   // Already logged in — skip the page
   if (window._rs_api.auth.isLoggedIn()) {
@@ -231,7 +231,7 @@
 
   // Keep returnTo on the "Sign in" link
   const signInLink = document.getElementById('signin-link');
-  if (signInLink) signInLink.href = `signin.html?returnTo=${encodeURIComponent(returnTo)}`;
+  if (signInLink) signInLink.href = `signin?returnTo=${encodeURIComponent(returnTo)}`;
 
   function togglePwd(id, btn) {
     const input = document.getElementById(id);

@@ -302,7 +302,7 @@ function renderDropdown(results, query, dropdown) {
   if (papers.length) {
     html += `<div class="search-section-label">Papers</div>`;
     papers.forEach(p => {
-      html += `<a class="search-result-item" href="papers.html?q=${encodeURIComponent(p.title)}">
+      html += `<a class="search-result-item" href="papers?q=${encodeURIComponent(p.title)}">
         <div class="sr-title">${escHtml(p.title)}</div>
         <div class="sr-meta">${escHtml(p.venue || 'arXiv')} · ${p.year || ''}</div>
       </a>`;
@@ -312,7 +312,7 @@ function renderDropdown(results, query, dropdown) {
   if (authors.length) {
     html += `<div class="search-section-label">Authors</div>`;
     authors.forEach(a => {
-      html += `<a class="search-result-item" href="authors.html?q=${encodeURIComponent(a.name)}">
+      html += `<a class="search-result-item" href="authors?q=${encodeURIComponent(a.name)}">
         <div class="sr-title">${escHtml(a.name)}</div>
         <div class="sr-meta">${a.paper_ids?.length || 0} papers</div>
       </a>`;
@@ -322,14 +322,14 @@ function renderDropdown(results, query, dropdown) {
   if (topics.length) {
     html += `<div class="search-section-label">Topics</div>`;
     topics.forEach(t => {
-      html += `<a class="search-result-item" href="topics.html#${escHtml(t.id)}">
+      html += `<a class="search-result-item" href="topics#${escHtml(t.id)}">
         <div class="sr-title">${escHtml(t.name)}</div>
         <div class="sr-meta">${t.paper_ids?.length || 0} papers</div>
       </a>`;
     });
   }
 
-  html += `<a class="search-see-all" href="search.html?q=${encodeURIComponent(query)}">See all results →</a>`;
+  html += `<a class="search-see-all" href="search?q=${encodeURIComponent(query)}">See all results →</a>`;
   dropdown.innerHTML = html;
 }
 
@@ -357,7 +357,7 @@ function initSearch() {
 
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter' && input.value.trim()) {
-      window.location.href = `search.html?q=${encodeURIComponent(input.value.trim())}`;
+      window.location.href = `search?q=${encodeURIComponent(input.value.trim())}`;
     }
     if (e.key === 'Escape') {
       dropdown.classList.add('hidden');
@@ -402,7 +402,7 @@ function tweetPaperUrl(paper) {
   const venue   = [paper.venue, paper.year].filter(Boolean).join(' ');
   const score   = paper.paper_score ? ` | ⭐ ${(+paper.paper_score).toFixed(1)}/10` : '';
   const snippet = (paper.abstract || paper.summary || '').slice(0, 160);
-  const pageUrl = `https://kishormorol.github.io/ResearchScope/papers.html?q=${encodeURIComponent(paper.title || '')}`;
+  const pageUrl = `https://kishormorol.github.io/ResearchScope/papers?q=${encodeURIComponent(paper.title || '')}`;
   const text    = `📄 ${paper.title}\n${venue}${score}\n\n${snippet}…\n\n🔭 ResearchScope\n${pageUrl}\n\n#AIResearch #MachineLearning #ResearchScope`;
   return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
 }
@@ -473,7 +473,7 @@ function buildDropdownNav() {
   const mobLinks  = document.getElementById('rs-mob-links');
   if (!linksDiv && !mobLinks) return;
 
-  const page = window.location.pathname.split('/').pop() || 'index.html';
+  const page = window.location.pathname.split('/').pop() || './';
 
   function navLink(href, label) {
     const cls = 'rs-nav-top-link' + (href === page ? ' active' : '');
@@ -494,24 +494,24 @@ function buildDropdownNav() {
 
   if (linksDiv) {
     linksDiv.innerHTML =
-      navLink('papers.html', 'Papers') +
+      navLink('papers', 'Papers') +
       dropdown('Venues', [
-        ['conferences.html', '🎓 Conferences'],
-        ['journals.html',    '📖 Journals'],
+        ['conferences', '🎓 Conferences'],
+        ['journals',    '📖 Journals'],
         [null, null, true],
-        ['conference-recommender.html', 'Conference Recommender'],
-        ['journal-recommender.html',    'Journal Recommender'],
+        ['conference-recommender', 'Conference Recommender'],
+        ['journal-recommender',    'Journal Recommender'],
       ]) +
       dropdown('Discover', [
-        ['topics.html', 'Topics'],
-        ['gaps.html',   'Research Gaps'],
-        ['digest.html', '📬 Digest'],
+        ['topics', 'Topics'],
+        ['gaps',   'Research Gaps'],
+        ['digest', '📬 Digest'],
       ]) +
       dropdown('People', [
-        ['authors.html', 'Authors'],
-        ['labs.html',    'Labs & Unis'],
+        ['authors', 'Authors'],
+        ['labs',    'Labs & Unis'],
       ]) +
-      navLink('deadlines.html', '📅 Deadlines');
+      navLink('deadlines', '📅 Deadlines');
   }
 
   if (mobLinks) {
@@ -519,22 +519,22 @@ function buildDropdownNav() {
       `<a href="${href}" class="mobile-nav-link${href === page ? ' active' : ''}">${lbl}</a>`;
     const sec = t => `<p class="mobile-nav-section">${t}</p>`;
     mobLinks.innerHTML =
-      ml('index.html',  'Home') +
-      ml('papers.html', 'Papers') +
+      ml('./',  'Home') +
+      ml('papers', 'Papers') +
       sec('Venues') +
-      ml('conferences.html',           '🎓 Conferences') +
-      ml('journals.html',              '📖 Journals') +
-      ml('conference-recommender.html','Conference Recommender') +
-      ml('journal-recommender.html',   'Journal Recommender') +
+      ml('conferences',           '🎓 Conferences') +
+      ml('journals',              '📖 Journals') +
+      ml('conference-recommender','Conference Recommender') +
+      ml('journal-recommender',   'Journal Recommender') +
       sec('Discover') +
-      ml('topics.html', 'Topics') +
-      ml('gaps.html',   'Research Gaps') +
-      ml('digest.html', '📬 Digest') +
+      ml('topics', 'Topics') +
+      ml('gaps',   'Research Gaps') +
+      ml('digest', '📬 Digest') +
       sec('People') +
-      ml('authors.html',    'Authors') +
-      ml('labs.html',       'Labs & Unis') +
-      ml('deadlines.html',  '📅 Deadlines') +
-      ml('favourites.html', '⭐ My Favourites');
+      ml('authors',    'Authors') +
+      ml('labs',       'Labs & Unis') +
+      ml('deadlines',  '📅 Deadlines') +
+      ml('favourites', '⭐ My Favourites');
   }
 }
 
@@ -547,7 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (toggle) toggle.addEventListener('click', toggleTheme);
 
   // Highlight active nav link (desktop + mobile) — runs after buildDropdownNav
-  const path = window.location.pathname.split('/').pop() || 'index.html';
+  const path = window.location.pathname.split('/').pop() || './';
   document.querySelectorAll('.rs-nav a[href], .mobile-nav-link').forEach(a => {
     if (a.getAttribute('href') === path) a.classList.add('active');
   });

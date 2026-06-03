@@ -15,20 +15,20 @@
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-2">
-      <a href="index.html" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">
         🔭 ResearchScope
       </a>
       <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1">
-        <a href="papers.html">Papers</a>
-        <a href="topics.html">Topics</a>
-        <a href="digest.html">📬 Digest</a>
-        <a href="conferences.html">Conferences</a>
-        <a href="journals.html">Journals</a>
+        <a href="papers">Papers</a>
+        <a href="topics">Topics</a>
+        <a href="digest">📬 Digest</a>
+        <a href="conferences">Conferences</a>
+        <a href="journals">Journals</a>
         
-        <a href="authors.html">Authors</a>
-        <a href="labs.html">Labs &amp; Unis</a>
-        <a href="gaps.html">Research Gaps</a>
-        <a href="deadlines.html">📅 Upcoming</a>
+        <a href="authors">Authors</a>
+        <a href="labs">Labs &amp; Unis</a>
+        <a href="gaps">Research Gaps</a>
+        <a href="deadlines">📅 Upcoming</a>
       </div>
       <div class="flex items-center gap-2 justify-end" style="flex:1">
         <!-- Global search -->
@@ -59,17 +59,17 @@
   <!-- Mobile menu -->
   <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-border);background:var(--rs-surface)">
     <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
-      <a href="index.html" class="mobile-nav-link">Home</a>
-      <a href="papers.html" class="mobile-nav-link">Papers</a>
-      <a href="topics.html" class="mobile-nav-link">Topics</a>
-      <a href="digest.html" class="mobile-nav-link">📬 Weekly Digest</a>
-      <a href="conferences.html" class="mobile-nav-link">Conferences</a>
-      <a href="journals.html" class="mobile-nav-link">Journals</a>
+      <a href="./" class="mobile-nav-link">Home</a>
+      <a href="papers" class="mobile-nav-link">Papers</a>
+      <a href="topics" class="mobile-nav-link">Topics</a>
+      <a href="digest" class="mobile-nav-link">📬 Weekly Digest</a>
+      <a href="conferences" class="mobile-nav-link">Conferences</a>
+      <a href="journals" class="mobile-nav-link">Journals</a>
       
-      <a href="authors.html" class="mobile-nav-link">Authors</a>
-      <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
-      <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
-      <a href="deadlines.html" class="mobile-nav-link">📅 Upcoming Conferences</a>
+      <a href="authors" class="mobile-nav-link">Authors</a>
+      <a href="labs" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines" class="mobile-nav-link">📅 Upcoming Conferences</a>
     </div>
   </div>
 </nav>
@@ -173,7 +173,7 @@
           <span class="font-medium">${escHtml(a.name)}</span>
           <span class="text-xs ml-2" style="color:var(--rs-muted)">${a.paper_ids?.length || 0} papers</span>
         </div>
-        <a href="authors.html?q=${encodeURIComponent(a.name)}" class="text-xs font-medium hover:underline" style="color:var(--rs-primary)">View →</a>
+        <a href="authors?q=${encodeURIComponent(a.name)}" class="text-xs font-medium hover:underline" style="color:var(--rs-primary)">View →</a>
       </div>`).join('');
 
     // Topics
@@ -184,7 +184,7 @@
           <span class="font-medium">${escHtml(t.name)}</span>
           <span class="text-xs ml-2" style="color:var(--rs-muted)">${t.paper_ids?.length || 0} papers</span>
         </div>
-        <a href="topics.html#${escHtml(t.id)}" class="text-xs font-medium hover:underline" style="color:var(--rs-primary)">View →</a>
+        <a href="topics#${escHtml(t.id)}" class="text-xs font-medium hover:underline" style="color:var(--rs-primary)">View →</a>
       </div>`).join('');
 
     status.textContent = total

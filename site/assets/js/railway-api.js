@@ -6,7 +6,7 @@
  *
  * Fallback chain: Railway API → Supabase → static JSON
  * Sign-in is NEVER required for browsing — only for favourites.
- * Auth UI lives on dedicated signin.html / register.html pages.
+ * Auth UI lives on dedicated signin / register pages.
  */
 
 const RS_API = 'https://researchscope-production.up.railway.app';
@@ -289,7 +289,7 @@ function _showUserMenu() {
   menu.id = 'rs-user-menu';
   menu.innerHTML = `
     <div style="padding:.6rem 1rem;font-size:.75rem;color:var(--rs-muted,#888);border-bottom:1px solid var(--rs-border,#e5e7eb)">${escHtml(user?.email || '')}</div>
-    <a href="favourites.html">⭐ My Favourites</a>
+    <a href="favourites">⭐ My Favourites</a>
     <button onclick="rsLogout()">Sign out</button>`;
   wrap.appendChild(menu);
 
@@ -301,14 +301,14 @@ function _showUserMenu() {
 // ── Auth navigation helpers ───────────────────────────────────────────────────
 
 window.rsOpenModal = function(returnTo) {
-  const page = returnTo || window.location.pathname.split('/').pop() || 'index.html';
-  window.location.href = `signin.html?returnTo=${encodeURIComponent(page)}`;
+  const page = returnTo || window.location.pathname.split('/').pop() || './';
+  window.location.href = `signin?returnTo=${encodeURIComponent(page)}`;
 };
 
 window.rsLogout = function() {
   _authApi.logout();
-  if (window.location.pathname.endsWith('favourites.html')) {
-    window.location.href = 'index.html';
+  if (window.location.pathname.endsWith('favourites')) {
+    window.location.href = './';
   }
 };
 
