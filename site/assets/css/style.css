@@ -45,6 +45,80 @@ body {
   color: var(--rs-primary);
 }
 
+/* ── Nav dropdowns ───────────────────────────────── */
+.rs-nav-dd {
+  position: relative;
+}
+.rs-nav-dd-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--rs-muted);
+  padding: 0.25rem 0.4rem;
+  border-radius: 0.375rem;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+.rs-nav-dd-btn:hover,
+.rs-nav-dd-btn.active { color: var(--rs-primary); }
+.rs-nav-dd-arrow {
+  font-size: 0.6rem;
+  opacity: 0.7;
+  transition: transform 0.15s;
+}
+.rs-nav-dd:hover .rs-nav-dd-arrow { transform: rotate(180deg); }
+.rs-nav-dd-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--rs-surface);
+  border: 1px solid var(--rs-border);
+  border-radius: 0.6rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,.13);
+  min-width: 200px;
+  z-index: 200;
+  padding: 0.3rem 0;
+  overflow: hidden;
+}
+.rs-nav-dd:hover .rs-nav-dd-menu,
+.rs-nav-dd:focus-within .rs-nav-dd-menu { display: block; }
+.rs-nav-dd-menu a {
+  display: block;
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  color: var(--rs-text);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.12s;
+}
+.rs-nav-dd-menu a:hover,
+.rs-nav-dd-menu a.active {
+  background: var(--rs-bg);
+  color: var(--rs-primary);
+}
+.rs-nav-dd-divider {
+  height: 1px;
+  background: var(--rs-border);
+  margin: 0.3rem 0;
+}
+.mobile-nav-section {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--rs-muted);
+  padding: 0.6rem 1rem 0.2rem;
+  pointer-events: none;
+}
+
 /* ── Global search ───────────────────────────────── */
 .search-wrap {
   position: relative;
