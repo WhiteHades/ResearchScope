@@ -3,13 +3,145 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Redirecting to My Library</title>
-  <meta http-equiv="refresh" content="0; url=library.html"/>
-  <script>
-    window.location.replace(`library.html${window.location.search}${window.location.hash}`);
-  </script>
+  <title>My Favourites – ResearchScope</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
 <body>
-  <p>Redirecting to <a href="library.html">My Library</a>...</p>
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center h-14 gap-2">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">
+        🔭 ResearchScope
+      </a>
+      <div class="hidden lg:flex items-center justify-center gap-3 text-sm font-medium whitespace-nowrap flex-1">
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">📬 Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">📅 Upcoming</a>
+      </div>
+      <div class="flex items-center gap-2 justify-end" style="flex:1">
+        <div class="search-wrap hidden lg:block">
+          <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+          </svg>
+          <input id="global-search" class="search-input" type="search" placeholder="Search papers, authors…" autocomplete="off"/>
+          <div id="search-dropdown" class="search-dropdown hidden"></div>
+        </div>
+        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <h1 class="text-2xl font-bold mb-2">⭐ My Favourites</h1>
+  <p class="text-sm mb-6" style="color:var(--rs-muted)">Papers you've saved. Sign in to sync across devices.</p>
+
+  <!-- Not logged in state -->
+  <div id="fav-gate" class="hidden rs-card p-8 text-center">
+    <p class="text-lg font-medium mb-2">Sign in to see your favourites</p>
+    <p class="text-sm mb-4" style="color:var(--rs-muted)">Your saved papers are synced to your account.</p>
+    <button onclick="rsOpenModal()" class="px-5 py-2 rounded-lg text-white font-semibold" style="background:var(--rs-primary)">Sign in / Register</button>
+  </div>
+
+  <!-- Loading -->
+  <div id="fav-loading"><div class="spinner"></div></div>
+
+  <!-- Papers list -->
+  <div id="fav-list" class="hidden space-y-3"></div>
+
+  <!-- Empty -->
+  <div id="fav-empty" class="hidden rs-card p-8 text-center">
+    <p class="text-lg font-medium mb-2">No favourites yet</p>
+    <p class="text-sm" style="color:var(--rs-muted)">Star papers while browsing to save them here.</p>
+    <a href="papers.html" class="inline-block mt-4 px-5 py-2 rounded-lg text-white font-semibold" style="background:var(--rs-primary)">Browse Papers</a>
+  </div>
+</div>
+
+<footer class="border-t py-6 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
+  <p>🔭 ResearchScope &middot; <a href="index.html" style="color:var(--rs-primary)">Home</a></p>
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/railway-api.js"></script>
+<script>
+function show(id)  { document.getElementById(id)?.classList.remove('hidden'); }
+function hide(id)  { document.getElementById(id)?.classList.add('hidden'); }
+
+function renderFavs(favs) {
+  hide('fav-loading');
+  if (!favs.length) { show('fav-empty'); return; }
+
+  show('fav-list');
+  document.getElementById('fav-list').innerHTML = favs.map(fav => {
+    const p   = fav.paper || {};
+    const url = p.paper_url || '#';
+    return `
+    <div class="rs-card p-4 flex items-start gap-3">
+      <div class="flex-1 min-w-0">
+        <a href="${escHtml(url)}" target="_blank" class="font-semibold text-sm hover:underline" style="color:var(--rs-primary)">${escHtml(p.title || 'Untitled')}</a>
+        <p class="text-xs mt-0.5" style="color:var(--rs-muted)">
+          ${escHtml((p.authors || []).slice(0,3).join(', '))} &middot;
+          ${escHtml(p.venue || 'arXiv')} ${p.year || ''}
+          ${p.paper_score ? ` · ⭐ ${(+p.paper_score).toFixed(1)}` : ''}
+        </p>
+        ${p.abstract ? `<p class="text-xs mt-1.5 line-clamp-2" style="color:var(--rs-muted)">${escHtml(p.abstract.slice(0,180))}…</p>` : ''}
+      </div>
+      <button onclick="removeFav('${escHtml(fav.paper_id)}')" title="Remove"
+        class="shrink-0 text-xs px-2 py-1 rounded border hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-colors"
+        style="border-color:var(--rs-border);color:var(--rs-muted)">✕</button>
+    </div>`;
+  }).join('');
+}
+
+async function removeFav(paperId) {
+  try {
+    await window._rs_api.favourites.remove(paperId);
+    loadFavs();
+  } catch (e) {
+    alert('Could not remove: ' + e.message);
+  }
+}
+
+async function loadFavs() {
+  hide('fav-list'); hide('fav-empty'); hide('fav-gate');
+  show('fav-loading');
+
+  if (!window._rs_api.auth.isLoggedIn()) {
+    hide('fav-loading');
+    show('fav-gate');
+    return;
+  }
+
+  try {
+    const favs = await window._rs_api.favourites.list();
+    renderFavs(favs);
+  } catch (e) {
+    hide('fav-loading');
+    if (e.status === 401) { show('fav-gate'); }
+    else { showEmpty('fav-list', 'Could not load favourites: ' + e.message); show('fav-list'); }
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Re-check auth after modal closes (user just logged in)
+  const obs = new MutationObserver(() => {
+    const modal = document.getElementById('rs-auth-modal');
+    if (modal?.classList.contains('hidden')) loadFavs();
+  });
+  setTimeout(() => {
+    const modal = document.getElementById('rs-auth-modal');
+    if (modal) obs.observe(modal, { attributes: true, attributeFilter: ['class'] });
+    loadFavs();
+  }, 100);
+});
+</script>
 </body>
 </html>
