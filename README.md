@@ -2,16 +2,16 @@
 
 # ResearchScope
 
-**Research intelligence for CS/AI papers — track what matters, who drives it, what to read first.**
+**CS Research Intelligence Platform — 83,000+ papers, scored, ranked, and searchable.**
 
-Stop skimming paper lists. ResearchScope scores, tags, and surfaces the papers that actually move your field.
+Stop skimming paper lists. ResearchScope scores papers by impact, surfaces research gaps, recommends venues, and tracks who's driving the frontier — updated daily.
 
 [![Live Site](https://img.shields.io/badge/Live%20Site-kishormorol.github.io%2FResearchScope-7c3aed?style=for-the-badge&logo=github)](https://kishormorol.github.io/ResearchScope/)
+[![API](https://img.shields.io/badge/API-Railway-0B0D0E?style=for-the-badge&logo=railway)](https://researchscope-production.up.railway.app/docs)
+[![HF Dataset](https://img.shields.io/badge/Dataset-HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)](https://huggingface.co/datasets/kishormorol/researchscope-papers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
-[![Python](https://img.shields.io/badge/Pipeline-Python%203.10%2B-3b82f6?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Pipeline-Python%203.11-3b82f6?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-f59e0b?style=for-the-badge&logo=githubactions&logoColor=white)](.github/workflows)
-[![arXiv](https://img.shields.io/badge/Data-arXiv%20%2B%20Conferences-b91c1c?style=for-the-badge)](https://arxiv.org)
-[![Supabase](https://img.shields.io/badge/Database-Supabase-3ecf8e?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
 
 <br/>
 
@@ -23,9 +23,15 @@ Stop skimming paper lists. ResearchScope scores, tags, and surfaces the papers t
 
 ## What is ResearchScope?
 
-ResearchScope is an **open research intelligence dashboard** for computer science and AI papers. A GitHub Actions pipeline runs daily, fetches papers from **arXiv** (all 19 cs.* categories) and **20+ major conferences** (NeurIPS, ICML, ICLR, CVPR, ACL, KDD, AAAI, SIGIR, and more), enriches them with multi-signal scores, detects research gaps, and persists everything to a **Supabase PostgreSQL database**. The frontend is hosted on GitHub Pages and queries Supabase directly — no file-size caps, no rolling windows, no limits.
+ResearchScope is an **open research intelligence platform** for computer science and AI. A daily GitHub Actions pipeline fetches papers from **6 data sources** (arXiv, OpenAlex, ACL Anthology, OpenReview, PMLR, CVF, Semantic Scholar), enriches them with multi-signal scores, detects research gaps, and syncs to three backends:
 
-👉 **[Open ResearchScope](https://kishormorol.github.io/ResearchScope/)**
+- **Supabase** — full dataset, live browser queries
+- **Railway PostgreSQL** — powers the REST API with full-text search
+- **Hugging Face Hub** — public JSONL dataset for LLM training
+
+The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** on Railway.
+
+👉 **[Open ResearchScope](https://kishormorol.github.io/ResearchScope/)** · 📖 **[API Docs](https://researchscope-production.up.railway.app/docs)**
 
 ---
 
@@ -33,15 +39,14 @@ ResearchScope is an **open research intelligence dashboard** for computer scienc
 
 | Date | Highlight |
 |---|---|
-| **May 2026** | **60,000+ Papers** — Expanded conference coverage: ICML (2020–25), AISTATS, UAI, CVPR (2021–25), ICCV, ECCV, ICLR/NeurIPS (2022+), plus S2 bulk fetch for AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE. Conference JSON cap raised to 20,000; Supabase stores all. |
-| **May 2026** | **Supabase Backend** — All papers, authors, topics, gaps, and labs live in a Supabase PostgreSQL database. Every page queries Supabase directly — no file-size caps, no rolling windows. The full dataset is always browsable. |
-| **May 2026** | **Full Dataset Access** — The papers browser now shows all papers with server-side filtering and pagination. Search covers the entire database live. |
-| **Apr 2026** | **CiteLens Integration** — Every arXiv paper card now has an "🔍 Analyze citations" button that opens [CiteLens](https://kishormorol.github.io/CiteLens/) with the paper pre-loaded to see who cited it and why it mattered. |
-| **Apr 2026** | **Topic Network Graph** — Interactive force-directed graph on the Topics page visualising relationships between 80+ research areas. |
-| **Apr 2026** | **Institution & Author Prestige Scoring** — Papers from top labs (OpenAI, DeepMind, Google Research, MIT, Stanford…) and renowned researchers get a scoring boost. |
-| **Apr 2026** | **Conference Papers Database** — Permanent store covering NeurIPS, ICML, ICLR, CVPR, ICCV, ECCV, ACL, EMNLP, NAACL and more. Conference papers never expire. |
-| **Mar 2026** | **My Library** — Save papers to a browser-local personal library (localStorage). No account required. |
-| **Mar 2026** | **Conference Recommender** — Paste a title and abstract to get ranked venue matches with deadlines and reviewer expectations. |
+| **Jun 2026** | **Journal Recommender** — paste title + abstract to match against 20 Q1 journals (JMLR, TPAMI, Nature MI, CSUR…) with impact factor, review timeline, and open access info |
+| **Jun 2026** | **FastAPI Backend on Railway** — full REST API with JWT auth, favourites, PostgreSQL full-text search (83K+ papers). User accounts synced across devices |
+| **Jun 2026** | **OpenAlex Integration** — 250M+ work catalogue added as a data source, covering ML/NLP/CV/IR concept groups |
+| **Jun 2026** | **HuggingFace Training Dataset** — `kishormorol/researchscope-papers` auto-pushed after every pipeline run: raw metadata JSONL + instruction-tuning pairs |
+| **Jun 2026** | **20 Q1 Journals** — JMLR, TMLR, TACL, TPAMI, IJCV, AIJ, TNNLS, Nature MI, CSUR, TIP, MLJ, TKDE, DAMI, NN, PR, CL, IPM, JACM, NatComms, TOIS |
+| **May 2026** | **Complete A* Coverage** — AAAI, IJCAI, CHI, SIGIR, WWW, KDD, WSDM, SIGMOD, ICSE bulk-fetched via Semantic Scholar |
+| **Apr 2026** | **Conference Recommender** — TF-IDF venue matching with deadline info and reviewer expectations |
+| **Apr 2026** | **CiteLens Integration** — one-click citation analysis for any arXiv paper |
 
 ---
 
@@ -49,92 +54,111 @@ ResearchScope is an **open research intelligence dashboard** for computer scienc
 
 | Feature | Description |
 |---|---|
-| 📄 **Paper intelligence** | 60,000+ arXiv + conference papers scored by recency, venue rank, author prestige, and novelty |
-| 🗄 **Supabase backend** | Full dataset stored in PostgreSQL — no caps, no rolling windows, server-side filtering and search |
-| 🔍 **Analyze citations** | One-click handoff to [CiteLens](https://kishormorol.github.io/CiteLens/) to see who cited any arXiv paper, ranked by impact |
-| 👩‍🔬 **Author & lab intelligence** | Track 5,000+ prolific authors and their momentum scores; lab and university output profiles |
-| 🗺 **Topic network graph** | Interactive graph of 80+ research areas with reading packs by difficulty |
-| 🕳 **Research gap explorer** | Surface under-explored areas across 3 gap types: explicit, pattern-detected, and starter ideas |
-| 🎯 **Conference recommender** | Paste title + abstract → ranked venue matches with acceptance context |
-| 📚 **My Library** | Personal browser-local paper saves with FIFO ordering, persistent across reloads |
-| ⚡ **Live search** | Global search queries Supabase directly — results from the full 60,000+ paper dataset |
-
----
-
-## Works with CiteLens
-
-ResearchScope and [CiteLens](https://kishormorol.github.io/CiteLens/) are companion tools that cover the full research workflow:
-
-```
-ResearchScope  ──── "Here's a paper worth reading today"
-                              │
-                    🔍 Analyze citations
-                              │
-                              ▼
-CiteLens  ──────── "Here's who cited it and why it mattered"
-                              │
-                    🔭 Browse topic in ResearchScope
-                              │
-                              ▼
-ResearchScope  ──── "Discover more papers on this topic"
-```
-
-- **ResearchScope → CiteLens**: click "🔍 Analyze citations" on any arXiv paper card
-- **CiteLens → ResearchScope**: click "🔭 ResearchScope" on any citing paper result
-
-Both tools share the same `SEMANTIC_SCHOLAR_API_KEY` secret — one key covers both projects.
-
----
-
-## Data Sources
-
-| Source | Content | Update frequency |
-|---|---|---|
-| **arXiv (OAI-PMH)** | All cs.* preprints — 19 CoRR categories | Daily |
-| **ACL Anthology** | ACL, EMNLP, NAACL, EACL, COLING, TACL (2020+) | Monthly |
-| **OpenReview** | ICLR (2022–25), NeurIPS (2022–24), COLM (2024–25) | Monthly |
-| **PMLR** | ICML (2020–25), AISTATS (2021–25), UAI (2021–24) | Monthly |
-| **CVF** | CVPR (2021–25), ICCV (2021+23), ECCV (2020+22+24) | Monthly |
-| **Semantic Scholar** | AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE (2021–24) + affiliation enrichment | Monthly |
+| 📄 **83K+ papers** | Scored by recency, venue rank, novelty, author prestige, and citation quality |
+| 🎓 **A* Conference coverage** | NeurIPS, ICML, ICLR, CVPR, ACL, EMNLP, AAAI, IJCAI, CHI, SIGIR, WWW, KDD and more |
+| 📖 **20 Q1 Journals** | JMLR, TMLR, TACL, TPAMI, Nature MI, and 15 more — with IF, review time, OA status |
+| 🎯 **Venue Recommenders** | Conference + Journal recommenders: paste abstract → ranked matches with expectations |
+| 🔍 **Full-text search** | PostgreSQL `tsvector` search across 83K papers via Railway API |
+| 👤 **User accounts** | JWT auth, favourites synced across devices via Railway backend |
+| 🕳 **Research gaps** | 3-layer extraction: explicit, pattern-detected, and starter ideas |
+| 👩‍🔬 **Author intelligence** | 5,000+ researchers ranked by momentum score |
+| 🤗 **LLM training data** | `papers.jsonl` + `instruct.jsonl` on HuggingFace Hub |
+| 🔗 **CiteLens** | One-click handoff to citation analysis for arXiv papers |
 
 ---
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    GitHub Actions                        │
-│         (daily weekdays + monthly conference sync)       │
-│                                                          │
-│  src/pipeline.py  — 11 sequential stages                 │
-│    ├── connectors/    arXiv · ACL · OpenReview · PMLR   │
-│    │                  CVF · Semantic Scholar             │
-│    ├── dedup/         Jaccard title-similarity dedup     │
-│    ├── tagging/       80+ topic tags + paper_type        │
-│    ├── difficulty/    L1–L4 reading level                │
-│    ├── scoring/       4 scores + author momentum         │
-│    ├── content/       summaries, tweets, LinkedIn posts  │
-│    ├── clustering/    topic grouping                     │
-│    ├── gaps/          3-layer research gap extraction    │
-│    ├── aggregation/   author, lab, university profiles   │
-│    └── sitegen/       → data/*.json + Supabase upsert   │
-└───────────────┬──────────────────────┬──────────────────┘
-                │ commits + deploys    │ upserts all data
-                ▼                      ▼
-       site/ (GitHub Pages)     Supabase PostgreSQL
-         index.html               papers       (60,000+, no cap)
-         papers.html              authors      (5,000+)
-         topics.html              topics       (150+)
-         authors.html             gaps         (100+)
-         labs.html                labs         (unlimited)
-         gaps.html
-         conferences.html                ▲
-         deadlines.html                  │ REST API (anon key)
-         digest.html                     │
-         library.html            Frontend queries Supabase
-         search.html             directly for all live data
-         conference-recommender.html
+┌──────────────────────────────────────────────────────────────────────┐
+│                         GitHub Actions                               │
+│              daily (weekdays) + monthly (conference sync)            │
+│                                                                      │
+│  src/pipeline.py — 11 stages                                         │
+│    ├── connectors/   arXiv · OpenAlex · ACL · OpenReview · PMLR     │
+│    │                 CVF · Semantic Scholar                           │
+│    ├── dedup/        Jaccard title-similarity dedup                   │
+│    ├── tagging/      80+ topic tags + paper_type                     │
+│    ├── difficulty/   L1–L4 reading level                             │
+│    ├── scoring/      4 scores + author momentum                      │
+│    ├── content/      summaries, key contributions, why-it-matters    │
+│    ├── clustering/   topic grouping                                   │
+│    ├── gaps/         3-layer research gap extraction                 │
+│    ├── aggregation/  author, lab, university profiles                │
+│    └── sitegen/      → site/data/*.json                              │
+│                      → Supabase upsert (all papers)                  │
+│                      → Railway PostgreSQL upsert (API backend)       │
+│                      → HuggingFace Hub push (JSONL dataset)          │
+└────────┬─────────────────────────┬──────────────────────────────────┘
+         │ commits + deploys       │ syncs                │ pushes
+         ▼                         ▼                      ▼
+  GitHub Pages              Railway PostgreSQL      HuggingFace Hub
+  (static site)             FastAPI REST API        researchscope-papers
+                            /papers /search          papers.jsonl
+                            /auth   /favourites      instruct.jsonl
+                            /docs   (Swagger UI)
+         ▲                         ▲
+         │ reads static JSON       │ Railway API + Supabase fallback
+         └─────────────────────────┘
+              Frontend (browser)
 ```
+
+---
+
+## API
+
+The REST API is live at **`https://researchscope-production.up.railway.app`**.
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/papers` | Paginated papers — filter by `venue`, `year`, `source_type`, `tag` |
+| `GET` | `/papers/conferences` | Conference papers only |
+| `GET` | `/papers/journals` | Journal papers only |
+| `GET` | `/papers/{id}` | Single paper |
+| `GET` | `/search?q=...` | PostgreSQL full-text search |
+| `POST` | `/auth/register` | Create account → JWT |
+| `POST` | `/auth/login` | Login → JWT |
+| `GET` | `/auth/me` | Current user |
+| `GET` | `/favourites` | Saved papers (auth required) |
+| `POST` | `/favourites/{id}` | Save paper |
+| `DELETE` | `/favourites/{id}` | Remove saved paper |
+| `POST` | `/pipeline/trigger` | Trigger pipeline via GitHub Actions |
+
+Interactive docs: **[/docs](https://researchscope-production.up.railway.app/docs)**
+
+---
+
+## LLM Training Dataset
+
+The paper dataset is published on HuggingFace and auto-updated after every pipeline run.
+
+```python
+from datasets import load_dataset
+
+# 83K+ raw paper records (pretraining / RAG)
+papers = load_dataset("kishormorol/researchscope-papers",
+                      data_files="data/papers.jsonl", split="train")
+
+# Instruction-tuning pairs (summarize, key contribution, why it matters…)
+instruct = load_dataset("kishormorol/researchscope-papers",
+                        data_files="data/instruct.jsonl", split="train")
+```
+
+→ **[huggingface.co/datasets/kishormorol/researchscope-papers](https://huggingface.co/datasets/kishormorol/researchscope-papers)**
+
+---
+
+## Data Sources
+
+| Source | Content | Frequency |
+|---|---|---|
+| **arXiv (OAI-PMH)** | All cs.* preprints — 19 CoRR categories | Daily |
+| **OpenAlex** | 250M+ works — ML/NLP/CV/IR concept groups | Daily |
+| **ACL Anthology** | ACL, EMNLP, NAACL, EACL, COLING, TACL, CL (2020+) | Monthly |
+| **OpenReview** | ICLR (2022–25), NeurIPS (2022–24), COLM (2024–25) | Monthly |
+| **PMLR** | ICML (2020–25), AISTATS (2021–25), UAI (2021–24) | Monthly |
+| **CVF** | CVPR (2021–25), ICCV (2021+23), ECCV (2020+22+24) | Monthly |
+| **Semantic Scholar** | AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE + journals | Monthly |
 
 ---
 
@@ -142,46 +166,61 @@ Both tools share the same `SEMANTIC_SCHOLAR_API_KEY` secret — one key covers b
 
 ```
 .github/workflows/
-  update.yml              # daily pipeline + Pages deploy (weekdays)
-  conference-sync.yml     # monthly full conference sync
+  pipeline.yml            # daily arXiv + OpenAlex pipeline
+  conference-sync.yml     # monthly full conference + journal sync
   backfill.yml            # manual historical backfill
   discord-potd.yml        # daily Paper of the Day → Discord
+backend/                  # FastAPI REST API (deployed on Railway)
+  app/
+    main.py               # FastAPI app with CORS, lifespan
+    database.py           # async SQLAlchemy + asyncpg
+    models.py             # Paper, User, Favourite ORM models
+    schemas.py            # Pydantic v2 schemas
+    auth.py               # JWT + bcrypt
+    routers/
+      papers.py           # GET /papers /conferences /journals
+      search.py           # GET /search (PostgreSQL full-text)
+      auth.py             # POST /auth/register /login GET /me
+      favourites.py       # GET POST DELETE /favourites
+      pipeline.py         # POST /pipeline/trigger
+  requirements.txt
+  railway.toml
 src/
   pipeline.py             # 11-stage orchestrator
-  connectors/             # arXiv, ACL, OpenReview, PMLR, CVF, S2
-  dedup/                  # Jaccard title deduplication
-  tagging/                # 80+ topic tags + paper_type
-  difficulty/             # L1–L4 difficulty assessor
-  scoring/                # 4 scores + author momentum scorer
-  content/                # rule-based content enrichment
-  clustering/             # topic clustering
-  gaps/                   # 3-layer gap extractor
-  aggregation/            # author, lab, university builder
-  sitegen/                # JSON writer + conference recommender
+  connectors/
+    arxiv_connector.py
+    openalex_connector.py # NEW — 250M+ OpenAlex works
+    acl_connector.py
+    openreview_connector.py
+    pmlr_connector.py
+    cvf_connector.py
+    semantic_scholar_connector.py
   storage/
-    supabase_store.py     # upserts all data to Supabase after each run
-supabase/
-  schema.sql              # PostgreSQL schema (run once in Supabase dashboard)
-scripts/
-  discord_potd.py         # Paper of the Day → Discord webhook
-  migrate_to_supabase.py  # one-time migration of existing JSON data
-site/
-  index.html              # homepage
-  papers.html             # paper browser — queries Supabase (all papers)
-  topics.html             # topic browser + interactive network graph
-  authors.html / labs.html / gaps.html / conferences.html
-  deadlines.html / digest.html / library.html / search.html
-  conference-recommender.html
-  assets/css/
-  assets/js/
-    app.js                # shared utilities
-    supabase-client.js    # Supabase query helpers (anon key, public)
-    library.js / library-page.js / topic-graph.js
+    supabase_store.py     # Supabase upsert
+    railway_store.py      # Railway PostgreSQL upsert
+    hf_dataset.py         # HuggingFace Hub push
+  sitegen/
+    generator.py
+    conference_recommender.py
+    journal_recommender.py  # NEW — 20 Q1 journals
 config/
+  venues.yaml             # conferences + journals registry
   topics.yaml             # topic taxonomy
   weights.yaml            # tuneable score weights
-  venues.yaml             # conference registry with ranks
-data/                     # generated JSON (committed by CI, fast fallback)
+site/                     # static frontend (GitHub Pages)
+  index.html              # homepage
+  papers.html             # paper browser
+  conferences.html        # A* conference papers
+  journals.html           # Q1 journal papers
+  journal-recommender.html    # NEW
+  conference-recommender.html
+  topics.html / authors.html / labs.html
+  gaps.html / digest.html / deadlines.html
+  search.html / favourites.html / library.html
+  assets/js/
+    app.js                # shared utilities + dropdown nav
+    railway-api.js        # Railway API client + auth modal
+    supabase-client.js    # Supabase fallback queries
 tests/                    # pytest suite (110+ tests)
 ```
 
@@ -193,93 +232,89 @@ tests/                    # pytest suite (110+ tests)
 # Clone and install
 git clone https://github.com/kishormorol/ResearchScope.git
 cd ResearchScope
-
-python -m venv .venv
-source .venv/bin/activate    # Windows: .venv\Scripts\activate
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# Run the pipeline locally (writes JSON to data/)
+# Run the full pipeline locally
 python src/pipeline.py
+
+# Conference + journal sync only
+python src/pipeline.py --conferences-only
 
 # Run tests
 python -m pytest tests/ -v
 
-# Serve the site locally
+# Serve the frontend
 cd site && python -m http.server 8080
+
+# Run the API locally
+cd backend
+pip install -r requirements.txt
+DATABASE_URL=postgresql://... uvicorn app.main:app --reload
 ```
 
 ### Environment variables
 
-| Variable | Required | Description |
+| Variable | Where | Description |
 |---|---|---|
-| `SUPABASE_URL` | Yes | Your Supabase project URL (e.g. `https://xxx.supabase.co`). Add as a GitHub Actions secret. |
-| `SUPABASE_SERVICE_ROLE_KEY` | Yes | Supabase service role key — grants write access for the pipeline. Add as a GitHub Actions secret. |
-| `SUPABASE_ANON_KEY` | Frontend only | Public anon key used by the browser. Already embedded in `supabase-client.js`. |
-| `SEMANTIC_SCHOLAR_API_KEY` | Optional | Raises S2 rate limit from 1 req/s to 10 req/s. Add as a GitHub Actions secret. |
-| `OPENAI_API_KEY` | Optional | Enables AI-generated summaries and content fields. |
-| `ANTHROPIC_API_KEY` | Optional | Alternative to OpenAI for content generation. |
-| `DISCORD_WEBHOOK_URL` | Optional | Enables daily Paper of the Day posts to a Discord channel. |
-
-### Setting up Supabase
-
-1. Create a free project at [supabase.com](https://supabase.com).
-2. Go to **SQL Editor** and run the contents of `supabase/schema.sql` to create all tables.
-3. Add `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` as GitHub Actions secrets.
-4. Run the one-time migration to populate existing data:
-   ```bash
-   pip install supabase
-   export SUPABASE_URL=https://xxx.supabase.co
-   export SUPABASE_SERVICE_ROLE_KEY=eyJ...
-   python scripts/migrate_to_supabase.py
-   ```
+| `SUPABASE_URL` | GH Secret | Supabase project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | GH Secret | Write key for pipeline |
+| `RAILWAY_DATABASE_URL` | GH Secret | Public Railway PostgreSQL URL (pipeline sync) |
+| `DATABASE_URL` | Railway Env | Same URL for FastAPI backend |
+| `JWT_SECRET` | Railway Env | Secret key for JWT signing |
+| `HF_TOKEN` | GH Secret | HuggingFace write token for dataset push |
+| `SEMANTIC_SCHOLAR_API_KEY` | GH Secret | Raises S2 rate limit 1→10 req/s |
+| `OPENREVIEW_EMAIL` | GH Secret | For OpenReview authenticated access |
+| `OPENREVIEW_PASSWORD` | GH Secret | For OpenReview authenticated access |
+| `DISCORD_WEBHOOK_URL` | GH Secret | Paper of the Day → Discord |
+| `PIPELINE_SECRET` | Both | Shared secret for `/pipeline/trigger` endpoint |
+| `GITHUB_TOKEN` | Railway Env | Fine-grained PAT for triggering workflows |
 
 ---
 
-## GitHub Pages Deployment
+## Works with CiteLens
 
-The workflow in `.github/workflows/update.yml`:
+ResearchScope and [CiteLens](https://kishormorol.github.io/CiteLens/) are companion tools:
 
-1. Runs the Python pipeline to fetch and process papers.
-2. Commits updated JSON files to `data/`.
-3. Uploads the `site/` folder as a GitHub Pages artifact and deploys it.
-
-To enable Pages for a fork: go to **Settings → Pages** and set the source to **GitHub Actions**.
-
----
-
-## Alternatives comparison
-
-| Tool | Free | Open source | Daily updates | Research gaps | Conference deadlines | No sign-up |
-|---|---|---|---|---|---|---|
-| **ResearchScope** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [Arxiv Sanity](https://arxiv-sanity-lite.com) | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |
-| [Papers With Code](https://paperswithcode.com) | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ |
-| [Semantic Scholar](https://semanticscholar.org) | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ |
-| [Elicit](https://elicit.com) | Partial | ❌ | ❌ | ❌ | ❌ | ❌ |
-| [Consensus](https://consensus.app) | Partial | ❌ | ❌ | ❌ | ❌ | ❌ |
-
-ResearchScope is the only fully free, open-source dashboard that combines **daily paper rankings, research gap detection, conference deadlines, and citation analysis** in one place — backed by a real database with no paper caps.
+```
+ResearchScope ──── "Here's a paper worth reading today"
+                           │
+                 🔍 Analyze citations
+                           ▼
+CiteLens ────── "Here's who cited it and why it mattered"
+                           │
+               🔭 Browse topic in ResearchScope
+                           ▼
+ResearchScope ──── "Discover more papers on this topic"
+```
 
 ---
 
-## Contributing
+## Comparison
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+| Tool | Free | Open source | Daily updates | Gaps | Venue recommender | API | No sign-up |
+|---|---|---|---|---|---|---|---|
+| **ResearchScope** | ✅ | ✅ | ✅ | ✅ | ✅ Conference + Journal | ✅ | ✅ |
+| Arxiv Sanity | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ |
+| Papers With Code | ✅ | ❌ | ✅ | ❌ | ❌ | Partial | ✅ |
+| Semantic Scholar | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ | ✅ |
+| Elicit | Partial | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
 ## Acknowledgments
 
-| Source | What we use | License |
-|---|---|---|
-| [arXiv](https://arxiv.org) | Paper metadata via OAI-PMH | Metadata: CC0 (public domain) |
-| [ACL Anthology](https://aclanthology.org) | NLP/CL paper metadata | 2016+: CC BY 4.0 |
-| [PMLR](https://proceedings.mlr.press) | ICML proceedings metadata | CC BY 4.0 |
-| [Semantic Scholar](https://www.semanticscholar.org) | Conference metadata + affiliations | [S2 API License](https://www.semanticscholar.org/product/api/license) |
-| [OpenReview](https://openreview.net) | ICLR, NeurIPS, COLM papers | Public API |
-| [CVF](https://openaccess.thecvf.com) | CVPR, ICCV, ECCV papers | Public access |
+| Source | License |
+|---|---|
+| [arXiv](https://arxiv.org) | Metadata: CC0 |
+| [OpenAlex](https://openalex.org) | CC0 |
+| [ACL Anthology](https://aclanthology.org) | CC BY 4.0 |
+| [PMLR](https://proceedings.mlr.press) | CC BY 4.0 |
+| [Semantic Scholar](https://www.semanticscholar.org) | S2 API License |
+| [OpenReview](https://openreview.net) | Public API |
+| [CVF](https://openaccess.thecvf.com) | Public access |
 
-ResearchScope stores only bibliographic metadata. No full text or PDFs are stored or redistributed.
+ResearchScope stores only bibliographic metadata — no full text or PDFs.
 
 ---
 
