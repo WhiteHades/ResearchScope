@@ -48,6 +48,7 @@ jobs:
           OPENREVIEW_PASSWORD: ${{ secrets.OPENREVIEW_PASSWORD }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RAILWAY_DATABASE_URL: ${{ secrets.RAILWAY_DATABASE_URL }}
         run: |
           MAX="${{ github.event.inputs.max_results || '500' }}"
           echo "Running: python src/pipeline.py --conferences-only --max-results $MAX"

@@ -44,6 +44,7 @@ jobs:
           PYTHONPATH: ${{ github.workspace }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RAILWAY_DATABASE_URL: ${{ secrets.RAILWAY_DATABASE_URL }}
 
       - name: Build conference recommender data
         run: |
