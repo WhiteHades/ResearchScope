@@ -322,13 +322,15 @@ def build_index() -> dict:
         fallback_kw[venue] = kw
 
         meta = JOURNAL_METADATA.get(venue, {})
+        core_rank = str(ranked[0].get("conference_rank") or "A*")
+        q_rank = "Q1" if core_rank == "A*" else ("Q2" if core_rank == "A" else core_rank)
         prepared.append({
             "id":           re.sub(r"[^a-z0-9]+", "-", venue.lower()).strip("-"),
             "short":        venue,
             "name":         venue,
             "type":         "journal",
             "field":        field,
-            "rank":         str(ranked[0].get("conference_rank") or "A*"),
+            "rank":         q_rank,
             "paper_count":  len(vpaps),
             "fallback_keywords": kw,
             "expectations": _expectations(field, ranked),

@@ -143,27 +143,33 @@
 <script src="assets/js/app.js"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
+function qBadge(q) {
+  if (!q) return '';
+  const cls = q === 'Q1' ? 'background:#dcfce7;color:#166534' : 'background:#fef9c3;color:#854d0e';
+  return `<span class="badge" style="${cls}">${escHtml(q)}</span>`;
+}
+
 const JOURNALS = [
-  {name:'Journal of Machine Learning Research',                        short:'JMLR',  area:'ML',      rank:'A*', source:'Semantic Scholar'},
-  {name:'Transactions on Machine Learning Research',                   short:'TMLR',  area:'ML',      rank:'A*', source:'Semantic Scholar'},
-  {name:'Transactions of the ACL',                                     short:'TACL',  area:'NLP',     rank:'A*', source:'ACL Anthology'},
-  {name:'IEEE Trans. Pattern Analysis & Machine Intelligence',         short:'TPAMI', area:'CV',      rank:'A*', source:'Semantic Scholar'},
-  {name:'International Journal of Computer Vision',                    short:'IJCV',  area:'CV',      rank:'A*', source:'Semantic Scholar'},
-  {name:'Artificial Intelligence',                                     short:'AIJ',   area:'AI',      rank:'A*', source:'Semantic Scholar'},
-  {name:'IEEE Trans. Neural Networks & Learning Systems',              short:'TNNLS', area:'ML',      rank:'A*', source:'Semantic Scholar'},
-  {name:'Nature Machine Intelligence',                                 short:'NMI',   area:'ML',      rank:'A*', source:'Semantic Scholar'},
-  {name:'ACM Computing Surveys',                                       short:'CSUR',  area:'General', rank:'A*', source:'Semantic Scholar'},
-  {name:'IEEE Transactions on Image Processing',                       short:'TIP',   area:'CV',      rank:'A*', source:'Semantic Scholar'},
-  {name:'Machine Learning',                                            short:'MLJ',   area:'ML',      rank:'A*', source:'Semantic Scholar'},
-  {name:'IEEE Trans. Knowledge & Data Engineering',                    short:'TKDE',  area:'DM',      rank:'A*', source:'Semantic Scholar'},
-  {name:'Data Mining and Knowledge Discovery',                         short:'DAMI',  area:'DM',      rank:'A*', source:'Semantic Scholar'},
-  {name:'Neural Networks',                                             short:'NN',    area:'ML',      rank:'A',  source:'Semantic Scholar'},
-  {name:'Pattern Recognition',                                         short:'PR',    area:'CV',      rank:'A',  source:'Semantic Scholar'},
-  {name:'Computational Linguistics',                                   short:'CL',    area:'NLP',     rank:'A*', source:'ACL Anthology'},
-  {name:'Information Processing & Management',                         short:'IPM',   area:'IR',      rank:'A',  source:'Semantic Scholar'},
-  {name:'Journal of the ACM',                                          short:'JACM',  area:'General', rank:'A*', source:'Semantic Scholar'},
-  {name:'Nature Communications',                                       short:'NatComms', area:'General', rank:'A*', source:'Semantic Scholar'},
-  {name:'ACM Transactions on Information Systems',                     short:'TOIS',  area:'IR',      rank:'A*', source:'Semantic Scholar'},
+  {name:'Journal of Machine Learning Research',                        short:'JMLR',  area:'ML',      rank:'Q1', source:'Semantic Scholar'},
+  {name:'Transactions on Machine Learning Research',                   short:'TMLR',  area:'ML',      rank:'Q1', source:'Semantic Scholar'},
+  {name:'Transactions of the ACL',                                     short:'TACL',  area:'NLP',     rank:'Q1', source:'ACL Anthology'},
+  {name:'IEEE Trans. Pattern Analysis & Machine Intelligence',         short:'TPAMI', area:'CV',      rank:'Q1', source:'Semantic Scholar'},
+  {name:'International Journal of Computer Vision',                    short:'IJCV',  area:'CV',      rank:'Q1', source:'Semantic Scholar'},
+  {name:'Artificial Intelligence',                                     short:'AIJ',   area:'AI',      rank:'Q1', source:'Semantic Scholar'},
+  {name:'IEEE Trans. Neural Networks & Learning Systems',              short:'TNNLS', area:'ML',      rank:'Q1', source:'Semantic Scholar'},
+  {name:'Nature Machine Intelligence',                                 short:'NMI',   area:'ML',      rank:'Q1', source:'Semantic Scholar'},
+  {name:'ACM Computing Surveys',                                       short:'CSUR',  area:'General', rank:'Q1', source:'Semantic Scholar'},
+  {name:'IEEE Transactions on Image Processing',                       short:'TIP',   area:'CV',      rank:'Q1', source:'Semantic Scholar'},
+  {name:'Machine Learning',                                            short:'MLJ',   area:'ML',      rank:'Q1', source:'Semantic Scholar'},
+  {name:'IEEE Trans. Knowledge & Data Engineering',                    short:'TKDE',  area:'DM',      rank:'Q1', source:'Semantic Scholar'},
+  {name:'Data Mining and Knowledge Discovery',                         short:'DAMI',  area:'DM',      rank:'Q1', source:'Semantic Scholar'},
+  {name:'Neural Networks',                                             short:'NN',    area:'ML',      rank:'Q2',  source:'Semantic Scholar'},
+  {name:'Pattern Recognition',                                         short:'PR',    area:'CV',      rank:'Q2',  source:'Semantic Scholar'},
+  {name:'Computational Linguistics',                                   short:'CL',    area:'NLP',     rank:'Q1', source:'ACL Anthology'},
+  {name:'Information Processing & Management',                         short:'IPM',   area:'IR',      rank:'Q2',  source:'Semantic Scholar'},
+  {name:'Journal of the ACM',                                          short:'JACM',  area:'General', rank:'Q1', source:'Semantic Scholar'},
+  {name:'Nature Communications',                                       short:'NatComms', area:'General', rank:'Q1', source:'Semantic Scholar'},
+  {name:'ACM Transactions on Information Systems',                     short:'TOIS',  area:'IR',      rank:'Q1', source:'Semantic Scholar'},
 ];
 
 document.getElementById('journals-body').innerHTML = JOURNALS.map(j => `
@@ -171,7 +177,7 @@ document.getElementById('journals-body').innerHTML = JOURNALS.map(j => `
     <td class="font-medium">${escHtml(j.name)}</td>
     <td><span class="badge badge-tag">${escHtml(j.short)}</span></td>
     <td class="text-sm" style="color:var(--rs-muted)">${escHtml(j.area)}</td>
-    <td>${j.rank ? rankBadge(j.rank) : '—'}</td>
+    <td>${j.rank ? qBadge(j.rank) : '—'}</td>
     <td class="text-sm" style="color:var(--rs-muted)">${escHtml(j.source)}</td>
   </tr>`).join('');
 
