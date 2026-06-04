@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Papers – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
   <link rel="stylesheet" href="assets/css/library.css"/>
@@ -187,7 +186,6 @@
 
 <script src="assets/js/app.js"></script>
 <script src="assets/js/library.js"></script>
-<script src="assets/js/supabase-client.js"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -324,12 +322,12 @@ function toggleDetail(i) {
   if (row) row.classList.toggle('open');
 }
 
-// ── Load from Supabase ────────────────────────────────────────────────────────
+// ── Load from Railway API ─────────────────────────────────────────────────────
 async function loadAndRender() {
   document.getElementById('papers-body').innerHTML =
     `<tr><td colspan="7"><div class="spinner"></div></td></tr>`;
 
-  const { data, count, error } = await window._rs_supabase.queryPapers({
+  const { data, count, error } = await window._rs_data.queryPapers({
     page: currentPage,
     pageSize: PAGE_SIZE,
     tagNormalizeMap: TAG_NORMALIZE,
@@ -337,7 +335,7 @@ async function loadAndRender() {
   });
 
   if (error) {
-    console.error('Supabase error:', error);
+    console.error('Papers API error:', error);
     document.getElementById('papers-body').innerHTML =
       `<tr><td colspan="7"><div class="empty-state"><p>Error loading papers. Please try again.</p></div></td></tr>`;
     return;

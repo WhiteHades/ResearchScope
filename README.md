@@ -23,10 +23,9 @@ Stop skimming paper lists. ResearchScope scores papers by impact, surfaces resea
 
 ## What is ResearchScope?
 
-ResearchScope is an **open research intelligence platform** for computer science and AI. A daily GitHub Actions pipeline fetches papers from **6 data sources** (arXiv, OpenAlex, ACL Anthology, OpenReview, PMLR, CVF, Semantic Scholar), enriches them with multi-signal scores, detects research gaps, and syncs to three backends:
+ResearchScope is an **open research intelligence platform** for computer science and AI. A daily GitHub Actions pipeline fetches papers from **6 data sources** (arXiv, OpenAlex, ACL Anthology, OpenReview, PMLR, CVF, Semantic Scholar), enriches them with multi-signal scores, detects research gaps, and syncs to two backends:
 
-- **Supabase** — full dataset, live browser queries
-- **Railway PostgreSQL** — powers the REST API with full-text search
+- **Railway PostgreSQL** — full dataset, powers the REST API with full-text search and live browser queries
 - **Hugging Face Hub** — public JSONL dataset for LLM training
 
 The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** on Railway.
@@ -86,7 +85,6 @@ The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** o
 │    ├── gaps/         3-layer research gap extraction                 │
 │    ├── aggregation/  author, lab, university profiles                │
 │    └── sitegen/      → site/data/*.json                              │
-│                      → Supabase upsert (all papers)                  │
 │                      → Railway PostgreSQL upsert (API backend)       │
 │                      → HuggingFace Hub push (JSONL dataset)          │
 └────────┬─────────────────────────┬──────────────────────────────────┘
@@ -98,7 +96,7 @@ The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** o
                             /auth   /favourites      instruct.jsonl
                             /docs   (Swagger UI)
          ▲                         ▲
-         │ reads static JSON       │ Railway API + Supabase fallback
+         │ reads static JSON       │ Railway API (→ static JSON fallback)
          └─────────────────────────┘
               Frontend (browser)
 ```
@@ -196,7 +194,6 @@ src/
     cvf_connector.py
     semantic_scholar_connector.py
   storage/
-    supabase_store.py     # Supabase upsert
     railway_store.py      # Railway PostgreSQL upsert
     hf_dataset.py         # HuggingFace Hub push
   sitegen/
@@ -219,8 +216,7 @@ site/                     # static frontend (GitHub Pages)
   search.html / favourites.html / library.html
   assets/js/
     app.js                # shared utilities + dropdown nav
-    railway-api.js        # Railway API client + auth modal
-    supabase-client.js    # Supabase fallback queries
+    railway-api.js        # Railway API data client + auth
 tests/                    # pytest suite (110+ tests)
 ```
 
@@ -257,8 +253,6 @@ DATABASE_URL=postgresql://... uvicorn app.main:app --reload
 
 | Variable | Where | Description |
 |---|---|---|
-| `SUPABASE_URL` | GH Secret | Supabase project URL |
-| `SUPABASE_SERVICE_ROLE_KEY` | GH Secret | Write key for pipeline |
 | `RAILWAY_DATABASE_URL` | GH Secret | Public Railway PostgreSQL URL (pipeline sync) |
 | `DATABASE_URL` | Railway Env | Same URL for FastAPI backend |
 | `JWT_SECRET` | Railway Env | Secret key for JWT signing |

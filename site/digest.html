@@ -13,7 +13,6 @@
   <meta name="twitter:title" content="Weekly Research Digest – ResearchScope"/>
   <meta name="twitter:description" content="Top CS/AI papers of the week, grouped by topic. Curated automatically from 50,000+ papers."/>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
@@ -128,7 +127,6 @@
 </footer>
 
 <script src="assets/js/app.js"></script>
-<script src="assets/js/supabase-client.js"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
 // Topic group icons
@@ -324,8 +322,8 @@ function buildTweetBtn(weekLabel) {
   buildTweetBtn(label);
 
   const [papers, topics] = await Promise.all([
-    window._rs_supabase.fetchTopPapers(500),
-    window._rs_supabase.fetchAllTopics(),
+    window._rs_data.fetchTopPapers(500),
+    window._rs_data.fetchAllTopics(),
   ]);
 
   if (!papers || !topics) {

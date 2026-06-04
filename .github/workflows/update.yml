@@ -42,8 +42,6 @@ jobs:
           python src/pipeline.py --today
         env:
           PYTHONPATH: ${{ github.workspace }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           RAILWAY_DATABASE_URL: ${{ secrets.RAILWAY_DATABASE_URL }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
 

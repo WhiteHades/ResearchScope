@@ -269,7 +269,7 @@ function toggleDetail(i) { document.getElementById(`detail-${i}`)?.classList.tog
 async function loadAndRender() {
   document.getElementById('papers-body').innerHTML =
     `<tr><td colspan="7"><div class="spinner"></div></td></tr>`;
-  const { data, count } = await window._rs_supabase.queryPapers({
+  const { data, count } = await window._rs_data.queryPapers({
     page: currentPage, pageSize: PAGE_SIZE,
     tagNormalizeMap: TAG_NORMALIZE,
     source: 'journal',

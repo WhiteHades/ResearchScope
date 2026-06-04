@@ -250,13 +250,13 @@ let _searchData = null;
 async function loadSearchData() {
   if (_searchData) return _searchData;
   // Authors and topics are small — always load from JSON.
-  // Papers: use Supabase if available (covers all 17 K+ papers), else fall back
-  // to the static search index.
+  // Papers: use the Railway API if available (covers the full dataset), else
+  // fall back to the static search index.
   const [authors, topics] = await Promise.all([
     fetch('data/authors.json').then(r => r.json()).catch(() => []),
     fetch('data/topics.json').then(r => r.json()).catch(() => []),
   ]);
-  _searchData = { papers: [], authors, topics, _useSupabase: !!window._rs_supabase };
+  _searchData = { papers: [], authors, topics, _useApi: !!window._rs_data };
   return _searchData;
 }
 
@@ -264,10 +264,10 @@ async function runSearch(query, data, limit = 5) {
   const q = query.toLowerCase().trim();
   if (!q) return { papers: [], authors: [], topics: [] };
 
-  // Papers — prefer Supabase (live, full dataset) over the static JSON index
+  // Papers — prefer the Railway API (live, full dataset) over the static JSON index
   let papers = [];
-  if (data._useSupabase) {
-    papers = await window._rs_supabase.searchPapersQuick(q, limit);
+  if (data._useApi) {
+    papers = await window._rs_data.searchPapersQuick(q, limit);
   } else {
     papers = (data.papers || [])
       .filter(p => p.title?.toLowerCase().includes(q) ||

@@ -1,18 +1,15 @@
 /**
  * ResearchScope — Railway API client
  *
- * Overrides window._rs_supabase with Railway-backed implementations so
- * all existing pages work without changes. Also adds auth + favourites.
+ * Provides window._rs_data, the data client used by every page, plus auth
+ * and favourites. Backed by the Railway FastAPI service.
  *
- * Fallback chain: Railway API → Supabase → static JSON
+ * Fallback chain: Railway API → static JSON (site/data/*.json)
  * Sign-in is NEVER required for browsing — only for favourites.
  * Auth UI lives on dedicated signin / register pages.
  */
 
 const RS_API = 'https://researchscope-production.up.railway.app';
-
-// Save the Supabase client loaded before us so we can fall back to it
-const _sb = window._rs_supabase || null;
 
 // ── Auth state ────────────────────────────────────────────────────────────────
 
@@ -76,21 +73,10 @@ async function _queryPapers({
     if (json && Array.isArray(json.results))
       return { data: json.results, count: json.total ?? 0, error: null };
   } catch (e) {
-    console.warn('[railway] queryPapers failed, falling back to Supabase:', e.message);
+    console.warn('[railway] queryPapers failed, falling back to static JSON:', e.message);
   }
 
-  // 2. Fall back to Supabase
-  if (_sb?.queryPapers) {
-    try {
-      const result = await _sb.queryPapers({ page, pageSize, search, tag, difficulty, type, source, year, sortBy, tagNormalizeMap });
-      if (!result.error) return result;
-      console.warn('[supabase] queryPapers error, falling back to static JSON:', result.error?.message || result.error);
-    } catch (e) {
-      console.warn('[supabase] queryPapers threw, falling back to static JSON:', e.message);
-    }
-  }
-
-  // 3. Last resort — static JSON
+  // 2. Last resort — static JSON
   try {
     const res = await fetch('data/papers.json');
     const all = await res.json();
@@ -120,7 +106,6 @@ async function _fetchTopPapers(limit = 500) {
     }
     if (results.length) return results;
   } catch { /* fall through */ }
-  try { if (_sb?.fetchTopPapers) return await _sb.fetchTopPapers(limit); } catch { /* fall through */ }
   try {
     const res = await fetch('data/papers.json');
     const all = await res.json();
@@ -142,7 +127,11 @@ async function _fetchConferencePapers(limit = 1000) {
     }
     if (results.length) return results;
   } catch { /* fall through */ }
-  if (_sb?.fetchConferencePapers) return _sb.fetchConferencePapers(limit);
+  try {
+    const res = await fetch('data/conferences.json');
+    const all = await res.json();
+    return Array.isArray(all) ? all.slice(0, limit) : [];
+  } catch { /* ignore */ }
   return [];
 }
 
@@ -151,6 +140,11 @@ async function _fetchJournalPapers(limit = 2000) {
     const json = await _apiFetch(`/papers/journals?page_size=${Math.min(limit, 100)}&page=1`);
     if (json?.results?.length) return json.results;
   } catch { /* fall through */ }
+  try {
+    const res = await fetch('data/journals.json');
+    const all = await res.json();
+    return Array.isArray(all) ? all.slice(0, limit) : [];
+  } catch { /* ignore */ }
   return [];
 }
 
@@ -160,7 +154,6 @@ async function _searchPapersQuick(query, limit = 5) {
     const json = await _apiFetch(`/search?${new URLSearchParams({ q: query.trim(), limit })}`);
     if (json?.results?.length) return json.results;
   } catch { /* fall through */ }
-  if (_sb?.searchPapersQuick) return _sb.searchPapersQuick(query, limit);
   return [];
 }
 
@@ -344,15 +337,9 @@ window.rsLogout = function() {
   }
 };
 
-// ── Supabase → static JSON fallback helper ────────────────────────────────────
+// ── Static JSON fetch helper ──────────────────────────────────────────────────
 
-async function _sbFetch(method, limit, staticPath) {
-  if (_sb?.[method]) {
-    try {
-      const result = await _sb[method](limit);
-      if (Array.isArray(result) && result.length) return result;
-    } catch { /* fall through */ }
-  }
+async function _staticFetch(staticPath, limit) {
   try {
     const res = await fetch(staticPath);
     const data = await res.json();
@@ -360,19 +347,18 @@ async function _sbFetch(method, limit, staticPath) {
   } catch { return []; }
 }
 
-// ── Override window._rs_supabase ──────────────────────────────────────────────
+// ── window._rs_data — the data client used by every page ──────────────────────
 
-window._rs_supabase = {
+window._rs_data = {
   queryPapers:           _queryPapers,
   fetchTopPapers:        _fetchTopPapers,
   fetchConferencePapers: _fetchConferencePapers,
   fetchJournalPapers:    _fetchJournalPapers,
   searchPapersQuick:     _searchPapersQuick,
-  fetchAllAuthors:  (n) => _sbFetch('fetchAllAuthors', n, 'data/authors.json'),
-  fetchAllTopics:   (n) => _sbFetch('fetchAllTopics',  n, 'data/topics.json'),
-  fetchAllGaps:     (n) => _sbFetch('fetchAllGaps',    n, 'data/gaps.json'),
-  fetchAllLabs:     (n) => _sbFetch('fetchAllLabs',    n, 'data/labs.json'),
-  getDb:            () => _sb?.getDb?.() ?? null,
+  fetchAllAuthors:  (n) => _staticFetch('data/authors.json', n),
+  fetchAllTopics:   (n) => _staticFetch('data/topics.json',  n),
+  fetchAllGaps:     (n) => _staticFetch('data/gaps.json',    n),
+  fetchAllLabs:     (n) => _staticFetch('data/labs.json',    n),
 };
 
 // ── Public API surface ────────────────────────────────────────────────────────
