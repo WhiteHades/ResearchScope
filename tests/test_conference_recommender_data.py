@@ -12,6 +12,7 @@ from src.sitegen import conference_recommender
 ROOT = Path(__file__).resolve().parents[1]
 SITE_RECOMMENDER_INDEX = ROOT / "site" / "data" / "conference_recommender.json"
 RECOMMENDER_PAGE = ROOT / "site" / "conference-recommender.html"
+RECOMMENDER_CORE = ROOT / "site" / "assets" / "js" / "recommender-core.js"
 
 
 @pytest.fixture(scope="module")
@@ -69,9 +70,14 @@ def test_conference_recommender_has_generated_venues_and_deadlines(generated_ind
 
 
 def test_conference_recommender_blocks_placeholder_drafts():
+    # The placeholder-blocking guard lives in the shared recommender-core.js,
+    # which the page loads. Verify both the wiring and the guard itself.
     page = RECOMMENDER_PAGE.read_text(encoding="utf-8")
+    core = RECOMMENDER_CORE.read_text(encoding="utf-8")
 
-    assert "function draftQuality(title, abstract)" in page
-    assert "PLACEHOLDER_WORDS" in page
-    assert "lorem\\s+ipsum" in page
+    assert "assets/js/recommender-core.js" in page
     assert "No reliable venue match yet" in page
+
+    assert "function draftQuality(title, abstract)" in core
+    assert "PLACEHOLDER_WORDS" in core
+    assert "lorem\\s+ipsum" in core
