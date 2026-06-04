@@ -61,6 +61,46 @@ _VENUE_MAP: dict[str, tuple[str, str]] = {
     "International Joint Conference on Artificial Intelligence": ("IJCAI","A*"),
     "ACM Computing Surveys": ("CSUR",   "A*"),
     "Nature Communications": ("NatComms","A*"),
+    "IEEE Transactions on Neural Networks and Learning Systems": ("TNNLS", "A*"),
+    "IEEE Transactions on Image Processing": ("TIP",  "A*"),
+    "Machine Learning": ("MLJ",   "A*"),
+    "IEEE Transactions on Knowledge and Data Engineering": ("TKDE", "A*"),
+    "Data Mining and Knowledge Discovery": ("DAMI",  "A*"),
+    "Neural Networks": ("NN",     "A"),
+    "Pattern Recognition": ("PR",     "A"),
+    "Computational Linguistics": ("CL",     "A*"),
+    "Information Processing & Management": ("IPM",    "A"),
+    "Journal of the ACM": ("JACM",   "A*"),
+    "ACM Transactions on Information Systems": ("TOIS",   "A*"),
+}
+
+# OpenAlex source IDs for the top CS journals → (canonical short name, rank).
+# Used by fetch_journals() to pull every paper from a journal by venue, the
+# keyless counterpart to SemanticScholarConnector.fetch_journals().
+# Resolved via the OpenAlex /sources endpoint (display-name search).
+# Note: JMLR and TMLR are indexed poorly by OpenAlex for recent years
+# (they publish open-access / on OpenReview); coverage there is sparse.
+_JOURNAL_SOURCES: dict[str, tuple[str, str]] = {
+    "S118988714":  ("JMLR",     "A*"),
+    "S4393919742": ("TMLR",     "A*"),
+    "S2729999759": ("TACL",     "A*"),
+    "S199944782":  ("TPAMI",    "A*"),
+    "S25538012":   ("IJCV",     "A*"),
+    "S196139623":  ("AIJ",      "A*"),
+    "S4210175523": ("TNNLS",    "A*"),
+    "S2912241403": ("NMI",      "A*"),
+    "S157921468":  ("CSUR",     "A*"),
+    "S4210173141": ("TIP",      "A*"),
+    "S62148650":   ("MLJ",      "A*"),
+    "S30698027":   ("TKDE",     "A*"),
+    "S121920818":  ("DAMI",     "A*"),
+    "S123019304":  ("NN",       "A"),
+    "S414566":     ("PR",       "A"),
+    "S155526855":  ("CL",       "A*"),
+    "S174847851":  ("IPM",      "A"),
+    "S118992489":  ("JACM",     "A*"),
+    "S64187185":   ("NatComms", "A*"),
+    "S4394735545": ("TOIS",     "A*"),
 }
 
 
@@ -191,6 +231,81 @@ class OpenAlexConnector(BaseConnector):
             except Exception as exc:
                 log.warning("[openalex] %s failed: %s", group, exc)
         return all_papers
+
+    # ── Journal bulk fetch (keyless S2 fetch_journals replacement) ───────────
+
+    def fetch_journals(
+        self,
+        sources: dict[str, tuple[str, str]] | None = None,
+        from_year: int | None = None,
+        to_year: int | None = None,
+        max_per_source: int | None = None,
+    ) -> list[Paper]:
+        """Bulk-fetch every paper from the top CS journals, by venue.
+
+        Paginates OpenAlex works filtered to each journal's source id, so
+        coverage of a given journal is systematic — unlike fetch_all(), which
+        ranks by citations across a whole concept. Sets source_type='journal'
+        and stamps the canonical venue/rank. Requires no API key.
+        """
+        target   = sources or _JOURNAL_SOURCES
+        from_y   = from_year if from_year is not None else self._from_year
+        to_y     = to_year if to_year is not None else datetime.now(timezone.utc).year
+        year_flt = f"{from_y}-{to_y}"
+
+        all_papers: list[Paper] = []
+        seen: set[str] = set()
+
+        for source_id, (short, rank) in target.items():
+            try:
+                papers = self._fetch_journal_source(source_id, year_flt, max_per_source)
+                log.info("[openalex] journal %s (%s) → %d papers", short, source_id, len(papers))
+                for p in papers:
+                    if p.id in seen:
+                        continue
+                    seen.add(p.id)
+                    # Stamp canonical venue/rank — OpenAlex display names vary
+                    # and several of these journals are missing from _VENUE_MAP.
+                    p.venue           = short
+                    p.conference_rank = rank
+                    p.source_type     = "journal"
+                    all_papers.append(p)
+            except Exception as exc:
+                log.warning("[openalex] journal %s failed: %s", short, exc)
+
+        return all_papers
+
+    def _fetch_journal_source(
+        self, source_id: str, year_flt: str, max_per_source: int | None
+    ) -> list[Paper]:
+        base_filter = (
+            f"primary_location.source.id:{source_id},"
+            f"publication_year:{year_flt},type:article"
+        )
+        papers: list[Paper] = []
+        cursor = "*"
+        while cursor:
+            params = urllib.parse.urlencode({
+                "filter":   base_filter,
+                "select":   _SELECT,
+                "per-page": _PAGE,
+                "cursor":   cursor,
+            })
+            data    = self._get(f"{_BASE}/works?{params}")
+            results = data.get("results", [])
+            for work in results:
+                p = self._to_paper(work)
+                if p:
+                    papers.append(p)
+            if max_per_source and len(papers) >= max_per_source:
+                return papers[:max_per_source]
+
+            cursor = data.get("meta", {}).get("next_cursor") or data.get("next_cursor") or ""
+            if not results or not cursor:
+                break
+            time.sleep(_DELAY)
+
+        return papers
 
     # ── Keyword search (daily pipeline mode) ─────────────────────────────────
 

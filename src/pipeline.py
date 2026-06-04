@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import sys
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -340,14 +341,24 @@ def run_pipeline(
             except Exception as exc:
                 log.warning("  [s2] bulk fetch_all failed: %s", exc)
 
-            # S2 bulk fetch — top 18 CS journals
-            log.info("  [s2] bulk-fetching top CS journals (2022-2025) …")
-            try:
-                fetched = SemanticScholarConnector().fetch_journals()
-                log.info("    → %d journal papers", len(fetched))
-                all_papers.extend(fetched)
-            except Exception as exc:
-                log.warning("  [s2] journal fetch failed: %s", exc)
+            # Bulk fetch — top CS journals. Prefer Semantic Scholar when an API
+            # key is configured; otherwise fall back to keyless OpenAlex.
+            if os.getenv("SEMANTIC_SCHOLAR_API_KEY"):
+                log.info("  [s2] bulk-fetching top CS journals (2022-2025) …")
+                try:
+                    fetched = SemanticScholarConnector().fetch_journals()
+                    log.info("    → %d journal papers", len(fetched))
+                    all_papers.extend(fetched)
+                except Exception as exc:
+                    log.warning("  [s2] journal fetch failed: %s", exc)
+            else:
+                log.info("  [openalex] no S2 key — bulk-fetching top CS journals (keyless) …")
+                try:
+                    fetched = OpenAlexConnector().fetch_journals()
+                    log.info("    → %d journal papers", len(fetched))
+                    all_papers.extend(fetched)
+                except Exception as exc:
+                    log.warning("  [openalex] journal fetch failed: %s", exc)
 
         else:
             # ── Keyword-query mode (used in daily pipeline if skip_conferences=False) ──
