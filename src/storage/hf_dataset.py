@@ -235,7 +235,7 @@ tags:
   - computer-vision
   - ai
 size_categories:
-  - 10K<n<100K
+  - 100K<n<1M
 configs:
   - config_name: papers
     data_files:
