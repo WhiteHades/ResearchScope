@@ -36,6 +36,13 @@ _RAW_FIELDS = {
     "one_line_takeaway", "plain_english_explanation",
 }
 
+# Per-column types for the raw split. The HF dataset viewer infers an Arrow
+# schema across all rows, so every column MUST hold one consistent type —
+# otherwise parquet generation fails ("dataset generation failed" 500).
+_LIST_FIELDS  = {"authors", "tags", "topics"}
+_INT_FIELDS   = {"year", "citations"}
+_FLOAT_FIELDS = {"paper_score"}
+
 # Instruction tasks generated per paper (skipped when field is empty)
 _INSTRUCT_TASKS = [
     ("summarize",    "Summarize this research paper in 2-3 sentences.",   "summary"),
@@ -55,7 +62,30 @@ def _input_text(paper: dict) -> str:
 
 
 def _to_raw(paper: dict) -> dict:
-    return {k: paper[k] for k in _RAW_FIELDS if k in paper and paper[k] not in (None, "", [], {})}
+    """Project a paper onto the raw split with coerced, type-stable columns."""
+    out: dict[str, Any] = {}
+    for k in _RAW_FIELDS:
+        if k not in paper:
+            continue
+        v = paper[k]
+        if v in (None, "", [], {}):
+            continue
+        if k in _LIST_FIELDS:
+            v = [str(x) for x in v] if isinstance(v, list) else [str(v)]
+        elif k in _INT_FIELDS:
+            try:
+                v = int(v)
+            except (TypeError, ValueError):
+                continue
+        elif k in _FLOAT_FIELDS:
+            try:
+                v = float(v)
+            except (TypeError, ValueError):
+                continue
+        else:
+            v = str(v)
+        out[k] = v
+    return out
 
 
 def _to_instruct_rows(paper: dict) -> list[dict]:
@@ -65,15 +95,19 @@ def _to_instruct_rows(paper: dict) -> list[dict]:
         output = str(paper.get(field) or "").strip()
         if not output or len(output) < 10:
             continue
+        try:
+            year = int(paper.get("year") or 0)
+        except (TypeError, ValueError):
+            year = 0
         rows.append({
             "task":        task_id,
             "instruction": instruction,
             "input":       inp,
             "output":      output,
-            "paper_id":    paper.get("id", ""),
-            "venue":       paper.get("venue", ""),
-            "year":        paper.get("year", ""),
-            "source_type": paper.get("source_type", ""),
+            "paper_id":    str(paper.get("id", "")),
+            "venue":       str(paper.get("venue", "")),
+            "year":        year,
+            "source_type": str(paper.get("source_type", "")),
         })
     return rows
 
@@ -202,6 +236,15 @@ tags:
   - ai
 size_categories:
   - 10K<n<100K
+configs:
+  - config_name: papers
+    data_files:
+      - split: train
+        path: data/papers.jsonl
+  - config_name: instruct
+    data_files:
+      - split: train
+        path: data/instruct.jsonl
 ---
 
 # ResearchScope Papers
@@ -230,10 +273,10 @@ Updated automatically via GitHub Actions.
 from datasets import load_dataset
 
 # Raw papers
-papers = load_dataset("kishormorol/researchscope-papers", data_files="data/papers.jsonl", split="train")
+papers = load_dataset("kishormorol/researchscope-papers", "papers", split="train")
 
 # Instruction tuning
-instruct = load_dataset("kishormorol/researchscope-papers", data_files="data/instruct.jsonl", split="train")
+instruct = load_dataset("kishormorol/researchscope-papers", "instruct", split="train")
 ```
 
 ## License
