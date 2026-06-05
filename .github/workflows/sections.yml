@@ -38,7 +38,9 @@ jobs:
 
     services:
       grobid:
-        image: lfoppiano/grobid:0.8.0
+        # CRF (lightweight) build on a modern JDK — the 0.8.0 image NPEs on the
+        # runner's cgroup v2 (CgroupInfo.getMountPoint), crashing on startup.
+        image: lfoppiano/grobid:0.9.0-crf
         ports:
           - 8070:8070
 
