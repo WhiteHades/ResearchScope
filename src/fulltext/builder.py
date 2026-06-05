@@ -54,6 +54,10 @@ _SECTION_TITLE = {
 _MIN_SECTION_CHARS = 200
 # Per-section cap when used as *preceding context* (keeps input rows bounded).
 _CONTEXT_CHARS_PER_SECTION = 2500
+# Skip PDFs larger than this. Image-heavy PDFs (e.g. some CVF papers) push a
+# memory-constrained GROBID into OOM; with thousands of candidates available we
+# can afford to skip the few giant ones. Override via build_dataset(max_pdf_mb=).
+_MAX_PDF_BYTES = 5 * 1024 * 1024
 _DOWNLOAD_TIMEOUT = 60
 _UA = "ResearchScope/1.0 (+https://github.com/kishormorol/ResearchScope)"
 
@@ -76,6 +80,21 @@ def select_papers(
     ]
     papers.sort(key=lambda p: float(p.get("paper_score") or 0), reverse=True)
     return papers[:limit] if limit else papers
+
+
+def _pdf_size(url: str) -> int | None:
+    """HEAD the PDF to read Content-Length without downloading the body.
+
+    Returns the size in bytes, or None if it can't be determined (caller then
+    falls back to downloading and enforcing the cap post-hoc).
+    """
+    try:
+        req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": _UA})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            cl = r.headers.get("Content-Length")
+            return int(cl) if cl else None
+    except Exception:
+        return None
 
 
 def _download_pdf(url: str) -> bytes | None:
@@ -108,13 +127,23 @@ def _make_input(paper: dict, section: str, preceding: str) -> str:
     return "\n".join(parts).strip()
 
 
-def build_rows(paper: dict) -> list[dict]:
+def build_rows(paper: dict, max_pdf_bytes: int = _MAX_PDF_BYTES) -> list[dict]:
     """Resolve, fetch, parse and segment one paper into section rows."""
     url = resolve_pdf_url(paper)
     if not url:
         return []
+    # Cheap HEAD pre-check: skip giant PDFs before downloading the body.
+    head_size = _pdf_size(url)
+    if head_size is not None and head_size > max_pdf_bytes:
+        log.info("[fulltext] skip oversized PDF (%d bytes, HEAD): %s",
+                 head_size, paper.get("id"))
+        return []
     pdf = _download_pdf(url)
     if not pdf:
+        return []
+    if len(pdf) > max_pdf_bytes:
+        log.info("[fulltext] skip oversized PDF (%d bytes): %s",
+                 len(pdf), paper.get("id"))
         return []
     tei = process_fulltext(pdf)
     if not tei:
@@ -153,6 +182,7 @@ def build_dataset(
     *,
     grobid_required: bool = True,
     delay: float = 0.0,
+    max_pdf_mb: float = 5.0,
 ) -> dict:
     """Stream section rows for all papers to a JSONL file. Returns stats."""
     if grobid_required and not is_alive():
@@ -165,13 +195,14 @@ def build_dataset(
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
+    max_pdf_bytes = int(max_pdf_mb * 1024 * 1024)
     stats = {"papers": 0, "ok": 0, "skipped": 0, "rows": 0,
              "by_section": {s: 0 for s in CANONICAL_SECTIONS}}
 
     with out_path.open("w", encoding="utf-8") as fh:
         for paper in papers:
             stats["papers"] += 1
-            rows = build_rows(paper)
+            rows = build_rows(paper, max_pdf_bytes=max_pdf_bytes)
             if not rows:
                 stats["skipped"] += 1
             else:
@@ -180,6 +211,7 @@ def build_dataset(
                     fh.write(json.dumps(row, ensure_ascii=False) + "\n")
                     stats["rows"] += 1
                     stats["by_section"][row["section"]] += 1
+                fh.flush()
             if stats["papers"] % 25 == 0:
                 log.info("[fulltext] %(papers)d papers · %(rows)d rows · "
                          "%(skipped)d skipped", stats)

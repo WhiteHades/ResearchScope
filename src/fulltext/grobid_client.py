@@ -31,13 +31,28 @@ def is_alive(base_url: str = _DEFAULT_URL, timeout: float = 5.0) -> bool:
         return False
 
 
+def wait_until_alive(base_url: str = _DEFAULT_URL, timeout: float = 90.0) -> bool:
+    """Block until GROBID answers /isalive (e.g. after an OOM auto-restart)."""
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        if is_alive(base_url):
+            return True
+        time.sleep(3)
+    return False
+
+
 def process_fulltext(
     pdf_bytes: bytes,
     base_url: str = _DEFAULT_URL,
     timeout: float = 180.0,
     retries: int = 2,
 ) -> str | None:
-    """Send PDF bytes to GROBID; return TEI XML string or None on failure."""
+    """Send PDF bytes to GROBID; return TEI XML string or None on failure.
+
+    On a refused connection (GROBID crashed/OOM and is being auto-restarted by
+    Docker) we wait for it to come back and retry, rather than silently skipping
+    a long run of papers.
+    """
     body = _multipart(pdf_bytes)
     url = f"{base_url}/api/processFulltextDocument"
     for attempt in range(retries + 1):
@@ -53,6 +68,17 @@ def process_fulltext(
                 time.sleep(2 + attempt * 3)
                 continue
             log.warning("[grobid] HTTP %s on attempt %d", e.code, attempt)
+            return None
+        except urllib.error.URLError as exc:
+            # Connection refused → container is down/restarting. Wait for it.
+            if isinstance(exc.reason, ConnectionRefusedError) and attempt < retries:
+                log.warning("[grobid] connection refused — waiting for restart…")
+                wait_until_alive(base_url)
+                continue
+            if attempt < retries:
+                time.sleep(2)
+                continue
+            log.warning("[grobid] failed: %s", exc)
             return None
         except Exception as exc:
             if attempt < retries:

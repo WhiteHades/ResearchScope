@@ -41,6 +41,8 @@ def main() -> int:
     ap.add_argument("--min-citations", type=int, default=0, help="Min citations")
     ap.add_argument("--delay", type=float, default=0.0,
                     help="Seconds to sleep between papers (politeness)")
+    ap.add_argument("--max-pdf-mb", type=float, default=5.0,
+                    help="Skip PDFs larger than this (avoids OOM on low-RAM GROBID)")
     args = ap.parse_args()
 
     papers = select_papers(args.db, min_score=args.min_score,
@@ -51,7 +53,8 @@ def main() -> int:
         logging.error("No papers matched. Is the DB present?")
         return 1
 
-    stats = build_dataset(papers, args.out, delay=args.delay)
+    stats = build_dataset(papers, args.out, delay=args.delay,
+                          max_pdf_mb=args.max_pdf_mb)
 
     logging.info("\n=== DONE ===")
     logging.info("papers processed : %d", stats["papers"])
