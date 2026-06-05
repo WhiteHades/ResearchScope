@@ -1,0 +1,95 @@
+name: Build Section Fine-tuning Dataset
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+# Extracts real per-section body text (intro / related_work / method / …) from
+# A* conference-paper PDFs via a GROBID service container, then pushes the
+# `sections` split to the HuggingFace dataset. Runs off-laptop on the 16 GB
+# GitHub runner, so it doesn't hit the local low-RAM OOM tax.
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Max papers to process (top-scored A* first)"
+        default: "2000"
+      min_citations:
+        description: "Minimum citations filter"
+        default: "0"
+      max_pdf_mb:
+        description: "Skip PDFs larger than this many MB"
+        default: "10"
+  schedule:
+    - cron: "0 4 * * 0"   # weekly — Sunday 04:00 UTC
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sections-build
+  cancel-in-progress: false
+
+jobs:
+  build-sections:
+    name: Extract sections & push to HF
+    runs-on: ubuntu-latest
+    timeout-minutes: 330   # stay under the 6h job cap even with GROBID restarts
+
+    services:
+      grobid:
+        image: lfoppiano/grobid:0.8.0
+        ports:
+          - 8070:8070
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Wait for GROBID
+        run: |
+          for i in $(seq 1 60); do
+            if curl -sf -m 3 http://localhost:8070/api/isalive | grep -qi true; then
+              echo "GROBID is alive"; exit 0
+            fi
+            echo "waiting for GROBID… ($i)"; sleep 5
+          done
+          echo "GROBID did not become ready"; exit 1
+
+      - name: Build section dataset
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+          GROBID_URL: http://localhost:8070
+        run: |
+          python scripts/build_sections.py \
+            --limit "${{ github.event.inputs.limit || '2000' }}" \
+            --min-citations "${{ github.event.inputs.min_citations || '0' }}" \
+            --max-pdf-mb "${{ github.event.inputs.max_pdf_mb || '10' }}" \
+            --delay 0.3 \
+            --out data/sections.jsonl
+
+      - name: Push sections split to HuggingFace
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          # push_sections() no-ops if HF_TOKEN is unset or the file is empty.
+          python -c "from src.storage.hf_dataset import push_sections; push_sections('data/sections.jsonl')"
+
+      - name: Upload dataset artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sections-jsonl
+          path: data/sections.jsonl
+          retention-days: 14
+          if-no-files-found: warn
