@@ -5,9 +5,11 @@ Pipeline per paper:
     record → resolve_pdf_url → download → GROBID TEI → segment into 7 buckets
            → emit one (input → output) training row per section found.
 
-Input shape "A" (metadata-conditioned): the agent is given the paper's title,
-venue, year and abstract plus the target section name, and learns to produce
-the real section text. Filter rows by `section` to get a clean per-agent corpus.
+Input shape "B" (context-conditioned): the agent is given the paper's title,
+venue, year and abstract, PLUS the real text of every preceding section, then
+learns to produce the target section. This trains each agent to write in
+coherent continuation of what came before (e.g. Method sees Introduction +
+Related Work). Filter rows by `section` to get a clean per-agent corpus.
 
 Quality gating uses signals already on the record: conference_rank (always A*
 here), paper_score and citations.
@@ -38,8 +40,20 @@ _SECTION_PROMPT = {
     "conclusion":   "Write the Conclusion section for this paper.",
 }
 
+# Human-readable headings used to label preceding sections in the context.
+_SECTION_TITLE = {
+    "introduction": "Introduction",
+    "related_work": "Related Work",
+    "method":       "Method",
+    "experiments":  "Experiments",
+    "results":      "Results",
+    "conclusion":   "Conclusion",
+}
+
 # Drop sections shorter than this — too small to teach a pattern.
 _MIN_SECTION_CHARS = 200
+# Per-section cap when used as *preceding context* (keeps input rows bounded).
+_CONTEXT_CHARS_PER_SECTION = 2500
 _DOWNLOAD_TIMEOUT = 60
 _UA = "ResearchScope/1.0 (+https://github.com/kishormorol/ResearchScope)"
 
@@ -74,17 +88,24 @@ def _download_pdf(url: str) -> bytes | None:
         return None
 
 
-def _make_input(paper: dict, section: str) -> str:
+def _truncate(text: str, limit: int) -> str:
+    return text if len(text) <= limit else text[:limit].rstrip() + " […]"
+
+
+def _make_input(paper: dict, section: str, preceding: str) -> str:
     title = paper.get("title") or ""
     venue = paper.get("venue") or ""
     year  = paper.get("year") or ""
     abstract = paper.get("abstract") or ""
-    return (
-        f"Title: {title}\n"
-        f"Venue: {venue} {year}\n"
-        f"Abstract: {abstract}\n\n"
-        f"{_SECTION_PROMPT[section]}"
-    ).strip()
+    parts = [
+        f"Title: {title}",
+        f"Venue: {venue} {year}",
+        f"Abstract: {abstract}",
+    ]
+    if preceding:
+        parts.append("\nThe paper so far:\n\n" + preceding)
+    parts.append("\n" + _SECTION_PROMPT[section])
+    return "\n".join(parts).strip()
 
 
 def build_rows(paper: dict) -> list[dict]:
@@ -101,21 +122,28 @@ def build_rows(paper: dict) -> list[dict]:
     sections = segment(tei)
 
     rows: list[dict] = []
+    context_blocks: list[str] = []   # preceding sections, in canonical order
     for section in CANONICAL_SECTIONS:
         text = sections.get(section, "")
-        if len(text) < _MIN_SECTION_CHARS:
-            continue
-        rows.append({
-            "section":     section,
-            "paper_id":    str(paper.get("id", "")),
-            "venue":       str(paper.get("venue", "")),
-            "year":        int(paper.get("year") or 0),
-            "tags":        [str(t) for t in (paper.get("tags") or [])],
-            "paper_score": float(paper.get("paper_score") or 0),
-            "citations":   int(paper.get("citations") or 0),
-            "input":       _make_input(paper, section),
-            "output":      text,
-        })
+        # Emit a training row when the section is long enough to teach a pattern.
+        if len(text) >= _MIN_SECTION_CHARS:
+            preceding = "\n\n".join(context_blocks)
+            rows.append({
+                "section":     section,
+                "paper_id":    str(paper.get("id", "")),
+                "venue":       str(paper.get("venue", "")),
+                "year":        int(paper.get("year") or 0),
+                "tags":        [str(t) for t in (paper.get("tags") or [])],
+                "paper_score": float(paper.get("paper_score") or 0),
+                "citations":   int(paper.get("citations") or 0),
+                "input":       _make_input(paper, section, preceding),
+                "output":      text,
+            })
+        # Add this section to the running context for later sections. Abstract
+        # is skipped — it already appears in the metadata header of every input.
+        if text and section != "abstract":
+            block = f"## {_SECTION_TITLE[section]}\n{_truncate(text, _CONTEXT_CHARS_PER_SECTION)}"
+            context_blocks.append(block)
     return rows
 
 
