@@ -20,8 +20,8 @@ on:
       max_pdf_mb:
         description: "Skip PDFs larger than this many MB"
         default: "10"
-  schedule:
-    - cron: "0 4 * * 0"   # weekly — Sunday 04:00 UTC
+  # Daily builds now run as the build-sections job in pipeline.yml. This
+  # workflow is kept for manual ad-hoc runs with custom limit/citation params.
 
 permissions:
   contents: read
