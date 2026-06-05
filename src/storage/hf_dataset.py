@@ -4,10 +4,13 @@ Hugging Face Hub dataset pusher.
 Exports all ResearchScope papers to JSONL and pushes to
 kishormorol/researchscope-papers on the HF Hub.
 
-Two splits are uploaded:
+Three splits are uploaded:
   papers.jsonl         — raw metadata (all fields, good for pretraining)
   instruct.jsonl       — instruction-tuning format (summary, key contribution,
                          why_it_matters tasks)
+  sections.jsonl       — per-section fine-tuning rows for A* papers (real
+                         introduction / related_work / method / … body text),
+                         produced by scripts/build_sections.py
 
 Run automatically when HF_TOKEN env var is set.
 """
@@ -217,6 +220,43 @@ def push(papers: list[dict] | None = None) -> bool:
     return True
 
 
+def push_sections(jsonl_path: str | Path = "data/sections.jsonl") -> bool:
+    """Upload the per-section fine-tuning split (built by build_sections.py)."""
+    token = os.environ.get("HF_TOKEN", "").strip()
+    if not token:
+        log.info("[hf] HF_TOKEN not set — skipping sections push.")
+        return False
+
+    path = Path(jsonl_path)
+    if not path.exists() or path.stat().st_size == 0:
+        log.info("[hf] %s missing/empty — skipping sections push.", path)
+        return False
+
+    try:
+        from huggingface_hub import HfApi
+    except ImportError:
+        log.warning("[hf] huggingface_hub not installed — skipping.")
+        return False
+
+    api = HfApi(token=token)
+    try:
+        api.create_repo(repo_id=_REPO_ID, repo_type=_REPO_TYPE, exist_ok=True, private=False)
+    except Exception as exc:
+        log.warning("[hf] could not create repo: %s", exc)
+
+    n_rows = sum(1 for _ in path.open(encoding="utf-8"))
+    today = datetime.now(timezone.utc).date()
+    log.info("[hf] pushing %d section rows …", n_rows)
+    _upload_with_retry(
+        api,
+        path_or_fileobj=str(path),
+        path_in_repo="data/sections.jsonl",
+        commit_message=f"update sections.jsonl ({n_rows:,} rows) [{today}]",
+    )
+    log.info("[hf] sections push complete.")
+    return True
+
+
 def _push_card(api: Any, n_papers: int, n_instruct: int) -> None:
     card = f"""---
 license: cc-by-4.0
@@ -245,6 +285,10 @@ configs:
     data_files:
       - split: train
         path: data/instruct.jsonl
+  - config_name: sections
+    data_files:
+      - split: train
+        path: data/sections.jsonl
 ---
 
 # ResearchScope Papers
@@ -266,6 +310,7 @@ Updated automatically via GitHub Actions.
 |------|-------------|
 | `data/papers.jsonl` | Raw paper metadata — title, abstract, authors, venue, year, tags, scores |
 | `data/instruct.jsonl` | Instruction-tuning pairs — summarize, key contribution, why it matters, plain English |
+| `data/sections.jsonl` | Per-section fine-tuning rows for A* papers — real body text of `abstract`, `introduction`, `related_work`, `method`, `experiments`, `results`, `conclusion`. Filter by the `section` field to train a per-section writing agent. |
 
 ## Usage
 
@@ -277,6 +322,10 @@ papers = load_dataset("kishormorol/researchscope-papers", "papers", split="train
 
 # Instruction tuning
 instruct = load_dataset("kishormorol/researchscope-papers", "instruct", split="train")
+
+# Per-section fine-tuning (A* papers) — e.g. train an Introduction-writing agent
+sections = load_dataset("kishormorol/researchscope-papers", "sections", split="train")
+intros = sections.filter(lambda r: r["section"] == "introduction")
 ```
 
 ## License
