@@ -54,7 +54,7 @@ function difficultyBadge(d) {
 }
 
 function scoreBadge(score) {
-  return `<span class="badge badge-score score-badge-tip" title="Paper score (0–10): weighted by citation impact, recency, venue rank, topic relevance, and content quality">⭐ ${(+score || 0).toFixed(1)}</span>`;
+  return `<span class="badge badge-score score-badge-tip" title="Paper score (0–10): weighted by citation impact, recency, venue rank, acceptance tier (oral/spotlight), topic relevance, and content quality">⭐ ${(+score || 0).toFixed(1)}</span>`;
 }
 
 function tagChips(tags) {
