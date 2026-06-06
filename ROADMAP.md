@@ -40,7 +40,7 @@
 
 ## v0.2 — Conference Expansion
 
-- [ ] **OpenReview connector** — ICLR, NeurIPS, ICML, COLM (oral/poster/reject signals)
+- [x] **OpenReview connector** — ICLR, NeurIPS, ICML, COLM with oral/spotlight/poster acceptance-tier signals (feeds `quality_hint`; oral/spotlight surfaced as paper badges)
 - [ ] **PMLR connector** — ICML proceedings
 - [ ] Per-conference explorer pages with theme detection
 - [ ] Best paper award tracking

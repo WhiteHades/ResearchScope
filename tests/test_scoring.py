@@ -13,7 +13,7 @@ _YEAR = datetime.now(timezone.utc).year
 
 
 def _paper(year: int, citations: int = 0, abstract: str = "", tags: list[str] | None = None,
-           rank: str = "", source_type: str = "conference") -> Paper:
+           rank: str = "", source_type: str = "conference", presentation_type: str = "") -> Paper:
     return Paper(
         id=f"p{year}{citations}",
         title="Test Paper",
@@ -23,6 +23,7 @@ def _paper(year: int, citations: int = 0, abstract: str = "", tags: list[str] | 
         tags=tags or [],
         conference_rank=rank,
         source_type=source_type,
+        presentation_type=presentation_type,
     )
 
 
@@ -51,6 +52,24 @@ class TestPaperScorer:
         low  = self.scorer.score(_paper(_YEAR, citations=0))
         high = self.scorer.score(_paper(_YEAR, citations=500))
         assert high.paper_score > low.paper_score
+
+    def test_oral_beats_poster_at_same_rank(self):
+        poster = self.scorer.score(_paper(_YEAR, rank="A*", presentation_type="poster"))
+        oral   = self.scorer.score(_paper(_YEAR, rank="A*", presentation_type="oral"))
+        assert oral.paper_score > poster.paper_score
+
+    def test_oral_beats_spotlight_beats_poster(self):
+        poster    = self.scorer.score(_paper(_YEAR, rank="A*", presentation_type="poster"))
+        spotlight = self.scorer.score(_paper(_YEAR, rank="A*", presentation_type="spotlight"))
+        oral      = self.scorer.score(_paper(_YEAR, rank="A*", presentation_type="oral"))
+        assert oral.paper_score >= spotlight.paper_score >= poster.paper_score
+        assert oral.paper_score > poster.paper_score
+
+    def test_presentation_bonus_only_for_conference(self):
+        # A preprint with a stray presentation_type must not get the venue bonus.
+        plain = self.scorer.score(_paper(_YEAR, source_type="preprint", presentation_type=""))
+        oral  = self.scorer.score(_paper(_YEAR, source_type="preprint", presentation_type="oral"))
+        assert oral.paper_score == plain.paper_score
 
     def test_hot_tags_boost_content_potential(self):
         generic = self.scorer.score(_paper(_YEAR, tags=["Sentiment Analysis"]))

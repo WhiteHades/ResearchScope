@@ -40,6 +40,7 @@ class Paper:
     published_date: str = ""         # ISO date
     venue: str = ""                  # human-readable: "arXiv" | "ACL 2024" | …
     conference_rank: str = ""        # "A*" | "A" | "B" | "C" | ""
+    presentation_type: str = ""      # "oral" | "spotlight" | "poster" | "" (accepted-tier signal)
     paper_url: str = ""
     pdf_url: str = ""
     citations: int = 0
