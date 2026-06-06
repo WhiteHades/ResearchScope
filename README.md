@@ -38,6 +38,7 @@ The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** o
 
 | Date | Highlight |
 |---|---|
+| **Jun 2026** | **OpenReview Acceptance Tiers** — oral/spotlight/poster signals captured for ICLR, NeurIPS, ICML & COLM; oral/spotlight boost paper scores and show as badges. Coverage extended through ICLR 2026, NeurIPS 2025, ICML 2025 |
 | **Jun 2026** | **Journal Recommender** — paste title + abstract to match against 20 Q1 journals (JMLR, TPAMI, Nature MI, CSUR…) with impact factor, review timeline, and open access info |
 | **Jun 2026** | **FastAPI Backend on Railway** — full REST API with JWT auth, favourites, PostgreSQL full-text search (83K+ papers). User accounts synced across devices |
 | **Jun 2026** | **OpenAlex Integration** — 250M+ work catalogue added as a data source, covering ML/NLP/CV/IR concept groups |
@@ -53,7 +54,7 @@ The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** o
 
 | Feature | Description |
 |---|---|
-| 📄 **83K+ papers** | Scored by recency, venue rank, novelty, author prestige, and citation quality |
+| 📄 **83K+ papers** | Scored by recency, venue rank, acceptance tier (oral/spotlight), novelty, author prestige, and citation quality |
 | 🎓 **A* Conference coverage** | NeurIPS, ICML, ICLR, CVPR, ACL, EMNLP, AAAI, IJCAI, CHI, SIGIR, WWW, KDD and more |
 | 📖 **20 Q1 Journals** | JMLR, TMLR, TACL, TPAMI, Nature MI, and 15 more — with IF, review time, OA status |
 | 🎯 **Venue Recommenders** | Conference + Journal recommenders: paste abstract → ranked matches with expectations |
@@ -153,7 +154,7 @@ instruct = load_dataset("kishormorol/researchscope-papers",
 | **arXiv (OAI-PMH)** | All cs.* preprints — 19 CoRR categories | Daily |
 | **OpenAlex** | 250M+ works — ML/NLP/CV/IR concept groups | Daily |
 | **ACL Anthology** | ACL, EMNLP, NAACL, EACL, COLING, TACL, CL (2020+) | Monthly |
-| **OpenReview** | ICLR (2022–25), NeurIPS (2022–24), COLM (2024–25) | Monthly |
+| **OpenReview** | ICLR (2022–26), NeurIPS (2022–25), ICML (2024–25), COLM (2024–25) — with oral/spotlight/poster acceptance tiers | Monthly |
 | **PMLR** | ICML (2020–25), AISTATS (2021–25), UAI (2021–24) | Monthly |
 | **CVF** | CVPR (2021–25), ICCV (2021+23), ECCV (2020+22+24) | Monthly |
 | **Semantic Scholar** | AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE + journals | Monthly |
