@@ -51,8 +51,9 @@
       <h1 class="text-3xl font-extrabold mb-2">📖 Journal Recommender</h1>
       <p class="text-sm max-w-2xl" style="color:var(--rs-muted)">
         Paste your title and abstract to match your manuscript against ResearchScope journal profiles.
-        Results show topic fit, impact factor, review timeline, and similar accepted papers.
-        Fit labels are advisory — not acceptance predictions.
+        Results show topic fit, scope, impact, acceptance rate, review timeline, and similar accepted papers.
+        Fit labels are advisory — not acceptance predictions. Impact = OpenAlex 2-year mean citedness;
+        acceptance rates are approximate (most journals don't publish official figures).
       </p>
     </div>
     <a href="conference-recommender"
@@ -169,7 +170,12 @@ function recommendJournals() {
 
   const ranked = recommenderIndex.venues.map(venue => {
     const overlap       = weightedKeywordScore(queryTokens, venue.weighted_keywords || [], queryBigrams, venue.keywords || []);
-    const fieldBonus    = field === 'any' ? 0 : (venue.field === field ? 8 : -4);
+    // Field bonus: reward an exact match; don't penalise broad / multidisciplinary
+    // venues (inferred field "General") that legitimately publish across fields.
+    const fieldBonus    = field === 'any' ? 0
+                          : venue.field === field ? 8
+                          : venue.field === 'General' ? 0
+                          : -4;
     const contribBonus  = contribAdjust(venue, contribType);
     const noveltyBonus  = analysis.noveltyFound.length >= 2 ? 3 : analysis.noveltyFound.length >= 1 ? 1 : 0;
     const rawScore      = Math.max(0, overlap.score + fieldBonus + contribBonus + noveltyBonus);
@@ -212,7 +218,8 @@ function renderResult(item, index) {
   const v  = item.venue;
   const mw = Math.min(100, Math.round(item.score * 2.8));
   const oa = v.open_access ? '<span class="badge" style="background:#dcfce7;color:#166534">Open Access</span>' : '';
-  const ifBadge = v.impact_factor != null ? `<span class="badge badge-tag">IF ${v.impact_factor}</span>` : '';
+  const ifBadge = v.impact_factor != null ? `<span class="badge badge-tag" title="OpenAlex 2-year mean citedness — an impact-factor-style metric">IF ${v.impact_factor}</span>` : '';
+  const accBadge = v.acceptance_rate ? `<span class="badge badge-tag" title="Approximate — most journals do not publish official acceptance rates">Accept ${escHtml(v.acceptance_rate)}</span>` : '';
   const websiteLink = v.website
     ? `<a href="${escHtml(v.website)}" target="_blank" rel="noopener" class="text-xs hover:underline" style="color:var(--rs-primary)">${escHtml(v.website.replace(/^https?:\/\//,''))}</a>` : '';
 
@@ -231,15 +238,17 @@ function renderResult(item, index) {
       <div class="recommender-result-title">
         <div class="text-xs font-bold uppercase tracking-widest" style="color:var(--rs-muted)">#${index+1}</div>
         <h2 class="text-lg font-bold mt-0.5">${escHtml(v.short)}${v.name&&v.name!==v.short?' — '+escHtml(v.name):''}</h2>
+        ${v.scope ? `<p class="text-sm mt-1" style="color:var(--rs-muted)">${escHtml(v.scope)}</p>` : ''}
         <div class="flex gap-1 flex-wrap items-center mt-1.5">
           <span class="badge ${item.fit.cls}">${item.fit.label}</span>
           ${v.rank ? qBadge(v.rank==='A*'?'Q1':v.rank==='A'?'Q2':v.rank) : ''}
           <span class="badge badge-tag">${escHtml(v.field)}</span>
-          ${ifBadge} ${oa}
+          ${ifBadge} ${accBadge} ${oa}
         </div>
-        <div class="flex items-center gap-2 mt-1">
+        <div class="flex items-center gap-2 mt-1 flex-wrap">
           ${v.publisher ? `<p class="text-xs" style="color:var(--rs-muted)">${escHtml(v.publisher)}</p>` : ''}
           ${ifContext(v.impact_factor)}
+          ${v.h_index != null ? `<span class="text-xs" style="color:var(--rs-muted)">h-index ${v.h_index}</span>` : ''}
         </div>
         ${websiteLink ? `<div class="mt-1">${websiteLink}</div>` : ''}
       </div>
@@ -265,6 +274,9 @@ function renderResult(item, index) {
         <p class="text-xs font-bold uppercase mb-1" style="color:var(--rs-muted)">Review timeline</p>
         <p class="text-sm font-semibold" style="color:var(--rs-text)">${escHtml(String(reviewWeeks))} weeks typical</p>
         <p class="text-xs mt-1" style="color:var(--rs-muted)">${reviewNote}</p>
+        ${v.acceptance_rate ? `
+        <p class="text-xs font-bold uppercase mt-3 mb-1" style="color:var(--rs-muted)">Acceptance rate</p>
+        <p class="text-sm font-semibold" style="color:var(--rs-text)">${escHtml(v.acceptance_rate)} <span class="text-xs font-normal" style="color:var(--rs-muted)">approx.</span></p>` : ''}
       </div>
       <div>
         <p class="text-xs font-bold uppercase mb-2" style="color:var(--rs-muted)">Editor / reviewer expectations</p>

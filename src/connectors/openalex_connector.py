@@ -72,6 +72,12 @@ _VENUE_MAP: dict[str, tuple[str, str]] = {
     "Information Processing & Management": ("IPM",    "A"),
     "Journal of the ACM": ("JACM",   "A*"),
     "ACM Transactions on Information Systems": ("TOIS",   "A*"),
+    "Journal of Artificial Intelligence Research": ("JAIR", "A*"),
+    "IEEE/ACM Transactions on Audio Speech and Language Processing": ("TASLP", "A*"),
+    "The VLDB Journal": ("VLDBJ", "A*"),
+    "ACM Transactions on Knowledge Discovery from Data": ("TKDD", "A"),
+    "Autonomous Agents and Multi-Agent Systems": ("JAAMAS", "A"),
+    "ACM Transactions on Graphics": ("TOG", "A*"),
 }
 
 # OpenAlex source IDs for the top CS journals → (canonical short name, rank).
@@ -101,6 +107,12 @@ _JOURNAL_SOURCES: dict[str, tuple[str, str]] = {
     "S118992489":  ("JACM",     "A*"),
     "S64187185":   ("NatComms", "A*"),
     "S4394735545": ("TOIS",     "A*"),
+    "S139930977":  ("JAIR",     "A*"),
+    "S4210169297": ("TASLP",    "A*"),
+    "S78926909":   ("VLDBJ",    "A*"),
+    "S41523882":   ("TKDD",     "A"),
+    "S5405189":    ("JAAMAS",   "A"),
+    "S185367456":  ("TOG",      "A*"),
 }
 
 

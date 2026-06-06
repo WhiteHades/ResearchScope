@@ -35,40 +35,69 @@ STOP_WORDS = {
 # Journals that are too generic or are conference venues misclassified
 IGNORED_JOURNALS = {"", "arxiv", "corr", "unknown", "openreview"}
 
+# Journal metadata, keyed by canonical short name.
+#   impact_factor — OpenAlex 2-year mean citedness (a journal-impact-factor-style
+#     metric computed over the OpenAlex citation graph), rounded to 1 dp and
+#     refreshed 2026-06. JMLR/TMLR are poorly indexed by OpenAlex (open-access /
+#     OpenReview), so their values are kept as known approximations / null.
+#   h_index — OpenAlex source h-index.
+#   acceptance_rate — APPROXIMATE; most journals do not publish official figures.
+#   scope — one-line aims & scope.
+_JOURNAL_INFO: dict[str, dict[str, Any]] = {
+    "JMLR":     {"website": "https://jmlr.org",                                                  "impact_factor": 6.0,  "h_index": 132, "acceptance_rate": "~15%", "review_weeks": "8–16",  "open_access": True,  "publisher": "JMLR Inc.",        "scope": "Theory, methods, and applications of machine learning."},
+    "TMLR":     {"website": "https://jmlr.org/tmlr",                                             "impact_factor": None, "h_index": None,"acceptance_rate": "~30%", "review_weeks": "4–8",   "open_access": True,  "publisher": "JMLR Inc.",        "scope": "Technically sound ML research, judged on correctness over novelty."},
+    "TACL":     {"website": "https://aclanthology.org/venues/tacl",                              "impact_factor": 13.0, "h_index": 104, "acceptance_rate": "~25%", "review_weeks": "8–12",  "open_access": True,  "publisher": "MIT Press",        "scope": "Computational linguistics and NLP, with action-editor review."},
+    "TPAMI":    {"website": "https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=34",       "impact_factor": 11.8, "h_index": 549, "acceptance_rate": "~20%", "review_weeks": "12–24", "open_access": False, "publisher": "IEEE",             "scope": "Pattern analysis, computer vision, and machine intelligence."},
+    "IJCV":     {"website": "https://link.springer.com/journal/11263",                          "impact_factor": 8.1,  "h_index": 288, "acceptance_rate": "~25%", "review_weeks": "12–20", "open_access": False, "publisher": "Springer",         "scope": "Computer vision theory, methods, and systems."},
+    "AIJ":      {"website": "https://www.sciencedirect.com/journal/artificial-intelligence",    "impact_factor": 3.1,  "h_index": 299, "acceptance_rate": "~20%", "review_weeks": "8–16",  "open_access": False, "publisher": "Elsevier",         "scope": "Foundational and applied artificial intelligence."},
+    "TNNLS":    {"website": "https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=5962385", "impact_factor": 7.5,  "h_index": 240, "acceptance_rate": "~25%", "review_weeks": "8–16",  "open_access": False, "publisher": "IEEE",             "scope": "Neural networks and learning systems theory and applications."},
+    "NMI":      {"website": "https://www.nature.com/natmachintell",                             "impact_factor": 19.5, "h_index": 144, "acceptance_rate": "~8%",  "review_weeks": "4–12",  "open_access": False, "publisher": "Nature Portfolio", "scope": "Machine intelligence research across disciplines."},
+    "CSUR":     {"website": "https://dl.acm.org/journal/csur",                                  "impact_factor": 19.2, "h_index": 324, "acceptance_rate": "~20%", "review_weeks": "12–20", "open_access": False, "publisher": "ACM",              "scope": "Comprehensive surveys and tutorials across computer science."},
+    "TIP":      {"website": "https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=83",      "impact_factor": 7.6,  "h_index": 393, "acceptance_rate": "~25%", "review_weeks": "8–16",  "open_access": False, "publisher": "IEEE",             "scope": "Image and video formation, processing, and analysis."},
+    "MLJ":      {"website": "https://link.springer.com/journal/10994",                          "impact_factor": 3.0,  "h_index": 261, "acceptance_rate": "~25%", "review_weeks": "8–16",  "open_access": False, "publisher": "Springer",         "scope": "Machine learning algorithms, theory, and applications."},
+    "TKDE":     {"website": "https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=69",      "impact_factor": 8.2,  "h_index": 266, "acceptance_rate": "~20%", "review_weeks": "8–16",  "open_access": False, "publisher": "IEEE",             "scope": "Knowledge and data engineering, databases, and data mining."},
+    "DAMI":     {"website": "https://link.springer.com/journal/10618",                          "impact_factor": 4.2,  "h_index": 141, "acceptance_rate": "~20%", "review_weeks": "8–16",  "open_access": False, "publisher": "Springer",         "scope": "Data mining and knowledge discovery methods."},
+    "NN":       {"website": "https://www.sciencedirect.com/journal/neural-networks",            "impact_factor": 5.0,  "h_index": 247, "acceptance_rate": "~25%", "review_weeks": "6–12",  "open_access": False, "publisher": "Elsevier",         "scope": "Artificial and biological neural networks."},
+    "PR":       {"website": "https://www.sciencedirect.com/journal/pattern-recognition",        "impact_factor": 5.7,  "h_index": 301, "acceptance_rate": "~20%", "review_weeks": "6–12",  "open_access": False, "publisher": "Elsevier",         "scope": "Pattern recognition theory, methods, and applications."},
+    "CL":       {"website": "https://aclanthology.org/venues/cl",                               "impact_factor": 11.6, "h_index": 136, "acceptance_rate": "~25%", "review_weeks": "8–16",  "open_access": True,  "publisher": "MIT Press",        "scope": "Computational linguistics and language technology."},
+    "IPM":      {"website": "https://www.sciencedirect.com/journal/information-processing-and-management", "impact_factor": 6.2, "h_index": 186, "acceptance_rate": "~20%", "review_weeks": "6–12", "open_access": False, "publisher": "Elsevier", "scope": "Information retrieval, processing, and management."},
+    "JACM":     {"website": "https://dl.acm.org/journal/jacm",                                  "impact_factor": 4.0,  "h_index": 294, "acceptance_rate": "~10%", "review_weeks": "16–24", "open_access": False, "publisher": "ACM",              "scope": "Foundational computer science of lasting value."},
+    "NatComms": {"website": "https://www.nature.com/ncomms",                                    "impact_factor": 15.5, "h_index": 738, "acceptance_rate": "~8%",  "review_weeks": "4–12",  "open_access": True,  "publisher": "Nature Portfolio", "scope": "High-quality research across the natural sciences, incl. ML."},
+    "TOIS":     {"website": "https://dl.acm.org/journal/tois",                                  "impact_factor": 10.6, "h_index": 153, "acceptance_rate": "~20%", "review_weeks": "8–16",  "open_access": False, "publisher": "ACM",              "scope": "Information retrieval, recommendation, and information systems."},
+    "JAIR":     {"website": "https://www.jair.org",                                             "impact_factor": 3.9,  "h_index": 154, "acceptance_rate": "~25%", "review_weeks": "8–16",  "open_access": True,  "publisher": "AI Access Foundation", "scope": "All areas of artificial intelligence; fully open access."},
+    "TASLP":    {"website": "https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=6570655", "impact_factor": 10.1, "h_index": 113, "acceptance_rate": "~25%", "review_weeks": "12–24", "open_access": False, "publisher": "IEEE/ACM",         "scope": "Audio, speech, and spoken-language processing."},
+    "VLDBJ":    {"website": "https://link.springer.com/journal/778",                            "impact_factor": 3.3,  "h_index": 127, "acceptance_rate": "~20%", "review_weeks": "12–20", "open_access": False, "publisher": "Springer",         "scope": "Database systems and large-scale data management."},
+    "TKDD":     {"website": "https://dl.acm.org/journal/tkdd",                                  "impact_factor": 5.3,  "h_index": 88,  "acceptance_rate": "~20%", "review_weeks": "12–20", "open_access": False, "publisher": "ACM",              "scope": "Knowledge discovery and data mining from large datasets."},
+    "JAAMAS":   {"website": "https://link.springer.com/journal/10458",                          "impact_factor": 3.0,  "h_index": 90,  "acceptance_rate": "~25%", "review_weeks": "12–20", "open_access": False, "publisher": "Springer",         "scope": "Autonomous agents and multi-agent systems."},
+    "TOG":      {"website": "https://dl.acm.org/journal/tog",                                   "impact_factor": 5.8,  "h_index": 312, "acceptance_rate": "~20%", "review_weeks": "12–20", "open_access": False, "publisher": "ACM",              "scope": "Computer graphics, rendering, and geometry (incl. SIGGRAPH)."},
+}
+
+# Full source display-name → canonical short name. Lets metadata resolve whether
+# the venue is stored as a short name or a full journal name.
+_JOURNAL_ALIASES: dict[str, str] = {
+    "Artificial Intelligence":               "AIJ",
+    "Nature Machine Intelligence":           "NMI",
+    "ACM Computing Surveys":                  "CSUR",
+    "IEEE Transactions on Image Processing":  "TIP",
+    "Machine Learning":                       "MLJ",
+    "Data Mining and Knowledge Discovery":    "DAMI",
+    "Neural Networks":                        "NN",
+    "Pattern Recognition":                    "PR",
+    "Computational Linguistics":              "CL",
+    "Information Processing & Management":     "IPM",
+    "Journal of the ACM":                     "JACM",
+    "Nature Communications":                  "NatComms",
+    "ACM Transactions on Information Systems": "TOIS",
+    "Journal of Artificial Intelligence Research": "JAIR",
+    "The VLDB Journal":                       "VLDBJ",
+    "ACM Transactions on Knowledge Discovery from Data": "TKDD",
+    "Autonomous Agents and Multi-Agent Systems": "JAAMAS",
+    "ACM Transactions on Graphics":           "TOG",
+}
+
 JOURNAL_METADATA: dict[str, dict[str, Any]] = {
-    "JMLR":     {"website": "https://jmlr.org",                               "impact_factor": 6.3,  "review_weeks": "8–16",  "open_access": True,  "publisher": "JMLR Inc."},
-    "TMLR":     {"website": "https://jmlr.org/tmlr",                          "impact_factor": None, "review_weeks": "4–8",   "open_access": True,  "publisher": "JMLR Inc."},
-    "TACL":     {"website": "https://aclanthology.org/venues/tacl",            "impact_factor": 9.3,  "review_weeks": "8–12",  "open_access": True,  "publisher": "MIT Press"},
-    "TPAMI":    {"website": "https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=34",   "impact_factor": 23.6, "review_weeks": "12–24", "open_access": False, "publisher": "IEEE"},
-    "IJCV":     {"website": "https://link.springer.com/journal/11263",         "impact_factor": 19.5, "review_weeks": "12–20", "open_access": False, "publisher": "Springer"},
-    "AIJ":      {"website": "https://www.sciencedirect.com/journal/artificial-intelligence", "impact_factor": 14.4, "review_weeks": "8–16",  "open_access": False, "publisher": "Elsevier"},
-    "Artificial Intelligence": {"website": "https://www.sciencedirect.com/journal/artificial-intelligence", "impact_factor": 14.4, "review_weeks": "8–16", "open_access": False, "publisher": "Elsevier"},
-    "TNNLS":    {"website": "https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=5962385", "impact_factor": 14.3, "review_weeks": "8–16", "open_access": False, "publisher": "IEEE"},
-    "NMI":      {"website": "https://www.nature.com/natmachintell",            "impact_factor": 23.8, "review_weeks": "4–12",  "open_access": False, "publisher": "Nature Portfolio"},
-    "Nature Machine Intelligence": {"website": "https://www.nature.com/natmachintell", "impact_factor": 23.8, "review_weeks": "4–12", "open_access": False, "publisher": "Nature Portfolio"},
-    "CSUR":     {"website": "https://dl.acm.org/journal/csur",                "impact_factor": 23.8, "review_weeks": "12–20", "open_access": False, "publisher": "ACM"},
-    "ACM Computing Surveys": {"website": "https://dl.acm.org/journal/csur",   "impact_factor": 23.8, "review_weeks": "12–20", "open_access": False, "publisher": "ACM"},
-    "TIP":      {"website": "https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=83", "impact_factor": 10.6, "review_weeks": "8–16", "open_access": False, "publisher": "IEEE"},
-    "IEEE Transactions on Image Processing": {"website": "https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=83", "impact_factor": 10.6, "review_weeks": "8–16", "open_access": False, "publisher": "IEEE"},
-    "MLJ":      {"website": "https://link.springer.com/journal/10994",        "impact_factor": 7.9,  "review_weeks": "8–16",  "open_access": False, "publisher": "Springer"},
-    "Machine Learning": {"website": "https://link.springer.com/journal/10994","impact_factor": 7.9,  "review_weeks": "8–16",  "open_access": False, "publisher": "Springer"},
-    "TKDE":     {"website": "https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=69", "impact_factor": 8.9, "review_weeks": "8–16", "open_access": False, "publisher": "IEEE"},
-    "DAMI":     {"website": "https://link.springer.com/journal/10618",        "impact_factor": 4.8,  "review_weeks": "8–16",  "open_access": False, "publisher": "Springer"},
-    "Data Mining and Knowledge Discovery": {"website": "https://link.springer.com/journal/10618", "impact_factor": 4.8, "review_weeks": "8–16", "open_access": False, "publisher": "Springer"},
-    "NN":       {"website": "https://www.sciencedirect.com/journal/neural-networks", "impact_factor": 7.8, "review_weeks": "6–12", "open_access": False, "publisher": "Elsevier"},
-    "Neural Networks": {"website": "https://www.sciencedirect.com/journal/neural-networks", "impact_factor": 7.8, "review_weeks": "6–12", "open_access": False, "publisher": "Elsevier"},
-    "PR":       {"website": "https://www.sciencedirect.com/journal/pattern-recognition", "impact_factor": 8.0, "review_weeks": "6–12", "open_access": False, "publisher": "Elsevier"},
-    "Pattern Recognition": {"website": "https://www.sciencedirect.com/journal/pattern-recognition", "impact_factor": 8.0, "review_weeks": "6–12", "open_access": False, "publisher": "Elsevier"},
-    "CL":       {"website": "https://aclanthology.org/venues/cl",              "impact_factor": 8.1,  "review_weeks": "8–16",  "open_access": True,  "publisher": "MIT Press"},
-    "Computational Linguistics": {"website": "https://aclanthology.org/venues/cl", "impact_factor": 8.1, "review_weeks": "8–16", "open_access": True, "publisher": "MIT Press"},
-    "IPM":      {"website": "https://www.sciencedirect.com/journal/information-processing-and-management", "impact_factor": 7.4, "review_weeks": "6–12", "open_access": False, "publisher": "Elsevier"},
-    "Information Processing & Management": {"website": "https://www.sciencedirect.com/journal/information-processing-and-management", "impact_factor": 7.4, "review_weeks": "6–12", "open_access": False, "publisher": "Elsevier"},
-    "JACM":     {"website": "https://dl.acm.org/journal/jacm",                "impact_factor": 4.5,  "review_weeks": "16–24", "open_access": False, "publisher": "ACM"},
-    "Journal of the ACM": {"website": "https://dl.acm.org/journal/jacm",      "impact_factor": 4.5,  "review_weeks": "16–24", "open_access": False, "publisher": "ACM"},
-    "NatComms": {"website": "https://www.nature.com/ncomms",                  "impact_factor": 16.6, "review_weeks": "4–12",  "open_access": True,  "publisher": "Nature Portfolio"},
-    "Nature Communications": {"website": "https://www.nature.com/ncomms",     "impact_factor": 16.6, "review_weeks": "4–12",  "open_access": True,  "publisher": "Nature Portfolio"},
-    "TOIS":     {"website": "https://dl.acm.org/journal/tois",                "impact_factor": 5.6,  "review_weeks": "8–16",  "open_access": False, "publisher": "ACM"},
-    "ACM Transactions on Information Systems": {"website": "https://dl.acm.org/journal/tois", "impact_factor": 5.6, "review_weeks": "8–16", "open_access": False, "publisher": "ACM"},
+    **_JOURNAL_INFO,
+    **{full: _JOURNAL_INFO[short] for full, short in _JOURNAL_ALIASES.items()},
 }
 
 FIELD_LABELS = {
@@ -337,6 +366,9 @@ def build_index() -> dict:
             "sample_papers": _sample_papers(ranked),
             "website":      meta.get("website", ""),
             "impact_factor": meta.get("impact_factor"),
+            "h_index":      meta.get("h_index"),
+            "acceptance_rate": meta.get("acceptance_rate", ""),
+            "scope":        meta.get("scope", ""),
             "review_weeks": meta.get("review_weeks", "8–16"),
             "open_access":  meta.get("open_access", False),
             "publisher":    meta.get("publisher", ""),
@@ -352,7 +384,7 @@ def build_index() -> dict:
             "weighted_keywords": wk,
         })
 
-    venue_rows.sort(key=lambda v: (-v.get("impact_factor") or 0, -v["paper_count"]))
+    venue_rows.sort(key=lambda v: (-(v.get("impact_factor") or 0), -v["paper_count"]))
 
     return {
         "schema_version": 1,

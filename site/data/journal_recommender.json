@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-03T11:46:42.468687+00:00",
+  "generated_at": "2026-06-06T20:19:35.195398+00:00",
   "type": "journal",
   "fields": [
     {
@@ -79,96 +79,424 @@
       ],
       "sample_papers": [
         {
-          "id": "acl:2023.tacl-1.76",
-          "title": "Learning to Paraphrase Sentences to Different Complexity Levels",
-          "year": 2023,
+          "id": "acl:2022.tacl-1.26",
+          "title": "Czech Grammar Error Correction with a Large and Diverse Corpus",
+          "year": 2022,
           "venue": "TACL",
-          "url": "https://aclanthology.org/2023.tacl-1.76/",
+          "url": "https://aclanthology.org/2022.tacl-1.26/",
           "tags": [
-            "LLMs",
-            "Evaluation",
+            "Transformers",
             "NLP"
           ],
-          "abstract": "While sentence simplification is an active research topic in NLP, its adjacent tasks of sentence complexification and same-level paraphrasing are not. To train models on all three tasks, we present two new unsupervised datasets. We compare these datasets, one ",
+          "abstract": "We introduce a large and diverse Czech corpus annotated for grammatical error correction (GEC) with the aim to contribute to the still scarce data resources in this domain for languages other than English. The Grammar Error Correction Corpus for Czech (GECCC) ",
           "terms": [
-            "datasets",
-            "sentence",
-            "three",
-            "unsupervised",
-            "simplification",
-            "nlp",
-            "train",
-            "all",
-            "present",
-            "two",
-            "while",
-            "active",
-            "research",
-            "topic",
-            "adjacent",
-            "complexification",
-            "same-level",
-            "paraphrasing",
-            "not",
-            "labeled",
-            "weak",
-            "classifier",
+            "error",
+            "czech",
+            "corpus",
+            "correction",
+            "gec",
+            "large",
+            "diverse",
+            "data",
+            "grammar",
+            "introduce",
+            "annotated",
+            "grammatical",
+            "aim",
+            "contribute",
+            "still",
+            "scarce",
+            "resources",
+            "domain",
+            "languages",
             "other",
-            "dataset",
-            "perform",
-            "trained",
-            "learning",
-            "paraphrase",
-            "sentences",
-            "complexity",
-            "levels",
-            "compare"
+            "than",
+            "english",
+            "common",
+            "geccc",
+            "offers",
+            "variety",
+            "four",
+            "domains",
+            "covering",
+            "distributions",
+            "ranging",
+            "high"
           ]
         },
         {
-          "id": "acl:2025.tacl-1.1",
-          "title": "Dolomites: Domain-Specific Long-Form Methodical Tasks",
-          "year": 2025,
+          "id": "acl:2022.tacl-1.62",
+          "title": "Evaluating Attribution in Dialogue Systems: The BEGIN Benchmark",
+          "year": 2022,
           "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.1/",
+          "url": "https://aclanthology.org/2022.tacl-1.62/",
           "tags": [
+            "LLMs",
+            "Dialogue",
             "Evaluation",
             "NLP"
           ],
-          "abstract": "Experts in various fields routinely perform methodical writing tasks to plan, organize, and report their work. From a clinician writing a differential diagnosis for a patient, to a teacher writing a lesson plan for students, these tasks are pervasive, requirin",
+          "abstract": "Knowledge-grounded dialogue systems powered by large language models often generate responses that, while fluent, are not attributable to a relevant source of information. Progress towards models that do not exhibit this issue requires evaluation metrics that ",
           "terms": [
-            "methodical",
-            "writing",
-            "output",
-            "input",
-            "long-form",
-            "experts",
-            "fields",
-            "plan",
-            "structured",
-            "dolomites",
-            "given",
+            "dialogue",
+            "evaluation",
+            "systems",
+            "begin",
+            "knowledge-grounded",
+            "not",
+            "metrics",
+            "responses",
             "benchmark",
-            "examples",
-            "various",
-            "routinely",
-            "perform",
-            "organize",
-            "report",
-            "work",
-            "clinician",
-            "differential",
-            "diagnosis",
-            "patient",
-            "teacher",
-            "lesson",
-            "students",
-            "pervasive",
-            "requiring",
-            "methodically",
+            "attributable",
+            "source",
+            "information",
+            "powered",
+            "large",
+            "language",
+            "often",
             "generate",
-            "develop",
-            "typology"
+            "while",
+            "fluent",
+            "relevant",
+            "progress",
+            "towards",
+            "exhibit",
+            "issue",
+            "requires",
+            "quantify",
+            "prevalence",
+            "end",
+            "introduce",
+            "grounded",
+            "interaction",
+            "comprising"
+          ]
+        },
+        {
+          "id": "acl:2026.tacl-1.7",
+          "title": "What Can String Probability Tell Us About Grammaticality?",
+          "year": 2026,
+          "venue": "TACL",
+          "url": "https://aclanthology.org/2026.tacl-1.7/",
+          "tags": [
+            "Hallucination",
+            "NLP"
+          ],
+          "abstract": "What have language models (LMs) learned about grammar? This question remains hotly debated, with major ramifications for linguistic theory. However, since probability and grammaticality are distinct notions in linguistics, it is not obvious what string probabi",
+          "terms": [
+            "probability",
+            "about",
+            "string",
+            "between",
+            "what",
+            "grammar",
+            "pairs",
+            "lms",
+            "grammatical",
+            "theoretical",
+            "minimal",
+            "grammaticality",
+            "language",
+            "learned",
+            "question",
+            "remains",
+            "hotly",
+            "debated",
+            "major",
+            "ramifications",
+            "linguistic",
+            "theory",
+            "knowledge",
+            "present",
+            "analysis",
+            "relationship",
+            "meaning",
+            "simple",
+            "assumptions",
+            "generative",
+            "process",
+            "corpus"
+          ]
+        },
+        {
+          "id": "acl:2025.tacl-1.35",
+          "title": "REAL Sampling: Boosting Factuality and Diversity of Open-ended Generation by Extrapolating the Entropy of an Infinitely Large LM",
+          "year": 2025,
+          "venue": "TACL",
+          "url": "https://aclanthology.org/2025.tacl-1.35/",
+          "tags": [
+            "LLMs",
+            "Hallucination",
+            "Evaluation",
+            "NLP"
+          ],
+          "abstract": "Decoding methods for large language models (LLMs) usually struggle with the tradeoff between ensuring factuality and maintaining diversity. In this paper, we propose REAL (Residual Entropy from Asymptotic Line) sampling,1 which predicts the step-wise hallucina",
+          "terms": [
+            "sampling",
+            "real",
+            "entropy",
+            "hallucination",
+            "llm",
+            "diversity",
+            "llms",
+            "asymptotic",
+            "predicts",
+            "factuality",
+            "large",
+            "step-wise",
+            "likelihood",
+            "than",
+            "decoding",
+            "language",
+            "residual",
+            "line",
+            "threshold",
+            "thf",
+            "more",
+            "extrapolating",
+            "infinitely",
+            "usually",
+            "struggle",
+            "tradeoff",
+            "between",
+            "ensuring",
+            "maintaining",
+            "nucleus",
+            "boosting",
+            "open-ended"
+          ]
+        },
+        {
+          "id": "acl:2025.tacl-1.66",
+          "title": "Early Detection and Reduction of Memorization for Domain Adaptation and Instruction Tuning",
+          "year": 2025,
+          "venue": "TACL",
+          "url": "https://aclanthology.org/2025.tacl-1.66/",
+          "tags": [
+            "LLMs",
+            "Fine-Tuning",
+            "Self-Supervised",
+            "NLP"
+          ],
+          "abstract": "Although large language models excel across many tasks, they can memorize training data and thereby expose private or copyrighted text. Most defenses target the pre-training stage, leaving memorization during fine-tuning--especially for domain adaptation and i",
+          "terms": [
+            "memorization",
+            "across",
+            "evaluation",
+            "performance",
+            "domain",
+            "adaptation",
+            "instruction",
+            "language",
+            "training",
+            "during",
+            "loss",
+            "although",
+            "large",
+            "excel",
+            "many",
+            "they",
+            "memorize",
+            "data",
+            "thereby",
+            "expose",
+            "private",
+            "copyrighted",
+            "text",
+            "most",
+            "defenses",
+            "target",
+            "pre-training",
+            "stage",
+            "leaving",
+            "fine-tuning--especially",
+            "tuning--poorly",
+            "understood"
+          ]
+        },
+        {
+          "id": "acl:2025.tacl-1.8",
+          "title": "OPT-Tree: Speculative Decoding with Adaptive Draft Tree Structure",
+          "year": 2025,
+          "venue": "TACL",
+          "url": "https://aclanthology.org/2025.tacl-1.8/",
+          "tags": [
+            "NLP"
+          ],
+          "abstract": "Autoregressive language models demonstrate excellent performance in various scenarios. However, the inference efficiency is limited by its one-step-one-word generation mode, which has become a pressing problem recently as the models become increasingly larger.",
+          "terms": [
+            "draft",
+            "autoregressive",
+            "opt-tree",
+            "decoding",
+            "become",
+            "language",
+            "demonstrate",
+            "excellent",
+            "performance",
+            "various",
+            "scenarios",
+            "step",
+            "speculative",
+            "adaptive",
+            "tree",
+            "structure",
+            "inference",
+            "efficiency",
+            "limited",
+            "one-step-one-word",
+            "generation",
+            "mode",
+            "pressing",
+            "problem",
+            "recently",
+            "increasingly",
+            "larger",
+            "tokens",
+            "existing",
+            "structures",
+            "acceptance",
+            "length"
+          ]
+        },
+        {
+          "id": "acl:2025.tacl-1.12",
+          "title": "Supervised Neural Topic Modeling with Label Alignment",
+          "year": 2025,
+          "venue": "TACL",
+          "url": "https://aclanthology.org/2025.tacl-1.12/",
+          "tags": [
+            "AI Safety",
+            "NLP"
+          ],
+          "abstract": "Neural topic modeling is a scalable automated technique for text data mining. In various downstream tasks of topic modeling, it is preferred that the discovered topics well align with labels. However, due to the lack of guidance from labels, unsupervised neura",
+          "terms": [
+            "topic",
+            "neural",
+            "labels",
+            "modeling",
+            "topics",
+            "supervised",
+            "alignment",
+            "prior",
+            "label-topic",
+            "discovered",
+            "existing",
+            "label-free",
+            "latent",
+            "them",
+            "relationships",
+            "scalable",
+            "automated",
+            "technique",
+            "text",
+            "data",
+            "mining",
+            "various",
+            "downstream",
+            "preferred",
+            "well",
+            "align",
+            "unsupervised",
+            "often",
+            "adopt",
+            "generate",
+            "document-topic",
+            "distributions"
+          ]
+        },
+        {
+          "id": "acl:2024.tacl-1.80",
+          "title": "Conformalizing Machine Translation Evaluation",
+          "year": 2024,
+          "venue": "TACL",
+          "url": "https://aclanthology.org/2024.tacl-1.80/",
+          "tags": [
+            "Translation",
+            "Fairness & Ethics",
+            "NLP"
+          ],
+          "abstract": "Several uncertainty estimation methods have been recently proposed for machine translation evaluation. While these methods can provide a useful indication of when not to trust model predictions, we show in this paper that the majority of them tend to underesti",
+          "terms": [
+            "uncertainty",
+            "confidence",
+            "intervals",
+            "not",
+            "translation",
+            "machine",
+            "evaluation",
+            "conformal",
+            "prediction",
+            "coverage",
+            "while",
+            "provide",
+            "useful",
+            "indication",
+            "when",
+            "trust",
+            "predictions",
+            "majority",
+            "them",
+            "tend",
+            "underestimate",
+            "result",
+            "they",
+            "often",
+            "produce",
+            "misleading",
+            "cover",
+            "ground",
+            "truth",
+            "several",
+            "estimation",
+            "been"
+          ]
+        },
+        {
+          "id": "acl:2022.tacl-1.56",
+          "title": "Adapting to the Long Tail: A Meta-Analysis of Transfer Learning Research for Language Understanding Tasks",
+          "year": 2022,
+          "venue": "TACL",
+          "url": "https://aclanthology.org/2022.tacl-1.56/",
+          "tags": [
+            "Biomedical AI",
+            "Evaluation",
+            "NLP"
+          ],
+          "abstract": "Natural language understanding (NLU) has made massive progress driven by large benchmarks, but benchmarks often leave a long tail of infrequent phenomena underrepresented. We reflect on the question: Have transfer learning methods sufficiently addressed the po",
+          "terms": [
+            "long",
+            "tail",
+            "transfer",
+            "learning",
+            "benchmarks",
+            "performance",
+            "language",
+            "understanding",
+            "nlu",
+            "progress",
+            "underrepresented",
+            "meta-analysis",
+            "research",
+            "natural",
+            "made",
+            "massive",
+            "driven",
+            "large",
+            "but",
+            "often",
+            "leave",
+            "infrequent",
+            "phenomena",
+            "reflect",
+            "question",
+            "sufficiently",
+            "addressed",
+            "poor",
+            "benchmark-trained",
+            "dimensions",
+            "perform",
+            "adaptation"
           ]
         },
         {
@@ -221,728 +549,399 @@
           ]
         },
         {
-          "id": "acl:2025.tacl-1.3",
-          "title": "CLAPnq: Cohesive Long-form Answers from Passages in Natural Questions for RAG systems",
+          "id": "acl:2025.tacl-1.13",
+          "title": "From Robustness to Improved Generalization and Calibration in Pre-trained Language Models",
           "year": 2025,
           "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.3/",
+          "url": "https://aclanthology.org/2025.tacl-1.13/",
           "tags": [
-            "LLMs",
-            "Hallucination",
-            "RAG",
-            "QA",
-            "Evaluation"
+            "Fine-Tuning",
+            "Adversarial",
+            "Evaluation",
+            "NLP"
           ],
-          "abstract": "Retrieval Augmented Generation (RAG) has become a popular application for large language models. It is preferable that successful RAG systems provide accurate answers that are supported by being grounded in a passage without any hallucinations. While considera",
+          "abstract": "Enforcing representation smoothness in pre-trained language models (PLMs) through Jacobian and Hessian regularization provides an effective approach for enhancing both robustness and generalization. Although such regularization methods have proven effective in",
           "terms": [
-            "rag",
-            "clapnq",
-            "answers",
-            "full",
-            "grounded",
-            "passage",
-            "pipeline",
-            "long-form",
-            "systems",
-            "retrieval",
-            "generation",
-            "successful",
-            "being",
-            "benchmark",
-            "present",
-            "cohesive",
-            "passages",
-            "natural",
-            "questions",
-            "augmented",
-            "become",
-            "popular",
-            "application",
-            "large",
+            "regularization",
+            "jachess",
             "language",
-            "preferable",
-            "provide",
-            "accurate",
-            "supported",
-            "without",
-            "any",
-            "hallucinations"
-          ]
-        },
-        {
-          "id": "acl:2025.tacl-1.4",
-          "title": "Salute the Classic: Revisiting Challenges of Machine Translation in the Age of Large Language Models",
-          "year": 2025,
-          "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.4/",
-          "tags": [
-            "LLMs",
-            "AI Safety",
-            "Translation",
-            "Self-Supervised",
-            "Evaluation"
-          ],
-          "abstract": "The evolution of Neural Machine Translation (NMT) has been significantly influenced by six core challenges (Koehn and Knowles, 2017) that have acted as benchmarks for progress in this field. This study revisits these challenges, offering insights into their on",
-          "terms": [
-            "translation",
-            "challenges",
-            "llms",
-            "word",
-            "significantly",
-            "parallel",
-            "data",
-            "long",
-            "sentences",
-            "words",
-            "machine",
-            "large",
-            "language",
+            "plms",
+            "jacobian",
+            "hessian",
+            "generalization",
+            "effective",
+            "inputs",
+            "discrete",
+            "robustness",
+            "pre-trained",
+            "enhancing",
+            "plm",
             "domain",
-            "mismatch",
-            "rare",
-            "prediction",
-            "alignment",
-            "beam",
-            "search",
-            "languages",
-            "during",
-            "pretraining",
-            "evolution",
-            "neural",
-            "nmt",
-            "been",
-            "influenced",
-            "six",
-            "core",
-            "koehn",
-            "knowles"
-          ]
-        },
-        {
-          "id": "acl:2025.tacl-1.10",
-          "title": "Navigating Cultural Chasms: Exploring and Unlocking the Cultural POV of Text-To-Image Models",
-          "year": 2025,
-          "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.10/",
-          "tags": [
-            "VLMs",
-            "Text-to-Image",
-            "Knowledge Graphs",
-            "NLP"
-          ],
-          "abstract": "Text-To-Image (TTI) models, such as DALL-E and StableDiffusion, have demonstrated remarkable prompt-based image generation capabilities. Multilingual encoders may have a substantial impact on the cultural agency of these models, as language is a conduit of cul",
-          "terms": [
-            "cultural",
-            "tti",
-            "text-to-image",
-            "evaluations",
-            "culture",
-            "knowledge",
+            "norms",
+            "fine-tuning",
+            "calibration",
+            "enforcing",
+            "representation",
+            "smoothness",
+            "through",
+            "provides",
+            "both",
+            "although",
             "such",
-            "dall-e",
-            "stablediffusion",
-            "demonstrated",
-            "remarkable",
-            "prompt-based",
-            "image",
-            "generation",
-            "capabilities",
-            "multilingual",
-            "encoders",
-            "substantial",
-            "impact",
-            "agency",
-            "language",
-            "conduit",
-            "ontology",
-            "derive",
-            "prompt",
-            "templates",
-            "unlock",
-            "comprehensive",
-            "suite",
-            "evaluation",
-            "techniques",
-            "including"
+            "proven",
+            "computer",
+            "vision",
+            "application",
+            "natural",
+            "processing"
           ]
         },
         {
-          "id": "acl:2025.tacl-1.12",
-          "title": "Supervised Neural Topic Modeling with Label Alignment",
+          "id": "acl:2025.tacl-1.30",
+          "title": "Understanding Epistemic Language with a Language-augmented Bayesian Theory of Mind",
           "year": 2025,
           "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.12/",
-          "tags": [
-            "AI Safety",
-            "NLP"
-          ],
-          "abstract": "Neural topic modeling is a scalable automated technique for text data mining. In various downstream tasks of topic modeling, it is preferred that the discovered topics well align with labels. However, due to the lack of guidance from labels, unsupervised neura",
-          "terms": [
-            "topic",
-            "neural",
-            "labels",
-            "modeling",
-            "topics",
-            "supervised",
-            "alignment",
-            "prior",
-            "label-topic",
-            "discovered",
-            "existing",
-            "label-free",
-            "latent",
-            "them",
-            "relationships",
-            "scalable",
-            "automated",
-            "technique",
-            "text",
-            "data",
-            "mining",
-            "various",
-            "downstream",
-            "preferred",
-            "well",
-            "align",
-            "unsupervised",
-            "often",
-            "adopt",
-            "generate",
-            "document-topic",
-            "distributions"
-          ]
-        },
-        {
-          "id": "acl:2025.tacl-1.19",
-          "title": "Diverse AI Feedback For Large Language Model Alignment",
-          "year": 2025,
-          "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.19/",
+          "url": "https://aclanthology.org/2025.tacl-1.30/",
           "tags": [
             "LLMs",
-            "RLHF",
-            "AI Safety",
-            "QA",
-            "Summarization"
+            "Multimodal",
+            "NLP"
           ],
-          "abstract": "Recent advances in large language models (LLMs) focus on aligning models with human values to minimize harmful content. However, existing methods often rely on a single type of feedback, such as preferences, annotated labels, or critiques, which can lead to ov",
+          "abstract": "How do people understand and evaluate claims about others' beliefs, even though these beliefs cannot be directly observed? In this paper, we introduce a cognitive model of epistemic language interpretation, grounded in Bayesian inferences about other agents' g",
           "terms": [
-            "feedback",
-            "diverse",
-            "large",
+            "beliefs",
+            "bayesian",
+            "epistemic",
             "language",
-            "llms",
-            "single",
-            "type",
-            "overfitting",
-            "daif",
-            "three",
-            "refinement",
-            "alignment",
-            "recent",
-            "advances",
-            "focus",
-            "aligning",
-            "human",
-            "values",
-            "minimize",
-            "harmful",
-            "content",
-            "existing",
-            "often",
-            "rely",
-            "such",
-            "preferences",
-            "annotated",
-            "labels",
-            "critiques",
-            "lead",
-            "suboptimal",
-            "performance"
+            "about",
+            "language-augmented",
+            "claims",
+            "inferences",
+            "labtom",
+            "introduce",
+            "cognitive",
+            "interpretation",
+            "grounded",
+            "other",
+            "agents",
+            "goals",
+            "intentions",
+            "theory-of-mind",
+            "how",
+            "people",
+            "understand",
+            "evaluate",
+            "others",
+            "even",
+            "though",
+            "cannot",
+            "directly",
+            "observed",
+            "then",
+            "judgments",
+            "agent",
+            "multimodal"
           ]
         },
         {
-          "id": "acl:2025.tacl-1.24",
-          "title": "Few-Shot Multilingual Open-Domain QA from Five Examples",
+          "id": "acl:2025.tacl-1.75",
+          "title": "BharatBBQ: A Multilingual Bias Benchmark for Question Answering in the Indian Context",
           "year": 2025,
           "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.24/",
+          "url": "https://aclanthology.org/2025.tacl-1.75/",
+          "tags": [
+            "Prompting",
+            "QA",
+            "Fairness & Ethics",
+            "Evaluation",
+            "NLP"
+          ],
+          "abstract": "Evaluating social biases in language models (LMs) is crucial for ensuring fairness and minimizing the reinforcement of harmful stereotypes in AI systems. Existing benchmarks, such as the Bias Benchmark for Question Answering (BBQ), primarily focus on Western c",
+          "terms": [
+            "biases",
+            "bias",
+            "benchmark",
+            "indian",
+            "bharatbbq",
+            "social",
+            "question",
+            "answering",
+            "context",
+            "language",
+            "fairness",
+            "benchmarks",
+            "culturally",
+            "english",
+            "languages",
+            "multilingual",
+            "evaluating",
+            "lms",
+            "crucial",
+            "ensuring",
+            "minimizing",
+            "reinforcement",
+            "harmful",
+            "stereotypes",
+            "systems",
+            "existing",
+            "such",
+            "bbq",
+            "primarily",
+            "focus",
+            "western",
+            "contexts"
+          ]
+        },
+        {
+          "id": "acl:2024.tacl-1.83",
+          "title": "FINCH: Prompt-guided Key-Value Cache Compression for Large Language Models",
+          "year": 2024,
+          "venue": "TACL",
+          "url": "https://aclanthology.org/2024.tacl-1.83/",
+          "tags": [
+            "LLMs",
+            "Long Context",
+            "Fine-Tuning",
+            "RAG",
+            "Dialogue"
+          ],
+          "abstract": "Recent large language model applications, such as Retrieval-Augmented Generation and chatbots, have led to an increased need to process longer input contexts. However, this requirement is hampered by inherent limitations. Architecturally, models are constraine",
+          "terms": [
+            "context",
+            "finch",
+            "large",
+            "input",
+            "language",
+            "such",
+            "need",
+            "long",
+            "text",
+            "cache",
+            "compression",
+            "recent",
+            "applications",
+            "retrieval-augmented",
+            "generation",
+            "chatbots",
+            "led",
+            "increased",
+            "process",
+            "longer",
+            "contexts",
+            "requirement",
+            "hampered",
+            "inherent",
+            "limitations",
+            "constrained",
+            "window",
+            "compress",
+            "leveraging",
+            "pre-trained",
+            "weights",
+            "self-attention"
+          ]
+        },
+        {
+          "id": "acl:2025.tacl-1.76",
+          "title": "CRAFT Your Dataset: Task-Specific Synthetic Dataset Generation Through Corpus Retrieval and Augmentation",
+          "year": 2025,
+          "venue": "TACL",
+          "url": "https://aclanthology.org/2025.tacl-1.76/",
           "tags": [
             "LLMs",
             "Prompting",
-            "QA",
-            "Self-Supervised",
-            "Knowledge Graphs"
-          ],
-          "abstract": "Recent approaches to multilingual open- domain question answering (MLODQA) have achieved promising results given abundant language-specific training data. However, the considerable annotation cost limits the application of these methods for underrepresented la",
-          "terms": [
-            "multilingual",
-            "data",
-            "few-shot",
-            "mlodqa",
-            "large-scale",
-            "llms",
-            "training",
-            "annotation",
-            "languages",
-            "prompting",
-            "recent",
-            "open-",
-            "domain",
-            "question",
-            "answering",
-            "achieved",
-            "promising",
-            "given",
-            "abundant",
-            "language-specific",
-            "considerable",
-            "cost",
-            "limits",
-            "application",
-            "underrepresented",
-            "introduce",
-            "learning",
-            "synthesize",
-            "large",
-            "language",
-            "self-supervised",
-            "cross-lingual"
-          ]
-        },
-        {
-          "id": "acl:2025.tacl-1.28",
-          "title": "Exploring Practical Gaps in Using Cross Entropy to Implement Maximum Mutual Information Criterion for Rationalization",
-          "year": 2025,
-          "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.28/",
-          "tags": [
-            "NLP"
-          ],
-          "abstract": "Rationalization is a framework that aims to build self-explanatory NLP models by extracting a subset of human-intelligible pieces of their inputting texts. It involves a cooperative game where a selector selects the most human-intelligible parts of the input a",
-          "terms": [
-            "rationale",
-            "selected",
-            "predictor",
-            "rationalization",
-            "human-intelligible",
-            "selector",
-            "candidates",
-            "framework",
-            "nlp",
-            "parts",
-            "predictions",
-            "rationales",
-            "informativeness",
-            "vicinal",
-            "aims",
-            "build",
-            "self-explanatory",
-            "extracting",
-            "subset",
-            "pieces",
-            "inputting",
-            "texts",
-            "involves",
-            "cooperative",
-            "game",
-            "where",
-            "selects",
-            "most",
-            "input",
-            "followed",
-            "makes",
-            "cross-entropy"
-          ]
-        },
-        {
-          "id": "acl:2025.tacl-1.34",
-          "title": "Patchwise Cooperative Game-based Interpretability Method for Large Vision-language Models",
-          "year": 2025,
-          "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.34/",
-          "tags": [
-            "Hallucination",
-            "VLMs",
-            "Interpretability",
-            "NLP"
-          ],
-          "abstract": "Amidst the rapid advancement of artificial intelligence, research on large vision-language models (LVLMs) has emerged as a pivotal area. However, understanding their internal mechanisms remains challenging due to the limitations of existing interpretability me",
-          "terms": [
-            "interpretability",
-            "patchwise",
-            "cooperative",
-            "lvlms",
-            "plausibility",
-            "game-based",
-            "large",
-            "vision-language",
-            "faithfulness",
-            "image",
-            "generation",
-            "amidst",
-            "rapid",
-            "advancement",
-            "artificial",
-            "intelligence",
-            "research",
-            "emerged",
-            "pivotal",
-            "area",
-            "understanding",
-            "internal",
-            "mechanisms",
-            "remains",
-            "challenging",
-            "due",
-            "limitations",
-            "existing",
-            "especially",
-            "regarding",
-            "response",
-            "regions"
-          ]
-        },
-        {
-          "id": "acl:2025.tacl-1.35",
-          "title": "REAL Sampling: Boosting Factuality and Diversity of Open-ended Generation by Extrapolating the Entropy of an Infinitely Large LM",
-          "year": 2025,
-          "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.35/",
-          "tags": [
-            "LLMs",
-            "Hallucination",
-            "Evaluation",
-            "NLP"
-          ],
-          "abstract": "Decoding methods for large language models (LLMs) usually struggle with the tradeoff between ensuring factuality and maintaining diversity. In this paper, we propose REAL (Residual Entropy from Asymptotic Line) sampling,1 which predicts the step-wise hallucina",
-          "terms": [
-            "sampling",
-            "real",
-            "entropy",
-            "hallucination",
-            "llm",
-            "diversity",
-            "llms",
-            "asymptotic",
-            "predicts",
-            "factuality",
-            "large",
-            "step-wise",
-            "likelihood",
-            "than",
-            "decoding",
-            "language",
-            "residual",
-            "line",
-            "threshold",
-            "thf",
-            "more",
-            "extrapolating",
-            "infinitely",
-            "usually",
-            "struggle",
-            "tradeoff",
-            "between",
-            "ensuring",
-            "maintaining",
-            "nucleus",
-            "boosting",
-            "open-ended"
-          ]
-        },
-        {
-          "id": "acl:2025.tacl-1.36",
-          "title": "mt RAG: A Multi-Turn Conversational Benchmark for Evaluating Retrieval-Augmented Generation Systems",
-          "year": 2025,
-          "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.36/",
-          "tags": [
-            "LLMs",
-            "RAG",
-            "Dialogue",
-            "Evaluation",
-            "NLP"
-          ],
-          "abstract": "Retrieval-augmented generation (RAG) has recently become a very popular task for Large Language Models (LLMs). Evaluating them on multi-turn RAG conversations, where the system is asked to generate a response to a question in the context of a preceding convers",
-          "terms": [
-            "rag",
-            "multi-turn",
-            "evaluating",
-            "mtrag",
-            "generation",
-            "several",
-            "benchmark",
-            "retrieval-augmented",
-            "systems",
-            "llms",
-            "conversations",
-            "across",
-            "recently",
-            "become",
-            "very",
-            "popular",
-            "large",
-            "language",
-            "them",
-            "where",
-            "system",
-            "asked",
-            "generate",
-            "response",
-            "question",
-            "context",
-            "preceding",
-            "conversation",
-            "important",
-            "often",
-            "overlooked",
-            "additional"
-          ]
-        },
-        {
-          "id": "acl:2025.tacl-1.37",
-          "title": "Data Contamination Quiz: A Tool to Detect and Estimate Contamination in Large Language Models",
-          "year": 2025,
-          "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.37/",
-          "tags": [
-            "LLMs",
-            "Fairness & Ethics",
-            "NLP"
-          ],
-          "abstract": "We propose the Data Contamination Quiz (DCQ), a simple and effective approach to detect data contamination in large language models (LLMs) and estimate the amount of it. Specifically, we frame data contamination detection as a series of multiple-choice questio",
-          "terms": [
-            "contamination",
-            "data",
-            "quiz",
-            "llms",
-            "dataset",
-            "dcq",
-            "instance",
-            "detect",
-            "estimate",
-            "large",
-            "language",
-            "original",
-            "simple",
-            "effective",
-            "amount",
-            "partition",
-            "options",
-            "specifically",
-            "frame",
-            "detection",
-            "series",
-            "multiple-choice",
-            "questions",
-            "devising",
-            "format",
-            "wherein",
-            "three",
-            "perturbed",
-            "versions",
-            "each",
-            "subsampled",
-            "specific"
-          ]
-        },
-        {
-          "id": "acl:2025.tacl-1.41",
-          "title": "Contextualized Evaluations: Judging Language Model Responses to Underspecified Queries",
-          "year": 2025,
-          "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.41/",
-          "tags": [
-            "Fairness & Ethics",
-            "Evaluation",
-            "NLP"
-          ],
-          "abstract": "Language model users often issue queries that lack specification, where the context under which a query was issued---such as the user's identity, the query's intent, and the criteria for a response to be useful---is not explicit. For instance, a good response ",
-          "terms": [
-            "query",
-            "response",
-            "user",
-            "context",
-            "like",
-            "evaluation",
-            "queries",
-            "good",
-            "would",
-            "depend",
-            "contextualized",
-            "evaluations",
-            "language",
-            "responses",
-            "underspecified",
-            "criteria",
-            "not",
-            "contexts",
-            "users",
-            "often",
-            "issue",
-            "lack",
-            "specification",
-            "where",
-            "under",
-            "was",
-            "issued---such",
-            "identity",
-            "intent",
-            "useful---is",
-            "explicit",
-            "instance"
-          ]
-        },
-        {
-          "id": "acl:2025.tacl-1.47",
-          "title": "Efficient Tuning of Large Language Models for Knowledge-Grounded Dialogue Generation",
-          "year": 2025,
-          "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.47/",
-          "tags": [
-            "LLMs",
             "Fine-Tuning",
-            "Dialogue",
-            "Evaluation",
+            "Summarization",
             "NLP"
           ],
-          "abstract": "Large language models (LLMs) demonstrate remarkable text comprehension and generation capabilities but often lack the ability to utilize up-to-date or domain-specific knowledge not included in their training data. To address this gap, we introduce KEDiT, an ef",
+          "abstract": "Building high-quality datasets for specialized tasks is a time-consuming and resource-intensive process that often requires specialized domain knowledge. We propose Corpus Retrieval and Augmentation for Fine-Tuning (CRAFT), a method for generating synthetic da",
           "terms": [
-            "llms",
-            "generation",
-            "knowledge",
-            "large",
-            "language",
-            "dialogue",
-            "demonstrate",
-            "kedit",
+            "craft",
+            "datasets",
+            "synthetic",
+            "retrieval",
+            "corpus",
+            "augmentation",
+            "specialized",
             "fine-tuning",
-            "efficient",
-            "knowledge-grounded",
-            "remarkable",
-            "text",
-            "comprehension",
-            "capabilities",
-            "but",
+            "given",
+            "few-shots",
+            "demonstrate",
+            "dataset",
+            "generating",
+            "small",
+            "number",
+            "user-written",
+            "performed",
+            "llms",
+            "summarization",
+            "task-specific",
+            "generation",
+            "building",
+            "high-quality",
+            "time-consuming",
+            "resource-intensive",
+            "process",
             "often",
-            "lack",
-            "ability",
-            "utilize",
-            "up-to-date",
-            "domain-specific",
-            "not",
-            "included",
-            "training",
-            "data",
-            "address",
-            "gap",
-            "introduce",
-            "information",
-            "parameters",
-            "tuning"
+            "requires",
+            "domain",
+            "knowledge",
+            "large-scale",
+            "other"
           ]
         },
         {
-          "id": "acl:2025.tacl-1.52",
-          "title": "DARE: Diverse Visual Question Answering with Robustness Evaluation",
-          "year": 2025,
+          "id": "acl:2024.tacl-1.50",
+          "title": "Decision-Oriented Dialogue for Human-AI Collaboration",
+          "year": 2024,
           "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.52/",
+          "url": "https://aclanthology.org/2024.tacl-1.50/",
           "tags": [
             "LLMs",
             "Reasoning",
-            "VLMs",
-            "Object Detection",
-            "QA"
+            "Dialogue",
+            "NLP"
           ],
-          "abstract": "Vision Language Models (VLMs) extend remarkable capabilities of text-only large language models and vision-only models, being able to learn from and process multi-modal vision-text input. While modern VLMs perform well on a number of standard image classificat",
+          "abstract": "We describe a class of tasks called decision-oriented dialogues, in which AI assistants such as large language models (LMs) must collaborate with one or more humans via natural language to help them make complex decisions. We formalize three domains in which u",
           "terms": [
-            "robustness",
-            "evaluation",
-            "vlms",
-            "number",
-            "reasoning",
-            "dare",
-            "diverse",
+            "assistants",
             "language",
-            "visual",
-            "question",
-            "answering",
-            "while",
-            "they",
-            "still",
-            "struggle",
-            "evaluations",
-            "vision",
-            "extend",
-            "remarkable",
-            "capabilities",
-            "text-only",
+            "decision-oriented",
+            "dialogues",
+            "decisions",
             "large",
-            "vision-only",
-            "being",
-            "able",
-            "learn",
-            "process",
-            "multi-modal",
-            "vision-text",
-            "input",
-            "modern",
-            "perform"
+            "lms",
+            "must",
+            "humans",
+            "users",
+            "dialogue",
+            "describe",
+            "class",
+            "called",
+            "such",
+            "collaborate",
+            "one",
+            "more",
+            "natural",
+            "help",
+            "them",
+            "make",
+            "complex",
+            "face",
+            "they",
+            "collaboration",
+            "formalize",
+            "three",
+            "domains",
+            "everyday",
+            "choosing",
+            "assignment"
           ]
         },
         {
-          "id": "acl:2025.tacl-1.54",
-          "title": "Overcoming Source Object Grounding for Semantic Image Editing",
+          "id": "acl:2025.tacl-1.65",
+          "title": "Frame Representation Hypothesis: Multi-Token LLM Interpretability and Concept-Guided Text Generation",
           "year": 2025,
           "venue": "TACL",
-          "url": "https://aclanthology.org/2025.tacl-1.54/",
+          "url": "https://aclanthology.org/2025.tacl-1.65/",
           "tags": [
-            "Hallucination",
-            "VLMs",
-            "Text-to-Image",
+            "LLMs",
+            "Reasoning",
+            "Fairness & Ethics",
+            "Interpretability",
             "NLP"
           ],
-          "abstract": "Recent diffusion models have demonstrated remarkable capabilities in text-to-image generation. However, their stochastic denoising process often causes semantic image editing (SIE) models to misapply textual instructions. That is, models often leave the source",
+          "abstract": "Interpretability is a key challenge in fostering trust for Large Language Models (LLMs), which stems from the complexity of extracting reasoning from a model's parameters. We present the Frame Representation Hypothesis, a theoretically robust framework grounde",
           "terms": [
-            "source",
-            "object",
-            "image",
-            "sie",
-            "semantic",
-            "editing",
-            "diffusion",
-            "text-to-image",
-            "generation",
-            "often",
-            "challenge",
-            "r-sie",
-            "region-wise",
-            "grounding",
-            "recent",
-            "demonstrated",
-            "remarkable",
-            "capabilities",
-            "stochastic",
-            "denoising",
-            "process",
-            "causes",
-            "misapply",
-            "textual",
-            "instructions",
-            "background",
-            "address",
-            "introduce",
+            "representation",
+            "hypothesis",
+            "llms",
+            "words",
+            "multi-token",
+            "lrh",
+            "frame",
+            "interpretability",
+            "concepts",
+            "language",
+            "reasoning",
+            "present",
+            "theoretically",
+            "robust",
             "framework",
-            "inference",
-            "pipeline",
-            "data"
+            "grounded",
+            "linear",
+            "interpret",
+            "control",
+            "modeling",
+            "llm",
+            "concept-guided",
+            "text",
+            "generation",
+            "key",
+            "challenge",
+            "fostering",
+            "trust",
+            "large",
+            "stems",
+            "complexity",
+            "extracting"
+          ]
+        },
+        {
+          "id": "acl:2025.tacl-1.80",
+          "title": "How to Select Datapoints for Efficient Human Evaluation of NLG Models?",
+          "year": 2025,
+          "venue": "TACL",
+          "url": "https://aclanthology.org/2025.tacl-1.80/",
+          "tags": [
+            "Translation",
+            "Summarization",
+            "NLG",
+            "Evaluation",
+            "NLP"
+          ],
+          "abstract": "Human evaluation is the gold standard for evaluating text generation models. However, it is expensive. In order to fit budgetary constraints, a random subset of the test data is often chosen in practice for human evaluation. However, randomly selected data may",
+          "terms": [
+            "evaluation",
+            "human",
+            "selectors",
+            "data",
+            "nlg",
+            "random",
+            "test",
+            "outputs",
+            "item",
+            "datapoints",
+            "gold",
+            "standard",
+            "evaluating",
+            "text",
+            "generation",
+            "expensive",
+            "not",
+            "develop",
+            "variance",
+            "automated",
+            "metric",
+            "scores",
+            "diversity",
+            "response",
+            "theory",
+            "outperform",
+            "selection",
+            "translation",
+            "summarization",
+            "how",
+            "select",
+            "efficient"
           ]
         }
       ],
       "website": "https://aclanthology.org/venues/tacl",
-      "impact_factor": 9.3,
+      "impact_factor": 13.0,
+      "h_index": 104,
+      "acceptance_rate": "~25%",
+      "scope": "Computational linguistics and NLP, with action-editor review.",
       "review_weeks": "8–12",
       "open_access": true,
       "publisher": "MIT Press",
@@ -950,88 +949,88 @@
         "language",
         "data",
         "evaluation",
+        "text",
         "performance",
         "large",
-        "llms",
-        "text",
-        "work",
         "training",
-        "datasets",
-        "information",
-        "human",
         "introduce",
-        "dataset",
+        "work",
         "learning",
-        "not",
+        "datasets",
+        "dataset",
+        "information",
+        "llms",
         "such",
-        "generation",
         "present",
-        "existing",
-        "large language",
-        "more",
         "knowledge",
         "natural",
+        "generation",
+        "not",
+        "existing",
         "between",
-        "they",
-        "across",
+        "human",
         "while",
-        "languages",
-        "translation",
-        "often",
-        "but",
-        "when",
-        "natural language",
-        "systems",
-        "two",
-        "benchmark",
-        "than",
-        "input",
+        "across",
+        "more",
         "demonstrate",
-        "recent",
-        "neural",
-        "how",
+        "languages",
+        "often",
         "question",
         "framework",
-        "semantic",
-        "analysis",
-        "reasoning",
-        "research",
+        "natural language",
+        "neural",
+        "translation",
+        "they",
+        "large language",
         "experiments",
-        "trained",
+        "recent",
         "both",
-        "context",
-        "language llms",
+        "reasoning",
+        "two",
+        "but",
+        "benchmark",
         "all",
-        "understanding",
-        "find",
+        "when",
         "representations",
-        "word",
-        "metrics",
-        "fine-tuning",
-        "been",
-        "also",
-        "evaluation nlp",
-        "perform",
-        "state-of-the-art",
-        "through",
         "summarization",
-        "machine",
-        "modeling",
-        "many",
-        "address",
-        "questions",
-        "well",
+        "semantic",
+        "word",
+        "understanding",
         "answering",
+        "trained",
+        "sentence",
+        "than",
+        "address",
+        "input",
         "where",
-        "lms",
-        "various",
-        "source",
-        "other",
-        "over",
-        "multilingual",
-        "without",
+        "systems",
         "each",
-        "diverse"
+        "analysis",
+        "over",
+        "evaluation nlp",
+        "linguistic",
+        "question answering",
+        "context",
+        "questions",
+        "perform",
+        "sentences",
+        "machine",
+        "how",
+        "also",
+        "dialogue",
+        "been",
+        "multilingual",
+        "state-of-the-art",
+        "only",
+        "most",
+        "fine-tuning",
+        "modeling",
+        "available",
+        "lms",
+        "many",
+        "better",
+        "english",
+        "metrics"
       ],
       "weighted_keywords": [
         {
@@ -1040,339 +1039,339 @@
         },
         {
           "term": "data",
-          "weight": 0.6776
+          "weight": 0.7259
         },
         {
           "term": "evaluation",
-          "weight": 0.6531
-        },
-        {
-          "term": "performance",
-          "weight": 0.6191
-        },
-        {
-          "term": "large",
-          "weight": 0.6178
-        },
-        {
-          "term": "llms",
-          "weight": 0.5986
+          "weight": 0.6693
         },
         {
           "term": "text",
-          "weight": 0.5984
+          "weight": 0.6236
         },
         {
-          "term": "work",
-          "weight": 0.5616
+          "term": "performance",
+          "weight": 0.5941
+        },
+        {
+          "term": "large",
+          "weight": 0.5932
         },
         {
           "term": "training",
-          "weight": 0.5348
-        },
-        {
-          "term": "datasets",
-          "weight": 0.5312
-        },
-        {
-          "term": "information",
-          "weight": 0.5228
-        },
-        {
-          "term": "human",
-          "weight": 0.5167
+          "weight": 0.5883
         },
         {
           "term": "introduce",
-          "weight": 0.5158
+          "weight": 0.5746
         },
         {
-          "term": "dataset",
-          "weight": 0.5151
+          "term": "work",
+          "weight": 0.5678
         },
         {
           "term": "learning",
-          "weight": 0.5017
+          "weight": 0.5461
         },
         {
-          "term": "not",
-          "weight": 0.5017
+          "term": "datasets",
+          "weight": 0.5368
+        },
+        {
+          "term": "dataset",
+          "weight": 0.5288
+        },
+        {
+          "term": "information",
+          "weight": 0.5175
+        },
+        {
+          "term": "llms",
+          "weight": 0.5119
         },
         {
           "term": "such",
-          "weight": 0.501
-        },
-        {
-          "term": "generation",
-          "weight": 0.4949
+          "weight": 0.5112
         },
         {
           "term": "present",
-          "weight": 0.4926
-        },
-        {
-          "term": "existing",
-          "weight": 0.4896
-        },
-        {
-          "term": "large language",
-          "weight": 0.4819
-        },
-        {
-          "term": "more",
-          "weight": 0.4804
+          "weight": 0.5086
         },
         {
           "term": "knowledge",
-          "weight": 0.4785
+          "weight": 0.508
         },
         {
           "term": "natural",
-          "weight": 0.4706
+          "weight": 0.5001
+        },
+        {
+          "term": "generation",
+          "weight": 0.4903
+        },
+        {
+          "term": "not",
+          "weight": 0.4856
+        },
+        {
+          "term": "existing",
+          "weight": 0.4811
         },
         {
           "term": "between",
-          "weight": 0.4565
+          "weight": 0.4774
         },
         {
-          "term": "they",
-          "weight": 0.4562
-        },
-        {
-          "term": "across",
-          "weight": 0.4546
+          "term": "human",
+          "weight": 0.4719
         },
         {
           "term": "while",
-          "weight": 0.4455
+          "weight": 0.4682
         },
         {
-          "term": "languages",
-          "weight": 0.4448
+          "term": "across",
+          "weight": 0.4594
         },
         {
-          "term": "translation",
-          "weight": 0.4425
-        },
-        {
-          "term": "often",
-          "weight": 0.4171
-        },
-        {
-          "term": "but",
-          "weight": 0.4049
-        },
-        {
-          "term": "when",
-          "weight": 0.3997
-        },
-        {
-          "term": "natural language",
-          "weight": 0.3941
-        },
-        {
-          "term": "systems",
-          "weight": 0.3881
-        },
-        {
-          "term": "two",
-          "weight": 0.3873
-        },
-        {
-          "term": "benchmark",
-          "weight": 0.3834
-        },
-        {
-          "term": "than",
-          "weight": 0.3832
-        },
-        {
-          "term": "input",
-          "weight": 0.3826
+          "term": "more",
+          "weight": 0.4518
         },
         {
           "term": "demonstrate",
-          "weight": 0.3823
+          "weight": 0.4492
         },
         {
-          "term": "recent",
-          "weight": 0.3818
+          "term": "languages",
+          "weight": 0.4468
         },
         {
-          "term": "neural",
-          "weight": 0.3814
-        },
-        {
-          "term": "how",
-          "weight": 0.3729
+          "term": "often",
+          "weight": 0.437
         },
         {
           "term": "question",
-          "weight": 0.3687
+          "weight": 0.4348
         },
         {
           "term": "framework",
-          "weight": 0.3678
+          "weight": 0.434
         },
         {
-          "term": "semantic",
-          "weight": 0.3669
+          "term": "natural language",
+          "weight": 0.4277
         },
         {
-          "term": "analysis",
-          "weight": 0.3668
+          "term": "neural",
+          "weight": 0.422
         },
         {
-          "term": "reasoning",
-          "weight": 0.3666
+          "term": "translation",
+          "weight": 0.4199
         },
         {
-          "term": "research",
-          "weight": 0.3643
+          "term": "they",
+          "weight": 0.4144
+        },
+        {
+          "term": "large language",
+          "weight": 0.4138
         },
         {
           "term": "experiments",
-          "weight": 0.3603
+          "weight": 0.4119
         },
         {
-          "term": "trained",
-          "weight": 0.359
+          "term": "recent",
+          "weight": 0.4014
         },
         {
           "term": "both",
-          "weight": 0.3554
+          "weight": 0.3968
         },
         {
-          "term": "context",
-          "weight": 0.351
+          "term": "reasoning",
+          "weight": 0.392
         },
         {
-          "term": "language llms",
-          "weight": 0.3467
+          "term": "two",
+          "weight": 0.3899
+        },
+        {
+          "term": "but",
+          "weight": 0.3859
+        },
+        {
+          "term": "benchmark",
+          "weight": 0.3842
         },
         {
           "term": "all",
-          "weight": 0.3455
+          "weight": 0.3768
         },
         {
-          "term": "understanding",
-          "weight": 0.3422
-        },
-        {
-          "term": "find",
-          "weight": 0.3418
+          "term": "when",
+          "weight": 0.3735
         },
         {
           "term": "representations",
-          "weight": 0.339
-        },
-        {
-          "term": "word",
-          "weight": 0.3354
-        },
-        {
-          "term": "metrics",
-          "weight": 0.3338
-        },
-        {
-          "term": "fine-tuning",
-          "weight": 0.3331
-        },
-        {
-          "term": "been",
-          "weight": 0.3317
-        },
-        {
-          "term": "also",
-          "weight": 0.3305
-        },
-        {
-          "term": "evaluation nlp",
-          "weight": 0.33
-        },
-        {
-          "term": "perform",
-          "weight": 0.3285
-        },
-        {
-          "term": "state-of-the-art",
-          "weight": 0.3218
-        },
-        {
-          "term": "through",
-          "weight": 0.3189
+          "weight": 0.3707
         },
         {
           "term": "summarization",
-          "weight": 0.3185
+          "weight": 0.3674
         },
         {
-          "term": "machine",
-          "weight": 0.3142
+          "term": "semantic",
+          "weight": 0.3673
         },
         {
-          "term": "modeling",
-          "weight": 0.3137
+          "term": "word",
+          "weight": 0.3653
         },
         {
-          "term": "many",
-          "weight": 0.3121
-        },
-        {
-          "term": "address",
-          "weight": 0.3111
-        },
-        {
-          "term": "questions",
-          "weight": 0.3072
-        },
-        {
-          "term": "well",
-          "weight": 0.3067
+          "term": "understanding",
+          "weight": 0.3628
         },
         {
           "term": "answering",
-          "weight": 0.3067
+          "weight": 0.362
+        },
+        {
+          "term": "trained",
+          "weight": 0.361
+        },
+        {
+          "term": "sentence",
+          "weight": 0.3607
+        },
+        {
+          "term": "than",
+          "weight": 0.3598
+        },
+        {
+          "term": "address",
+          "weight": 0.3584
+        },
+        {
+          "term": "input",
+          "weight": 0.3551
         },
         {
           "term": "where",
-          "weight": 0.3066
+          "weight": 0.3525
         },
         {
-          "term": "lms",
-          "weight": 0.3061
-        },
-        {
-          "term": "various",
-          "weight": 0.3056
-        },
-        {
-          "term": "source",
-          "weight": 0.3052
-        },
-        {
-          "term": "other",
-          "weight": 0.3047
-        },
-        {
-          "term": "over",
-          "weight": 0.3037
-        },
-        {
-          "term": "multilingual",
-          "weight": 0.303
-        },
-        {
-          "term": "without",
-          "weight": 0.302
+          "term": "systems",
+          "weight": 0.3484
         },
         {
           "term": "each",
-          "weight": 0.3009
+          "weight": 0.3472
         },
         {
-          "term": "diverse",
-          "weight": 0.2996
+          "term": "analysis",
+          "weight": 0.3454
+        },
+        {
+          "term": "over",
+          "weight": 0.3437
+        },
+        {
+          "term": "evaluation nlp",
+          "weight": 0.3425
+        },
+        {
+          "term": "linguistic",
+          "weight": 0.3395
+        },
+        {
+          "term": "question answering",
+          "weight": 0.3393
+        },
+        {
+          "term": "context",
+          "weight": 0.3386
+        },
+        {
+          "term": "questions",
+          "weight": 0.3363
+        },
+        {
+          "term": "perform",
+          "weight": 0.3344
+        },
+        {
+          "term": "sentences",
+          "weight": 0.3341
+        },
+        {
+          "term": "machine",
+          "weight": 0.3322
+        },
+        {
+          "term": "how",
+          "weight": 0.3303
+        },
+        {
+          "term": "also",
+          "weight": 0.3301
+        },
+        {
+          "term": "dialogue",
+          "weight": 0.327
+        },
+        {
+          "term": "been",
+          "weight": 0.3268
+        },
+        {
+          "term": "multilingual",
+          "weight": 0.3259
+        },
+        {
+          "term": "state-of-the-art",
+          "weight": 0.322
+        },
+        {
+          "term": "only",
+          "weight": 0.3183
+        },
+        {
+          "term": "most",
+          "weight": 0.3181
+        },
+        {
+          "term": "fine-tuning",
+          "weight": 0.3181
+        },
+        {
+          "term": "modeling",
+          "weight": 0.3174
+        },
+        {
+          "term": "available",
+          "weight": 0.3148
+        },
+        {
+          "term": "lms",
+          "weight": 0.3141
+        },
+        {
+          "term": "many",
+          "weight": 0.3123
+        },
+        {
+          "term": "better",
+          "weight": 0.3117
+        },
+        {
+          "term": "english",
+          "weight": 0.3109
+        },
+        {
+          "term": "metrics",
+          "weight": 0.3102
         }
       ]
     }
