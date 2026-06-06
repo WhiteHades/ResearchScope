@@ -50,6 +50,11 @@ def _w(score_name: str, component: str, default: float) -> float:
 def _rank_score(rank: str) -> float:
     return {"A*": 10.0, "A": 7.5, "B": 5.0, "C": 3.0}.get(rank, 0.0)
 
+# Oral/spotlight acceptance marks the top decile of accepted work — a strong
+# peer-review quality signal beyond the venue rank. Posters get no bonus
+# (an accepted poster is already credited via conference_rank).
+_PRESENTATION_BONUS = {"oral": 1.5, "spotlight": 1.0, "poster": 0.0}
+
 
 # ── Novelty regex (phrase-level, not single words) ────────────────────────────
 
@@ -468,7 +473,9 @@ class PaperScorer:
         if src == "preprint":
             return round(cite_s, 2)
         if src in ("conference", "workshop"):
-            return round(rank_s * 0.65 + cite_s * 0.35, 2) if rank_s > 0 else round(cite_s * 0.8, 2)
+            tier_bonus = _PRESENTATION_BONUS.get(paper.presentation_type or "", 0.0)
+            base = rank_s * 0.65 + cite_s * 0.35 if rank_s > 0 else cite_s * 0.8
+            return round(min(base + tier_bonus, 10.0), 2)
         if src == "journal":
             return round(rank_s * 0.55 + cite_s * 0.45, 2)
         return round(rank_s * 0.6 + cite_s * 0.4, 2)

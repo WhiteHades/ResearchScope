@@ -93,6 +93,16 @@ function rankBadge(rank) {
   return `<span class="badge ${cls}">${escHtml(rank)}</span>`;
 }
 
+// ── Acceptance-tier badge (oral / spotlight) ───────────────────────────
+// Only oral & spotlight are shown — they mark the top decile of accepted
+// work. Posters are the default tier and get no badge to avoid clutter.
+function presentationBadge(type) {
+  const t = (type || '').toLowerCase();
+  if (t === 'oral')      return `<span class="badge badge-oral" title="Oral presentation — top accepted tier">🎤 Oral</span>`;
+  if (t === 'spotlight') return `<span class="badge badge-spotlight" title="Spotlight — highlighted accepted paper">✨ Spotlight</span>`;
+  return '';
+}
+
 // ── Source badge ───────────────────────────────────────────────────────
 function sourceBadge(paper) {
   const src = paper.source || '';
@@ -156,6 +166,7 @@ function renderPaperCard(paper, opts = {}) {
         <span class="badge badge-score">⭐ ${(+paper.paper_score || 0).toFixed(1)}</span>
         ${difficultyBadge(paper)}
         ${rankBadge(paper.conference_rank)}
+        ${presentationBadge(paper.presentation_type)}
         ${sourceBadge(paper)}
       </div>
     </div>

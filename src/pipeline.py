@@ -299,7 +299,7 @@ def run_pipeline(
         if conferences_only:
             # ── Conference-sync mode: fetch ALL papers directly from proceedings ──
             # OpenReview — ICLR, NeurIPS, COLM (authenticates via env credentials)
-            log.info("  [openreview] fetching ALL papers (ICLR 2022-25, NeurIPS 2022-24, COLM 2024-25) …")
+            log.info("  [openreview] fetching ALL papers (ICLR 2022-26, NeurIPS 2022-25, ICML 2024-25, COLM 2024-25) …")
             try:
                 fetched = OpenReviewConnector().fetch_all()
                 log.info("    → %d papers", len(fetched))

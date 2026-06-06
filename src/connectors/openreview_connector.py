@@ -4,7 +4,12 @@ OpenReview connector.
 Fetches ALL accepted papers from OpenReview-hosted conferences by querying
 the official API with venueid — no keyword queries, no API key required.
 
-Covers: ICLR, NeurIPS (2023+), COLM
+Covers: ICLR, NeurIPS, ICML, COLM
+
+Each accepted note carries its acceptance tier in `content.venue`
+(e.g. "NeurIPS 2025 spotlight", "ICLR 2025 Oral", "ICML 2024 Poster"). We parse
+that into `Paper.presentation_type` so the scorer can reward oral/spotlight
+papers (the top decile of accepted work).
 """
 from __future__ import annotations
 
@@ -27,16 +32,43 @@ _API_BASE = "https://api2.openreview.net"
 # venueid → (canonical name, rank, year)
 # Add new venues here each year
 _VENUES: dict[str, tuple[str, str, int]] = {
+    "ICLR.cc/2026/Conference":          ("ICLR",    "A*", 2026),
     "ICLR.cc/2025/Conference":          ("ICLR",    "A*", 2025),
     "ICLR.cc/2024/Conference":          ("ICLR",    "A*", 2024),
     "ICLR.cc/2023/Conference":          ("ICLR",    "A*", 2023),
     "ICLR.cc/2022/Conference":          ("ICLR",    "A*", 2022),
+    "NeurIPS.cc/2025/Conference":       ("NeurIPS", "A*", 2025),
     "NeurIPS.cc/2024/Conference":       ("NeurIPS", "A*", 2024),
     "NeurIPS.cc/2023/Conference":       ("NeurIPS", "A*", 2023),
     "NeurIPS.cc/2022/Conference":       ("NeurIPS", "A*", 2022),
-    "colmweb.org/COLM/2024/Conference": ("COLM",    "A*", 2024),
+    "ICML.cc/2025/Conference":          ("ICML",    "A*", 2025),
+    "ICML.cc/2024/Conference":          ("ICML",    "A*", 2024),
     "colmweb.org/COLM/2025/Conference": ("COLM",    "A*", 2025),
+    "colmweb.org/COLM/2024/Conference": ("COLM",    "A*", 2024),
 }
+
+# Acceptance tiers as they appear in content.venue. OpenReview casing is
+# inconsistent across venues ("Oral" vs "oral"), so matching is case-insensitive.
+_TIERS = ("oral", "spotlight", "poster")
+
+
+def _parse_presentation_type(venue_str: str) -> str:
+    """Extract the acceptance tier from a `content.venue` string."""
+    low = venue_str.lower()
+    for tier in _TIERS:
+        if tier in low:
+            return tier
+    return ""
+
+
+def _epoch_ms_to_iso_date(ms: Any) -> str:
+    """Convert an OpenReview epoch-millis timestamp to an ISO date (YYYY-MM-DD)."""
+    if not isinstance(ms, (int, float)) or ms <= 0:
+        return ""
+    try:
+        return datetime.fromtimestamp(ms / 1000, tz=timezone.utc).strftime("%Y-%m-%d")
+    except (ValueError, OverflowError, OSError):
+        return ""
 
 _BATCH = 1000
 _DELAY = 1.0   # seconds between paginated requests
@@ -201,8 +233,25 @@ class OpenReviewConnector(BaseConnector):
         # normalized taxonomy tags from title+abstract instead.
         tags: list[str] = []
 
+        # Acceptance tier (oral / spotlight / poster) lives in content.venue,
+        # e.g. "NeurIPS 2025 spotlight". The bare venueid carries no tier.
+        presentation_type = _parse_presentation_type(str(val("venue") or ""))
+
+        # Prefer the real publication timestamp; fall back to camera-ready /
+        # creation date, then to Jan 1 of the venue year as a last resort.
+        published_date = (
+            _epoch_ms_to_iso_date(note.get("pdate"))
+            or _epoch_ms_to_iso_date(note.get("odate"))
+            or _epoch_ms_to_iso_date(note.get("cdate"))
+            or f"{year}-01-01"
+        )
+
         note_id   = note.get("id", "")
         paper_url = f"https://openreview.net/forum?id={note_id}" if note_id else ""
+
+        # content.pdf is a site-relative path like "/pdf/<hash>.pdf".
+        pdf_path = str(val("pdf") or "")
+        pdf_url = f"https://openreview.net{pdf_path}" if pdf_path.startswith("/") else ""
 
         return Paper(
             id=f"openreview:{note_id}",
@@ -212,10 +261,12 @@ class OpenReviewConnector(BaseConnector):
             abstract=abstract,
             authors=authors,
             year=year,
-            published_date=f"{year}-01-01",
+            published_date=published_date,
             venue=venue_name,
             conference_rank=rank,
+            presentation_type=presentation_type,
             paper_url=paper_url,
+            pdf_url=pdf_url,
             tags=tags,
             fetched_at=datetime.now(timezone.utc).isoformat(),
         )
