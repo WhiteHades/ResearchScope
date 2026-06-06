@@ -204,6 +204,12 @@ async function loadStats() {
     const el = document.getElementById(id);
     if (el) el.textContent = (val ?? 0).toLocaleString();
   }
+  // Hero tagline count — rounded down to a clean "N,000+" so it never goes stale.
+  const heroEl = document.getElementById('hero-paper-count');
+  if (heroEl && stats.total_papers) {
+    const rounded = Math.floor(stats.total_papers / 1000) * 1000;
+    heroEl.textContent = rounded.toLocaleString() + '+';
+  }
   const genEl = document.getElementById('stat-generated');
   if (genEl && stats.generated_at) {
     genEl.textContent = 'Updated ' + new Date(stats.generated_at).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });

@@ -91,6 +91,17 @@ def _to_raw(paper: dict) -> dict:
     return out
 
 
+def _bucket(row: dict) -> str:
+    """Classify a paper into arxiv / conference / journal for per-source splits."""
+    st = str(row.get("source_type") or "").lower()
+    if st == "journal":
+        return "journal"
+    if st in ("conference", "workshop"):
+        return "conference"
+    # preprint / unknown → treat as arXiv (source is arxiv/openalex preprints)
+    return "arxiv"
+
+
 def _to_instruct_rows(paper: dict) -> list[dict]:
     rows = []
     inp  = _input_text(paper)
@@ -191,7 +202,7 @@ def push(papers: list[dict] | None = None) -> bool:
 
     today = datetime.now(timezone.utc).date()
 
-    # ── Raw split ─────────────────────────────────────────────────────────────
+    # ── Raw split — combined `train` + per-source arxiv/conference/journal ──────
     raw_rows = [_to_raw(p) for p in papers if p.get("title")]
     log.info("[hf] pushing %d raw paper records …", len(raw_rows))
     _upload_with_retry(
@@ -200,6 +211,21 @@ def push(papers: list[dict] | None = None) -> bool:
         path_in_repo="data/papers.jsonl",
         commit_message=f"update papers.jsonl ({len(raw_rows):,} papers) [{today}]",
     )
+
+    # Per-source splits so users can load just arXiv, conference, or journal
+    # papers — `load_dataset(repo, "papers", split="journal")`. The combined
+    # `train` split above stays for backward compatibility.
+    buckets: dict[str, list[dict]] = {"arxiv": [], "conference": [], "journal": []}
+    for row in raw_rows:
+        buckets[_bucket(row)].append(row)
+    for name, rows in buckets.items():
+        log.info("[hf]   %s split → %d papers", name, len(rows))
+        _upload_with_retry(
+            api,
+            path_or_fileobj=_jsonl_bytes(rows),
+            path_in_repo=f"data/papers_{name}.jsonl",
+            commit_message=f"update papers_{name}.jsonl ({len(rows):,} papers) [{today}]",
+        )
 
     # ── Instruction split ─────────────────────────────────────────────────────
     instruct_rows = []
@@ -214,7 +240,8 @@ def push(papers: list[dict] | None = None) -> bool:
     )
 
     # ── Dataset card ──────────────────────────────────────────────────────────
-    _push_card(api, len(raw_rows), len(instruct_rows))
+    _push_card(api, len(raw_rows), len(instruct_rows),
+               {k: len(v) for k, v in buckets.items()})
 
     log.info("[hf] push complete → https://huggingface.co/datasets/%s", _REPO_ID)
     return True
@@ -299,7 +326,12 @@ def _ensure_sections_config(api: Any) -> None:
     log.info("[hf] registered sections config in dataset card.")
 
 
-def _push_card(api: Any, n_papers: int, n_instruct: int) -> None:
+def _push_card(api: Any, n_papers: int, n_instruct: int,
+               by_source: dict[str, int] | None = None) -> None:
+    by_source = by_source or {}
+    n_arxiv = by_source.get("arxiv", 0)
+    n_conf  = by_source.get("conference", 0)
+    n_journal = by_source.get("journal", 0)
     card = f"""---
 license: cc-by-4.0
 language:
@@ -323,6 +355,12 @@ configs:
     data_files:
       - split: train
         path: data/papers.jsonl
+      - split: arxiv
+        path: data/papers_arxiv.jsonl
+      - split: conference
+        path: data/papers_conference.jsonl
+      - split: journal
+        path: data/papers_journal.jsonl
   - config_name: instruct
     data_files:
       - split: train
@@ -341,7 +379,7 @@ Updated automatically via GitHub Actions.
 
 ## Stats
 
-- **{n_papers:,}** papers (raw metadata)
+- **{n_papers:,}** papers (raw metadata) — **{n_arxiv:,}** arXiv · **{n_conf:,}** conference · **{n_journal:,}** journal
 - **{n_instruct:,}** instruction-tuning rows
 - Sources: arXiv, OpenAlex, ACL Anthology, OpenReview, PMLR, CVF, Semantic Scholar
 - Venues: NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR, AAAI, IJCAI, JMLR, TMLR, TACL, TPAMI, NMI and more
@@ -350,7 +388,10 @@ Updated automatically via GitHub Actions.
 
 | File | Description |
 |------|-------------|
-| `data/papers.jsonl` | Raw paper metadata — title, abstract, authors, venue, year, tags, scores |
+| `data/papers.jsonl` | Raw paper metadata — title, abstract, authors, venue, year, tags, scores (all sources combined) |
+| `data/papers_arxiv.jsonl` | arXiv / preprint papers only |
+| `data/papers_conference.jsonl` | Conference papers only (NeurIPS, ICML, ICLR, ACL, CVPR, …) |
+| `data/papers_journal.jsonl` | Journal papers only (JMLR, TPAMI, NMI, TACL, …) |
 | `data/instruct.jsonl` | Instruction-tuning pairs — summarize, key contribution, why it matters, plain English |
 | `data/sections.jsonl` | Per-section fine-tuning rows for A* papers — real body text of `abstract`, `introduction`, `related_work`, `method`, `experiments`, `results`, `conclusion`. Filter by the `section` field to train a per-section writing agent. |
 
@@ -359,8 +400,13 @@ Updated automatically via GitHub Actions.
 ```python
 from datasets import load_dataset
 
-# Raw papers
+# All papers (combined)
 papers = load_dataset("kishormorol/researchscope-papers", "papers", split="train")
+
+# Just one source — arXiv, conference, or journal papers
+arxiv      = load_dataset("kishormorol/researchscope-papers", "papers", split="arxiv")
+conference = load_dataset("kishormorol/researchscope-papers", "papers", split="conference")
+journal    = load_dataset("kishormorol/researchscope-papers", "papers", split="journal")
 
 # Instruction tuning
 instruct = load_dataset("kishormorol/researchscope-papers", "instruct", split="train")
