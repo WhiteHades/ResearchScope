@@ -11,6 +11,11 @@
 
 const RS_API = 'https://researchscope-production.up.railway.app';
 
+// Public site shows at most this many papers per section (arXiv / conference /
+// journal) — 3 000 total. The full corpus stays available via the API and the
+// Hugging Face dataset; this just bounds what the browse pages paginate through.
+const SECTION_CAP = 1000;
+
 // ── Auth state ────────────────────────────────────────────────────────────────
 
 const _auth = {
@@ -67,25 +72,33 @@ async function _queryPapers({
   else if (source === 'conference') params.set('source_type', 'conference');
   else if (source === 'journal')    params.set('source_type', 'journal');
 
-  // 1. Try Railway
+  const start = (page - 1) * pageSize;
+
+  // 1. Try Railway — clamp the reported count and trim rows past the cap so the
+  // browse page paginates through at most SECTION_CAP papers for this section.
   try {
     const json = await _apiFetch(`/papers?${params}`);
-    if (json && Array.isArray(json.results))
-      return { data: json.results, count: json.total ?? 0, error: null };
+    if (json && Array.isArray(json.results)) {
+      const count = Math.min(json.total ?? 0, SECTION_CAP);
+      let data = json.results;
+      if (start >= SECTION_CAP) data = [];
+      else if (start + data.length > SECTION_CAP) data = data.slice(0, SECTION_CAP - start);
+      return { data, count, error: null };
+    }
   } catch (e) {
     console.warn('[railway] queryPapers failed, falling back to static JSON:', e.message);
   }
 
-  // 2. Last resort — static JSON
+  // 2. Last resort — static JSON (already capped at 1 000 by the generator)
   try {
     const res = await fetch('data/papers.json');
     const all = await res.json();
-    const start = (page - 1) * pageSize;
     const filtered = search
       ? all.filter(p => (p.title||'').toLowerCase().includes(search.toLowerCase()) ||
                         (p.abstract||'').toLowerCase().includes(search.toLowerCase()))
       : all;
-    return { data: filtered.slice(start, start + pageSize), count: filtered.length, error: null };
+    const count = Math.min(filtered.length, SECTION_CAP);
+    return { data: filtered.slice(start, Math.min(start + pageSize, SECTION_CAP)), count, error: null };
   } catch (e) {
     console.warn('[static] papers.json failed:', e.message);
   }
