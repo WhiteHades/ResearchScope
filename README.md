@@ -2,7 +2,7 @@
 
 # ResearchScope
 
-**CS Research Intelligence Platform — 83,000+ papers, scored, ranked, and searchable.**
+**CS Research Intelligence Platform — 100,000+ papers, scored, ranked, and searchable.**
 
 Stop skimming paper lists. ResearchScope scores papers by impact, surfaces research gaps, recommends venues, and tracks who's driving the frontier — updated daily.
 
@@ -40,7 +40,7 @@ The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** o
 |---|---|
 | **Jun 2026** | **OpenReview Acceptance Tiers** — oral/spotlight/poster signals captured for ICLR, NeurIPS, ICML & COLM; oral/spotlight boost paper scores and show as badges. Coverage extended through ICLR 2026, NeurIPS 2025, ICML 2025 |
 | **Jun 2026** | **Journal Recommender** — paste title + abstract to match against 20 Q1 journals (JMLR, TPAMI, Nature MI, CSUR…) with impact factor, review timeline, and open access info |
-| **Jun 2026** | **FastAPI Backend on Railway** — full REST API with JWT auth, favourites, PostgreSQL full-text search (83K+ papers). User accounts synced across devices |
+| **Jun 2026** | **FastAPI Backend on Railway** — full REST API with JWT auth, favourites, PostgreSQL full-text search (100K+ papers). User accounts synced across devices |
 | **Jun 2026** | **OpenAlex Integration** — 250M+ work catalogue added as a data source, covering ML/NLP/CV/IR concept groups |
 | **Jun 2026** | **HuggingFace Training Dataset** — `kishormorol/researchscope-papers` auto-pushed after every pipeline run: raw metadata JSONL + instruction-tuning pairs |
 | **Jun 2026** | **20 Q1 Journals** — JMLR, TMLR, TACL, TPAMI, IJCV, AIJ, TNNLS, Nature MI, CSUR, TIP, MLJ, TKDE, DAMI, NN, PR, CL, IPM, JACM, NatComms, TOIS |
@@ -54,11 +54,11 @@ The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** o
 
 | Feature | Description |
 |---|---|
-| 📄 **83K+ papers** | Scored by recency, venue rank, acceptance tier (oral/spotlight), novelty, author prestige, and citation quality |
+| 📄 **100K+ papers** | Scored by recency, venue rank, acceptance tier (oral/spotlight), novelty, author prestige, and citation quality |
 | 🎓 **A* Conference coverage** | NeurIPS, ICML, ICLR, CVPR, ACL, EMNLP, AAAI, IJCAI, CHI, SIGIR, WWW, KDD and more |
 | 📖 **20 Q1 Journals** | JMLR, TMLR, TACL, TPAMI, Nature MI, and 15 more — with IF, review time, OA status |
 | 🎯 **Venue Recommenders** | Conference + Journal recommenders: paste abstract → ranked matches with expectations |
-| 🔍 **Full-text search** | PostgreSQL `tsvector` search across 83K papers via Railway API |
+| 🔍 **Full-text search** | PostgreSQL `tsvector` search across 100K+ papers via Railway API |
 | 👤 **User accounts** | JWT auth, favourites synced across devices via Railway backend |
 | 🕳 **Research gaps** | 3-layer extraction: explicit, pattern-detected, and starter ideas |
 | 👩‍🔬 **Author intelligence** | 5,000+ researchers ranked by momentum score |
@@ -134,7 +134,7 @@ The paper dataset is published on HuggingFace and auto-updated after every pipel
 ```python
 from datasets import load_dataset
 
-# 83K+ raw paper records (pretraining / RAG)
+# 100K+ raw paper records (pretraining / RAG)
 papers = load_dataset("kishormorol/researchscope-papers",
                       data_files="data/papers.jsonl", split="train")
 
