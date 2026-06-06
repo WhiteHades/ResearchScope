@@ -341,24 +341,31 @@ def run_pipeline(
             except Exception as exc:
                 log.warning("  [s2] bulk fetch_all failed: %s", exc)
 
-            # Bulk fetch — top CS journals. Prefer Semantic Scholar when an API
-            # key is configured; otherwise fall back to keyless OpenAlex.
+            # Bulk fetch — top CS journals via OpenAlex (keyless, systematic by
+            # source id). OpenAlex is the primary source because the S2 journal
+            # search is unreliable here — it filters by venue *short name* and
+            # query text, which yields 0 results and chronic HTTP 429/400s.
+            log.info("  [openalex] bulk-fetching top CS journals by source id …")
+            journal_papers: list[Paper] = []
+            try:
+                journal_papers = OpenAlexConnector().fetch_journals()
+                log.info("    → %d journal papers (openalex)", len(journal_papers))
+            except Exception as exc:
+                log.warning("  [openalex] journal fetch failed: %s", exc)
+
+            # Supplement with S2 only when a key is configured — it occasionally
+            # adds coverage for venues OpenAlex under-indexes (e.g. JMLR/TMLR).
+            # Dedup later in the pipeline removes overlaps; failures are non-fatal.
             if os.getenv("SEMANTIC_SCHOLAR_API_KEY"):
-                log.info("  [s2] bulk-fetching top CS journals (2022-2025) …")
+                log.info("  [s2] supplementing journals (JMLR/TMLR coverage) …")
                 try:
-                    fetched = SemanticScholarConnector().fetch_journals()
-                    log.info("    → %d journal papers", len(fetched))
-                    all_papers.extend(fetched)
+                    s2_journals = SemanticScholarConnector().fetch_journals()
+                    log.info("    → %d journal papers (s2)", len(s2_journals))
+                    journal_papers.extend(s2_journals)
                 except Exception as exc:
-                    log.warning("  [s2] journal fetch failed: %s", exc)
-            else:
-                log.info("  [openalex] no S2 key — bulk-fetching top CS journals (keyless) …")
-                try:
-                    fetched = OpenAlexConnector().fetch_journals()
-                    log.info("    → %d journal papers", len(fetched))
-                    all_papers.extend(fetched)
-                except Exception as exc:
-                    log.warning("  [openalex] journal fetch failed: %s", exc)
+                    log.warning("  [s2] journal supplement failed: %s", exc)
+
+            all_papers.extend(journal_papers)
 
         else:
             # ── Keyword-query mode (used in daily pipeline if skip_conferences=False) ──
