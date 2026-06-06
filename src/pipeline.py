@@ -211,6 +211,35 @@ _DEFAULT_QUERIES = [
 
 # ── Pipeline ──────────────────────────────────────────────────────────────────
 
+def _fetch_journal_papers() -> list[Paper]:
+    """Bulk-fetch top CS journals via OpenAlex (keyless, systematic by source id).
+
+    OpenAlex is the primary source because the S2 journal search is unreliable
+    here — it filters by venue *short name* and query text, which yields 0
+    results and chronic HTTP 429/400s. S2 is only a non-fatal supplement when a
+    key is configured, for venues OpenAlex under-indexes (e.g. JMLR/TMLR).
+    Dedup later in the pipeline removes any overlap.
+    """
+    log.info("  [openalex] bulk-fetching top CS journals by source id …")
+    journal_papers: list[Paper] = []
+    try:
+        journal_papers = OpenAlexConnector().fetch_journals()
+        log.info("    → %d journal papers (openalex)", len(journal_papers))
+    except Exception as exc:
+        log.warning("  [openalex] journal fetch failed: %s", exc)
+
+    if os.getenv("SEMANTIC_SCHOLAR_API_KEY"):
+        log.info("  [s2] supplementing journals (JMLR/TMLR coverage) …")
+        try:
+            s2_journals = SemanticScholarConnector().fetch_journals()
+            log.info("    → %d journal papers (s2)", len(s2_journals))
+            journal_papers.extend(s2_journals)
+        except Exception as exc:
+            log.warning("  [s2] journal supplement failed: %s", exc)
+
+    return journal_papers
+
+
 def run_pipeline(
     queries: list[str] | None = None,
     max_results_per_query: int = 50,
@@ -220,6 +249,7 @@ def run_pipeline(
     today_max: int = 2000,
     skip_conferences: bool = False,
     conferences_only: bool = False,
+    journals_only: bool = False,
     accumulate: bool = True,
     max_age_days: int = 180,
     backfill_from: str | None = None,
@@ -234,11 +264,16 @@ def run_pipeline(
     arxiv = ArxivConnector()
     all_papers: list[Paper] = []
 
+    # ── Journals-only mode: fetch journal papers and skip every other source ──
+    if journals_only:
+        log.info("  journals-only mode: fetching journal papers only")
+        all_papers.extend(_fetch_journal_papers())
+
     # ── arXiv + ACL (skipped in conferences-only mode) ────────────────────────
     if conferences_only:
         log.info("  conferences-only mode: skipping arXiv and ACL")
 
-    if backfill_from and not conferences_only:
+    if backfill_from and not conferences_only and not journals_only:
         # ── Backfill mode: sweep entire date range from given date to today ──
         try:
             from_date = date.fromisoformat(backfill_from)
@@ -258,7 +293,7 @@ def run_pipeline(
             log.error("  [arxiv] fetch_range failed: %s", exc)
             return {}
 
-    elif today_mode and not conferences_only:
+    elif today_mode and not conferences_only and not journals_only:
         log.info("  [arxiv] today-mode: fetching all CS papers from last 2 days …")
         try:
             fetched = arxiv.fetch_today(max_results=today_max)
@@ -272,7 +307,7 @@ def run_pipeline(
             log.warning("  [arxiv] fetch_today failed: %s — falling back to queries", exc)
             today_mode = False  # fall through to keyword queries
 
-    if not today_mode and not backfill_from and not conferences_only:
+    if not today_mode and not backfill_from and not conferences_only and not journals_only:
         for query in queries:
             log.info("  [arxiv] '%s' …", query)
             try:
@@ -283,7 +318,7 @@ def run_pipeline(
             log.info("    → %d papers", len(fetched))
             all_papers.extend(fetched)
 
-    if not skip_acl and not conferences_only:
+    if not skip_acl and not conferences_only and not journals_only:
         acl = ACLAnthologyConnector()
         for query in queries:
             log.info("  [acl] '%s' …", query)
@@ -295,7 +330,7 @@ def run_pipeline(
             log.info("    → %d papers", len(fetched))
             all_papers.extend(fetched)
 
-    if not skip_conferences or conferences_only:
+    if (not skip_conferences or conferences_only) and not journals_only:
         if conferences_only:
             # ── Conference-sync mode: fetch ALL papers directly from proceedings ──
             # OpenReview — ICLR, NeurIPS, COLM (authenticates via env credentials)
@@ -341,31 +376,7 @@ def run_pipeline(
             except Exception as exc:
                 log.warning("  [s2] bulk fetch_all failed: %s", exc)
 
-            # Bulk fetch — top CS journals via OpenAlex (keyless, systematic by
-            # source id). OpenAlex is the primary source because the S2 journal
-            # search is unreliable here — it filters by venue *short name* and
-            # query text, which yields 0 results and chronic HTTP 429/400s.
-            log.info("  [openalex] bulk-fetching top CS journals by source id …")
-            journal_papers: list[Paper] = []
-            try:
-                journal_papers = OpenAlexConnector().fetch_journals()
-                log.info("    → %d journal papers (openalex)", len(journal_papers))
-            except Exception as exc:
-                log.warning("  [openalex] journal fetch failed: %s", exc)
-
-            # Supplement with S2 only when a key is configured — it occasionally
-            # adds coverage for venues OpenAlex under-indexes (e.g. JMLR/TMLR).
-            # Dedup later in the pipeline removes overlaps; failures are non-fatal.
-            if os.getenv("SEMANTIC_SCHOLAR_API_KEY"):
-                log.info("  [s2] supplementing journals (JMLR/TMLR coverage) …")
-                try:
-                    s2_journals = SemanticScholarConnector().fetch_journals()
-                    log.info("    → %d journal papers (s2)", len(s2_journals))
-                    journal_papers.extend(s2_journals)
-                except Exception as exc:
-                    log.warning("  [s2] journal supplement failed: %s", exc)
-
-            all_papers.extend(journal_papers)
+            all_papers.extend(_fetch_journal_papers())
 
         else:
             # ── Keyword-query mode (used in daily pipeline if skip_conferences=False) ──
@@ -385,7 +396,7 @@ def run_pipeline(
                     all_papers.extend(fetched)
 
     # ── OpenAlex (always, unless skip_conferences) ────────────────────────────
-    if not skip_conferences:
+    if not skip_conferences and not journals_only:
         if conferences_only:
             log.info("  [openalex] bulk-fetching ML/NLP/CV/IR papers …")
             try:
@@ -416,9 +427,11 @@ def run_pipeline(
 
     # ── Accumulate existing papers ────────────────────────────────────────────
     if accumulate:
-        if conferences_only:
-            # Conference sync: accumulate existing conference + journal papers (no expiry)
-            # and also bring in arXiv papers so the site output stays complete.
+        if conferences_only or journals_only:
+            # Conference / journal sync: accumulate existing conference + journal
+            # papers (no expiry) and also bring in arXiv papers so the site output
+            # stays complete. In journals-only mode the freshly fetched journals
+            # merge with these; conference/arXiv rows are preserved, not dropped.
             existing_conf    = _load_conference_papers()
             existing_journals = _load_journal_papers()
             existing_arxiv   = _load_arxiv_papers(max_age_days=max_age_days)
@@ -567,6 +580,11 @@ def _parse_args() -> argparse.Namespace:
         help="Fetch ONLY from conference sources (S2 + OpenReview). Skip arXiv and ACL.",
     )
     parser.add_argument(
+        "--journals-only", action="store_true",
+        help="Fetch ONLY journal papers (OpenAlex by source id, +S2 supplement). "
+             "Existing conference/arXiv papers are preserved (Railway upsert).",
+    )
+    parser.add_argument(
         "--backfill-from", metavar="YYYY-MM-DD",
         help="Fetch ALL arXiv CS papers from this date to today (e.g. 2026-01-01)",
     )
@@ -592,6 +610,7 @@ if __name__ == "__main__":
         today_max=args.today_max,
         skip_conferences=args.skip_conferences,
         conferences_only=args.conferences_only,
+        journals_only=args.journals_only,
         accumulate=not args.fresh_start,
         max_age_days=args.max_age_days,
         backfill_from=args.backfill_from,
