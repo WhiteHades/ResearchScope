@@ -1,0 +1,107 @@
+name: Journal Sync
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+# Fetch ONLY journal papers (OpenAlex by source id, +S2 supplement) and persist
+# them. Conference/arXiv rows are preserved — the Railway sync is an upsert and
+# the pipeline reloads existing DBs before writing. Manual trigger only; the
+# monthly conference-sync already refreshes journals as part of its run.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: push-to-main
+  cancel-in-progress: false
+
+jobs:
+  journal-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: requirements.txt
+
+      - run: pip install -r requirements.txt
+
+      - name: Sync journal papers (OpenAlex by source id + S2 supplement)
+        env:
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RAILWAY_DATABASE_URL: ${{ secrets.RAILWAY_DATABASE_URL }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          echo "Running: python src/pipeline.py --journals-only"
+          echo "Journals: JMLR, TMLR, TPAMI, IJCV, AIJ, TNNLS, NMI, CSUR, TIP, MLJ,"
+          echo "          TKDE, DAMI, NN, PR, CL, IPM, JACM, NatComms, TOIS,"
+          echo "          JAIR, TASLP, VLDBJ, TKDD, JAAMAS, TOG"
+          python src/pipeline.py --journals-only
+
+      - name: Report results
+        run: |
+          python -c "
+          import json, os
+          path = 'site/data/journals_db.json'
+          if os.path.exists(path):
+            db = json.load(open(path))
+            venues = {}
+            for p in db:
+              v = p.get('venue', 'unknown')
+              venues[v] = venues.get(v, 0) + 1
+            print(f'Journal papers in journals_db.json: {len(db)}')
+            for v, n in sorted(venues.items(), key=lambda x: -x[1]):
+              print(f'  {v}: {n}')
+          else:
+            print('journals_db.json not found')
+          "
+
+      - name: Build journal recommender data
+        run: |
+          python src/sitegen/journal_recommender.py
+
+      - name: Commit updated data
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add site/data/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: journal sync [$(date -u +%Y-%m-%d)]"
+            for i in 1 2 3; do
+              git push origin main && break
+              echo "Push attempt $i failed, retrying with rebase (theirs)…"
+              git pull --rebase --autostash -X theirs origin main
+              sleep 5
+            done
+          fi
+
+  deploy:
+    needs: journal-sync
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
