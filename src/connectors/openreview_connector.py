@@ -92,11 +92,21 @@ class OpenReviewConnector(BaseConnector):
 
     # ── Called by conference-sync (fetch everything) ──────────────────────────
 
-    def fetch_all(self) -> list[Paper]:
-        """Fetch ALL accepted papers from every configured venue."""
+    def fetch_all(self, skip_keys: set[str] | None = None) -> list[Paper]:
+        """Fetch ALL accepted papers from every configured venue.
+
+        ``skip_keys`` holds "<venue>:<year>" blocks already in the complete
+        archive (settled past years); those venue/years are skipped to avoid
+        re-downloading immutable proceedings every sync.
+        """
+        skip_keys = skip_keys or set()
         all_papers: list[Paper] = []
         seen: set[str] = set()
         for venue_id in self._venues:
+            name, _rank, year = _VENUES.get(venue_id, ("Unknown", "", 0))
+            if f"{name}:{year}" in skip_keys:
+                log.info("[openreview] %s (%s %s) archived — skipping", venue_id, name, year)
+                continue
             try:
                 papers = self._fetch_venue_all(venue_id)
                 log.info("[openreview] %s → %d papers", venue_id, len(papers))

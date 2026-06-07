@@ -47,6 +47,7 @@ from src.gaps.gap_extractor import GapExtractor
 from src.normalization.schema import Paper
 from src.scoring.scorer import PaperScorer
 from src.sitegen.generator import SiteGenerator
+from src.storage import railway_store
 from src.tagging.tagger import PaperTagger
 
 logging.basicConfig(
@@ -123,8 +124,86 @@ def _enrich_affiliations_from_s2(papers: list[Paper], batch_size: int = 500) -> 
 
 _SITE_DATA = Path(__file__).parent.parent / "site" / "data"
 
+# Incremental journal-sync watermark: the date of the last successful journal
+# fetch. Stored next to the data so it is committed alongside journals_db.json.
+_JOURNAL_STATE = _SITE_DATA / "journal_sync_state.json"
+# Re-scan this many days before the watermark so works OpenAlex indexes late
+# (created_date trails publication) are not missed. Dedup absorbs any overlap.
+_JOURNAL_LOOKBACK_DAYS = 7
+
 # Venues treated as arXiv / unclassified (not conference proceedings)
 _ARXIV_VENUES = {None, "", "arXiv", "Unknown"}
+
+
+def _load_journal_watermark() -> str | None:
+    """Return the YYYY-MM-DD created-date floor for an incremental fetch.
+
+    The stored date is shifted back by ``_JOURNAL_LOOKBACK_DAYS``. Returns None
+    when no prior sync is recorded, signalling a full backfill.
+    """
+    if not _JOURNAL_STATE.exists():
+        return None
+    try:
+        with open(_JOURNAL_STATE, encoding="utf-8") as fh:
+            last = json.load(fh).get("last_synced")
+        floor = date.fromisoformat(last) - timedelta(days=_JOURNAL_LOOKBACK_DAYS)
+        return floor.isoformat()
+    except Exception as exc:
+        log.warning("Could not read journal watermark (%s) — full fetch", exc)
+        return None
+
+
+def _save_journal_watermark() -> None:
+    """Stamp today as the last successful journal sync."""
+    try:
+        _JOURNAL_STATE.parent.mkdir(parents=True, exist_ok=True)
+        today = datetime.now(timezone.utc).date().isoformat()
+        with open(_JOURNAL_STATE, "w", encoding="utf-8") as fh:
+            json.dump({"last_synced": today}, fh, indent=2)
+        log.info("  [journals] watermark advanced → %s", today)
+    except Exception as exc:
+        log.warning("Could not write journal watermark: %s", exc)
+
+
+def _load_complete_archive(source_type: str) -> list[Paper] | None:
+    """Load the complete, uncapped archive for a source_type from Railway.
+
+    Returns a list of Paper (possibly empty) when Railway answered, or None when
+    it is unavailable — letting callers fall back to a full fetch rather than
+    skipping work against an incomplete (capped JSON) view.
+    """
+    rows = railway_store.load(source_type=source_type)
+    if rows is None:
+        return None
+    papers: list[Paper] = []
+    for d in rows:
+        try:
+            papers.append(Paper.from_dict(d))
+        except Exception:
+            continue
+    log.info("Loaded %d %s papers from Railway archive", len(papers), source_type)
+    return papers
+
+
+def _settled_conf_keys(papers: list[Paper]) -> set[str]:
+    """Build the set of "<venue>:<year>" conference blocks safe to skip re-fetch.
+
+    A block is settled when it is already in the complete archive AND its year is
+    in the past — the current calendar year is never skipped, so proceedings
+    still being published keep getting refreshed each run.
+    """
+    cur_year = datetime.now(timezone.utc).year
+    keys: set[str] = set()
+    for p in papers:
+        if not p.venue or not p.year:
+            continue
+        try:
+            year = int(p.year)
+        except (TypeError, ValueError):
+            continue
+        if year < cur_year:
+            keys.add(f"{p.venue}:{year}")
+    return keys
 
 
 def _is_conference_paper(p: Paper) -> bool:
@@ -211,8 +290,13 @@ _DEFAULT_QUERIES = [
 
 # ── Pipeline ──────────────────────────────────────────────────────────────────
 
-def _fetch_journal_papers() -> list[Paper]:
+def _fetch_journal_papers(since: str | None = None) -> list[Paper]:
     """Bulk-fetch top CS journals via OpenAlex (keyless, systematic by source id).
+
+    ``since`` (YYYY-MM-DD) restricts the fetch to works OpenAlex indexed on or
+    after that date — the incremental path. It is only set when the complete
+    journal archive is available to merge against, so the long tail is never
+    dropped; otherwise a full backfill runs.
 
     OpenAlex is the primary source because the S2 journal search is unreliable
     here — it filters by venue *short name* and query text, which yields 0
@@ -220,11 +304,16 @@ def _fetch_journal_papers() -> list[Paper]:
     key is configured, for venues OpenAlex under-indexes (e.g. JMLR/TMLR).
     Dedup later in the pipeline removes any overlap.
     """
-    log.info("  [openalex] bulk-fetching top CS journals by source id …")
+    if since:
+        log.info("  [openalex] incremental journal fetch (created since %s) …", since)
+    else:
+        log.info("  [openalex] full journal backfill …")
     journal_papers: list[Paper] = []
+    fetch_ok = False
     try:
-        journal_papers = OpenAlexConnector().fetch_journals()
+        journal_papers = OpenAlexConnector().fetch_journals(from_created_date=since)
         log.info("    → %d journal papers (openalex)", len(journal_papers))
+        fetch_ok = True
     except Exception as exc:
         log.warning("  [openalex] journal fetch failed: %s", exc)
 
@@ -236,6 +325,11 @@ def _fetch_journal_papers() -> list[Paper]:
             journal_papers.extend(s2_journals)
         except Exception as exc:
             log.warning("  [s2] journal supplement failed: %s", exc)
+
+    # Only advance the watermark when OpenAlex actually answered — a failed
+    # fetch must not skip those papers on the next run.
+    if fetch_ok:
+        _save_journal_watermark()
 
     return journal_papers
 
@@ -264,10 +358,31 @@ def run_pipeline(
     arxiv = ArxivConnector()
     all_papers: list[Paper] = []
 
+    # ── Incremental sync setup (conference / journal sync runs only) ───────────
+    # The complete, uncapped archive lives in Railway. When it is reachable we
+    # skip re-fetching settled work (immutable past proceedings / already-indexed
+    # journal papers) and merge the skipped rows back from the archive. If Railway
+    # is down we fall back to a full fetch so nothing below the JSON caps is lost.
+    journal_archive: list[Paper] | None = None
+    conf_archive:    list[Paper] | None = None
+    journal_since:   str | None = None
+    conf_skip_keys:  set[str] | None = None
+
+    if journals_only or conferences_only:
+        journal_archive = _load_complete_archive("journal")
+        if journal_archive is not None:
+            journal_since = _load_journal_watermark()
+    if conferences_only:
+        conf_archive = _load_complete_archive("conference")
+        if conf_archive is not None:
+            conf_skip_keys = _settled_conf_keys(conf_archive)
+            log.info("  [conf-sync] %d settled venue/year blocks will be skipped",
+                     len(conf_skip_keys))
+
     # ── Journals-only mode: fetch journal papers and skip every other source ──
     if journals_only:
         log.info("  journals-only mode: fetching journal papers only")
-        all_papers.extend(_fetch_journal_papers())
+        all_papers.extend(_fetch_journal_papers(since=journal_since))
 
     # ── arXiv + ACL (skipped in conferences-only mode) ────────────────────────
     if conferences_only:
@@ -336,7 +451,7 @@ def run_pipeline(
             # OpenReview — ICLR, NeurIPS, COLM (authenticates via env credentials)
             log.info("  [openreview] fetching ALL papers (ICLR 2022-26, NeurIPS 2022-25, ICML 2024-25, COLM 2024-25) …")
             try:
-                fetched = OpenReviewConnector().fetch_all()
+                fetched = OpenReviewConnector().fetch_all(skip_keys=conf_skip_keys)
                 log.info("    → %d papers", len(fetched))
                 all_papers.extend(fetched)
             except Exception as exc:
@@ -344,7 +459,7 @@ def run_pipeline(
 
             log.info("  [pmlr] fetching ALL papers (ICML 2020-25, AISTATS 2021-25, UAI 2021-24) …")
             try:
-                fetched = PMLRConnector().fetch_all()
+                fetched = PMLRConnector().fetch_all(skip_keys=conf_skip_keys)
                 log.info("    → %d papers", len(fetched))
                 all_papers.extend(fetched)
             except Exception as exc:
@@ -352,7 +467,7 @@ def run_pipeline(
 
             log.info("  [cvf] fetching ALL papers (CVPR 2021-25, ICCV 2021+23, ECCV 2020+22+24) …")
             try:
-                fetched = CVFConnector().fetch_all()
+                fetched = CVFConnector().fetch_all(skip_keys=conf_skip_keys)
                 log.info("    → %d papers", len(fetched))
                 all_papers.extend(fetched)
             except Exception as exc:
@@ -360,7 +475,7 @@ def run_pipeline(
 
             log.info("  [acl] fetching ALL papers from anthology export (2020+) …")
             try:
-                fetched = ACLAnthologyConnector().fetch_all(min_year=2020)
+                fetched = ACLAnthologyConnector().fetch_all(min_year=2020, skip_keys=conf_skip_keys)
                 log.info("    → %d papers", len(fetched))
                 all_papers.extend(fetched)
             except Exception as exc:
@@ -370,13 +485,13 @@ def run_pipeline(
             log.info("  [s2] bulk-fetching AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE …")
             s2 = SemanticScholarConnector()
             try:
-                fetched = s2.fetch_all()
+                fetched = s2.fetch_all(skip_keys=conf_skip_keys)
                 log.info("    → %d papers", len(fetched))
                 all_papers.extend(fetched)
             except Exception as exc:
                 log.warning("  [s2] bulk fetch_all failed: %s", exc)
 
-            all_papers.extend(_fetch_journal_papers())
+            all_papers.extend(_fetch_journal_papers(since=journal_since))
 
         else:
             # ── Keyword-query mode (used in daily pipeline if skip_conferences=False) ──
@@ -398,9 +513,12 @@ def run_pipeline(
     # ── OpenAlex (always, unless skip_conferences) ────────────────────────────
     if not skip_conferences and not journals_only:
         if conferences_only:
-            log.info("  [openalex] bulk-fetching ML/NLP/CV/IR papers …")
+            if journal_since:
+                log.info("  [openalex] incremental bulk-fetch ML/NLP/CV/IR (created since %s) …", journal_since)
+            else:
+                log.info("  [openalex] full bulk-fetch ML/NLP/CV/IR papers …")
             try:
-                fetched = OpenAlexConnector(from_year=2022).fetch_all()
+                fetched = OpenAlexConnector(from_year=2022).fetch_all(from_created_date=journal_since)
                 log.info("    → %d papers", len(fetched))
                 all_papers.extend(fetched)
             except Exception as exc:
@@ -432,8 +550,10 @@ def run_pipeline(
             # papers (no expiry) and also bring in arXiv papers so the site output
             # stays complete. In journals-only mode the freshly fetched journals
             # merge with these; conference/arXiv rows are preserved, not dropped.
-            existing_conf    = _load_conference_papers()
-            existing_journals = _load_journal_papers()
+            # Prefer the complete Railway archive (so skipped venue/years and the
+            # journal long-tail are restored in full); fall back to capped JSON.
+            existing_conf    = conf_archive if conf_archive is not None else _load_conference_papers()
+            existing_journals = journal_archive if journal_archive is not None else _load_journal_papers()
             existing_arxiv   = _load_arxiv_papers(max_age_days=max_age_days)
             all_papers = all_papers + existing_conf + existing_journals + existing_arxiv
         else:

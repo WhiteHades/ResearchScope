@@ -102,6 +102,56 @@ def _upsert_papers(cur, rows: list[dict]) -> None:
         log.info("[railway] upserted %d/%d papers", min(i + _BATCH, len(rows)), len(rows))
 
 
+def load(source_type: str | None = None) -> list[dict] | None:
+    """Read papers back from Railway — the complete, uncapped archive.
+
+    Returns the rows as dicts (list columns decoded back to lists), optionally
+    filtered to a single ``source_type`` ('journal' / 'conference'). Returns
+    ``None`` when the DB is unreachable, so callers can distinguish "archive is
+    empty" from "no complete source available" (and fall back to a full fetch
+    rather than silently dropping the long tail).
+    """
+    conn = _conn()
+    if conn is None:
+        return None
+
+    cols = sorted(_PAPER_COLS)
+    sql  = f"SELECT {', '.join(cols)} FROM papers"
+    params: list = []
+    if source_type:
+        sql += " WHERE source_type = %s"
+        params.append(source_type)
+
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(sql, params)
+                fetched = cur.fetchall()
+        out: list[dict] = []
+        for row in fetched:
+            d = dict(zip(cols, row))
+            for c in _LIST_COLS:
+                v = d.get(c)
+                if isinstance(v, str):
+                    try:
+                        d[c] = json.loads(v)
+                    except Exception:
+                        d[c] = []
+                elif v is None:
+                    d[c] = []
+            out.append(d)
+        log.info(
+            "[railway] loaded %d papers%s", len(out),
+            f" (source_type={source_type})" if source_type else "",
+        )
+        return out
+    except Exception as exc:
+        log.warning("[railway] load failed: %s", exc)
+        return None
+    finally:
+        conn.close()
+
+
 def sync(papers: list[dict]) -> bool:
     conn = _conn()
     if conn is None:

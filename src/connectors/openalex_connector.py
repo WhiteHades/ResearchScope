@@ -224,8 +224,14 @@ class OpenAlexConnector(BaseConnector):
 
     # ── Full bulk fetch ───────────────────────────────────────────────────────
 
-    def fetch_all(self) -> list[Paper]:
-        """Fetch ALL papers for configured concept groups."""
+    def fetch_all(self, from_created_date: str | None = None) -> list[Paper]:
+        """Fetch ALL papers for configured concept groups.
+
+        When ``from_created_date`` (YYYY-MM-DD) is set, only works OpenAlex
+        indexed on or after that date are returned — the incremental path that
+        avoids re-paginating entire concepts (hundreds of thousands of works)
+        every run.
+        """
         all_papers: list[Paper] = []
         seen: set[str] = set()
         for group in self._groups:
@@ -234,7 +240,7 @@ class OpenAlexConnector(BaseConnector):
                 continue
             log.info("[openalex] fetching %s (concepts: %s) …", group, concept_ids)
             try:
-                papers = self._fetch_concept_group(concept_ids)
+                papers = self._fetch_concept_group(concept_ids, from_created_date)
                 log.info("[openalex] %s → %d papers", group, len(papers))
                 for p in papers:
                     if p.id not in seen:
@@ -252,6 +258,7 @@ class OpenAlexConnector(BaseConnector):
         from_year: int | None = None,
         to_year: int | None = None,
         max_per_source: int | None = None,
+        from_created_date: str | None = None,
     ) -> list[Paper]:
         """Bulk-fetch every paper from the top CS journals, by venue.
 
@@ -259,6 +266,11 @@ class OpenAlexConnector(BaseConnector):
         coverage of a given journal is systematic — unlike fetch_all(), which
         ranks by citations across a whole concept. Sets source_type='journal'
         and stamps the canonical venue/rank. Requires no API key.
+
+        When ``from_created_date`` (YYYY-MM-DD) is given, only works *indexed by
+        OpenAlex on or after that date* are returned — an incremental sync that
+        skips papers already pulled in a previous run instead of re-downloading
+        the whole publication-year window every time.
         """
         target   = sources or _JOURNAL_SOURCES
         from_y   = from_year if from_year is not None else self._from_year
@@ -270,7 +282,9 @@ class OpenAlexConnector(BaseConnector):
 
         for source_id, (short, rank) in target.items():
             try:
-                papers = self._fetch_journal_source(source_id, year_flt, max_per_source)
+                papers = self._fetch_journal_source(
+                    source_id, year_flt, max_per_source, from_created_date
+                )
                 log.info("[openalex] journal %s (%s) → %d papers", short, source_id, len(papers))
                 for p in papers:
                     if p.id in seen:
@@ -288,12 +302,18 @@ class OpenAlexConnector(BaseConnector):
         return all_papers
 
     def _fetch_journal_source(
-        self, source_id: str, year_flt: str, max_per_source: int | None
+        self,
+        source_id: str,
+        year_flt: str,
+        max_per_source: int | None,
+        from_created_date: str | None = None,
     ) -> list[Paper]:
         base_filter = (
             f"primary_location.source.id:{source_id},"
             f"publication_year:{year_flt},type:article"
         )
+        if from_created_date:
+            base_filter += f",from_created_date:{from_created_date}"
         papers: list[Paper] = []
         cursor = "*"
         while cursor:
@@ -341,9 +361,13 @@ class OpenAlexConnector(BaseConnector):
 
     # ── internals ─────────────────────────────────────────────────────────────
 
-    def _fetch_concept_group(self, concept_ids: list[str]) -> list[Paper]:
+    def _fetch_concept_group(
+        self, concept_ids: list[str], from_created_date: str | None = None
+    ) -> list[Paper]:
         concept_filter = "|".join(concept_ids)
         base_filter    = f"concepts.id:{concept_filter},type:article,publication_year:>={self._from_year}"
+        if from_created_date:
+            base_filter += f",from_created_date:{from_created_date}"
 
         papers: list[Paper] = []
         cursor = "*"

@@ -124,19 +124,29 @@ class SemanticScholarConnector(BaseConnector):
     def source_name(self) -> str:
         return "semantic_scholar"
 
-    def fetch_all(self, venues: dict[str, list[int]] | None = None) -> list[Paper]:
+    def fetch_all(
+        self,
+        venues: dict[str, list[int]] | None = None,
+        skip_keys: set[str] | None = None,
+    ) -> list[Paper]:
         """Bulk-fetch ALL papers for ICLR/NeurIPS/COLM using the S2 bulk endpoint.
 
         Uses cursor-based pagination — no result cap beyond API limits.
-        Falls back gracefully per venue/year on failure.
+        Falls back gracefully per venue/year on failure. ``skip_keys`` holds
+        "<venue>:<year>" blocks already archived (settled past years), which are
+        skipped to avoid re-fetching immutable proceedings.
         """
         target = venues or _BULK_VENUES
+        skip_keys = skip_keys or set()
         all_papers: list[Paper] = []
         seen: set[str] = set()
 
         for venue_key, years in target.items():
             venue_name, rank = _VENUES.get(venue_key, (venue_key, ""))
             for year in years:
+                if f"{venue_name}:{year}" in skip_keys:
+                    log.info("[s2] bulk %s %d archived — skipping", venue_key, year)
+                    continue
                 try:
                     papers = self._bulk_fetch_venue_year(venue_key, venue_name, rank, year)
                     log.info("[s2] bulk %s %d → %d papers", venue_key, year, len(papers))
