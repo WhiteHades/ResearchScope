@@ -85,13 +85,21 @@ class ACLAnthologyConnector(BaseConnector):
 
     # ── Conference-sync mode: fetch everything ────────────────────────────────
 
-    def fetch_all(self, min_year: int = 2020) -> list[Paper]:
+    def fetch_all(
+        self, min_year: int = 2020, skip_keys: set[str] | None = None
+    ) -> list[Paper]:
         """Download anthology+abstracts.bib.gz and return ALL papers for target venues.
 
         The export is ~37 MB compressed and includes titles, abstracts, authors,
         and BibTeX metadata for all 90,000+ ACL Anthology papers.
         Only papers from self._sync_venues and year >= min_year are returned.
+
+        ``skip_keys`` holds "<venue>:<year>" blocks already archived (settled
+        past years); matching records are skipped so the merge takes them from
+        the complete archive instead. (The export is one download regardless, so
+        this only trims parsing, not the fetch.)
         """
+        skip_keys = skip_keys or set()
         log.info("[acl] downloading full anthology export from %s …", _EXPORT_URL)
         req = urllib.request.Request(
             _EXPORT_URL,
@@ -119,6 +127,10 @@ class ACLAnthologyConnector(BaseConnector):
             acl_id = url.rstrip("/").split("/")[-1] if url else record.get("_key", "")
             venue_key = self._venue_key_from_id(acl_id)
             if venue_key not in self._sync_venues:
+                continue
+
+            venue_name, _ = _VENUE_META.get(venue_key, (venue_key.upper(), ""))
+            if f"{venue_name}:{year}" in skip_keys:
                 continue
 
             p = self._export_record_to_paper(acl_id, record, venue_key)

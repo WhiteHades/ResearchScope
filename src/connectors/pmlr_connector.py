@@ -118,11 +118,19 @@ class PMLRConnector(BaseConnector):
     def source_name(self) -> str:
         return "pmlr"
 
-    def fetch_all(self) -> list[Paper]:
-        """Fetch ALL papers from every configured PMLR volume."""
+    def fetch_all(self, skip_keys: set[str] | None = None) -> list[Paper]:
+        """Fetch ALL papers from every configured PMLR volume.
+
+        ``skip_keys`` holds "<venue>:<year>" blocks already archived (settled
+        past years); those volumes are skipped to avoid re-downloading them.
+        """
+        skip_keys = skip_keys or set()
         all_papers: list[Paper] = []
         seen: set[str] = set()
         for vol, (venue, rank, year) in self._volumes.items():
+            if f"{venue}:{year}" in skip_keys:
+                log.info("[pmlr] v%s (%s %d) archived — skipping", vol, venue, year)
+                continue
             try:
                 papers = self._fetch_volume(vol, venue, rank, year)
                 log.info("[pmlr] v%s (%s %d) → %d papers", vol, venue, year, len(papers))
