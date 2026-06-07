@@ -155,6 +155,39 @@ const TOPIC_ICONS = {
   'Continual Learning': '♻️',
   'Long-Context Modeling': '📏',
   'Multimodal Learning': '🎭',
+  // Short taxonomy names used in the live data
+  'LLMs': '🤖',
+  'VLMs': '🖼️',
+  'Reasoning': '🧠',
+  'AI Agents': '🛠️',
+  'AI Safety': '🛡️',
+  'RL': '🎮',
+  'Fine-Tuning': '🎯',
+  'GNNs': '🕸️',
+  'Transformers': '⚡',
+  'Diffusion': '🎨',
+  'Computer vision': '👁️',
+  'Multimodal': '🎭',
+  'Evaluation': '📊',
+  'NLP': '💬',
+  'Prompting': '✍️',
+  'Hallucination': '🌀',
+  'Robotics': '🦾',
+  'Object Detection': '🎯',
+  'Segmentation': '🧩',
+  '3D Vision': '🧊',
+  'Knowledge Graphs': '🔗',
+  'Text-to-Image': '🖌️',
+  'Self-Supervised': '🔄',
+  'Interpretability': '🔬',
+  'Model Compression': '🗜️',
+  'Adversarial': '⚔️',
+  'Dialogue': '🗨️',
+  'QA': '❓',
+  'Graph': '🕸️',
+  'Info Extraction': '📑',
+  'Fairness & Ethics': '⚖️',
+  'Cryptography & Security': '🔒',
 };
 
 function topicIcon(name) {
@@ -203,30 +236,24 @@ function copyDigestLink(btn) {
   });
 }
 
-// Top topics to feature in the digest (ordered by priority)
-const DIGEST_TOPICS = [
-  'Large Language Models',
-  'Transformer Architectures',
-  'AI Agents & Tool Use',
-  'Reasoning & Chain-of-Thought',
-  'Vision-Language Models',
-  'Diffusion Models',
-  'Computer Vision',
-  'Retrieval-Augmented Generation',
-  'Reinforcement Learning',
-  'Code Generation & Synthesis',
-  'Fine-Tuning & PEFT',
-  'AI Safety & Alignment',
-  'Benchmarking & Evaluation',
-  'Graph Neural Networks',
-  'RLHF & Preference Alignment',
-  'Multimodal Learning',
-  'State Space Models',
-  'Mixture of Experts',
-  'Machine Translation',
-  'Text Summarization',
-];
+// Broad field / umbrella topics that aren't useful digest sections — these are
+// catch-alls from the source taxonomy ("Computer science", whole scientific
+// fields, mislabelled nodes). Everything else (LLMs, Reasoning, VLMs, …) is a
+// meaningful AI/CS topic and is eligible. Compared case-insensitively.
+const GENERIC_TOPICS = new Set([
+  'computer science', 'theoretical computer science', 'artificial intelligence',
+  'machine learning', 'artificial neural network', 'pattern recognition (psychology)',
+  'algorithm', 'data mining', 'feature (linguistics)', 'robustness (evolution)',
+  'mathematics', 'statistics', 'engineering', 'physics', 'condensed matter physics',
+  'chemistry', 'catalysis', 'optoelectronics', 'nanotechnology', 'materials science',
+  'biology', 'cell biology', 'computational biology', 'biomedical ai', 'medicine',
+  'cancer research', 'immune system', 'neuroscience', 'environmental science',
+]);
 
+// The digest features whichever topics actually contain papers from the current
+// week — computed at load time so it tracks the live taxonomy instead of a
+// hardcoded list that silently drifts out of sync with the data.
+let digestTopics = [];
 let allPapers = [];
 let allTopics = [];
 let activeFilter = 'all';
@@ -241,21 +268,20 @@ function papersByTopic(papers, topicName, topics) {
     .slice(0, 3);
 }
 
-// Monday–Sunday week containing `anchor` (a Date). The digest is anchored on
-// the freshest paper in the data so the label and the papers always agree.
-function weekRange(anchor) {
-  const dow = anchor.getDay();
-  const mon = new Date(anchor); mon.setHours(0,0,0,0);
-  mon.setDate(anchor.getDate() - ((dow + 6) % 7));
-  const sun = new Date(mon); sun.setDate(mon.getDate() + 6); sun.setHours(23,59,59,999);
-  const fmt = d => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  return { start: mon, end: sun, label: `${fmt(mon)} – ${fmt(sun)}, ${sun.getFullYear()}` };
+function paperDay(p) {
+  return p.published_date ? String(p.published_date).slice(0, 10) : null;
 }
 
-function paperDateMs(p) {
-  if (!p.published_date) return null;
-  const t = new Date(String(p.published_date).slice(0, 10)).getTime();
-  return Number.isNaN(t) ? null : t;
+// Monday–Sunday week containing the ISO day `anchor` ("YYYY-MM-DD"). Computed in
+// UTC and compared as strings so there's no timezone drift. The digest is
+// anchored on the freshest paper present, so the label and papers always agree.
+function weekRange(anchor) {
+  const d = new Date(anchor + 'T00:00:00Z');
+  const mon = new Date(d); mon.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7));
+  const sun = new Date(mon); sun.setUTCDate(mon.getUTCDate() + 6);
+  const iso = x => x.toISOString().slice(0, 10);
+  const fmt = x => x.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+  return { start: iso(mon), end: iso(sun), label: `${fmt(mon)} – ${fmt(sun)}, ${sun.getUTCFullYear()}` };
 }
 
 function toggleDigestSection(id) {
@@ -267,7 +293,7 @@ function toggleDigestSection(id) {
 }
 
 function render(papers, topics, filter) {
-  const sections = DIGEST_TOPICS.filter(name =>
+  const sections = digestTopics.filter(name =>
     filter === 'all' || name === filter
   );
 
@@ -305,10 +331,8 @@ function render(papers, topics, filter) {
 }
 
 function buildFilters(topics) {
-  // Only show chips for topics that actually have papers in the current week.
-  const available = DIGEST_TOPICS.filter(name =>
-    papersByTopic(allPapers, name, topics).length > 0
-  );
+  // digestTopics is already restricted to topics with papers this week.
+  const available = digestTopics;
 
   const el = document.getElementById('digest-filters');
   el.innerHTML = `<button class="area-chip active" data-f="all">All</button>` +
@@ -352,21 +376,37 @@ function buildTweetBtn(weekLabel) {
   // Anchor the week on the freshest paper actually present (the pipeline runs a
   // few days behind real-time), so the "Week of …" label matches the papers
   // shown. Papers must be from this week — no month-old top scorers.
-  const dateMsList = arxivOnly.map(paperDateMs).filter(t => t !== null);
-  const anchor = dateMsList.length ? new Date(Math.max(...dateMsList)) : new Date();
+  const days = arxivOnly.map(paperDay).filter(Boolean);
+  const anchor = days.length ? days.reduce((a, b) => (b > a ? b : a)) : new Date().toISOString().slice(0, 10);
   const week = weekRange(anchor);
   document.getElementById('digest-week-label').textContent = `Week of ${week.label}`;
   buildTweetBtn(week.label);
 
   const thisWeek = arxivOnly.filter(p => {
-    const t = paperDateMs(p);
-    return t !== null && t >= week.start.getTime() && t <= week.end.getTime();
+    const d = paperDay(p);
+    return d && d >= week.start && d <= week.end;
   });
   const sorted = [...thisWeek].sort((a,b) => (b.paper_score||0) - (a.paper_score||0));
   allPapers = sorted;
   allTopics = topics;
 
+  // Feature the topics that have the most papers this week (generic umbrella
+  // topics excluded), so the digest tracks the live taxonomy.
+  digestTopics = topics
+    .filter(t => !GENERIC_TOPICS.has((t.name || '').toLowerCase()))
+    .map(t => ({ name: t.name, n: papersByTopic(sorted, t.name, topics).length }))
+    .filter(t => t.n > 0)
+    .sort((a, b) => b.n - a.n)
+    .slice(0, 14)
+    .map(t => t.name);
+
   document.getElementById('digest-total').textContent = sorted.length.toLocaleString();
+
+  if (!digestTopics.length) {
+    document.getElementById('digest-content').innerHTML =
+      '<div class="empty-state"><p>No papers for this week yet — check back after the next sync.</p></div>';
+    return;
+  }
 
   buildFilters(topics);
   render(sorted, topics, 'all');
