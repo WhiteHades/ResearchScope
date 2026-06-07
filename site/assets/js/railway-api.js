@@ -107,12 +107,17 @@ async function _queryPapers({
 }
 
 async function _fetchTopPapers(limit = 500) {
+  // arXiv preprints only — matches the data/papers.json static fallback below
+  // (which is the arXiv section). Without source_type=preprint the global
+  // /papers endpoint is ranked across all sources and is now dominated by
+  // conference/journal papers, which starved arXiv-only consumers like the
+  // weekly digest of any results.
   try {
     const PAGE = 100; // backend max page_size
     const results = [];
     for (let page = 1; results.length < limit; page++) {
       const need = Math.min(PAGE, limit - results.length);
-      const json = await _apiFetch(`/papers?page_size=${need}&page=${page}`);
+      const json = await _apiFetch(`/papers?source_type=preprint&page_size=${need}&page=${page}`);
       if (!json?.results?.length) break;
       results.push(...json.results);
       if (json.results.length < need) break; // last page
