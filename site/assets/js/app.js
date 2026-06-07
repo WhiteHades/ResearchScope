@@ -406,12 +406,43 @@ async function initStarCount() {
 }
 
 // ── Paper of the Day ──────────────────────────────────────────────────
-function pickPaperOfTheDay(papers, poolSize = 150) {
+// Featured paper must be *current* — picked from the freshest publication
+// date available in the data, not the all-time top scorers (which skew weeks
+// or months old). We anchor on the most recent published_date present, widen
+// the window only if that single day is sparse, then rotate daily for variety.
+const DAY_MS = 86400000;
+
+function pickPaperOfTheDay(papers, poolSize = 60) {
   if (!papers || !papers.length) return null;
-  const pool = papers.slice(0, Math.min(poolSize, papers.length));
-  const today  = new Date();
+
+  const dated = papers.filter(p => p.published_date);
+  let pool;
+  if (dated.length) {
+    const latest = dated.reduce(
+      (max, p) => (p.published_date > max ? p.published_date : max),
+      dated[0].published_date
+    ).slice(0, 10);
+    const latestMs = new Date(latest).getTime();
+    // Prefer the latest day; widen to a few recent days only if too few papers.
+    for (const windowDays of [0, 2, 6]) {
+      pool = dated.filter(p => {
+        const d = new Date(p.published_date.slice(0, 10)).getTime();
+        return d <= latestMs && latestMs - d <= windowDays * DAY_MS;
+      });
+      if (pool.length >= 5) break;
+    }
+  } else {
+    pool = papers.slice();
+  }
+
+  pool = pool
+    .sort((a, b) => (b.paper_score || 0) - (a.paper_score || 0))
+    .slice(0, Math.min(poolSize, pool.length));
+  if (!pool.length) return null;
+
+  const today = new Date();
   const startOfYear = new Date(today.getFullYear(), 0, 1);
-  const dayOfYear = Math.floor((today - startOfYear) / 86400000);
+  const dayOfYear = Math.floor((today - startOfYear) / DAY_MS);
   return pool[dayOfYear % pool.length];
 }
 
@@ -422,15 +453,6 @@ function tweetPaperUrl(paper) {
   const pageUrl = `https://kishormorol.github.io/ResearchScope/papers?q=${encodeURIComponent(paper.title || '')}`;
   const text    = `📄 ${paper.title}\n${venue}${score}\n\n${snippet}…\n\n🔭 ResearchScope\n${pageUrl}\n\n#AIResearch #MachineLearning #ResearchScope`;
   return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-}
-
-function weekLabel() {
-  const now = new Date();
-  const dow = now.getDay();
-  const mon = new Date(now); mon.setDate(now.getDate() - ((dow + 6) % 7));
-  const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
-  const fmt = d => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  return `${fmt(mon)} – ${fmt(sun)}, ${now.getFullYear()}`;
 }
 
 function renderPotdCard(paper) {

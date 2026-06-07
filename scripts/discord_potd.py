@@ -2,8 +2,10 @@
 Post the Paper of the Day to a Discord channel via webhook.
 
 Replicates the same selection logic as the frontend pickPaperOfTheDay():
-  pool = top 150 arXiv papers sorted by paper_score desc
-  index = dayOfYear % pool.length
+  pool = arXiv papers from the freshest publication date(s) available
+  rank by paper_score, keep top POOL_SIZE, rotate by dayOfYear
+The paper must be *current* — anchored on the most recent published_date in the
+data, not the all-time top scorers (which skew weeks/months old).
 """
 from __future__ import annotations
 
@@ -11,19 +13,43 @@ import json
 import os
 import sys
 import urllib.request
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 PAPERS_URL = "https://kishormorol.github.io/ResearchScope/data/papers.json"
 ARXIV_VENUES = {"arXiv", "Unknown", "", None}
-POOL_SIZE = 150
+POOL_SIZE = 60
+
+
+def _pub_date(paper: dict) -> date | None:
+    raw = paper.get("published_date")
+    if not raw:
+        return None
+    try:
+        return date.fromisoformat(str(raw)[:10])
+    except ValueError:
+        return None
 
 
 def pick_paper_of_the_day(papers: list[dict]) -> dict | None:
     arxiv = [p for p in papers if p.get("venue") in ARXIV_VENUES]
-    arxiv.sort(key=lambda p: -(p.get("paper_score") or 0))
-    pool = arxiv[:POOL_SIZE]
+    if not arxiv:
+        return None
+
+    dated = [(p, _pub_date(p)) for p in arxiv]
+    dated = [(p, d) for p, d in dated if d is not None]
+    pool = arxiv
+    if dated:
+        latest = max(d for _, d in dated)
+        # Prefer the latest day; widen to a few recent days if it's sparse.
+        for window_days in (0, 2, 6):
+            pool = [p for p, d in dated if 0 <= (latest - d).days <= window_days]
+            if len(pool) >= 5:
+                break
+
+    pool = sorted(pool, key=lambda p: -(p.get("paper_score") or 0))[:POOL_SIZE]
     if not pool:
         return None
+
     today = datetime.now(timezone.utc)
     start_of_year = datetime(today.year, 1, 1, tzinfo=timezone.utc)
     day_of_year = (today - start_of_year).days

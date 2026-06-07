@@ -241,6 +241,23 @@ function papersByTopic(papers, topicName, topics) {
     .slice(0, 3);
 }
 
+// Monday–Sunday week containing `anchor` (a Date). The digest is anchored on
+// the freshest paper in the data so the label and the papers always agree.
+function weekRange(anchor) {
+  const dow = anchor.getDay();
+  const mon = new Date(anchor); mon.setHours(0,0,0,0);
+  mon.setDate(anchor.getDate() - ((dow + 6) % 7));
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6); sun.setHours(23,59,59,999);
+  const fmt = d => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  return { start: mon, end: sun, label: `${fmt(mon)} – ${fmt(sun)}, ${sun.getFullYear()}` };
+}
+
+function paperDateMs(p) {
+  if (!p.published_date) return null;
+  const t = new Date(String(p.published_date).slice(0, 10)).getTime();
+  return Number.isNaN(t) ? null : t;
+}
+
 function toggleDigestSection(id) {
   const body = document.getElementById('digest-body-' + id);
   const arrow = document.getElementById('digest-arrow-' + id);
@@ -288,10 +305,10 @@ function render(papers, topics, filter) {
 }
 
 function buildFilters(topics) {
-  const available = DIGEST_TOPICS.filter(name => {
-    const t = topics.find(t => t.name === name);
-    return t && t.paper_ids && t.paper_ids.length > 0;
-  });
+  // Only show chips for topics that actually have papers in the current week.
+  const available = DIGEST_TOPICS.filter(name =>
+    papersByTopic(allPapers, name, topics).length > 0
+  );
 
   const el = document.getElementById('digest-filters');
   el.innerHTML = `<button class="area-chip active" data-f="all">All</button>` +
@@ -317,10 +334,6 @@ function buildTweetBtn(weekLabel) {
 }
 
 (async () => {
-  const label = weekLabel();
-  document.getElementById('digest-week-label').textContent = `Week of ${label}`;
-  buildTweetBtn(label);
-
   const [papers, topics] = await Promise.all([
     window._rs_data.fetchTopPapers(500),
     window._rs_data.fetchAllTopics(),
@@ -335,11 +348,25 @@ function buildTweetBtn(weekLabel) {
   // Digest is arXiv-only — conference papers are historical proceedings, not "new this week"
   const ARXIV_VENUES = new Set(['arXiv', 'Unknown', '', null, undefined]);
   const arxivOnly = papers.filter(p => ARXIV_VENUES.has(p.venue));
-  const sorted = [...arxivOnly].sort((a,b) => (b.paper_score||0) - (a.paper_score||0));
+
+  // Anchor the week on the freshest paper actually present (the pipeline runs a
+  // few days behind real-time), so the "Week of …" label matches the papers
+  // shown. Papers must be from this week — no month-old top scorers.
+  const dateMsList = arxivOnly.map(paperDateMs).filter(t => t !== null);
+  const anchor = dateMsList.length ? new Date(Math.max(...dateMsList)) : new Date();
+  const week = weekRange(anchor);
+  document.getElementById('digest-week-label').textContent = `Week of ${week.label}`;
+  buildTweetBtn(week.label);
+
+  const thisWeek = arxivOnly.filter(p => {
+    const t = paperDateMs(p);
+    return t !== null && t >= week.start.getTime() && t <= week.end.getTime();
+  });
+  const sorted = [...thisWeek].sort((a,b) => (b.paper_score||0) - (a.paper_score||0));
   allPapers = sorted;
   allTopics = topics;
 
-  document.getElementById('digest-total').textContent = arxivOnly.length.toLocaleString();
+  document.getElementById('digest-total').textContent = sorted.length.toLocaleString();
 
   buildFilters(topics);
   render(sorted, topics, 'all');
