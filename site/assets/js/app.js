@@ -204,11 +204,20 @@ async function loadStats() {
     const el = document.getElementById(id);
     if (el) el.textContent = (val ?? 0).toLocaleString();
   }
-  // Hero tagline count — rounded down to a clean "N,000+" so it never goes stale.
+  // Hero tagline count + stats bar — seed from the snapshot, then override with
+  // the live API total so the site always shows the real corpus size.
   const heroEl = document.getElementById('hero-paper-count');
   if (heroEl && stats.total_papers) {
-    const rounded = Math.floor(stats.total_papers / 1000) * 1000;
-    heroEl.textContent = rounded.toLocaleString() + '+';
+    heroEl.textContent = stats.total_papers.toLocaleString();
+  }
+  if (window._rs_data?.fetchPaperCount) {
+    window._rs_data.fetchPaperCount().then(total => {
+      if (!Number.isFinite(total)) return;
+      const live = total.toLocaleString();
+      const papersEl = document.getElementById('stat-papers');
+      if (papersEl) papersEl.textContent = live;
+      if (heroEl) heroEl.textContent = live;
+    });
   }
   const genEl = document.getElementById('stat-generated');
   if (genEl && stats.generated_at) {

@@ -166,6 +166,22 @@ async function _fetchJournalPapers(limit = 2000) {
   return [];
 }
 
+async function _fetchPaperCount() {
+  // Live total across every source (preprint + conference + journal). This is the
+  // real corpus size on Railway — unaffected by the browse-page SECTION_CAP and
+  // never stale, unlike the data/stats.json snapshot used as the fallback.
+  try {
+    const json = await _apiFetch('/papers?page=1&page_size=1');
+    if (json && Number.isFinite(json.total)) return json.total;
+  } catch { /* fall through */ }
+  try {
+    const res = await fetch('data/stats.json');
+    const stats = await res.json();
+    if (stats && Number.isFinite(stats.total_papers)) return stats.total_papers;
+  } catch { /* ignore */ }
+  return null;
+}
+
 async function _searchPapersQuick(query, limit = 5) {
   if (!query || query.trim().length < 2) return [];
   try {
@@ -372,6 +388,7 @@ window._rs_data = {
   fetchTopPapers:        _fetchTopPapers,
   fetchConferencePapers: _fetchConferencePapers,
   fetchJournalPapers:    _fetchJournalPapers,
+  fetchPaperCount:       _fetchPaperCount,
   searchPapersQuick:     _searchPapersQuick,
   fetchAllAuthors:  (n) => _staticFetch('data/authors.json', n),
   fetchAllTopics:   (n) => _staticFetch('data/topics.json',  n),
