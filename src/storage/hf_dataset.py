@@ -377,6 +377,17 @@ Open CS research paper dataset maintained by [ResearchScope](https://github.com/
 
 Updated automatically via GitHub Actions.
 
+## Quick start
+
+```python
+from datasets import load_dataset
+
+ds = load_dataset("kishormorol/researchscope-papers", "papers", split="train")
+print(ds[0])
+```
+
+See [Usage](#usage) below for per-source splits, instruction-tuning, and the per-section fine-tuning data.
+
 ## Stats
 
 - **{n_papers:,}** papers (raw metadata) — **{n_arxiv:,}** arXiv · **{n_conf:,}** conference · **{n_journal:,}** journal
