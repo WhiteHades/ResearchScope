@@ -58,12 +58,19 @@ The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** o
 | 🎓 **A* Conference coverage** | NeurIPS, ICML, ICLR, CVPR, ACL, EMNLP, AAAI, IJCAI, CHI, SIGIR, WWW, KDD and more |
 | 📖 **20 Q1 Journals** | JMLR, TMLR, TACL, TPAMI, Nature MI, and 15 more — with IF, review time, OA status |
 | 🎯 **Venue Recommenders** | Conference + Journal recommenders: paste abstract → ranked matches with expectations |
+| ⏰ **Deadline tracker** | Live countdowns to A*/A conference deadlines across 10 CS areas — abstract, paper, and notification dates |
 | 🔍 **Full-text search** | PostgreSQL `tsvector` search across 100K+ papers via Railway API |
 | 👤 **User accounts** | JWT auth, favourites synced across devices via Railway backend |
 | 🕳 **Research gaps** | 3-layer extraction: explicit, pattern-detected, and starter ideas |
 | 👩‍🔬 **Author intelligence** | 5,000+ researchers ranked by momentum score |
 | 🤗 **LLM training data** | `papers.jsonl` + `instruct.jsonl` on HuggingFace Hub |
 | 🔗 **CiteLens** | One-click handoff to citation analysis for arXiv papers |
+
+### ⏰ Conference Deadline Tracker
+
+Live countdowns to top CS conference deadlines — filter by area, track abstract vs. paper deadlines, and review past cycles.
+
+![Conference deadline tracker demo](docs/deadlines-demo.gif)
 
 ---
 
