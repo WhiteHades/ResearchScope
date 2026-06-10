@@ -151,10 +151,15 @@ def _jsonl_bytes(rows: list[dict]) -> bytes:
     return buf.getvalue()
 
 
+# Waits between retries on 429. hf_hub already backs off for ~2 min internally
+# per attempt, so these need to be long enough to outlast a quota window.
+_RETRY_WAITS = (60, 300, 600)
+
+
 def _upload_with_retry(api: Any, *, path_or_fileobj, path_in_repo: str, commit_message: str) -> None:
-    """Upload a file to HF Hub with one retry on 429."""
+    """Upload a file to HF Hub, retrying on 429 with increasing waits."""
     import time
-    for attempt in range(2):
+    for wait in (*_RETRY_WAITS, None):
         try:
             api.upload_file(
                 path_or_fileobj=path_or_fileobj,
@@ -165,9 +170,9 @@ def _upload_with_retry(api: Any, *, path_or_fileobj, path_in_repo: str, commit_m
             )
             return
         except Exception as exc:
-            if "429" in str(exc) and attempt == 0:
-                log.warning("[hf] rate-limited, waiting 60s before retry…")
-                time.sleep(60)
+            if "429" in str(exc) and wait is not None:
+                log.warning("[hf] rate-limited, waiting %ds before retry…", wait)
+                time.sleep(wait)
                 continue
             raise
 
