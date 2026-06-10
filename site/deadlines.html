@@ -360,7 +360,9 @@ function parseDate(s) { return s ? new Date(s + 'T23:59:59') : null; }
 
 function daysUntil(d) {
   if (!d) return null;
-  return Math.ceil((d - Date.now()) / 86400000);
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const day = new Date(d);  day.setHours(0, 0, 0, 0);
+  return Math.round((day - today) / 86400000);
 }
 
 function countdownText(days) {
