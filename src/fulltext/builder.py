@@ -68,12 +68,15 @@ def select_papers(
     min_score: float = 0.0,
     min_citations: int = 0,
     limit: int | None = None,
+    exclude_ids: set[str] | None = None,
 ) -> list[dict]:
     """Load and rank A* papers, best-scored first, applying quality gates."""
+    exclude_ids = exclude_ids or set()
     papers = json.loads(Path(db_path).read_text(encoding="utf-8"))
     papers = [
         p for p in papers
         if p.get("conference_rank") == "A*"
+        and str(p.get("id", "")) not in exclude_ids
         and float(p.get("paper_score") or 0) >= min_score
         and int(p.get("citations") or 0) >= min_citations
         and resolve_pdf_url(p) is not None
@@ -183,8 +186,13 @@ def build_dataset(
     grobid_required: bool = True,
     delay: float = 0.0,
     max_pdf_mb: float = 5.0,
+    append: bool = False,
 ) -> dict:
-    """Stream section rows for all papers to a JSONL file. Returns stats."""
+    """Stream section rows for all papers to a JSONL file. Returns stats.
+
+    With append=True, rows are added to an existing file (incremental merge
+    on top of previously published rows) instead of replacing it.
+    """
     if grobid_required and not is_alive():
         raise RuntimeError(
             "GROBID is not reachable. Start it with:\n"
@@ -199,7 +207,7 @@ def build_dataset(
     stats = {"papers": 0, "ok": 0, "skipped": 0, "rows": 0,
              "by_section": {s: 0 for s in CANONICAL_SECTIONS}}
 
-    with out_path.open("w", encoding="utf-8") as fh:
+    with out_path.open("a" if append else "w", encoding="utf-8") as fh:
         for paper in papers:
             stats["papers"] += 1
             rows = build_rows(paper, max_pdf_bytes=max_pdf_bytes)
