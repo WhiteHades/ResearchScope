@@ -66,19 +66,19 @@
     </div>
   </div>
 </nav>nk">Topics</a>
-      <a href="digest" class="mobile-nav-link">📬 Weekly Digest</a>
+      <a href="digest" class="mobile-nav-link"> Weekly Digest</a>
       <a href="conferences" class="mobile-nav-link">Conferences</a>
       <a href="journals" class="mobile-nav-link">Journals</a>
       
       <a href="authors" class="mobile-nav-link">Authors</a>
       <a href="labs" class="mobile-nav-link">Labs &amp; Unis</a>
       <a href="gaps" class="mobile-nav-link">Research Gaps</a>
-      <a href="deadlines" class="mobile-nav-link">📅 Upcoming Conferences</a>
+      <a href="deadlines" class="mobile-nav-link"> Upcoming Conferences</a>
     </div>
   </div>
 </nav>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <h1 class="text-2xl font-bold mb-2">🔍 Research Gap Explorer</h1>
+  <h1 class="text-2xl font-bold mb-2"> Research Gap Explorer</h1>
   <p class="text-sm mb-6" style="color:var(--rs-muted)">
     Gaps are extracted in three layers: <strong>Explicit</strong> (directly stated limitations),
     <strong>Pattern</strong> (recurring weaknesses across papers), and
@@ -87,9 +87,9 @@
 
   <!-- Legend -->
   <div class="flex flex-wrap gap-3 mb-6">
-    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:#4f46e5"></div><span>📌 Explicit — directly extracted</span></div>
-    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:#f59e0b"></div><span>📊 Pattern — inferred from repeated signals</span></div>
-    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:#10b981"></div><span>💡 Starter — beginner-friendly ideas</span></div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:#4f46e5"></div><span> Explicit — directly extracted</span></div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:#f59e0b"></div><span> Pattern — inferred from repeated signals</span></div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:#10b981"></div><span> Starter — beginner-friendly ideas</span></div>
   </div>
 
   <!-- Filters -->
@@ -120,7 +120,7 @@
   <div id="gaps-paginator" class="mt-6"></div>
 </div>
 <footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  <p class="font-semibold mb-2">🔭 ResearchScope</p>
+  <p class="font-semibold mb-2"> ResearchScope</p>
   <p>Open-source CS research intelligence &middot; Updated daily via GitHub Actions &middot; Built for researchers and creators</p>
   <p class="mt-3 font-medium" style="color:var(--rs-text)">Data Sources</p>
   <p class="mt-1">
@@ -138,7 +138,7 @@
 <script src="assets/js/app.js"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
-const TYPE_LABELS = {explicit:'📌 Explicit',pattern:'📊 Pattern',starter:'💡 Starter'};
+const TYPE_LABELS = {explicit:' Explicit',pattern:' Pattern',starter:' Starter'};
 const TYPE_CLS    = {explicit:'gap-card-explicit',pattern:'gap-card-pattern',starter:'gap-card-starter'};
 const CONF_LABELS = v => v >= 0.8 ? 'High' : v >= 0.6 ? 'Medium' : 'Low';
 
@@ -163,7 +163,7 @@ function renderGap(g, papersById) {
     <p class="text-sm mb-3" style="color:var(--rs-muted)">${escHtml(g.description || '')}</p>
     ${g.starter_idea ? `
     <div class="p-3 rounded-lg mb-3" style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2)">
-      <p class="text-xs font-bold mb-1" style="color:#10b981">💡 Starter Idea</p>
+      <p class="text-xs font-bold mb-1" style="color:#10b981"> Starter Idea</p>
       <p class="text-sm">${escHtml(g.starter_idea)}</p>
     </div>` : ''}
     ${(g.suggested_projects||[]).length ? `
