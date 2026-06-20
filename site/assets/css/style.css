@@ -555,17 +555,6 @@ body > * { position: relative; z-index: 1; }
   position: relative;
 }
 
-/* ── Theme toggle (decorative only — light-only by spec) ── */
-#theme-toggle {
-  cursor: not-allowed;
-  padding: 0.35rem;
-  border-radius: 8px;
-  border: 1px solid var(--rs-rule);
-  background: var(--rs-paper);
-  color: var(--rs-ink-faint);
-  opacity: 0.5;
-}
-
 /* ── Topic chips (hairline, coral on hover, italic serif on active) ── */
 .topic-chip {
   display: inline-block;
