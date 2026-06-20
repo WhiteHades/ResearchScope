@@ -297,13 +297,13 @@ function _injectNavStyles() {
 }
 
 function _injectAuthButton() {
-  const toggle = document.getElementById('theme-toggle');
-  if (!toggle) return;
+  const anchor = document.querySelector('.rs-nav .flex.items-center.gap-2.justify-end');
+  if (!anchor) return;
 
   const wrap = document.createElement('div');
   wrap.id = 'rs-auth-wrap';
   wrap.className = 'hidden lg:block';
-  toggle.parentNode.insertBefore(wrap, toggle);
+  anchor.insertBefore(wrap, anchor.firstChild);
 
   const btn = document.createElement('button');
   btn.id = 'rs-auth-btn';
