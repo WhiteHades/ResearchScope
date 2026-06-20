@@ -67,40 +67,40 @@
     </div>
   </div>
 </nav>nk">Topics</a>
-      <a href="digest" class="mobile-nav-link">📬 Weekly Digest</a>
+      <a href="digest" class="mobile-nav-link"> Weekly Digest</a>
       <a href="conferences" class="mobile-nav-link">Conferences</a>
       <a href="journals" class="mobile-nav-link">Journals</a>
       
       <a href="authors" class="mobile-nav-link">Authors</a>
       <a href="labs" class="mobile-nav-link">Labs &amp; Unis</a>
       <a href="gaps" class="mobile-nav-link">Research Gaps</a>
-      <a href="deadlines" class="mobile-nav-link">📅 Upcoming Conferences</a>
+      <a href="deadlines" class="mobile-nav-link"> Upcoming Conferences</a>
     </div>
   </div>
 </nav>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="library-toolbar">
     <div>
-      <h1 class="text-2xl font-bold mb-1">🎓 A* Conference Papers</h1>
+      <h1 class="text-2xl font-bold mb-1"> A* Conference Papers</h1>
       <p class="text-xs mb-1" style="color:var(--rs-muted)">
-        <a href="papers"  style="color:var(--rs-muted)" class="hover:underline">📄 arXiv Preprints</a>
+        <a href="papers"  style="color:var(--rs-muted)" class="hover:underline"> arXiv Preprints</a>
         <span class="badge badge-conf ml-2 mr-1">Section 2 of 3</span>
-        <a href="journals" style="color:var(--rs-muted)" class="ml-2 hover:underline">📖 Q1 Journals</a>
+        <a href="journals" style="color:var(--rs-muted)" class="ml-2 hover:underline"> Q1 Journals</a>
       </p>
       <p class="text-sm mb-4" style="color:var(--rs-muted)">Top 1,000 papers from NeurIPS, ICML, ICLR, CVPR, ACL, AAAI and all A* CS venues — ranked by impact score.
         <button onclick="document.getElementById('scoring-explainer').classList.toggle('hidden')"
           class="ml-2 text-xs font-semibold underline" style="color:var(--rs-primary)">How scoring works ↓</button>
-        <a href="conference-recommender" class="ml-3 text-xs font-semibold" style="color:var(--rs-primary)">🎯 Find a venue for your paper →</a>
+        <a href="conference-recommender" class="ml-3 text-xs font-semibold" style="color:var(--rs-primary)"> Find a venue for your paper →</a>
       </p>
     </div>
   </div>
 
   <div id="scoring-explainer" class="hidden rs-card p-4 mb-4 text-sm">
-    <p class="font-bold mb-2">📊 How Papers Are Scored (0–10)</p>
+    <p class="font-bold mb-2"> How Papers Are Scored (0–10)</p>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
       <div><p class="font-semibold">⭐ Paper Score</p><p style="color:var(--rs-muted)">Venue rank (A*), citation velocity, contribution depth, and author/institution prestige.</p></div>
-      <div><p class="font-semibold">📖 Read First</p><p style="color:var(--rs-muted)">Foundational value, abstract clarity, accessibility, and topic centrality.</p></div>
-      <div><p class="font-semibold">🎙 Content Potential</p><p style="color:var(--rs-muted)">Real-world applicability, broad relevance, surprising results, and explainability.</p></div>
+      <div><p class="font-semibold"> Read First</p><p style="color:var(--rs-muted)">Foundational value, abstract clarity, accessibility, and topic centrality.</p></div>
+      <div><p class="font-semibold"> Content Potential</p><p style="color:var(--rs-muted)">Real-world applicability, broad relevance, surprising results, and explainability.</p></div>
     </div>
   </div>
 
@@ -167,7 +167,7 @@
   <div id="paginator"></div>
 </div>
 <footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  <p class="font-semibold mb-2">🔭 ResearchScope</p>
+  <p class="font-semibold mb-2"> ResearchScope</p>
   <p>Open-source CS research intelligence &middot; Updated daily via GitHub Actions &middot; Built for researchers and creators</p>
   <p class="mt-3 font-medium" style="color:var(--rs-text)">Data Sources</p>
   <p class="mt-1">
@@ -249,7 +249,7 @@ function renderRows(papers, startIdx=0) {
       <td>
         <span class="badge badge-score font-bold">⭐ ${(p.paper_score||0).toFixed(1)}</span>
         <div class="text-xs mt-0.5" style="color:var(--rs-muted)">
-          📖 ${(p.read_first_score||0).toFixed(1)} · 🎙 ${(p.content_potential_score||0).toFixed(1)}
+           ${(p.read_first_score||0).toFixed(1)} ·  ${(p.content_potential_score||0).toFixed(1)}
         </div>
       </td>
       <td class="library-cell">${libBtn}</td>
@@ -267,8 +267,8 @@ function renderRows(papers, startIdx=0) {
             <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Score Breakdown</p>
             ${scoreBar('Paper Score',p.paper_score)}${scoreBar('Read First',p.read_first_score)}${scoreBar('Content',p.content_potential_score)}
             <div class="mt-3 flex flex-wrap gap-2">
-              ${p.paper_url?`<a href="${escHtml(p.paper_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)">📄 Paper</a>`:''}
-              ${p.pdf_url?`<a href="${escHtml(p.pdf_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)">📑 PDF</a>`:''}
+              ${p.paper_url?`<a href="${escHtml(p.paper_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)"> Paper</a>`:''}
+              ${p.pdf_url?`<a href="${escHtml(p.pdf_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)"> PDF</a>`:''}
             </div>
           </div>
         </div>
