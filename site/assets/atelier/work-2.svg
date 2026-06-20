@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" width="960" height="720" role="img" aria-label="Digest">
+  
+  <defs>
+    <filter id="paper-noise" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3"/>
+      <feColorMatrix values="0 0 0 0 0.082  0 0 0 0 0.078  0 0 0 0 0.059  0 0 0 0.06 0"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+    <pattern id="grid-p0v5a" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#15140f" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <!-- paper base -->
+  <rect width="960" height="720" fill="#efe7d2"/>
+  <rect width="960" height="720" fill="url(#grid-a)"/>
+  <rect width="960" height="720" filter="url(#paper-noise)" opacity="0.6"/>
+  <!-- corner brackets -->
+  <g stroke="#8b8676" stroke-width="1.4" fill="none">
+    <path d="M32 72 L32 32 L72 32"/>
+    <path d="M888 32 L928 32 L928 72"/>
+    <path d="M32 648 L32 688 L72 688"/>
+    <path d="M888 688 L928 688 L928 648"/>
+  </g>
+  <!-- motif -->
+  <g transform="translate(480 350)">
+         <rect x="-129.6" y="-36" width="259.2" height="28.8" fill="none" stroke="#15140f" stroke-opacity="0.4"/>
+         <rect x="-108" y="-3.6" width="216" height="28.8" fill="none" stroke="#15140f" stroke-opacity="0.55"/>
+         <rect x="-86.39999999999999" y="28.8" width="172.79999999999998" height="28.8" fill="#ed6f5c" fill-opacity="0.7"/>
+       </g>
+  <!-- title -->
+  <text x="480" y="446.4" text-anchor="middle"
+        font-family="Playfair Display, Georgia, serif" font-style="italic"
+        font-weight="500" font-size="50" fill="#15140f" letter-spacing="-0.5">
+    Digest<tspan fill="#ed6f5c">.</tspan>
+  </text>
+  <!-- meta: slot id -->
+  <text x="480" y="518.4" text-anchor="middle"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="18" fill="#8b8676" letter-spacing="2">
+    WORK-2 · 960×720
+  </text>
+  <!-- hint: research prompt -->
+  <text x="480" y="561.6" text-anchor="middle"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="16" fill="#8b8676" letter-spacing="0.6">
+    editorial · weekly · curated
+  </text>
+</svg>

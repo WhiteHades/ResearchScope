@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 480" width="1440" height="480" role="img" aria-label="Subscribe">
+  
+  <defs>
+    <filter id="paper-noise" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3"/>
+      <feColorMatrix values="0 0 0 0 0.082  0 0 0 0 0.078  0 0 0 0 0.059  0 0 0 0.06 0"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+    <pattern id="grid-n7dls" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#15140f" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <!-- paper base -->
+  <rect width="1440" height="480" fill="#efe7d2"/>
+  <rect width="1440" height="480" fill="url(#grid-a)"/>
+  <rect width="1440" height="480" filter="url(#paper-noise)" opacity="0.6"/>
+  <!-- corner brackets -->
+  <g stroke="#8b8676" stroke-width="1.4" fill="none">
+    <path d="M22 48 L22 22 L48 22"/>
+    <path d="M1392 22 L1418 22 L1418 48"/>
+    <path d="M22 432 L22 458 L48 458"/>
+    <path d="M1392 458 L1418 458 L1418 432"/>
+  </g>
+  <!-- motif -->
+  <g transform="translate(720 233.2)">
+         <line x1="-86.39999999999999" y1="0" x2="86.39999999999999" y2="0" stroke="#15140f" stroke-opacity="0.4"/>
+         <circle r="7.199999999999999" cx="0" cy="0" fill="#ed6f5c"/>
+       </g>
+  <!-- title -->
+  <text x="720" y="297.6" text-anchor="middle"
+        font-family="Playfair Display, Georgia, serif" font-style="italic"
+        font-weight="500" font-size="34" fill="#15140f" letter-spacing="-0.5">
+    Subscribe<tspan fill="#ed6f5c">.</tspan>
+  </text>
+  <!-- meta: slot id -->
+  <text x="720" y="345.6" text-anchor="middle"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="12" fill="#8b8676" letter-spacing="2">
+    CTA · 1440×480
+  </text>
+  <!-- hint: research prompt -->
+  <text x="720" y="374.4" text-anchor="middle"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="11" fill="#8b8676" letter-spacing="0.6">
+    ribbon · email · weekly
+  </text>
+</svg>
