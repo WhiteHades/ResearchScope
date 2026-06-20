@@ -66,19 +66,19 @@
     </div>
   </div>
 </nav>nk">Topics</a>
-      <a href="digest" class="mobile-nav-link">📬 Weekly Digest</a>
+      <a href="digest" class="mobile-nav-link"> Weekly Digest</a>
       <a href="conferences" class="mobile-nav-link">Conferences</a>
       <a href="journals" class="mobile-nav-link">Journals</a>
       
       <a href="authors" class="mobile-nav-link">Authors</a>
       <a href="labs" class="mobile-nav-link">Labs &amp; Unis</a>
       <a href="gaps" class="mobile-nav-link">Research Gaps</a>
-      <a href="deadlines" class="mobile-nav-link">📅 Upcoming Conferences</a>
+      <a href="deadlines" class="mobile-nav-link"> Upcoming Conferences</a>
     </div>
   </div>
 </nav>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <h1 class="text-2xl font-bold mb-2">🗂 Topics &amp; Reading Paths</h1>
+  <h1 class="text-2xl font-bold mb-2"> Topics &amp; Reading Paths</h1>
   <p class="text-sm mb-4" style="color:var(--rs-muted)">Click any topic to expand its reading path, prerequisites, and papers.</p>
 
   <div class="topic-view-switch mb-4" role="group" aria-label="Topic view">
@@ -180,7 +180,7 @@
   <div id="topics-list"><div class="spinner"></div></div>
 </div>
 <footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  <p class="font-semibold mb-2">🔭 ResearchScope</p>
+  <p class="font-semibold mb-2"> ResearchScope</p>
   <p>Open-source CS research intelligence &middot; Updated daily via GitHub Actions &middot; Built for researchers and creators</p>
   <p class="mt-3 font-medium" style="color:var(--rs-text)">Data Sources</p>
   <p class="mt-1">
@@ -254,7 +254,7 @@ function renderTopicAccordion(t, papersById) {
     <div class="topic-accordion-header" onclick="toggleAccordion(this.closest('.topic-accordion'))">
       <span class="font-semibold text-sm">${escHtml(t.name)}</span>
       <span class="badge ${DIFF_CLS[diff]||'badge-l2'} text-xs">${DIFF_LABELS[diff]||diff}</span>
-      <span class="badge badge-score text-xs">📈 ${(+t.trend_score||0).toFixed(1)}</span>
+      <span class="badge badge-score text-xs"> ${(+t.trend_score||0).toFixed(1)}</span>
       ${paperCount ? `<span class="text-xs" style="color:var(--rs-muted)">${paperCount} papers</span>` : ''}
       <span class="topic-accordion-chevron">▼</span>
     </div>
@@ -276,8 +276,8 @@ function renderTopicAccordion(t, papersById) {
           <div class="flex flex-wrap gap-1">${t.keywords.slice(0,8).map(k=>`<span class="badge badge-tag">${escHtml(k)}</span>`).join('')}</div>` : ''}
         </div>
         <div>
-          ${starters.length ? `<p class="text-xs font-semibold uppercase mb-2" style="color:#10b981">📗 Start Here</p>${starters.slice(0,3).map(p=>paperStub(p,'📗')).join('')}` : ''}
-          ${frontier.length ? `<p class="text-xs font-semibold uppercase mb-2 mt-4" style="color:#7c3aed">🚀 Frontier</p>${frontier.slice(0,3).map(p=>paperStub(p,'🚀')).join('')}` : ''}
+          ${starters.length ? `<p class="text-xs font-semibold uppercase mb-2" style="color:#10b981"> Start Here</p>${starters.slice(0,3).map(p=>paperStub(p,'')).join('')}` : ''}
+          ${frontier.length ? `<p class="text-xs font-semibold uppercase mb-2 mt-4" style="color:#7c3aed"> Frontier</p>${frontier.slice(0,3).map(p=>paperStub(p,'')).join('')}` : ''}
           ${!starters.length && !frontier.length ? `<p class="text-sm" style="color:var(--rs-muted)">No papers assigned yet.</p>` : ''}
         </div>
       </div>
