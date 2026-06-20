@@ -6,13 +6,13 @@
       <feColorMatrix values="0 0 0 0 0.082  0 0 0 0 0.078  0 0 0 0 0.059  0 0 0 0.06 0"/>
       <feComposite in2="SourceGraphic" operator="in"/>
     </filter>
-    <pattern id="grid-36r3r" width="32" height="32" patternUnits="userSpaceOnUse">
+    <pattern id="atelier-grid" width="32" height="32" patternUnits="userSpaceOnUse">
       <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#15140f" stroke-opacity="0.04" stroke-width="1"/>
     </pattern>
   </defs>
   <!-- paper base -->
   <rect width="1024" height="1024" fill="#efe7d2"/>
-  <rect width="1024" height="1024" fill="url(#grid-a)"/>
+  <rect width="1024" height="1024" fill="url(#atelier-grid)"/>
   <rect width="1024" height="1024" filter="url(#paper-noise)" opacity="0.6"/>
   <!-- corner brackets -->
   <g stroke="#8b8676" stroke-width="1.4" fill="none">
