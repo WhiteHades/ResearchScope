@@ -13,19 +13,20 @@
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-2">
-      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">
-        🔭 ResearchScope
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-ink);font-family:var(--rs-font-display);letter-spacing:-0.02em">
+        <span style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral)">Ø</span>
+        <span>ResearchScope<span class="rs-dot">.</span></span>
       </a>
       <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1">
         <a href="papers">Papers</a>
         <a href="topics">Topics</a>
-        <a href="digest">📬 Digest</a>
+        <a href="digest">Digest</a>
         <a href="conferences">Conferences</a>
         <a href="journals">Journals</a>
         <a href="authors">Authors</a>
         <a href="labs">Labs &amp; Unis</a>
         <a href="gaps">Research Gaps</a>
-        <a href="deadlines">📅 Upcoming</a>
+        <a href="deadlines">Upcoming</a>
       </div>
       <div class="flex items-center gap-2 justify-end" style="flex:1">
         <div class="search-wrap hidden lg:block">
@@ -40,7 +41,6 @@
           Star
           <span class="github-star-count">–</span>
         </a>
-        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
         <button id="mobile-menu-btn" class="lg:hidden p-1 rounded" aria-label="Open menu" aria-expanded="false">
           <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -52,12 +52,21 @@
       </div>
     </div>
   </div>
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-border);background:var(--rs-surface)">
+  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-rule);background:var(--rs-bone)">
     <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
       <a href="./" class="mobile-nav-link">Home</a>
       <a href="papers" class="mobile-nav-link">Papers</a>
       <a href="topics" class="mobile-nav-link">Topics</a>
+      <a href="digest" class="mobile-nav-link">Weekly Digest</a>
+      <a href="conferences" class="mobile-nav-link">Conferences</a>
+      <a href="journals" class="mobile-nav-link">Journals</a>
+      <a href="authors" class="mobile-nav-link">Authors</a>
+      <a href="labs" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines" class="mobile-nav-link">Upcoming Conferences</a>
+    </div>
+  </div>
+</nav>-nav-link">Topics</a>
       <a href="digest" class="mobile-nav-link">📬 Weekly Digest</a>
       <a href="conferences" class="mobile-nav-link">Conferences</a>
       <a href="journals" class="mobile-nav-link">Journals</a>
