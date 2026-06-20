@@ -71,7 +71,7 @@
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-2">
-      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">🔭 ResearchScope</a>
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)"> ResearchScope</a>
       <div class="flex items-center gap-2 justify-end" style="flex:1">
         </div>
     </div>
@@ -145,15 +145,15 @@
         </a>
         <a href="papers" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
            style="background:var(--rs-bg);border:1px solid var(--rs-border)">
-          <span>📄</span> Browse Papers
+          <span></span> Browse Papers
         </a>
         <a href="gaps" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
            style="background:var(--rs-bg);border:1px solid var(--rs-border)">
-          <span>🔍</span> Research Gaps
+          <span></span> Research Gaps
         </a>
         <a href="conference-recommender" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
            style="background:var(--rs-bg);border:1px solid var(--rs-border)">
-          <span>🎓</span> Venue Recommender
+          <span></span> Venue Recommender
         </a>
       </div>
     </div>
@@ -244,7 +244,7 @@ async function saveName() {
     document.getElementById('profile-name-display').textContent = user.name || user.email || '';
     document.getElementById('profile-email-display').textContent = user.name ? user.email || '' : '';
     document.getElementById('profile-avatar').textContent = (user.name || user.email || '?')[0].toUpperCase();
-    status.textContent = '✓ Name updated';
+    status.textContent = ' Name updated';
     status.style.color = '#16a34a';
     status.classList.remove('hidden');
     setTimeout(() => status.classList.add('hidden'), 2500);
