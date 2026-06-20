@@ -2,27 +2,6 @@
  * ResearchScope – shared JS utilities
  */
 
-// ── Theme ─────────────────────────────────────────────────────────────
-const THEME_KEY = 'rs-theme';
-
-function applyTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem(THEME_KEY, theme);
-  const icon = document.getElementById('theme-icon');
-  if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
-}
-
-function initTheme() {
-  const saved = localStorage.getItem(THEME_KEY);
-  const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  applyTheme(saved || preferred);
-}
-
-function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme') || 'light';
-  applyTheme(current === 'dark' ? 'light' : 'dark');
-}
-
 // ── Data fetching ──────────────────────────────────────────────────────
 async function fetchData(url) {
   try {
@@ -588,11 +567,8 @@ function buildDropdownNav() {
 
 // ── Init ───────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  initTheme();
   initStarCount();
   buildDropdownNav();
-  const toggle = document.getElementById('theme-toggle');
-  if (toggle) toggle.addEventListener('click', toggleTheme);
 
   // Highlight active nav link (desktop + mobile) — runs after buildDropdownNav
   const path = window.location.pathname.split('/').pop() || './';
