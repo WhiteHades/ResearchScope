@@ -74,28 +74,6 @@
   color: #6b7280;
 }
 
-[data-theme="dark"] .recommender-fit-excellent {
-  background: #064e3b;
-  color: #6ee7b7;
-  border-color: #065f46;
-}
-[data-theme="dark"] .recommender-fit-strong {
-  background: #14532d;
-  color: #86efac;
-}
-[data-theme="dark"] .recommender-fit-moderate {
-  background: #713f12;
-  color: #fde68a;
-}
-[data-theme="dark"] .recommender-fit-stretch {
-  background: #7f1d1d;
-  color: #fca5a5;
-}
-[data-theme="dark"] .recommender-fit-unlikely {
-  background: #1f2937;
-  color: #9ca3af;
-}
-
 .recommender-meter {
   height: 0.4rem;
   border-radius: 999px;
@@ -160,10 +138,6 @@
 .dl-passed   { color: var(--rs-muted); }
 .dl-unknown  { color: var(--rs-muted); }
 
-[data-theme="dark"] .dl-urgent  { color: #f87171; }
-[data-theme="dark"] .dl-soon    { color: #fbbf24; }
-[data-theme="dark"] .dl-ok      { color: #4ade80; }
-
 /* Score breakdown bars */
 .breakdown-bar {
   height: 0.35rem;
@@ -207,8 +181,6 @@
 /* Signal chips */
 .signal-strong { background: #dcfce7; color: #166534; }
 .signal-moderate { background: #eff6ff; color: #1d4ed8; }
-[data-theme="dark"] .signal-strong  { background: #14532d; color: #86efac; }
-[data-theme="dark"] .signal-moderate { background: #1e3a5f; color: #93c5fd; }
 
 /* Coverage bar */
 .coverage-bar { height: 5px; border-radius: 3px; background: var(--rs-border); overflow: hidden; }
@@ -240,10 +212,5 @@
   background: linear-gradient(135deg, #4f46e5, #7c3aed);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-[data-theme="dark"] .score-ring-value {
-  background: linear-gradient(135deg, #818cf8, #a78bfa);
-  -webkit-background-clip: text;
   background-clip: text;
 }
