@@ -579,29 +579,152 @@ document.addEventListener('DOMContentLoaded', () => {
   // Global search
   initSearch();
 
-  // Mobile menu toggle
+  // Mobile menu toggle (with t-panel + t-icon-swap transitions)
   const mobileBtn  = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
   const iconOpen   = document.getElementById('hamburger-icon');
   const iconClose  = document.getElementById('close-icon');
 
   if (mobileBtn && mobileMenu) {
+    // Add t-panel + t-icon-swap class hooks. Tailwind's `hidden` keeps the
+    // breakpoint hide (>1024px) intact; on mobile widths the t-panel classes
+    // drive the open/close animation.
+    mobileMenu.classList.add('t-panel');
+    if (iconOpen && iconClose) {
+      iconOpen.classList.add('t-icon-swap-svg');
+      iconClose.classList.add('t-icon-swap-svg');
+    }
+
+    let menuClosingTimer = null;
+    const dur = () => parseInt(getComputedStyle(mobileMenu).getPropertyValue('--panel-close-dur')) || 200;
+
+    const setIcon = (showingClose) => {
+      if (!iconOpen || !iconClose) return;
+      const out  = showingClose ? iconOpen  : iconClose;
+      const into = showingClose ? iconClose : iconOpen;
+      out.classList.add('is-leaving');
+      into.classList.remove('is-leaving');
+      setTimeout(() => out.classList.remove('is-leaving'), 220);
+    };
+
     mobileBtn.addEventListener('click', () => {
-      const isOpen = !mobileMenu.classList.contains('hidden');
-      mobileMenu.classList.toggle('hidden');
-      iconOpen.classList.toggle('hidden', !isOpen);
-      iconClose.classList.toggle('hidden', isOpen);
-      mobileBtn.setAttribute('aria-expanded', String(!isOpen));
+      const isOpen = mobileMenu.classList.contains('is-open');
+      if (menuClosingTimer) { clearTimeout(menuClosingTimer); menuClosingTimer = null; }
+      if (isOpen) {
+        // closing
+        mobileMenu.classList.remove('is-open');
+        mobileMenu.classList.add('is-closing');
+        mobileBtn.setAttribute('aria-expanded', 'false');
+        setIcon(false);
+        menuClosingTimer = setTimeout(() => {
+          mobileMenu.classList.add('hidden');
+          mobileMenu.classList.remove('is-closing');
+          menuClosingTimer = null;
+        }, dur());
+      } else {
+        // opening
+        mobileMenu.classList.remove('hidden');
+        // force reflow so animation replays after a prior close
+        void mobileMenu.offsetWidth;
+        mobileMenu.classList.remove('is-closing');
+        mobileMenu.classList.add('is-open');
+        mobileBtn.setAttribute('aria-expanded', 'true');
+        setIcon(true);
+      }
     });
 
     // Close menu when a link is tapped
     mobileMenu.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-        iconOpen.classList.remove('hidden');
-        iconClose.classList.add('hidden');
+        if (menuClosingTimer) { clearTimeout(menuClosingTimer); menuClosingTimer = null; }
+        mobileMenu.classList.remove('is-open');
+        mobileMenu.classList.add('is-closing');
+        setIcon(false);
         mobileBtn.setAttribute('aria-expanded', 'false');
+        menuClosingTimer = setTimeout(() => {
+          mobileMenu.classList.add('hidden');
+          mobileMenu.classList.remove('is-closing');
+          menuClosingTimer = null;
+        }, dur());
       });
     });
   }
+});
+
+// ── transitions-dev: Dropdown (Venues / Discover / People nav dropdowns) ──
+function initNavDropdowns() {
+  document.querySelectorAll('.rs-nav-dd').forEach(dd => {
+    const menu = dd.querySelector('.rs-nav-dd-menu');
+    if (!menu) return;
+    menu.classList.add('t-dropdown-menu');
+    let closeTimer = null;
+
+    const open = () => {
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+      menu.classList.remove('is-closing');
+      menu.classList.add('is-open');
+    };
+    const close = () => {
+      if (!menu.classList.contains('is-open')) return;
+      menu.classList.remove('is-open');
+      menu.classList.add('is-closing');
+      const dur = parseInt(getComputedStyle(menu).getPropertyValue('--dropdown-close-dur')) || 120;
+      closeTimer = setTimeout(() => {
+        menu.classList.remove('is-closing');
+        closeTimer = null;
+      }, dur);
+    };
+    /* Hover bridge: extend the open state to BOTH the parent and the menu
+       itself. Moving the mouse from button → menu now keeps `is-open`
+       active even when the cursor briefly crosses the visual gap. */
+    const enterMenu = () => { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; } open(); };
+    const leaveAll  = (e) => {
+      // Only close when leaving the parent AND the menu simultaneously
+      const to = e.relatedTarget;
+      if (to && (dd.contains(to) || menu.contains(to))) return;
+      close();
+    };
+
+    dd.addEventListener('mouseenter', open);
+    dd.addEventListener('mouseleave', leaveAll);
+    menu.addEventListener('mouseenter', enterMenu);
+    menu.addEventListener('mouseleave', leaveAll);
+    dd.addEventListener('focusin', open);
+    dd.addEventListener('focusout', e => {
+      if (!dd.contains(e.relatedTarget) && !menu.contains(e.relatedTarget)) close();
+    });
+    menu.addEventListener('focusin', enterMenu);
+  });
+}
+
+// ── transitions-dev: Notification badge pulse on GitHub star count update ──
+function pulseStarBadge() {
+  document.querySelectorAll('.github-star-btn').forEach(btn => {
+    if (btn.querySelector('.t-badge__pulse')) return;
+    const dot = document.createElement('span');
+    dot.className = 't-badge__pulse';
+    dot.setAttribute('aria-hidden', 'true');
+    btn.classList.add('t-badge');
+    btn.appendChild(dot);
+  });
+}
+
+// ── transitions-dev: Text states swap helper ───────────────────────────
+// Usage: textSwap(el, 'new value')
+function textSwap(el, nextText) {
+  if (!el || el.textContent === nextText) return;
+  el.classList.add('is-leaving');
+  setTimeout(() => {
+    el.textContent = nextText;
+    el.classList.remove('is-leaving');
+    el.classList.add('is-entering');
+    void el.offsetWidth;
+    el.classList.remove('is-entering');
+  }, 180);
+}
+
+// ── Bootstrap transitions ──────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initNavDropdowns();
+  pulseStarBadge();
 });
