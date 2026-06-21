@@ -90,9 +90,9 @@
     "tags": [
       "Diffusion",
       "Info Extraction",
-      "Computer Vision",
+      "Artificial Intelligence",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Computer Vision"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -140,8 +140,8 @@
     "tags": [
       "Reasoning",
       "Code Generation",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -761,8 +761,8 @@
     "topics": [],
     "tags": [
       "Robotics",
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -825,9 +825,9 @@
     "tags": [
       "RL",
       "Evaluation",
+      "Artificial Intelligence",
       "Machine Learning",
-      "NLP",
-      "Artificial Intelligence"
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -871,8 +871,8 @@
     "topics": [],
     "tags": [
       "Continual Learning",
-      "Neural Networks",
-      "Machine Learning"
+      "Machine Learning",
+      "Neural Networks"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -966,9 +966,9 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Transformer Architectures",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Transformer Architectures"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -1012,8 +1012,8 @@
     "tags": [
       "Biomedical AI",
       "Interpretability",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -1149,8 +1149,8 @@
       "AI Safety",
       "Robotics",
       "Adversarial",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -1656,8 +1656,8 @@
     "topics": [],
     "tags": [
       "Robotics",
-      "Multi-Agent Systems",
       "Machine Learning",
+      "Multi-Agent Systems",
       "Systems & Control"
     ],
     "paper_type": "systems",
@@ -1793,8 +1793,8 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Cryptography & Security",
-      "Machine Learning"
+      "Machine Learning",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -1839,8 +1839,8 @@
       "AI Agents",
       "RAG",
       "Embeddings",
-      "Software Engineering",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -2147,9 +2147,9 @@
     "tags": [
       "Fine-Tuning",
       "Model Compression",
-      "Fine-Tuning & PEFT",
       "Information Retrieval",
-      "Model Compression & Efficiency"
+      "Model Compression & Efficiency",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -2197,9 +2197,9 @@
     "tags": [
       "LLMs",
       "Evaluation",
+      "Artificial Intelligence",
       "Computer Graphics",
-      "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -2338,9 +2338,9 @@
     "topics": [],
     "tags": [
       "LLMs",
+      "Artificial Intelligence",
       "Large Language Models",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -2495,8 +2495,8 @@
       "Reasoning",
       "AI Agents",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -2659,6 +2659,50 @@
     "difficulty": "frontier"
   },
   {
+    "id": "arxiv:2606.19695",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "A Unified Framework for Joint Sensor Placement and Scheduling for Intrusion Detection",
+    "abstract": "We consider an intrusion detection task in which a defender must jointly optimize sensor placement locations and orientations to minimize the probability of missed detection of an intruder traversing a protected environment. We decompose this problem into a meta problem, termed SensorPlacement, and an embedded subproblem, termed OrientationScheduling. The OrientationScheduling subproblem, for a fixed sensor placement, is modeled as a 2-player zero-sum game between the defender and the intruder, where the defender seeks an orientation strategy for the deployed sensors to minimize the probability of missed detection, while the intruder seeks a path selection strategy to maximize it. Since the defender's strategy space grows combinatorially with the number of sensors and orientations, solving the game via standard linear programming becomes prohibitive. To this end, we develop an iterative and efficient equilibrium-seeking algorithm that exploits the structure of the game's payoff function and establishes theoretical guarantees for convergence to the Nash equilibrium (NE) of the game. This NE value is then used as a utility measure in the SensorPlacement meta problem. We show that this game-value-based utility function is weakly submodular over the set of sensor placements and propose a greedy placement algorithm with near-optimality guarantees. To our knowledge, this is the first unified framework to integrate game-theoretic utility design with (weak) submodular optimization, enabling principled joint optimization of sensor placement and orientation scheduling. Through extensive simulations, we demonstrate that the proposed approach achieves near-optimal detection performance while significantly reducing computation time compared to baselines.",
+    "authors": [
+      "Jayanth Bhargav",
+      "Mahsa Ghasemi",
+      "Shreyas Sundaram"
+    ],
+    "year": 2026,
+    "published_date": "2026-06-18",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2606.19695",
+    "pdf_url": "https://arxiv.org/pdf/2606.19695",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Game Theory",
+      "Systems & Control"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.5,
+    "read_first_score": 6.4,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.75,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We consider an intrusion detection task in which a defender must jointly optimize sensor placement locations and orientations to minimize the probability of missed detection of an intruder traversing a protected environment. We decompose this problem into a meta problem, termed SensorPlacement, and an embedded subproblem, termed OrientationScheduling.",
+    "key_contribution": "We show that this game-value-based utility function is weakly submodular over the set of sensor placements and propose a greedy placement algorithm with near-optimality guarantees.",
+    "why_it_matters": "A Unified Framework for Joint Sensor Placement and Scheduling for Intrusion Detection represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Game Theory.",
+    "one_line_takeaway": "We show that this game-value-based utility function is weakly submodular over the set of sensor placements and propose…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Game Theory.",
+    "url": "https://arxiv.org/abs/2606.19695",
+    "difficulty": "intermediate"
+  },
+  {
     "id": "arxiv:2606.18379",
     "source": "arxiv",
     "source_type": "preprint",
@@ -2714,50 +2758,6 @@
     "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in GNNs.",
     "url": "https://arxiv.org/abs/2606.18379",
     "difficulty": "advanced"
-  },
-  {
-    "id": "arxiv:2606.19695",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "A Unified Framework for Joint Sensor Placement and Scheduling for Intrusion Detection",
-    "abstract": "We consider an intrusion detection task in which a defender must jointly optimize sensor placement locations and orientations to minimize the probability of missed detection of an intruder traversing a protected environment. We decompose this problem into a meta problem, termed SensorPlacement, and an embedded subproblem, termed OrientationScheduling. The OrientationScheduling subproblem, for a fixed sensor placement, is modeled as a 2-player zero-sum game between the defender and the intruder, where the defender seeks an orientation strategy for the deployed sensors to minimize the probability of missed detection, while the intruder seeks a path selection strategy to maximize it. Since the defender's strategy space grows combinatorially with the number of sensors and orientations, solving the game via standard linear programming becomes prohibitive. To this end, we develop an iterative and efficient equilibrium-seeking algorithm that exploits the structure of the game's payoff function and establishes theoretical guarantees for convergence to the Nash equilibrium (NE) of the game. This NE value is then used as a utility measure in the SensorPlacement meta problem. We show that this game-value-based utility function is weakly submodular over the set of sensor placements and propose a greedy placement algorithm with near-optimality guarantees. To our knowledge, this is the first unified framework to integrate game-theoretic utility design with (weak) submodular optimization, enabling principled joint optimization of sensor placement and orientation scheduling. Through extensive simulations, we demonstrate that the proposed approach achieves near-optimal detection performance while significantly reducing computation time compared to baselines.",
-    "authors": [
-      "Jayanth Bhargav",
-      "Mahsa Ghasemi",
-      "Shreyas Sundaram"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-18",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2606.19695",
-    "pdf_url": "https://arxiv.org/pdf/2606.19695",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Systems & Control",
-      "Game Theory"
-    ],
-    "paper_type": "theory",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.5,
-    "read_first_score": 6.4,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.75,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "We consider an intrusion detection task in which a defender must jointly optimize sensor placement locations and orientations to minimize the probability of missed detection of an intruder traversing a protected environment. We decompose this problem into a meta problem, termed SensorPlacement, and an embedded subproblem, termed OrientationScheduling.",
-    "key_contribution": "We show that this game-value-based utility function is weakly submodular over the set of sensor placements and propose a greedy placement algorithm with near-optimality guarantees.",
-    "why_it_matters": "A Unified Framework for Joint Sensor Placement and Scheduling for Intrusion Detection represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Systems & Control.",
-    "one_line_takeaway": "We show that this game-value-based utility function is weakly submodular over the set of sensor placements and propose…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Systems & Control.",
-    "url": "https://arxiv.org/abs/2606.19695",
-    "difficulty": "intermediate"
   },
   {
     "id": "arxiv:2606.15513",
@@ -3203,8 +3203,8 @@
       "LLMs",
       "Reasoning",
       "Prompting",
-      "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -3250,10 +3250,10 @@
     "topics": [],
     "tags": [
       "AI Agents",
+      "Artificial Intelligence",
       "AI Agents & Tool Use",
       "Machine Learning",
-      "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -3297,8 +3297,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Programming Languages",
       "Machine Learning",
+      "Programming Languages",
       "Artificial Intelligence"
     ],
     "paper_type": "systems",
@@ -3314,10 +3314,10 @@
     "summary": "Neural approaches to theorem proving require robust infrastructure for interfacing with interactive theorem provers (ITPs), extracting structured proof data, and executing proof search at scale. However, existing tooling is often assistant-specific and oriented toward file-level execution, making repository-scale analysis and parallel experimentation challenging.",
     "key_contribution": "We present ProofWala, a multilingual proof engineering framework built around \\texttt{itp-interface}, a reusable library for programmatic interaction with ITPs.",
     "why_it_matters": "ProofWala: A Framework for Multilingual Proof Data Synthesis and Theorem-Proving represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Programming Languages.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We present ProofWala, a multilingual proof engineering framework built around \\texttt{itp-interface}, a reusable…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Programming Languages.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2502.04671",
     "difficulty": "frontier"
   },
@@ -3349,8 +3349,8 @@
       "Info Extraction",
       "Robotics",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -3398,8 +3398,8 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -3448,9 +3448,9 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "NLP",
+      "Artificial Intelligence",
       "Benchmarking & Evaluation",
-      "Artificial Intelligence"
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -3492,8 +3492,8 @@
     "topics": [],
     "tags": [
       "Info Extraction",
-      "Software Engineering",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -3636,8 +3636,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Cryptography & Security",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -3652,10 +3652,10 @@
     "summary": "The April 2026 Claude Mythos sandbox escape exposed a critical weakness in frontier AI containment: the infrastructure surrounding advanced models remains susceptible to formally characterizable arithmetic vulnerabilities. Anthropic has not publicly characterized the escape vector; some secondary accounts hypothesize a CWE-190 arithmetic vulnerability in sandbox networking code.",
     "key_contribution": "We demonstrate this on four production case studies: NASA cFE, wolfSSL, Eclipse Mosquitto, and NASA F Prime, with reproducible encodings, verified solver output, and acknowledged security outcomes.",
     "why_it_matters": "Mythos and the Unverified Cage: Z3-Based Pre-Deployment Verification for Frontier-Model Sandbox Infrastructure represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "We demonstrate this on four production case studies: NASA cFE, wolfSSL, Eclipse Mosquitto, and NASA F Prime, with…",
     "biggest_caveat": "cannot depend on behavioral safeguards alone; the containment stack itself must be subjected to formal verification.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Cryptography & Security.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "http://arxiv.org/abs/2604.20496v1",
     "difficulty": "intermediate"
   },
@@ -3691,8 +3691,8 @@
       "Reasoning",
       "Multimodal",
       "Evaluation",
-      "Multimedia",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Multimedia"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -3785,8 +3785,8 @@
       "Transformers",
       "RL",
       "Adversarial",
-      "Machine Learning",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -3873,8 +3873,8 @@
       "LLMs",
       "AI Agents",
       "Info Extraction",
-      "Machine Learning",
-      "Game Theory"
+      "Game Theory",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -4325,8 +4325,8 @@
       "Self-Supervised",
       "Structured Data",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -4371,8 +4371,8 @@
     "topics": [],
     "tags": [
       "Multi-Agent Systems",
-      "Neural Networks",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Neural Networks"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -4512,8 +4512,8 @@
     "topics": [],
     "tags": [
       "Hallucination",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -4606,8 +4606,8 @@
     "tags": [
       "Prompting",
       "Self-Supervised",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -4815,8 +4815,8 @@
       "AI Safety",
       "AI Agents",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -4958,8 +4958,8 @@
       "LLMs",
       "RL",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -5112,9 +5112,9 @@
     "topics": [],
     "tags": [
       "AI Safety",
+      "Machine Learning",
       "Human-Computer Interaction",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -5201,9 +5201,9 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Cryptography & Security",
+      "Artificial Intelligence",
       "Information Retrieval",
-      "Artificial Intelligence"
+      "Cryptography & Security"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -5540,8 +5540,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Information Retrieval",
-      "Databases"
+      "Databases",
+      "Information Retrieval"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -5556,10 +5556,10 @@
     "summary": "In the last few decades, research techniques have improved lossless compression ratios by significantly increasing processing time. However, these techniques have not gained popularity in industry because production systems require high throughput and low resource utilization.",
     "key_contribution": "Application-specific compressor systems outperform even the best generic compressors, but these techniques have severe drawbacks -- they are inherently limited in applicability, are hard to develop, and are difficult to maintain and deploy.",
     "why_it_matters": "OpenZL: Using Graphs to Compress Smaller and Faster improves how systems find and rank relevant information at scale.",
-    "content_hook": "A new paper that could change how we think about Information Retrieval.",
+    "content_hook": "A new paper that could change how we think about Databases.",
     "one_line_takeaway": "Application-specific compressor systems outperform even the best generic compressors, but these techniques have severe…",
     "biggest_caveat": "However, these techniques have not gained popularity in industry because production systems require high throughput and low resource utilization.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Information Retrieval.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Databases.",
     "url": "https://arxiv.org/abs/2605.09928",
     "difficulty": "intermediate"
   },
@@ -5643,8 +5643,8 @@
     "tags": [
       "Model Compression",
       "Federated Learning",
-      "Cryptography & Security",
-      "Computer Vision"
+      "Computer Vision",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -5694,8 +5694,8 @@
     "tags": [
       "Fine-Tuning",
       "Evaluation",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -5828,8 +5828,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "Reasoning & Chain-of-Thought",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -5975,9 +5975,9 @@
     "tags": [
       "RAG",
       "Continual Learning",
+      "Artificial Intelligence",
       "Machine Learning",
-      "Information Retrieval",
-      "Artificial Intelligence"
+      "Information Retrieval"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -6026,8 +6026,8 @@
     "tags": [
       "Info Extraction",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -6335,8 +6335,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Information Retrieval",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Information Retrieval"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -6568,8 +6568,8 @@
     "topics": [],
     "tags": [
       "Dialogue",
-      "Information Retrieval",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Information Retrieval"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -6759,8 +6759,8 @@
       "LLMs",
       "Fine-Tuning",
       "Multimodal",
-      "Fine-Tuning & PEFT",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -6805,8 +6805,8 @@
     "tags": [
       "GNNs",
       "RL",
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -6858,8 +6858,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -7097,8 +7097,8 @@
       "LLMs",
       "AI Agents",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -7241,8 +7241,8 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -7834,8 +7834,8 @@
     "tags": [
       "RL",
       "Robotics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -7877,8 +7877,8 @@
     "topics": [],
     "tags": [
       "RLHF",
-      "Multi-Agent Systems",
-      "Machine Learning"
+      "Machine Learning",
+      "Multi-Agent Systems"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -7973,9 +7973,9 @@
     "tags": [
       "Fine-Tuning",
       "VLMs",
-      "Distributed Computing",
+      "Machine Learning",
       "Computer Vision",
-      "Machine Learning"
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -8071,8 +8071,8 @@
       "MoE",
       "Fairness & Ethics",
       "Evaluation",
-      "Computer Vision",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -8317,8 +8317,8 @@
       "Hallucination",
       "Robotics",
       "Evaluation",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -8546,8 +8546,8 @@
       "Fine-Tuning",
       "AI Safety",
       "Evaluation",
-      "Machine Learning",
-      "Neural Networks"
+      "Neural Networks",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -8634,8 +8634,8 @@
     "tags": [
       "Interpretability",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -9026,9 +9026,9 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -9446,8 +9446,8 @@
     "tags": [
       "LLMs",
       "MoE",
-      "Mixture of Experts",
       "Machine Learning",
+      "Mixture of Experts",
       "Transformer Architectures"
     ],
     "paper_type": "methods",
@@ -9676,8 +9676,8 @@
     "tags": [
       "Info Extraction",
       "Knowledge Graphs",
-      "Cryptography & Security",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -9723,8 +9723,8 @@
       "RL",
       "Robotics",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -9767,8 +9767,8 @@
     "tags": [
       "LLMs",
       "Info Extraction",
-      "Cryptography & Security",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -10507,8 +10507,8 @@
     "topics": [],
     "tags": [
       "Info Extraction",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -10744,9 +10744,9 @@
     "tags": [
       "Continual Learning",
       "RL",
-      "Reinforcement Learning",
+      "Artificial Intelligence",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Reinforcement Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -10879,8 +10879,8 @@
     "tags": [
       "Fine-Tuning",
       "RL",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -11265,8 +11265,8 @@
       "Self-Supervised",
       "Robotics",
       "Interpretability",
-      "Self-Supervised & Contrastive Learning",
-      "Interpretability & Explainability"
+      "Interpretability & Explainability",
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -11457,9 +11457,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Distributed Computing",
+      "Artificial Intelligence",
       "NLP",
-      "Artificial Intelligence"
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -11554,8 +11554,8 @@
       "LLMs",
       "RLHF",
       "AI Safety",
-      "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -11649,8 +11649,8 @@
       "Reasoning",
       "RAG",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -11808,8 +11808,8 @@
       "LLMs",
       "RLHF",
       "AI Agents",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -11945,8 +11945,8 @@
       "AI Agents",
       "Continual Learning",
       "RL",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -11988,8 +11988,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Cryptography & Security",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -12032,9 +12032,9 @@
     "tags": [
       "Dialogue",
       "Code Generation",
-      "Human-Computer Interaction",
+      "Artificial Intelligence",
       "Software Engineering",
-      "Artificial Intelligence"
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -12077,9 +12077,9 @@
     "tags": [
       "LLMs",
       "Hallucination",
-      "Distributed Computing",
+      "Artificial Intelligence",
       "Software Engineering",
-      "Artificial Intelligence"
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -12395,9 +12395,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "NLP",
+      "Artificial Intelligence",
       "Reasoning & Chain-of-Thought",
-      "Artificial Intelligence"
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -12715,8 +12715,8 @@
     "tags": [
       "RL",
       "Robotics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -12861,8 +12861,8 @@
       "Self-Supervised",
       "RL",
       "Robotics",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -13147,9 +13147,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Software Engineering",
+      "Artificial Intelligence",
       "NLP",
-      "Artificial Intelligence"
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -13527,8 +13527,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -13573,8 +13573,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -13621,8 +13621,8 @@
     "tags": [
       "LLMs",
       "MoE",
-      "Distributed Computing",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -13666,8 +13666,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Information Retrieval",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Information Retrieval"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -13682,10 +13682,10 @@
     "summary": "Pakistan experienced an unusually severe flood season between June and December 2025, with cascading impacts on population, infrastructure, and agriculture. Existing operational flood products (e.g., UNOSAT) provide valuable episode-level snapshots but rarely deliver spatially and temporally continuous inundation maps at near-real-time latency within the country.",
     "key_contribution": "We present a multi-sensor, ensemble-based remote-sensing framework for continuous flood nowcasting in Pakistan that integrates Sentinel-1 SAR, Harmonized Landsat-Sentinel (HLS L30 and S30), MODIS, and VIIRS observations on a harmonized grid in Google Earth Engine.",
     "why_it_matters": "Continuous Flood Nowcasting in South Asia: A Multi-Sensor Ensemble Remote Sensing Framework for Flood Extent improves how systems find and rank relevant information at scale.",
-    "content_hook": "A new paper that could change how we think about Information Retrieval.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "We present a multi-sensor, ensemble-based remote-sensing framework for continuous flood nowcasting in Pakistan that…",
     "biggest_caveat": "but rarely deliver spatially and temporally continuous inundation maps at near-real-time latency within the country.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Information Retrieval.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "https://arxiv.org/abs/2605.10950",
     "difficulty": "intermediate"
   },
@@ -13713,8 +13713,8 @@
       "LLMs",
       "Fine-Tuning",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -13761,8 +13761,8 @@
       "Prompting",
       "Transformers",
       "RL",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -13805,9 +13805,9 @@
     "tags": [
       "LLMs",
       "Dialogue",
+      "Cryptography & Security",
       "Information Retrieval",
-      "NLP",
-      "Cryptography & Security"
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -13992,9 +13992,9 @@
     "tags": [
       "Reasoning",
       "Biomedical AI",
-      "Biomedical & Clinical AI",
+      "Artificial Intelligence",
       "Reasoning & Chain-of-Thought",
-      "Artificial Intelligence"
+      "Biomedical & Clinical AI"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -14039,9 +14039,9 @@
     "tags": [
       "Dialogue",
       "Biomedical AI",
-      "Biomedical & Clinical AI",
+      "Dialogue Systems",
       "Human-Computer Interaction",
-      "Dialogue Systems"
+      "Biomedical & Clinical AI"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -14128,8 +14128,8 @@
     "tags": [
       "LLMs",
       "AI Agents",
-      "Large Language Models",
       "AI Agents & Tool Use",
+      "Large Language Models",
       "Software Engineering"
     ],
     "paper_type": "systems",
@@ -14144,7 +14144,7 @@
     "evidence_strength": 0.0,
     "summary": "The rapid adoption of AI coding agents and AI assistant web services is fundamentally changing how developers discover, consume, and interact with technical documentation. This paper studies that transformation across three interconnected dimensions: documentation accessibility, content analytics, and feedback systems.",
     "key_contribution": "We present an empirical study of HTTP request fingerprints from nine AI coding agents (Aider, Antigravity, Claude Code, Cline, Cursor, Junie, OpenCode, VS Code, and Windsurf) and six AI assistant services (ChatGPT, Claude, Google Gemini, Google NotebookLM, MistralAI, and Perplexity) accessing a live developer documentation endpoint, revealing identifiable behavioral signatures in HTTP runtime environments, pre-fetch strategies, User-Agent strings, and header patterns.",
-    "why_it_matters": "Developer Experience with AI Coding Agents: HTTP Behavioral Signatures in Documentation Portals advances our understanding of large language models, which are reshaping how we build AI systems and interact with knowledge.",
+    "why_it_matters": "Developer Experience with AI Coding Agents: HTTP Behavioral Signatures in Documentation Portals moves AI from passive text generators to active problem-solvers that use tools and reason over time.",
     "content_hook": "A new paper that could change how we think about LLMs.",
     "one_line_takeaway": "We present an empirical study of HTTP request fingerprints from nine AI coding agents (Aider, Antigravity, Claude Code,…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -14262,8 +14262,8 @@
     "tags": [
       "Object Detection",
       "Info Extraction",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -14558,9 +14558,9 @@
     "topics": [],
     "tags": [
       "AI Safety",
+      "Machine Learning",
       "AI Safety & Alignment",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -14933,8 +14933,8 @@
     "tags": [
       "Structured Data",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -14979,9 +14979,9 @@
     "tags": [
       "LLMs",
       "Adversarial",
+      "Artificial Intelligence",
       "Machine Learning",
-      "NLP",
-      "Artificial Intelligence"
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -15166,8 +15166,8 @@
     "tags": [
       "Object Detection",
       "RL",
-      "Neural Networks",
-      "Machine Learning"
+      "Machine Learning",
+      "Neural Networks"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -15514,8 +15514,8 @@
     "tags": [
       "Prompting",
       "Self-Supervised",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -15611,9 +15611,9 @@
     "tags": [
       "LLMs",
       "RL",
+      "Artificial Intelligence",
       "Reinforcement Learning",
-      "Transformer Architectures",
-      "Artificial Intelligence"
+      "Transformer Architectures"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -15701,8 +15701,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Distributed Computing",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Distributed Computing"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -15744,8 +15744,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Cryptography & Security",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -15760,10 +15760,10 @@
     "summary": "As AI systems move into operating systems, privacy no longer turns only on whether a model runs locally. A local assistant may assemble email, calendar entries, files, screenshots, notifications, and app intents; retain embeddings or summaries; invoke tools; emit telemetry; or route difficult requests to cloud infrastructure.",
     "key_contribution": "We demonstrate the rubric through a documentation-bounded comparison of Apple Intelligence/Foundation Models, Android AICore/Gemini Nano, and Microsoft Recall.",
     "why_it_matters": "Local Is Not a Sufficient Privacy Boundary: Governing OS-Integrated On-Device AI represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "We demonstrate the rubric through a documentation-bounded comparison of Apple Intelligence/Foundation Models, Android…",
     "biggest_caveat": "but it answers only one question: where computation occurs.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Cryptography & Security.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "http://arxiv.org/abs/2606.10173v1",
     "difficulty": "intermediate"
   },
@@ -15839,8 +15839,8 @@
       "Transformers",
       "Self-Supervised",
       "RL",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -15884,9 +15884,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "NLP",
+      "Machine Learning",
       "Artificial Intelligence",
-      "Machine Learning"
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -16117,8 +16117,8 @@
     "tags": [
       "Robotics",
       "Adversarial",
-      "Software Engineering",
-      "Systems & Control"
+      "Systems & Control",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -16161,8 +16161,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -16451,8 +16451,8 @@
       "Multimodal",
       "Robotics",
       "Evaluation",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -16602,8 +16602,8 @@
       "AI Safety",
       "VLMs",
       "Adversarial",
-      "Adversarial Robustness",
-      "Vision-Language Models"
+      "Vision-Language Models",
+      "Adversarial Robustness"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -16754,8 +16754,8 @@
       "Fine-Tuning",
       "Fairness & Ethics",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -16849,9 +16849,9 @@
     "tags": [
       "Info Extraction",
       "Interpretability",
+      "Interpretability & Explainability",
       "Machine Learning",
-      "Information Extraction",
-      "Interpretability & Explainability"
+      "Information Extraction"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -16943,8 +16943,8 @@
       "VLMs",
       "Text-to-Image",
       "Evaluation",
-      "Computer Vision",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Computer Vision"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -16999,8 +16999,8 @@
       "Reasoning",
       "Interpretability",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -17049,8 +17049,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -17091,9 +17091,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Cryptography & Security",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Cryptography & Security"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -17108,10 +17108,10 @@
     "summary": "File-type classification underlies many workflows like malware triage, forensic carving, packet inspection, and storage indexing. Learned systems such as Google's Magika assume whole-file access at a known offset, so they break on the inputs many of these tasks actually produce, like a single packet payload, a header-less carved fragment, a random disk block, or a chunked upload.",
     "key_contribution": "We introduce MimeLens, a family of small BERT-style encoders pretrained on binary content from windows sampled at a uniformly random offset within each file, with no privileged head-of-file position, in standard- and short-context variants.",
     "why_it_matters": "MimeLens: Position-Agnostic Content-Type Detection for Binary Fragments represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We introduce MimeLens, a family of small BERT-style encoders pretrained on binary content from windows sampled at a…",
     "biggest_caveat": "cannot: from a single mid-stream UDP packet, and more than twice as accurately as libmagic and Magika on random mid-file disk blocks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Cryptography & Security.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2606.04171",
     "difficulty": "intermediate"
   },
@@ -17146,8 +17146,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -17162,10 +17162,10 @@
     "summary": "As artificial intelligence engineering paradigms shift from single-agent Prompt and Context Engineering toward multi-agent \\textbf{Coordination Engineering}, the ability to codify and systematically improve how multiple agents collaborate has emerged as a critical bottleneck. While single-agent skills can now be distributed as portable assets, multi-agent coordination protocols remain locked within framework-internal code or static configurations, preventing them from being shared across systems or autonomously improved over time.",
     "key_contribution": "We propose \\textbf{Swarm Skills}, a portable specification that extends the Anthropic Skills standard with multi-agent semantics.",
     "why_it_matters": "Swarm Skills: A Portable, Self-Evolving Multi-Agent System Specification for Coordination Engineering represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about NLP.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "We propose \\textbf{Swarm Skills}, a portable specification that extends the Anthropic Skills standard with multi-agent…",
     "biggest_caveat": "butable assets that consist of roles, workflows, execution bounds, and a built-in semantic structure for self-evolution.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in NLP.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "https://arxiv.org/abs/2605.10052",
     "difficulty": "intermediate"
   },
@@ -17196,8 +17196,8 @@
       "LLMs",
       "Reasoning",
       "Info Extraction",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -17720,8 +17720,8 @@
       "Transformers",
       "Interpretability",
       "Evaluation",
-      "Transformer Architectures",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Transformer Architectures"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -18088,9 +18088,9 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Cryptography & Security",
       "Multi-Agent Systems",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Cryptography & Security"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -18465,8 +18465,8 @@
     "tags": [
       "AI Agents",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -18705,8 +18705,8 @@
     "topics": [],
     "tags": [
       "Biomedical AI",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -18843,10 +18843,10 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Computer Vision",
-      "Machine Learning",
+      "Artificial Intelligence",
       "Multimedia",
-      "Artificial Intelligence"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -18940,10 +18940,10 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Large Language Models",
-      "Natural Language Generation",
+      "Cryptography & Security",
       "NLP",
-      "Cryptography & Security"
+      "Natural Language Generation",
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -19038,8 +19038,8 @@
       "Reasoning",
       "RL",
       "Fairness & Ethics",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -19369,9 +19369,9 @@
     "tags": [
       "AI Agents",
       "Code Generation",
+      "Artificial Intelligence",
       "AI Agents & Tool Use",
-      "Code Generation & Synthesis",
-      "Artificial Intelligence"
+      "Code Generation & Synthesis"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -20115,9 +20115,9 @@
     "tags": [
       "Fine-Tuning",
       "Code Generation",
-      "Fine-Tuning & PEFT",
+      "Cryptography & Security",
       "Code Generation & Synthesis",
-      "Cryptography & Security"
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -20268,9 +20268,9 @@
     "tags": [
       "Federated Learning",
       "Biomedical AI",
-      "Machine Learning",
+      "Artificial Intelligence",
       "Cryptography & Security",
-      "Artificial Intelligence"
+      "Machine Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -20360,8 +20360,8 @@
       "LLMs",
       "AI Safety",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -20494,8 +20494,8 @@
     "tags": [
       "GNNs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -20729,9 +20729,9 @@
     "topics": [],
     "tags": [
       "Reasoning",
-      "NLP",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -20919,8 +20919,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Reinforcement Learning",
-      "Machine Learning"
+      "Machine Learning",
+      "Reinforcement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -21023,8 +21023,8 @@
       "LLMs",
       "Multimodal",
       "Evaluation",
-      "Computer Vision",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Computer Vision"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -21068,8 +21068,8 @@
       "Model Compression",
       "Continual Learning",
       "Evaluation",
-      "Machine Learning",
-      "Neural Networks"
+      "Neural Networks",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -21350,8 +21350,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -21437,8 +21437,8 @@
       "LLMs",
       "Reasoning",
       "Fine-Tuning",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -21743,9 +21743,9 @@
     "tags": [
       "Multimodal",
       "Biomedical AI",
+      "Machine Learning",
       "Multimodal Learning",
-      "Biomedical & Clinical AI",
-      "Machine Learning"
+      "Biomedical & Clinical AI"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -22651,8 +22651,8 @@
     "topics": [],
     "tags": [
       "Computer Vision",
-      "Neural Networks",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Neural Networks"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -22700,8 +22700,8 @@
       "Prompting",
       "Self-Supervised",
       "Interpretability",
-      "NLP",
-      "Information Retrieval"
+      "Information Retrieval",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -22960,6 +22960,57 @@
     "difficulty": "intermediate"
   },
   {
+    "id": "arxiv:2606.19881",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "REDACT: A Systematically Controlled Multilingual Benchmark for Personal Information Detection",
+    "abstract": "Benchmark infrastructure for personally identifiable information (PII) detection remains limited: existing corpora cover few entity types, use ad hoc generation conditions, and do not show which surface conditions cause detector failures. We present REDACT, a systematically controlled multilingual PII benchmark with 13,427 records, 324,078 entity annotations, 51 entity types, 4,127 surface-form patterns, and 25 languages across 9 scripts. A strength-2 covering-array sampler controls nine generation axes: domain, format, difficulty, length, density, code-switching, language, adjacency, and co-occurrence. Three entity-level metadata fields (disclosure status, disclosure form, and a GDPR-aligned sensitivity tier) enable stratified evaluation beyond aggregate or per-type F1. From the full benchmark, we evaluate five detectors (Presidio, GLiNER, the OpenAI Privacy Filter, GPT-4.1, and Claude Sonnet 4.6) on a locked, language-stratified sample of 1,000 records. Aggregate F1 masks an architecture-dependent failure structure: the rule-based detector performs poorly on the highest-stakes data, including HIGH-sensitivity categories (recall 0.07) and non-verbatim disclosure forms, while the LLM detectors remain more robust, with the HIGH tier as their strongest sensitivity slice. A three-model reference-free LLM-as-judge assessment corroborates that sensitivity-tier assignment is the task's hardest axis. We release the benchmark, schema, prompts, and stratified evaluation harness.",
+    "authors": [
+      "Guneesh Vats",
+      "Anubha Agrawal",
+      "Shikha Singhal",
+      "Ajita Dash",
+      "Praison Selvaraj",
+      "Vidhan Jhawar",
+      "Ranga Prasad Chenna",
+      "Bharadwaj Y M G"
+    ],
+    "year": 2026,
+    "published_date": "2026-06-18",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2606.19881",
+    "pdf_url": "https://arxiv.org/pdf/2606.19881",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Info Extraction",
+      "Evaluation",
+      "NLP"
+    ],
+    "paper_type": "benchmark",
+    "difficulty_level": "L1",
+    "difficulty_reason": "Applied NLP/ML topic (Evaluation) with no advanced math.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.0,
+    "read_first_score": 6.07,
+    "content_potential_score": 1.5,
+    "interestingness_score": 2.25,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Benchmark infrastructure for personally identifiable information (PII) detection remains limited: existing corpora cover few entity types, use ad hoc generation conditions, and do not show which surface conditions cause detector failures. We present REDACT, a systematically controlled multilingual PII benchmark with 13,427 records, 324,078 entity annotations, 51 entity types, 4,127 surface-form patterns, and 25 languages across 9 scripts.",
+    "key_contribution": "Benchmark infrastructure for personally identifiable information (PII) detection remains limited: existing corpora cover few entity types, use ad hoc generation conditions, and do not show which surface conditions cause detector failures.",
+    "why_it_matters": "REDACT: A Systematically Controlled Multilingual Benchmark for Personal Information Detection represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "Benchmark infrastructure for personally identifiable information (PII) detection remains limited: existing corpora…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a beginner and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2606.19881",
+    "difficulty": "beginner"
+  },
+  {
     "id": "arxiv:2604.03208v1",
     "source": "arxiv",
     "source_type": "preprint",
@@ -23012,57 +23063,6 @@
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
     "read_this_if": "Read this if you are a beginner and want to understand recent progress in Reasoning.",
     "url": "http://arxiv.org/abs/2604.03208v1",
-    "difficulty": "beginner"
-  },
-  {
-    "id": "arxiv:2606.19881",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "REDACT: A Systematically Controlled Multilingual Benchmark for Personal Information Detection",
-    "abstract": "Benchmark infrastructure for personally identifiable information (PII) detection remains limited: existing corpora cover few entity types, use ad hoc generation conditions, and do not show which surface conditions cause detector failures. We present REDACT, a systematically controlled multilingual PII benchmark with 13,427 records, 324,078 entity annotations, 51 entity types, 4,127 surface-form patterns, and 25 languages across 9 scripts. A strength-2 covering-array sampler controls nine generation axes: domain, format, difficulty, length, density, code-switching, language, adjacency, and co-occurrence. Three entity-level metadata fields (disclosure status, disclosure form, and a GDPR-aligned sensitivity tier) enable stratified evaluation beyond aggregate or per-type F1. From the full benchmark, we evaluate five detectors (Presidio, GLiNER, the OpenAI Privacy Filter, GPT-4.1, and Claude Sonnet 4.6) on a locked, language-stratified sample of 1,000 records. Aggregate F1 masks an architecture-dependent failure structure: the rule-based detector performs poorly on the highest-stakes data, including HIGH-sensitivity categories (recall 0.07) and non-verbatim disclosure forms, while the LLM detectors remain more robust, with the HIGH tier as their strongest sensitivity slice. A three-model reference-free LLM-as-judge assessment corroborates that sensitivity-tier assignment is the task's hardest axis. We release the benchmark, schema, prompts, and stratified evaluation harness.",
-    "authors": [
-      "Guneesh Vats",
-      "Anubha Agrawal",
-      "Shikha Singhal",
-      "Ajita Dash",
-      "Praison Selvaraj",
-      "Vidhan Jhawar",
-      "Ranga Prasad Chenna",
-      "Bharadwaj Y M G"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-18",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2606.19881",
-    "pdf_url": "https://arxiv.org/pdf/2606.19881",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Info Extraction",
-      "Evaluation",
-      "NLP"
-    ],
-    "paper_type": "benchmark",
-    "difficulty_level": "L1",
-    "difficulty_reason": "Applied NLP/ML topic (Evaluation) with no advanced math.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.0,
-    "read_first_score": 6.07,
-    "content_potential_score": 1.5,
-    "interestingness_score": 2.25,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Benchmark infrastructure for personally identifiable information (PII) detection remains limited: existing corpora cover few entity types, use ad hoc generation conditions, and do not show which surface conditions cause detector failures. We present REDACT, a systematically controlled multilingual PII benchmark with 13,427 records, 324,078 entity annotations, 51 entity types, 4,127 surface-form patterns, and 25 languages across 9 scripts.",
-    "key_contribution": "Benchmark infrastructure for personally identifiable information (PII) detection remains limited: existing corpora cover few entity types, use ad hoc generation conditions, and do not show which surface conditions cause detector failures.",
-    "why_it_matters": "REDACT: A Systematically Controlled Multilingual Benchmark for Personal Information Detection represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "Benchmark infrastructure for personally identifiable information (PII) detection remains limited: existing corpora…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a beginner and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2606.19881",
     "difficulty": "beginner"
   },
   {
@@ -23130,8 +23130,8 @@
     "tags": [
       "Robotics",
       "Evaluation",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -23367,8 +23367,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Computer Graphics",
-      "Computer Vision"
+      "Computer Vision",
+      "Computer Graphics"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -23383,10 +23383,10 @@
     "summary": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and expensive. We study how to select a small set of BRDF measurements that is most informative for reconstructing material appearance under a learned BRDF prior.",
     "key_contribution": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and expensive.",
     "why_it_matters": "Rendering-Aware Sparse Sampling for BRDF Acquisition advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Computer Graphics.",
+    "content_hook": "A new paper that could change how we think about Computer Vision.",
     "one_line_takeaway": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and…",
     "biggest_caveat": "but dense gonioreflectometer measurements are slow and expensive.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Graphics.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Vision.",
     "url": "https://arxiv.org/abs/2604.26740",
     "difficulty": "intermediate"
   },
@@ -23459,9 +23459,9 @@
     "topics": [],
     "tags": [
       "LLMs",
+      "Artificial Intelligence",
       "Large Language Models",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Software Engineering"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -23508,9 +23508,9 @@
     "tags": [
       "Fine-Tuning",
       "Evaluation",
-      "Computer Vision",
+      "Artificial Intelligence",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Computer Vision"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -23664,8 +23664,8 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Distributed Computing",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Distributed Computing"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -23903,8 +23903,8 @@
       "Reasoning",
       "RLHF",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -24321,10 +24321,10 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Software Engineering",
+      "Artificial Intelligence",
       "Benchmarking & Evaluation",
       "Cryptography & Security",
-      "Artificial Intelligence"
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -24369,8 +24369,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "NLP",
-      "Neural Networks"
+      "Neural Networks",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -24637,8 +24637,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Cryptography & Security",
-      "Machine Learning"
+      "Machine Learning",
+      "Cryptography & Security"
     ],
     "paper_type": "empirical",
     "difficulty_level": "L2",
@@ -24774,9 +24774,9 @@
     "tags": [
       "Reasoning",
       "AI Safety",
+      "Artificial Intelligence",
       "Machine Learning",
-      "NLP",
-      "Artificial Intelligence"
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -24868,8 +24868,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -25287,8 +25287,8 @@
       "LLMs",
       "Federated Learning",
       "Evaluation",
-      "Software Engineering",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -25705,9 +25705,9 @@
     "tags": [
       "Object Detection",
       "Evaluation",
-      "Computer Vision",
+      "Artificial Intelligence",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Computer Vision"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -25755,8 +25755,8 @@
       "LLMs",
       "AI Agents",
       "Dialogue",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -25800,8 +25800,8 @@
       "Fairness & Ethics",
       "Interpretability",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -25892,8 +25892,8 @@
     "topics": [],
     "tags": [
       "Self-Supervised",
-      "Distributed Computing",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Distributed Computing"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -25939,8 +25939,8 @@
     "tags": [
       "Fine-Tuning",
       "Robotics",
-      "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Human-Computer Interaction"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -26029,9 +26029,9 @@
     "tags": [
       "Reasoning",
       "Interpretability",
-      "Reasoning & Chain-of-Thought",
       "Artificial Intelligence",
-      "Interpretability & Explainability"
+      "Interpretability & Explainability",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -26270,8 +26270,8 @@
     "tags": [
       "LLMs",
       "AI Agents",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -26321,9 +26321,9 @@
     "tags": [
       "Transformers",
       "Evaluation",
-      "Computer Vision",
+      "Artificial Intelligence",
       "Systems & Control",
-      "Artificial Intelligence"
+      "Computer Vision"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -26365,8 +26365,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Large Language Models",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Large Language Models"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -26413,8 +26413,8 @@
       "LLMs",
       "Fine-Tuning",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -26509,8 +26509,8 @@
     "tags": [
       "Dialogue",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -26604,8 +26604,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -26652,9 +26652,9 @@
     "tags": [
       "LLMs",
       "RAG",
+      "Artificial Intelligence",
       "Software Engineering",
-      "Retrieval-Augmented Generation",
-      "Artificial Intelligence"
+      "Retrieval-Augmented Generation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -26699,8 +26699,8 @@
       "LLMs",
       "AI Agents",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -26922,9 +26922,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Databases",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Databases"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -26939,10 +26939,10 @@
     "summary": "Unsupervised outlier detection is attractive because it eliminates the need for labeled data. Moreover, forming multi-model ensembles can improve detection robustness.",
     "key_contribution": "We propose MetaEns, an automatic unsupervised framework for selecting ensembles of outlier detection models.",
     "why_it_matters": "Automatic Unsupervised Ensemble Outlier Model Selection--Extended Version represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Databases.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We propose MetaEns, an automatic unsupervised framework for selecting ensembles of outlier detection models.",
     "biggest_caveat": "However, composing an ensemble without labeled data is challenging.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Databases.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2605.16567",
     "difficulty": "intermediate"
   },
@@ -26970,9 +26970,9 @@
     "topics": [],
     "tags": [
       "GNNs",
-      "NLP",
+      "GNN",
       "Graph Neural Networks",
-      "GNN"
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -27069,8 +27069,8 @@
       "LLMs",
       "Reasoning",
       "Interpretability",
-      "Reasoning & Chain-of-Thought",
-      "Interpretability & Explainability"
+      "Interpretability & Explainability",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -27179,8 +27179,8 @@
     "tags": [
       "Fine-Tuning",
       "Fairness & Ethics",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -27377,8 +27377,8 @@
     "tags": [
       "Multimodal",
       "GNNs",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -27724,8 +27724,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -27826,8 +27826,8 @@
     "tags": [
       "Multimodal",
       "Evaluation",
-      "Multimedia",
-      "Machine Learning"
+      "Machine Learning",
+      "Multimedia"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -27928,8 +27928,8 @@
       "LLMs",
       "AI Safety",
       "Fairness & Ethics",
-      "AI Safety & Alignment",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "AI Safety & Alignment"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -28071,8 +28071,8 @@
       "Prompting",
       "Code Generation",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -28118,8 +28118,8 @@
     "topics": [],
     "tags": [
       "MoE",
-      "Multi-Agent Systems",
-      "Machine Learning"
+      "Machine Learning",
+      "Multi-Agent Systems"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -28261,8 +28261,8 @@
       "3D Vision",
       "Self-Supervised",
       "Evaluation",
-      "Self-Supervised & Contrastive Learning",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -28586,8 +28586,8 @@
       "LLMs",
       "Fairness & Ethics",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -28639,8 +28639,8 @@
       "LLMs",
       "RLHF",
       "AI Agents",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -28686,8 +28686,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -28729,8 +28729,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Artificial Intelligence",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -28978,8 +28978,8 @@
     "tags": [
       "LLMs",
       "RL",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -29211,8 +29211,8 @@
       "LLMs",
       "RLHF",
       "Fairness & Ethics",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -29264,8 +29264,8 @@
       "Info Extraction",
       "RL",
       "Robotics",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -29513,8 +29513,8 @@
       "RLHF",
       "Robotics",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -30447,8 +30447,8 @@
       "Continual Learning",
       "Fairness & Ethics",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -30494,8 +30494,8 @@
       "Transformers",
       "RL",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -30653,8 +30653,8 @@
     "tags": [
       "VLMs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -30718,6 +30718,46 @@
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Transformers.",
     "url": "https://arxiv.org/abs/2605.21081",
     "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2606.20121",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "BARReL: a modern backend for Atelier B in Lean",
+    "abstract": "BARReL is a Lean 4 library bridging Atelier B, an industrial tool for the B method, and the Lean proof assistant by enabling users to conduct their formal B developments -- up to machine refinement and implementation -- interactively inside Lean, while retaining standard B syntax. B partial operators are carefully encoded by generating explicit well-definedness conditions, leveraging Lean's dependent types to enforce a well-definedness discipline by construction. That is, proof obligations and proof steps cannot silently rely on ill-typed or ill-defined instantiations. BARReL also features basic automation to try to discharge such well-definedness conditions automatically. The implementation is written entirely using Lean meta-programming and is designed to be modular: extending the supported B fragment typically requires only adding new syntax and encoding clauses. We illustrate the approach on a small but representative case study, and argue that BARReL can act as a stepping stone towards a strongly reliable Atelier B toolchain grounded in the Lean proof assistant.",
+    "authors": [
+      "Ghilain Bergeron",
+      "Vincent Trélat"
+    ],
+    "year": 2026,
+    "published_date": "2026-06-18",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2606.20121",
+    "pdf_url": "https://arxiv.org/pdf/2606.20121",
+    "citations": 0,
+    "topics": [],
+    "tags": [],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 3.54,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "BARReL is a Lean 4 library bridging Atelier B, an industrial tool for the B method, and the Lean proof assistant by enabling users to conduct their formal B developments -- up to machine refinement and implementation -- interactively inside Lean, while retaining standard B syntax. B partial operators are carefully encoded by generating explicit well-definedness conditions, leveraging Lean's dependent types to enforce a well-definedness discipline by construction.",
+    "key_contribution": "BARReL is a Lean 4 library bridging Atelier B, an industrial tool for the B method, and the Lean proof assistant by enabling users to conduct their formal B developments -- up to machine refinement and implementation -- interactively inside Lean, while retaining standard B syntax.",
+    "why_it_matters": "BARReL: a modern backend for Atelier B in Lean represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about _default.",
+    "one_line_takeaway": "BARReL is a Lean 4 library bridging Atelier B, an industrial tool for the B method, and the Lean proof assistant by…",
+    "biggest_caveat": "cannot silently rely on ill-typed or ill-defined instantiations.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in this area.",
+    "url": "https://arxiv.org/abs/2606.20121",
+    "difficulty": "frontier"
   },
   {
     "id": "arxiv:2505.19989",
@@ -30790,8 +30830,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -30806,10 +30846,10 @@
     "summary": "If AI is a foundational general-purpose technology, we should anticipate that demand for AI compute -- and energy -- will continue to grow. The Sun is by far the largest energy source in our solar system, and thus it warrants consideration how future AI infrastructure could most efficiently tap into that power.",
     "key_contribution": "If AI is a foundational general-purpose technology, we should anticipate that demand for AI compute -- and energy -- will continue to grow.",
     "why_it_matters": "Towards a future space-based, highly scalable AI infrastructure system design represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distributed Computing.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "If AI is a foundational general-purpose technology, we should anticipate that demand for AI compute -- and energy --…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Distributed Computing.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2511.19468",
     "difficulty": "intermediate"
   },
@@ -30858,46 +30898,6 @@
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
     "url": "https://arxiv.org/abs/2606.19135",
     "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2606.20121",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "BARReL: a modern backend for Atelier B in Lean",
-    "abstract": "BARReL is a Lean 4 library bridging Atelier B, an industrial tool for the B method, and the Lean proof assistant by enabling users to conduct their formal B developments -- up to machine refinement and implementation -- interactively inside Lean, while retaining standard B syntax. B partial operators are carefully encoded by generating explicit well-definedness conditions, leveraging Lean's dependent types to enforce a well-definedness discipline by construction. That is, proof obligations and proof steps cannot silently rely on ill-typed or ill-defined instantiations. BARReL also features basic automation to try to discharge such well-definedness conditions automatically. The implementation is written entirely using Lean meta-programming and is designed to be modular: extending the supported B fragment typically requires only adding new syntax and encoding clauses. We illustrate the approach on a small but representative case study, and argue that BARReL can act as a stepping stone towards a strongly reliable Atelier B toolchain grounded in the Lean proof assistant.",
-    "authors": [
-      "Ghilain Bergeron",
-      "Vincent Trélat"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-18",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2606.20121",
-    "pdf_url": "https://arxiv.org/pdf/2606.20121",
-    "citations": 0,
-    "topics": [],
-    "tags": [],
-    "paper_type": "theory",
-    "difficulty_level": "L4",
-    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 3.54,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.45,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "BARReL is a Lean 4 library bridging Atelier B, an industrial tool for the B method, and the Lean proof assistant by enabling users to conduct their formal B developments -- up to machine refinement and implementation -- interactively inside Lean, while retaining standard B syntax. B partial operators are carefully encoded by generating explicit well-definedness conditions, leveraging Lean's dependent types to enforce a well-definedness discipline by construction.",
-    "key_contribution": "BARReL is a Lean 4 library bridging Atelier B, an industrial tool for the B method, and the Lean proof assistant by enabling users to conduct their formal B developments -- up to machine refinement and implementation -- interactively inside Lean, while retaining standard B syntax.",
-    "why_it_matters": "BARReL: a modern backend for Atelier B in Lean represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about _default.",
-    "one_line_takeaway": "BARReL is a Lean 4 library bridging Atelier B, an industrial tool for the B method, and the Lean proof assistant by…",
-    "biggest_caveat": "cannot silently rely on ill-typed or ill-defined instantiations.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in this area.",
-    "url": "https://arxiv.org/abs/2606.20121",
-    "difficulty": "frontier"
   },
   {
     "id": "arxiv:2210.09899",
@@ -31228,8 +31228,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Neural Networks",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Neural Networks"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -31483,9 +31483,9 @@
     "tags": [
       "MoE",
       "Model Compression",
+      "Artificial Intelligence",
       "Machine Learning",
-      "NLP",
-      "Artificial Intelligence"
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -31847,9 +31847,9 @@
     "topics": [],
     "tags": [
       "LLMs",
+      "Artificial Intelligence",
       "Cryptography & Security",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -31895,8 +31895,8 @@
       "LLMs",
       "Reasoning",
       "AI Agents",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -31954,8 +31954,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Distributed Computing",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -32095,8 +32095,8 @@
     "topics": [],
     "tags": [
       "AI Safety",
-      "AI Safety & Alignment",
-      "Computer Vision"
+      "Computer Vision",
+      "AI Safety & Alignment"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -32110,7 +32110,7 @@
     "evidence_strength": 0.0,
     "summary": "In medical image segmentation across multiple modalities (e.g., MRI, CT, etc.) and heterogeneous data sources (e.g., different hospitals and devices), Domain Generalization (DG) remains a critical challenge in AI-driven healthcare. This challenge primarily arises from domain shifts, imaging variations, and patient diversity, which often lead to degraded model performance in unseen domains.",
     "key_contribution": "We propose, for the first time, a cognitive-inspired Feynman-Guided Meta-Learning framework for medical image domain generalization segmentation (FGML-DG), which mimics human cognitive learning processes to enhance model learning and knowledge transfer.",
-    "why_it_matters": "FGML-DG: Feynman-Inspired Cognitive Science Paradigm for Cross-Domain Medical Image Segmentation advances the critical goal of making AI systems safer, more reliable, and aligned with human values.",
+    "why_it_matters": "FGML-DG: Feynman-Inspired Cognitive Science Paradigm for Cross-Domain Medical Image Segmentation advances machine perception, enabling better visual understanding in real-world applications.",
     "content_hook": "A new paper that could change how we think about AI Safety.",
     "one_line_takeaway": "We propose, for the first time, a cognitive-inspired Feynman-Guided Meta-Learning framework for medical image domain…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -32140,8 +32140,8 @@
       "LLMs",
       "AI Safety",
       "Evaluation",
-      "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -32333,8 +32333,8 @@
       "AI Agents",
       "Info Extraction",
       "Code Generation",
-      "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -32576,9 +32576,9 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Distributed Computing",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -32842,9 +32842,9 @@
     "tags": [
       "LLMs",
       "Info Extraction",
-      "Machine Learning",
+      "Artificial Intelligence",
       "Cryptography & Security",
-      "Artificial Intelligence"
+      "Machine Learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -32930,9 +32930,9 @@
     "tags": [
       "Fine-Tuning",
       "Fairness & Ethics",
+      "Artificial Intelligence",
       "Machine Learning",
-      "NLP",
-      "Artificial Intelligence"
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -33160,8 +33160,8 @@
       "Multimodal",
       "Biomedical AI",
       "Interpretability",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -33313,8 +33313,8 @@
       "LLMs",
       "Summarization",
       "Biomedical AI",
-      "Text Summarization",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Text Summarization"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -33450,9 +33450,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Optimization",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Optimization"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -33467,10 +33467,10 @@
     "summary": "We analyze the last-iterate convergence of the Anchored Gradient Descent Ascent algorithm for smooth convex-concave min-max problems. While previous work established a last-iterate rate of $\\mathcal{O}(1/t^{2-2p})$ for the squared gradient norm, where $p \\in (1/2, 1)$, it remained an open problem whether the improved exact $\\mathcal{O}(1/t)$ rate is achievable.",
     "key_contribution": "We analyze the last-iterate convergence of the Anchored Gradient Descent Ascent algorithm for smooth convex-concave min-max problems.",
     "why_it_matters": "An Improved Last-Iterate Convergence Rate for Anchored Gradient Descent Ascent represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Optimization.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We analyze the last-iterate convergence of the Anchored Gradient Descent Ascent algorithm for smooth convex-concave…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Optimization.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Machine Learning.",
     "url": "http://arxiv.org/abs/2604.03782v1",
     "difficulty": "frontier"
   },
@@ -33641,8 +33641,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Neural Networks",
-      "Machine Learning"
+      "Machine Learning",
+      "Neural Networks"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -33742,8 +33742,8 @@
       "LLMs",
       "AI Agents",
       "Evaluation",
-      "Cryptography & Security",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Cryptography & Security"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -33790,8 +33790,8 @@
       "LLMs",
       "Prompting",
       "Robotics",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -34120,8 +34120,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -34413,8 +34413,8 @@
       "Federated Learning",
       "Self-Supervised",
       "Evaluation",
-      "Computer Vision",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Computer Vision"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -34553,8 +34553,8 @@
       "Reasoning",
       "Hallucination",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -34746,8 +34746,8 @@
     "topics": [],
     "tags": [
       "Self-Supervised",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -35013,8 +35013,8 @@
     "topics": [],
     "tags": [
       "Model Compression",
-      "Model Compression & Efficiency",
-      "Machine Learning"
+      "Machine Learning",
+      "Model Compression & Efficiency"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -35150,8 +35150,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Benchmarking & Evaluation",
       "Artificial Intelligence",
+      "Benchmarking & Evaluation",
       "Neural Networks"
     ],
     "paper_type": "benchmark",
@@ -35365,6 +35365,54 @@
     "difficulty": "advanced"
   },
   {
+    "id": "arxiv:2602.15707",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Proactive Conversational Assistant for a Procedural Manual Task based on Audio and IMU",
+    "abstract": "Real-time conversational assistants for procedural manual tasks often depend on video input, which can be computationally expensive and compromise user privacy. For the first time, we propose a real-time conversational assistant that provides comprehensive guidance for procedural manual tasks using only lightweight privacy-preserving modalities such as audio and IMU inputs from a user's wearable device to understand the context. Using a furniture assembly task and a cooking task, we show how this assistant proactively communicates step-by-step instructions to a user performing a procedural task, and answers user questions. We illustrate the data generation method and the system design to achieve such an assistant. On observing that an off-the-shelf language model is a talkative assistant but is not always able to answer questions correctly, we demonstrate how finetuning the model improves its ability to limit unnecessary dialogues with a 50% increase in the precision, while also improving its ability to answer questions correctly, measured by a 150% increase in the recall of answers. We further describe how such an assistant is implemented on an edge device with no dependence on the cloud.",
+    "authors": [
+      "Rehana Mahfuz",
+      "Yinyi Guo",
+      "Erik Visser",
+      "Phanidhar Chinchili"
+    ],
+    "year": 2026,
+    "published_date": "2026-06-17",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2602.15707",
+    "pdf_url": "https://arxiv.org/pdf/2602.15707",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Dialogue",
+      "Federated Learning",
+      "Multimedia",
+      "Machine Learning",
+      "NLP"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L3",
+    "difficulty_reason": "Advanced topic (Federated Learning) requiring graduate-level background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.85,
+    "read_first_score": 4.88,
+    "content_potential_score": 1.84,
+    "interestingness_score": 2.35,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Real-time conversational assistants for procedural manual tasks often depend on video input, which can be computationally expensive and compromise user privacy. For the first time, we propose a real-time conversational assistant that provides comprehensive guidance for procedural manual tasks using only lightweight privacy-preserving modalities such as audio and IMU inputs from a user's wearable device to understand the context.",
+    "key_contribution": "For the first time, we propose a real-time conversational assistant that provides comprehensive guidance for procedural manual tasks using only lightweight privacy-preserving modalities such as audio and IMU inputs from a user's wearable device to understand the context.",
+    "why_it_matters": "Proactive Conversational Assistant for a Procedural Manual Task based on Audio and IMU represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Dialogue.",
+    "one_line_takeaway": "For the first time, we propose a real-time conversational assistant that provides comprehensive guidance for procedural…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Dialogue.",
+    "url": "https://arxiv.org/abs/2602.15707",
+    "difficulty": "advanced"
+  },
+  {
     "id": "arxiv:2606.18981",
     "source": "arxiv",
     "source_type": "preprint",
@@ -35456,54 +35504,6 @@
     "read_this_if": "Read this if you are a beginner and want to understand recent progress in Reasoning.",
     "url": "https://arxiv.org/abs/2606.19328",
     "difficulty": "beginner"
-  },
-  {
-    "id": "arxiv:2602.15707",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Proactive Conversational Assistant for a Procedural Manual Task based on Audio and IMU",
-    "abstract": "Real-time conversational assistants for procedural manual tasks often depend on video input, which can be computationally expensive and compromise user privacy. For the first time, we propose a real-time conversational assistant that provides comprehensive guidance for procedural manual tasks using only lightweight privacy-preserving modalities such as audio and IMU inputs from a user's wearable device to understand the context. Using a furniture assembly task and a cooking task, we show how this assistant proactively communicates step-by-step instructions to a user performing a procedural task, and answers user questions. We illustrate the data generation method and the system design to achieve such an assistant. On observing that an off-the-shelf language model is a talkative assistant but is not always able to answer questions correctly, we demonstrate how finetuning the model improves its ability to limit unnecessary dialogues with a 50% increase in the precision, while also improving its ability to answer questions correctly, measured by a 150% increase in the recall of answers. We further describe how such an assistant is implemented on an edge device with no dependence on the cloud.",
-    "authors": [
-      "Rehana Mahfuz",
-      "Yinyi Guo",
-      "Erik Visser",
-      "Phanidhar Chinchili"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-17",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2602.15707",
-    "pdf_url": "https://arxiv.org/pdf/2602.15707",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Dialogue",
-      "Federated Learning",
-      "Machine Learning",
-      "Multimedia",
-      "NLP"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Advanced topic (Federated Learning) requiring graduate-level background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.85,
-    "read_first_score": 4.88,
-    "content_potential_score": 1.84,
-    "interestingness_score": 2.35,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Real-time conversational assistants for procedural manual tasks often depend on video input, which can be computationally expensive and compromise user privacy. For the first time, we propose a real-time conversational assistant that provides comprehensive guidance for procedural manual tasks using only lightweight privacy-preserving modalities such as audio and IMU inputs from a user's wearable device to understand the context.",
-    "key_contribution": "For the first time, we propose a real-time conversational assistant that provides comprehensive guidance for procedural manual tasks using only lightweight privacy-preserving modalities such as audio and IMU inputs from a user's wearable device to understand the context.",
-    "why_it_matters": "Proactive Conversational Assistant for a Procedural Manual Task based on Audio and IMU represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Dialogue.",
-    "one_line_takeaway": "For the first time, we propose a real-time conversational assistant that provides comprehensive guidance for procedural…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Dialogue.",
-    "url": "https://arxiv.org/abs/2602.15707",
-    "difficulty": "advanced"
   },
   {
     "id": "arxiv:2602.04119",
@@ -35674,8 +35674,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -35721,8 +35721,8 @@
       "Object Detection",
       "Transformers",
       "Model Compression",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -35859,8 +35859,8 @@
     "topics": [],
     "tags": [
       "Reasoning",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -35907,8 +35907,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -35923,10 +35923,10 @@
     "summary": "Software upgrades are critical to maintaining server reliability in datacenters. While job duration prediction and scheduling have been extensively studied, the unique challenges posed by software upgrades remain largely under-explored.",
     "key_contribution": "To address this problem, we introduce Acela, a cost-aware duration prediction framework designed to improve upgrade scheduling efficiency and throughput while meeting service-level objectives (SLOs).",
     "why_it_matters": "Cost-aware Duration Prediction for Software Upgrades in Datacenters represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distributed Computing.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "To address this problem, we introduce Acela, a cost-aware duration prediction framework designed to improve upgrade…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Distributed Computing.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2212.05155",
     "difficulty": "intermediate"
   },
@@ -35999,8 +35999,8 @@
       "VLMs",
       "Diffusion",
       "Info Extraction",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -36102,8 +36102,8 @@
     "tags": [
       "Biomedical AI",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -36147,8 +36147,8 @@
       "LLMs",
       "Adversarial",
       "Evaluation",
-      "Machine Learning",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Machine Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -36194,8 +36194,8 @@
       "Prompting",
       "Transformers",
       "Federated Learning",
-      "Machine Learning",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -36381,8 +36381,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -36397,10 +36397,10 @@
     "summary": "Networked AI systems increasingly rely on multiple agents that collaboratively learn and adapt models over communication networks. In such systems, bilevel formulations naturally arise in hyperparameter optimization, data cleaning, and meta-learning, but the repeated evaluation of gradients, Jacobians, and Hessians can impose a substantial computational burden on individual agents.",
     "key_contribution": "To address this challenge, we propose Snapshot-SLDBO (S$^3$LDBO), an efficient single-loop decentralized bilevel optimization algorithm that enables agents to intermittently skip expensive derivative evaluations through a snapshot mechanism.",
     "why_it_matters": "S$^3$LDBO: A Snapshot Single-Loop Algorithm for Decentralized Bilevel Optimization represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distributed Computing.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "To address this challenge, we propose Snapshot-SLDBO (S$^3$LDBO), an efficient single-loop decentralized bilevel…",
     "biggest_caveat": "but the repeated evaluation of gradients, Jacobians, and Hessians can impose a substantial computational burden on individual agents.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Distributed Computing.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2605.31311",
     "difficulty": "advanced"
   },
@@ -36476,9 +36476,9 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Machine Learning",
+      "Artificial Intelligence",
       "Neural Networks",
-      "Artificial Intelligence"
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -36717,8 +36717,8 @@
     "tags": [
       "RL",
       "Fairness & Ethics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -37012,8 +37012,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distributed Computing",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Distributed Computing"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -37028,10 +37028,10 @@
     "summary": "Conventional HPC holds that native hardware FP64 is the irreducible foundation of scientific computing. On AI-optimized GPUs of the NVIDIA B300 generation and beyond, native FP64 throughput has collapsed to ~1.3 TFLOPS even as FP8 tensor throughput has grown to multiple PFLOPS.",
     "key_contribution": "Conventional HPC holds that native hardware FP64 is the irreducible foundation of scientific computing.",
     "why_it_matters": "FP8 is All You Need (Part 1): Debunking Hardware FP64 as the HPC Holy Grail (June 13th version) represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distributed Computing.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "Conventional HPC holds that native hardware FP64 is the irreducible foundation of scientific computing.",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Distributed Computing.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Artificial Intelligence.",
     "url": "https://arxiv.org/abs/2606.06510",
     "difficulty": "frontier"
   },
@@ -37111,8 +37111,8 @@
       "Fine-Tuning",
       "AI Safety",
       "Multimodal",
-      "Computer Vision",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -37215,8 +37215,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -37362,8 +37362,8 @@
     "tags": [
       "RLHF",
       "Robotics",
-      "Computer Vision",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Computer Vision"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -37460,8 +37460,8 @@
       "Prompting",
       "Object Detection",
       "Continual Learning",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -37552,8 +37552,8 @@
     "tags": [
       "Evaluation",
       "Computer Vision",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -37698,8 +37698,8 @@
       "LLMs",
       "Multimodal",
       "Info Extraction",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -38140,8 +38140,8 @@
       "Model Compression",
       "Self-Supervised",
       "RL",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -38185,8 +38185,8 @@
     "tags": [
       "RL",
       "Fairness & Ethics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -38230,8 +38230,8 @@
     "tags": [
       "LLMs",
       "Info Extraction",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -38672,9 +38672,9 @@
     "tags": [
       "Hallucination",
       "Evaluation",
-      "Factuality & Hallucination",
       "Benchmarking & Evaluation",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Factuality & Hallucination"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -39586,8 +39586,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Large Language Models",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -39837,8 +39837,8 @@
     "tags": [
       "Federated Learning",
       "Self-Supervised",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -40087,8 +40087,8 @@
     "tags": [
       "Model Compression",
       "Evaluation",
-      "Information Retrieval",
       "Benchmarking & Evaluation",
+      "Information Retrieval",
       "Model Compression & Efficiency"
     ],
     "paper_type": "methods",
@@ -40183,8 +40183,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Software Engineering",
-      "NLP"
+      "NLP",
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -40227,8 +40227,8 @@
     "tags": [
       "LLMs",
       "AI Agents",
-      "Large Language Models",
       "AI Agents & Tool Use",
+      "Large Language Models",
       "Software Engineering"
     ],
     "paper_type": "methods",
@@ -40243,7 +40243,7 @@
     "evidence_strength": 0.0,
     "summary": "Existing LLM agent frameworks lack formal semantics: there is no principled way to determine whether an agent configuration is well-formed or will terminate. We present $λ_A$, a typed lambda calculus for agent composition that extends the simply-typed lambda calculus with oracle calls, bounded fixpoints (the ReAct loop), probabilistic choice, and mutable environments.",
     "key_contribution": "We present $λ_A$, a typed lambda calculus for agent composition that extends the simply-typed lambda calculus with oracle calls, bounded fixpoints (the ReAct loop), probabilistic choice, and mutable environments.",
-    "why_it_matters": "$λ_A$: A Typed Lambda Calculus for LLM Agent Composition advances our understanding of large language models, which are reshaping how we build AI systems and interact with knowledge.",
+    "why_it_matters": "$λ_A$: A Typed Lambda Calculus for LLM Agent Composition moves AI from passive text generators to active problem-solvers that use tools and reason over time.",
     "content_hook": "A new paper that could change how we think about LLMs.",
     "one_line_takeaway": "We present $λ_A$, a typed lambda calculus for agent composition that extends the simply-typed lambda calculus with…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -40427,9 +40427,9 @@
     "tags": [
       "AI Safety",
       "Code Generation",
-      "AI Safety & Alignment",
+      "Artificial Intelligence",
       "Code Generation & Synthesis",
-      "Artificial Intelligence"
+      "AI Safety & Alignment"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -40443,7 +40443,7 @@
     "evidence_strength": 0.0,
     "summary": "Anthropic proposes the concept of skills for LLM agents to tackle multi-step professional tasks that simple tool invocations cannot address. A tool is a single, self-contained function, whereas a skill is a structured bundle of interdependent multi-file artifacts.",
     "key_contribution": "To address these issues, we propose EvoSkills, a self-evolving skills framework that enables agents to autonomously construct complex, multi-file skill packages.",
-    "why_it_matters": "EvoSkills: Self-Evolving Agent Skills via Co-Evolutionary Verification advances the critical goal of making AI systems safer, more reliable, and aligned with human values.",
+    "why_it_matters": "EvoSkills: Self-Evolving Agent Skills via Co-Evolutionary Verification reduces the barrier to software development by automating code writing and understanding.",
     "content_hook": "A new paper that could change how we think about AI Safety.",
     "one_line_takeaway": "To address these issues, we propose EvoSkills, a self-evolving skills framework that enables agents to autonomously…",
     "biggest_caveat": "cannot address.",
@@ -40471,8 +40471,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Machine Learning"
+      "Machine Learning",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -40521,8 +40521,8 @@
       "Text-to-Image",
       "Video AI",
       "Transformers",
-      "Computer Vision",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Computer Vision"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -40616,8 +40616,8 @@
       "LLMs",
       "Evaluation",
       "Multi-Agent Systems",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -40801,8 +40801,8 @@
     "tags": [
       "Structured Data",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -40987,8 +40987,8 @@
     "tags": [
       "AI Safety",
       "Info Extraction",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -41088,8 +41088,8 @@
       "RLHF",
       "AI Agents",
       "Summarization",
-      "Reinforcement Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Reinforcement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -41136,8 +41136,8 @@
       "RL",
       "Robotics",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -41283,9 +41283,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Large Language Models",
+      "Reasoning & Chain-of-Thought",
       "Software Engineering",
-      "Reasoning & Chain-of-Thought"
+      "Large Language Models"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -41332,9 +41332,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Cryptography & Security",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -41349,10 +41349,10 @@
     "summary": "Machine learning-based supervised classifiers are widely used for security tasks, and their improvement has been largely focused on algorithmic advancements. We argue that data challenges that negatively impact the performance of these classifiers have received limited attention.",
     "key_contribution": "We propose augmenting training datasets with synthetic data generated using GenAI techniques to improve classifier generalization.",
     "why_it_matters": "Taming Data Challenges in ML-based Security Tasks Using Generative AI represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We propose augmenting training datasets with synthetic data generated using GenAI techniques to improve classifier…",
     "biggest_caveat": "butions, and sparse feature vectors, which hinder performance boost using GenAI.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Cryptography & Security.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2507.06092",
     "difficulty": "intermediate"
   },
@@ -41631,8 +41631,8 @@
       "Prompting",
       "Fine-Tuning",
       "Evaluation",
-      "Prompting & In-Context Learning",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -42148,10 +42148,10 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Large Language Models",
-      "Transformer Architectures",
+      "Artificial Intelligence",
       "NLP",
-      "Artificial Intelligence"
+      "Transformer Architectures",
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -42165,7 +42165,7 @@
     "evidence_strength": 0.0,
     "summary": "The use of Large Language Models (LLMs) for reliable, enterprise-grade analytics such as text categorization is often hindered by the stochastic nature of attention mechanisms and sensitivity to noise that compromise their analytical precision and reproducibility. To address these technical frictions, this paper introduces the Weighted Syntactic and Semantic Context Assessment Summary (wSSAS), a deterministic framework designed to enforce data integrity on large-scale, chaotic datasets.",
     "key_contribution": "We propose a two-phased validation framework that first organizes raw text into a hierarchical classification structure containing Themes, Stories, and Clusters.",
-    "why_it_matters": "Leveraging Weighted Syntactic and Semantic Context Assessment Summary (wSSAS) Towards Text Categorization Using LLMs advances our understanding of large language models, which are reshaping how we build AI systems and interact with knowledge.",
+    "why_it_matters": "Leveraging Weighted Syntactic and Semantic Context Assessment Summary (wSSAS) Towards Text Categorization Using LLMs extends Transformer capabilities — the architecture underpinning virtually every modern NLP and vision model.",
     "content_hook": "A new paper that could change how we think about LLMs.",
     "one_line_takeaway": "We propose a two-phased validation framework that first organizes raw text into a hierarchical classification structure…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -42482,8 +42482,8 @@
     "tags": [
       "LLMs",
       "AI Agents",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -42777,8 +42777,8 @@
       "GNNs",
       "Self-Supervised",
       "Fairness & Ethics",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -42962,8 +42962,8 @@
     "tags": [
       "AI Safety",
       "Computer Vision",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -43072,9 +43072,9 @@
     "tags": [
       "Self-Supervised",
       "Fairness & Ethics",
-      "Computer Vision",
+      "Artificial Intelligence",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -43319,8 +43319,8 @@
     "tags": [
       "AI Safety",
       "Knowledge Graphs",
-      "Information Retrieval",
-      "Systems & Control"
+      "Systems & Control",
+      "Information Retrieval"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -43998,8 +43998,8 @@
       "Info Extraction",
       "GNNs",
       "Interpretability",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -44352,9 +44352,9 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
+      "Artificial Intelligence",
       "Benchmarking & Evaluation",
-      "Artificial Intelligence"
+      "Large Language Models"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -44605,8 +44605,8 @@
       "LLMs",
       "Reasoning",
       "AI Agents",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -44977,8 +44977,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -45117,8 +45117,8 @@
     "tags": [
       "Evaluation",
       "Game Theory",
-      "Multi-Agent Systems",
-      "Machine Learning"
+      "Machine Learning",
+      "Multi-Agent Systems"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -45451,8 +45451,8 @@
     "tags": [
       "Reasoning",
       "Fairness & Ethics",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -45745,8 +45745,8 @@
       "LLMs",
       "QA",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -46256,8 +46256,8 @@
       "AI Safety",
       "AI Agents",
       "Info Extraction",
-      "AI Agents & Tool Use",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "AI Agents & Tool Use"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -46590,9 +46590,9 @@
     "tags": [
       "Adversarial",
       "Evaluation",
-      "Adversarial Robustness",
       "Diffusion Models",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Adversarial Robustness"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -46613,51 +46613,6 @@
     "read_this_if": "Read this if you are a beginner and want to understand recent progress in Adversarial.",
     "url": "http://arxiv.org/abs/2604.07027v1",
     "difficulty": "beginner"
-  },
-  {
-    "id": "arxiv:2606.18451",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "A Cross-Model VLM-Judge Protocol for Single-Image 3D Mesh Quality (and Why Cheap Proxies Fall Short)",
-    "abstract": "Single-image-to-3D generators are improving quickly, but there is no agreed, human-free way to tell whether one generated mesh is better than another. Practitioners commonly rely on cheap automatic proxies (render-space CLIP similarity and mesh geometry-validity statistics), yet how well these track perceived quality is unestablished. We make two contributions. First, we propose and validate a reproducible VLM-judge evaluation protocol: a fixed 24-view headless render rig, two independent vision-language judge families, and a mandatory position-bias correction that queries both presentation orders and keeps only order-consistent verdicts. The two judge families agree substantially with each other (Cohen's kappa = 0.66), well above the chance-agreement floor. Second, using this protocol as the reference, we show the cheap proxies do not substitute for it. Geometry validity is only a weak signal on average (because, as we show, it is bimodal) and stays below our pre-registered target, while render-CLIP is at chance. A learned Bradley-Terry head collapses onto a single manifoldness statistic (giving render-CLIP a negative weight) and matches geometry-only exactly, so learning the feature weights buys nothing. The proxy is also bimodal: it is significantly above chance on contrasts with visible geometric defects but at chance on ambiguous contrasts, consistent with geometry validity tracking the judge only when the defect is visually salient. We therefore recommend the VLM-judge protocol as a reliable, reproducible evaluator under the conditions tested (two feed-forward generators on Google Scanned Objects, with a face-drop degradation regime) and advise against geometry/CLIP proxies as optimization targets.",
-    "authors": [
-      "Ali Asaria",
-      "Tony Salomone",
-      "Deep Gandhi"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-16",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2606.18451",
-    "pdf_url": "https://arxiv.org/pdf/2606.18451",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "VLMs",
-      "Fairness & Ethics",
-      "Machine Learning"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.79,
-    "read_first_score": 5.78,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.4,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Single-image-to-3D generators are improving quickly, but there is no agreed, human-free way to tell whether one generated mesh is better than another. Practitioners commonly rely on cheap automatic proxies (render-space CLIP similarity and mesh geometry-validity statistics), yet how well these track perceived quality is unestablished.",
-    "key_contribution": "First, we propose and validate a reproducible VLM-judge evaluation protocol: a fixed 24-view headless render rig, two independent vision-language judge families, and a mandatory position-bias correction that queries both presentation orders and keeps only order-consistent verdicts.",
-    "why_it_matters": "A Cross-Model VLM-Judge Protocol for Single-Image 3D Mesh Quality (and Why Cheap Proxies Fall Short) represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about VLMs.",
-    "one_line_takeaway": "First, we propose and validate a reproducible VLM-judge evaluation protocol: a fixed 24-view headless render rig, two…",
-    "biggest_caveat": "but there is no agreed, human-free way to tell whether one generated mesh is better than another.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in VLMs.",
-    "url": "https://arxiv.org/abs/2606.18451",
-    "difficulty": "intermediate"
   },
   {
     "id": "arxiv:2606.19363",
@@ -46785,8 +46740,8 @@
       "LLMs",
       "RLHF",
       "AI Safety",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -46807,6 +46762,51 @@
     "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in LLMs.",
     "url": "https://arxiv.org/abs/2606.19818",
     "difficulty": "advanced"
+  },
+  {
+    "id": "arxiv:2606.18451",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "A Cross-Model VLM-Judge Protocol for Single-Image 3D Mesh Quality (and Why Cheap Proxies Fall Short)",
+    "abstract": "Single-image-to-3D generators are improving quickly, but there is no agreed, human-free way to tell whether one generated mesh is better than another. Practitioners commonly rely on cheap automatic proxies (render-space CLIP similarity and mesh geometry-validity statistics), yet how well these track perceived quality is unestablished. We make two contributions. First, we propose and validate a reproducible VLM-judge evaluation protocol: a fixed 24-view headless render rig, two independent vision-language judge families, and a mandatory position-bias correction that queries both presentation orders and keeps only order-consistent verdicts. The two judge families agree substantially with each other (Cohen's kappa = 0.66), well above the chance-agreement floor. Second, using this protocol as the reference, we show the cheap proxies do not substitute for it. Geometry validity is only a weak signal on average (because, as we show, it is bimodal) and stays below our pre-registered target, while render-CLIP is at chance. A learned Bradley-Terry head collapses onto a single manifoldness statistic (giving render-CLIP a negative weight) and matches geometry-only exactly, so learning the feature weights buys nothing. The proxy is also bimodal: it is significantly above chance on contrasts with visible geometric defects but at chance on ambiguous contrasts, consistent with geometry validity tracking the judge only when the defect is visually salient. We therefore recommend the VLM-judge protocol as a reliable, reproducible evaluator under the conditions tested (two feed-forward generators on Google Scanned Objects, with a face-drop degradation regime) and advise against geometry/CLIP proxies as optimization targets.",
+    "authors": [
+      "Ali Asaria",
+      "Tony Salomone",
+      "Deep Gandhi"
+    ],
+    "year": 2026,
+    "published_date": "2026-06-16",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2606.18451",
+    "pdf_url": "https://arxiv.org/pdf/2606.18451",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "VLMs",
+      "Fairness & Ethics",
+      "Machine Learning"
+    ],
+    "paper_type": "methods",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.79,
+    "read_first_score": 5.78,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.4,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Single-image-to-3D generators are improving quickly, but there is no agreed, human-free way to tell whether one generated mesh is better than another. Practitioners commonly rely on cheap automatic proxies (render-space CLIP similarity and mesh geometry-validity statistics), yet how well these track perceived quality is unestablished.",
+    "key_contribution": "First, we propose and validate a reproducible VLM-judge evaluation protocol: a fixed 24-view headless render rig, two independent vision-language judge families, and a mandatory position-bias correction that queries both presentation orders and keeps only order-consistent verdicts.",
+    "why_it_matters": "A Cross-Model VLM-Judge Protocol for Single-Image 3D Mesh Quality (and Why Cheap Proxies Fall Short) represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about VLMs.",
+    "one_line_takeaway": "First, we propose and validate a reproducible VLM-judge evaluation protocol: a fixed 24-view headless render rig, two…",
+    "biggest_caveat": "but there is no agreed, human-free way to tell whether one generated mesh is better than another.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in VLMs.",
+    "url": "https://arxiv.org/abs/2606.18451",
+    "difficulty": "intermediate"
   },
   {
     "id": "arxiv:2606.02031",
@@ -46887,8 +46887,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Cryptography & Security",
-      "Machine Learning"
+      "Machine Learning",
+      "Cryptography & Security"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -46985,8 +46985,8 @@
       "Reasoning",
       "AI Agents",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -47087,8 +47087,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -47513,8 +47513,8 @@
       "LLMs",
       "AI Safety",
       "Interpretability",
-      "Interpretability & Explainability",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Interpretability & Explainability"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -47561,9 +47561,9 @@
     "tags": [
       "LLMs",
       "AI Agents",
-      "Software Engineering",
+      "Artificial Intelligence",
       "Cryptography & Security",
-      "Artificial Intelligence"
+      "Software Engineering"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -47660,8 +47660,8 @@
       "LLMs",
       "Fairness & Ethics",
       "Evaluation",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -47755,8 +47755,8 @@
       "Reasoning",
       "RLHF",
       "AI Agents",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -47906,8 +47906,8 @@
       "Prompting",
       "Info Extraction",
       "Model Compression",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -48014,9 +48014,9 @@
     "tags": [
       "Biomedical AI",
       "Evaluation",
-      "Software Engineering",
+      "Artificial Intelligence",
       "Programming Languages",
-      "Artificial Intelligence"
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -48108,8 +48108,8 @@
     "tags": [
       "Code Generation",
       "Multi-Agent Systems",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -48344,8 +48344,8 @@
       "RLHF",
       "AI Safety",
       "Text-to-Image",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -48451,8 +48451,8 @@
     "tags": [
       "Fine-Tuning",
       "Evaluation",
-      "Information Retrieval",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Information Retrieval"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -48556,8 +48556,8 @@
       "Transformers",
       "Model Compression",
       "Self-Supervised",
-      "Computer Vision",
-      "Multimedia"
+      "Multimedia",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -48599,8 +48599,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -48615,10 +48615,10 @@
     "summary": "Distilling a large speech foundation model (SFM) into an efficient student model has been successfully applied to low-resource environments. Although distillation reduces inference latency, it requires an additional student model training.",
     "key_contribution": "To handle this limitation, we propose interleaved stacking, a novel stacking method that consistently preserves layer position throughout the stacking process.",
     "why_it_matters": "Fast Speech Foundation Model Distillation Using Interleaved Stacking represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about NLP.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "To handle this limitation, we propose interleaved stacking, a novel stacking method that consistently preserves layer…",
     "biggest_caveat": "However, the training efficiency of SFM distillation remains underexplored.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in NLP.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "http://arxiv.org/abs/2606.11766v1",
     "difficulty": "intermediate"
   },
@@ -48732,9 +48732,9 @@
     "tags": [
       "LLMs",
       "Evaluation",
+      "Cryptography & Security",
       "Machine Learning",
-      "NLP",
-      "Cryptography & Security"
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
