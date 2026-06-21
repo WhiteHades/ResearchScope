@@ -14,83 +14,124 @@
       align-items: center;
       justify-content: center;
       padding: 1.5rem;
+      background: var(--rs-paper);
     }
     .auth-card {
       display: flex;
       width: min(860px, 100%);
       border-radius: 1.25rem;
       overflow: hidden;
-      box-shadow: 0 24px 64px rgba(0,0,0,.13), 0 0 0 1px rgba(0,0,0,.06);
+      box-shadow: var(--rs-shadow-lg);
+      border: 1px solid var(--rs-rule);
+      background: var(--rs-bone);
     }
     .auth-brand {
       width: 260px;
       flex-shrink: 0;
-      background: linear-gradient(145deg, #4f46e5, #7c3aed);
+      background: linear-gradient(145deg, var(--rs-coral), var(--rs-coral-deep));
       padding: 3rem 2rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      color: #fff;
+      color: var(--rs-paper);
+      font-family: var(--rs-font-display);
+    }
+    .auth-brand .auth-brand-mark {
+      font-family: var(--rs-font-italic);
+      font-style: italic;
+      font-size: 2.6rem;
+      color: var(--rs-bone);
+      margin-bottom: .65rem;
+      line-height: 1;
+    }
+    .auth-brand .auth-brand-title {
+      font-family: var(--rs-font-display);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      font-size: 1.4rem;
+      margin-bottom: .75rem;
+    }
+    .auth-brand .auth-brand-blurb {
+      font-family: var(--rs-font-body);
+      font-size: .82rem;
+      color: rgba(247, 241, 222, 0.85);
+      line-height: 1.5;
     }
     @media (max-width: 620px) { .auth-brand { display: none; } }
     .auth-panel {
       flex: 1;
       min-width: 0;
-      background: var(--rs-surface, #fff);
+      background: var(--rs-bone);
       padding: 3rem 2.5rem 2.5rem;
     }
-    .auth-field { display: flex; flex-direction: column; gap: .35rem; }
+    .auth-panel h1 {
+      font-family: var(--rs-font-display);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--rs-ink);
+    }
+    .auth-field { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 1rem; }
     .auth-field label {
       font-size: .75rem; font-weight: 700;
-      color: var(--rs-text, #1e293b); letter-spacing: .01em;
+      color: var(--rs-ink-mute); letter-spacing: .04em;
+      text-transform: uppercase;
+      font-family: var(--rs-font-display);
     }
-    .auth-optional { font-weight: 400; opacity: .5; }
+    .auth-optional { font-weight: 400; opacity: .5; text-transform: none; }
     .auth-input-wrap { position: relative; display: flex; align-items: center; }
     .auth-input-icon {
       position: absolute; left: .75rem; width: 15px; height: 15px;
-      color: var(--rs-muted, #94a3b8); pointer-events: none; flex-shrink: 0;
+      color: var(--rs-ink-faint); pointer-events: none; flex-shrink: 0;
     }
     .auth-input {
       width: 100%; padding: .65rem .75rem .65rem 2.4rem;
-      border: 1.5px solid var(--rs-border, #e2e8f0); border-radius: .6rem;
-      font-size: .875rem; background: var(--rs-bg, #f8fafc); color: var(--rs-text, #1e293b);
-      outline: none; transition: border-color .15s, box-shadow .15s; font-family: inherit;
+      border: 1.5px solid var(--rs-border); border-radius: .6rem;
+      font-size: .875rem; background: var(--rs-paper); color: var(--rs-ink);
+      outline: none; transition: border-color .15s, box-shadow .15s, background .15s;
+      font-family: var(--rs-font-body);
     }
-    .auth-input::placeholder { color: var(--rs-muted, #94a3b8); }
+    .auth-input::placeholder { color: var(--rs-ink-faint); }
     .auth-input:focus {
-      border-color: var(--rs-primary, #4f46e5);
-      box-shadow: 0 0 0 3px rgba(79,70,229,.12);
-      background: var(--rs-surface, #fff);
+      border-color: var(--rs-coral);
+      box-shadow: 0 0 0 3px rgba(237, 111, 92, 0.18);
+      background: var(--rs-bone);
     }
     .auth-pwd-toggle {
       position: absolute; right: .7rem;
       background: none; border: none; cursor: pointer; padding: 4px;
-      color: var(--rs-muted, #94a3b8); display: flex; align-items: center;
+      color: var(--rs-ink-faint); display: flex; align-items: center;
       border-radius: .3rem; transition: color .15s;
     }
-    .auth-pwd-toggle:hover { color: var(--rs-text, #1e293b); }
+    .auth-pwd-toggle:hover { color: var(--rs-coral); }
     .auth-submit {
       width: 100%; padding: .72rem; margin-top: .25rem;
-      background: linear-gradient(135deg, #6366f1, #4f46e5);
-      color: #fff; border: none; border-radius: .65rem;
-      font-size: .925rem; font-weight: 700; font-family: inherit; cursor: pointer;
-      box-shadow: 0 4px 14px rgba(79,70,229,.35);
-      transition: opacity .15s, transform .12s;
+      background: var(--rs-coral); color: var(--rs-paper);
+      border: none; border-radius: .6rem;
+      font-size: .9rem; font-weight: 700;
+      font-family: var(--rs-font-display);
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(237, 111, 92, 0.32);
+      transition: background .15s, transform .12s, box-shadow .15s;
       display: flex; align-items: center; justify-content: center; gap: .5rem;
     }
-    .auth-submit:hover { opacity: .92; transform: translateY(-1px); }
+    .auth-submit:hover {
+      background: var(--rs-coral-deep);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(214, 90, 71, 0.4);
+    }
     .auth-submit:active { transform: none; }
     .auth-submit:disabled { opacity: .55; cursor: not-allowed; transform: none; }
     .auth-error {
       display: flex; align-items: flex-start; gap: .45rem;
-      font-size: .8rem; color: #dc2626;
-      background: #fef2f2; border: 1px solid #fecaca;
+      font-size: .8rem; color: var(--rs-coral-deep);
+      background: #fcebe7; border: 1px solid rgba(237, 111, 92, 0.35);
       border-radius: .5rem; padding: .55rem .75rem; margin-bottom: 1.25rem;
     }
     @keyframes auth-spin { to { transform: rotate(360deg); } }
     .auth-spinner {
       width: 15px; height: 15px; flex-shrink: 0;
-      border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
+      border: 2px solid rgba(247, 241, 222, 0.3); border-top-color: var(--rs-paper);
       border-radius: 50%; animation: auth-spin .65s linear infinite;
     }
   </style>
@@ -153,55 +194,43 @@
       <a href="deadlines" class="mobile-nav-link">Upcoming Conferences</a>
     </div>
   </div>
-</nav>-meta-strip__pulse">v3.6 · Updated Mon–Fri</span>
-</div>
-
-<nav class="rs-nav">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center h-14 gap-3">
-      <a href="./" class="flex items-center gap-2 font-bold text-lg" style="color:var(--rs-primary)">
-         ResearchScope
-      </a>
-      <div class="ml-auto flex items-center gap-2">
-        </div>
-    </div>
-  </div>
 </nav>
+
 
 <main class="auth-page">
   <div class="auth-card">
 
     <!-- Brand panel -->
     <div class="auth-brand">
-      <div style="font-size:2.6rem;margin-bottom:.65rem;line-height:1"></div>
-      <h2 style="font-size:1.15rem;font-weight:800;margin:0 0 .25rem;letter-spacing:-.02em">ResearchScope</h2>
-      <p style="font-size:.68rem;opacity:.6;text-transform:uppercase;letter-spacing:.07em;margin:0 0 2rem;font-weight:600">CS Research Intelligence</p>
+      <div class="auth-brand-mark">Ø</div>
+      <h2 class="auth-brand-title">ResearchScope.</h2>
+      <p class="auth-brand-blurb" style="text-transform:uppercase;letter-spacing:.07em;margin:0 0 2rem;font-weight:700;font-size:.68rem;opacity:.85">CS Research Intelligence</p>
       <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.9rem">
-        <li style="font-size:.82rem;opacity:.9;display:flex;align-items:center;gap:.6rem;line-height:1.4">
-          <span style="font-size:.95rem;flex-shrink:0">⭐</span>Save &amp; sync favourite papers
+        <li style="font-size:.82rem;display:flex;align-items:center;gap:.6rem;line-height:1.4">
+          <span style="font-size:.95rem;flex-shrink:0;color:var(--rs-mustard)">★</span>Save &amp; sync favourite papers
         </li>
-        <li style="font-size:.82rem;opacity:.9;display:flex;align-items:center;gap:.6rem;line-height:1.4">
-          <span style="font-size:.95rem;flex-shrink:0"></span>Full-text search across 100K+ papers
+        <li style="font-size:.82rem;display:flex;align-items:center;gap:.6rem;line-height:1.4">
+          <span style="font-size:.95rem;flex-shrink:0;color:var(--rs-mustard)">⌕</span>Full-text search across 100K+ papers
         </li>
-        <li style="font-size:.82rem;opacity:.9;display:flex;align-items:center;gap:.6rem;line-height:1.4">
-          <span style="font-size:.95rem;flex-shrink:0"></span>Conference &amp; journal recommender
+        <li style="font-size:.82rem;display:flex;align-items:center;gap:.6rem;line-height:1.4">
+          <span style="font-size:.95rem;flex-shrink:0;color:var(--rs-mustard)">⌖</span>Conference &amp; journal recommender
         </li>
-        <li style="font-size:.82rem;opacity:.9;display:flex;align-items:center;gap:.6rem;line-height:1.4">
-          <span style="font-size:.95rem;flex-shrink:0"></span>Track research gaps &amp; trends
+        <li style="font-size:.82rem;display:flex;align-items:center;gap:.6rem;line-height:1.4">
+          <span style="font-size:.95rem;flex-shrink:0;color:var(--rs-mustard)">↗</span>Track research gaps &amp; trends
         </li>
       </ul>
-      <p style="font-size:.75rem;opacity:.55;margin:2rem 0 0;line-height:1.5">
+      <p style="font-size:.75rem;color:rgba(247,241,222,0.7);margin:2rem 0 0;line-height:1.5">
         Free forever · No credit card needed
       </p>
     </div>
 
     <!-- Form panel -->
     <div class="auth-panel">
-      <h1 style="font-size:1.4rem;font-weight:700;color:var(--rs-text);margin:0 0 .3rem">Create your account</h1>
-      <p style="font-size:.85rem;color:var(--rs-muted);margin:0 0 1.75rem">
+      <h1 style="font-size:1.5rem;font-weight:800;letter-spacing:-.02em;color:var(--rs-ink);margin:0 0 .3rem;font-family:var(--rs-font-display)">Create your account</h1>
+      <p style="font-size:.85rem;color:var(--rs-ink-mute);margin:0 0 1.75rem">
         Already have one?
         <a id="signin-link" href="signin"
-           style="color:var(--rs-primary);font-weight:600;text-decoration:none">
+           style="color:var(--rs-coral);font-weight:600;text-decoration:none;font-family:var(--rs-font-display)">
           Sign in →
         </a>
       </p>

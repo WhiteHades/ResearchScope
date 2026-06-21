@@ -66,14 +66,6 @@
   <span class="rs-rail__label">CS Research · Filed Daily</span>
 </aside>
 
-<!-- ── Top metadata strip (Atelier Zero spec) ─────────────────────── -->
-<div class="rs-meta-strip">
-  <span class="rs-meta-strip__filed">Filed under — Vol. 26 · Issue 142</span>
-  <span></span>
-  <span class="rs-meta-strip__pulse">v3.6 · Updated Mon–Fri</span>
-</div>
-
-<!-- ── Navigation ──────────────────────────────────────────────────── -->
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-2">
@@ -141,12 +133,13 @@
       </div>
 
       <h1 class="rs-display-1">
-        Designing CS research, with <span class="rs-em">taste</span>, <span class="rs-em">rigor</span>, and <span class="rs-em">care</span><span class="rs-dot">.</span>
+        CS Research Intelligence,<br/>
+        <span style="opacity:.82">Not Just Paper Lists.</span>
       </h1>
 
       <p style="font-size:1.05rem;line-height:1.65;color:var(--rs-ink-mute);max-width:42rem;margin:1.5rem 0 2.25rem">
         <span id="hero-paper-count">160,000+</span> papers scored by impact · Conferences &amp; journals ranked ·
-        Research gaps surfaced · A working catalog of where the field actually is.
+        Research gaps surfaced · Find where to submit your next paper.
       </p>
 
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-bottom:2.5rem">
@@ -348,29 +341,29 @@
       </p>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--rs-rule);border-bottom:1px solid var(--rs-rule);padding:2rem 0" class="rs-pipeline">
-      <div style="padding:0 1.5rem;border-right:1px solid var(--rs-rule);position:relative">
+    <div class="rs-pipeline">
+      <div>
         <div style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral);font-size:1.4rem;margin-bottom:0.5rem">I.</div>
         <div style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.015em">Collect</div>
         <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
           Pull every new CS paper from <strong>arXiv CoRR</strong> (19 categories) plus proceedings from <strong>NeurIPS, ICML, ICLR, CVPR, ACL, KDD, AAAI</strong> and 15+ more venues.
         </p>
       </div>
-      <div style="padding:0 1.5rem;border-right:1px solid var(--rs-rule);position:relative">
+      <div>
         <div style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral);font-size:1.4rem;margin-bottom:0.5rem">II.</div>
         <div style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.015em">Score →</div>
         <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
           Each paper gets a <strong>Paper Score 0–10</strong> across 6 signals: recency, novelty, citation quality, institution prestige, author reputation, and completeness.
         </p>
       </div>
-      <div style="padding:0 1.5rem;border-right:1px solid var(--rs-rule);position:relative">
+      <div>
         <div style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral);font-size:1.4rem;margin-bottom:0.5rem">III.</div>
         <div style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.015em">Store →</div>
         <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
           <strong>60,000+ papers</strong> land in Railway PostgreSQL — fully browsable and searchable with server-side filtering and pagination, no caps.
         </p>
       </div>
-      <div style="padding:0 1.5rem;position:relative">
+      <div>
         <div style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral);font-size:1.4rem;margin-bottom:0.5rem">IV.</div>
         <div style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.015em">Refresh →</div>
         <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
@@ -804,7 +797,7 @@ function renderEditorial(ed) {
       <p class="rs-feature-eyebrow"><span class="rs-num">IV.</span><span>Gap to Explore</span></p>
       <div style="font-family:var(--rs-font-display);font-weight:700;font-size:1rem;color:var(--rs-ink);margin-top:0.5rem">${escHtml(g.title||g.topic)}</div>
       <p style="font-size:0.85rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">${escHtml(truncate(g.description,160))}</p>
-      ${g.starter_idea ? `<p style="font-family:var(--rs-font-mono);font-size:0.78rem;margin-top:0.75rem;color:var(--rs-olive);padding:0.5rem 0.75rem;background:var(--rs-paper);border-left:2px solid var(--rs-olive);border-radius:0 4px 4px 0">Starter idea — ${escHtml(g.starter_idea)}</p>` : ''}
+      ${g.starter_idea ? `<p style="font-family:var(--rs-font-mono);font-size:0.78rem;margin-top:0.75rem;color:var(--rs-olive);padding:0.5rem 0.75rem;background:var(--rs-paper);border:1px solid var(--rs-rule);border-radius:4px">Starter idea — ${escHtml(g.starter_idea)}</p>` : ''}
     </div>`;
   }
 
@@ -899,7 +892,7 @@ function renderEditorial(ed) {
           </div>
           <h3 style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);margin-bottom:0.4rem;letter-spacing:-0.01em">${escHtml(g.title||g.topic)}</h3>
           <p style="font-size:0.82rem;color:var(--rs-ink-mute);line-height:1.5">${escHtml(truncate(g.description,120))}</p>
-          ${g.starter_idea ? `<p style="font-family:var(--rs-font-mono);font-size:0.78rem;margin-top:0.75rem;color:var(--rs-olive);padding:0.5rem 0.75rem;background:var(--rs-paper);border-left:2px solid var(--rs-olive);border-radius:0 4px 4px 0">${escHtml(g.starter_idea)}</p>` : ''}
+          ${g.starter_idea ? `<p style="font-family:var(--rs-font-mono);font-size:0.78rem;margin-top:0.75rem;color:var(--rs-olive);padding:0.5rem 0.75rem;background:var(--rs-paper);border:1px solid var(--rs-rule);border-radius:4px">${escHtml(g.starter_idea)}</p>` : ''}
         </div>`).join('') +
       `</div>`;
   } else {

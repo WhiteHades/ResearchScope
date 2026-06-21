@@ -65,17 +65,6 @@
       <a href="deadlines" class="mobile-nav-link">Upcoming Conferences</a>
     </div>
   </div>
-</nav>nk">Topics</a>
-      <a href="digest" class="mobile-nav-link"> Weekly Digest</a>
-      <a href="conferences" class="mobile-nav-link">Conferences</a>
-      <a href="journals" class="mobile-nav-link">Journals</a>
-      
-      <a href="authors" class="mobile-nav-link">Authors</a>
-      <a href="labs" class="mobile-nav-link">Labs &amp; Unis</a>
-      <a href="gaps" class="mobile-nav-link">Research Gaps</a>
-      <a href="deadlines" class="mobile-nav-link"> Upcoming Conferences</a>
-    </div>
-  </div>
 </nav>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <h1 class="text-2xl font-bold mb-2"> Labs &amp; Universities</h1>
@@ -137,7 +126,7 @@ function labCard(l) {
   <div class="rs-card p-4">
     <div class="flex items-center gap-3 mb-3">
       <div class="w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold flex-shrink-0"
-           style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff">
+           style="background:linear-gradient(135deg,var(--rs-coral),var(--rs-coral-deep));color:var(--rs-paper);font-family:var(--rs-font-display)">
         ${escHtml((l.name||'?')[0].toUpperCase())}
       </div>
       <div class="min-w-0">
@@ -163,7 +152,7 @@ function uniCard(u) {
   <div class="rs-card p-4">
     <div class="flex items-center gap-3 mb-3">
       <div class="w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold flex-shrink-0"
-           style="background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff">
+           style="background:linear-gradient(135deg,var(--rs-olive),var(--rs-mustard));color:var(--rs-paper);font-family:var(--rs-font-display)">
         ${escHtml((u.name||'?')[0].toUpperCase())}
       </div>
       <div class="min-w-0">
