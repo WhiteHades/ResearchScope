@@ -164,17 +164,17 @@
        </div>`).join('');
     const wc = analysis.wordCount;
     const wcColor = wc < 80 ? '#dc2626' : wc < 120 ? '#d97706' : '#16a34a';
-    const wcLabel = wc < 80 ? 'too short' : wc < 120 ? 'borderline' : '✓ good';
+    const wcLabel = wc < 80 ? 'too short' : wc < 120 ? 'borderline' : 'good';
     const sc = analysis.structureScore;
     const quality = sc >= 4 ? 'Strong' : sc >= 3 ? 'Good' : sc >= 2 ? 'Fair' : 'Weak';
     const qColor = sc >= 4 ? '#16a34a' : sc >= 3 ? '#2563eb' : sc >= 2 ? '#d97706' : '#dc2626';
     const tipsHtml = analysis.suggestions.length
       ? `<div class="mt-3 p-2.5 rounded-lg space-y-1" style="background:var(--rs-primary-50,#eef2ff);border:1px solid rgba(79,70,229,.18)">
-          ${analysis.suggestions.map((s) => `<div class="text-xs" style="color:var(--rs-primary)">💡 ${escHtml(s)}</div>`).join('')}
+          ${analysis.suggestions.map((s) => `<div class="text-xs" style="color:var(--rs-primary)">${escHtml(s)}</div>`).join('')}
          </div>`
-      : `<div class="mt-3 p-2.5 rounded-lg text-xs" style="background:#f0fdf4;border:1px solid #bbf7d0;color:#166534">✓ Abstract looks well-structured — good basis for matching.</div>`;
+      : `<div class="mt-3 p-2.5 rounded-lg text-xs" style="background:#f0fdf4;border:1px solid #bbf7d0;color:#166534">Abstract looks well-structured — good basis for matching.</div>`;
     return `
-    <div class="recommender-panel mb-4" style="border-left:3px solid var(--rs-primary)">
+    <div class="recommender-panel mb-4">
       <div class="flex items-center justify-between mb-3">
         <p class="text-xs font-bold uppercase tracking-wider" style="color:var(--rs-muted)">Abstract Analysis</p>
         <span class="text-xs font-semibold px-2 py-0.5 rounded-full" style="background:${qColor}18;color:${qColor}">${quality} structure (${sc}/5)</span>
@@ -352,7 +352,7 @@
       try {
         await navigator.clipboard.writeText(buildShortlistMarkdown(ranked, kind));
         const prev = btn.textContent;
-        btn.textContent = '✓ Copied';
+        btn.textContent = 'Copied';
         setTimeout(() => { btn.textContent = prev; }, 1500);
       } catch {
         btn.textContent = 'Copy failed';

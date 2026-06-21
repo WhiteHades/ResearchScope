@@ -346,8 +346,8 @@ function _showUserMenu() {
       <div style="font-size:.82rem;font-weight:700;color:var(--rs-text,#111)">${escHtml(user?.name || user?.email || '')}</div>
       ${user?.name ? `<div style="font-size:.72rem;color:var(--rs-muted,#888)">${escHtml(user.email || '')}</div>` : ''}
     </div>
-    <a href="profile">👤 Profile &amp; Settings</a>
-    <a href="favourites">⭐ My Favourites</a>
+    <a href="profile">Profile &amp; Settings</a>
+    <a href="favourites">My Favourites</a>
     <div style="height:1px;background:var(--rs-border,#e5e7eb);margin:.25rem 0"></div>
     <button onclick="rsLogout()" style="color:#dc2626">Sign out</button>`;
   wrap.appendChild(menu);

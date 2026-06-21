@@ -33,7 +33,7 @@ function difficultyBadge(d) {
 }
 
 function scoreBadge(score) {
-  return `<span class="badge badge-score score-badge-tip" title="Paper score (0–10): weighted by citation impact, recency, venue rank, acceptance tier (oral/spotlight), topic relevance, and content quality">⭐ ${(+score || 0).toFixed(1)}</span>`;
+  return `<span class="badge badge-score score-badge-tip" title="Paper score (0–10): weighted by citation impact, recency, venue rank, acceptance tier (oral/spotlight), topic relevance, and content quality">${(+score || 0).toFixed(1)}</span>`;
 }
 
 function tagChips(tags) {
@@ -77,8 +77,8 @@ function rankBadge(rank) {
 // work. Posters are the default tier and get no badge to avoid clutter.
 function presentationBadge(type) {
   const t = (type || '').toLowerCase();
-  if (t === 'oral')      return `<span class="badge badge-oral" title="Oral presentation — top accepted tier">🎤 Oral</span>`;
-  if (t === 'spotlight') return `<span class="badge badge-spotlight" title="Spotlight — highlighted accepted paper">✨ Spotlight</span>`;
+  if (t === 'oral')      return `<span class="badge badge-oral" title="Oral presentation — top accepted tier">Oral</span>`;
+  if (t === 'spotlight') return `<span class="badge badge-spotlight" title="Spotlight — highlighted accepted paper">Spotlight</span>`;
   return '';
 }
 
@@ -116,7 +116,7 @@ function citelensBtn(paper) {
     class="mt-3 inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md border"
     style="color:var(--rs-primary);border-color:var(--rs-primary);opacity:0.85"
     title="See who cited this paper — powered by CiteLens">
-    🔍 Analyze citations
+    Analyze citations
   </a>`;
 }
 
@@ -142,7 +142,7 @@ function renderPaperCard(paper, opts = {}) {
         </p>
       </div>
       <div class="flex gap-1 flex-shrink-0 flex-wrap">
-        <span class="badge badge-score">⭐ ${(+paper.paper_score || 0).toFixed(1)}</span>
+        <span class="badge badge-score">${(+paper.paper_score || 0).toFixed(1)}</span>
         ${difficultyBadge(paper)}
         ${rankBadge(paper.conference_rank)}
         ${presentationBadge(paper.presentation_type)}
@@ -436,10 +436,10 @@ function pickPaperOfTheDay(papers, poolSize = 60) {
 
 function tweetPaperUrl(paper) {
   const venue   = [paper.venue, paper.year].filter(Boolean).join(' ');
-  const score   = paper.paper_score ? ` | ⭐ ${(+paper.paper_score).toFixed(1)}/10` : '';
+  const score   = paper.paper_score ? ` | ${(+paper.paper_score).toFixed(1)}/10` : '';
   const snippet = (paper.abstract || paper.summary || '').slice(0, 160);
   const pageUrl = `https://kishormorol.github.io/ResearchScope/papers?q=${encodeURIComponent(paper.title || '')}`;
-  const text    = `📄 ${paper.title}\n${venue}${score}\n\n${snippet}…\n\n🔭 ResearchScope\n${pageUrl}\n\n#AIResearch #MachineLearning #ResearchScope`;
+  const text    = `${paper.title}\n${venue}${score}\n\n${snippet}…\n\nResearchScope\n${pageUrl}\n\n#AIResearch #MachineLearning #ResearchScope`;
   return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
 }
 
@@ -461,7 +461,7 @@ function renderPotdCard(paper) {
   return `
   <div class="potd-wrap">
     <div class="potd-label">
-      ✨ Paper of the Day
+      Paper of the Day
       <span style="font-size:0.65rem;opacity:0.6;font-weight:400">${new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>
     </div>
     <div class="potd-title">
@@ -469,18 +469,18 @@ function renderPotdCard(paper) {
     </div>
     <div class="potd-meta">
       ${venue ? escHtml(venue) + (authors ? ' · ' : '') : ''}${escHtml(authors)}${escHtml(extra)}
-      ${paper.paper_score ? ` · ⭐ ${(+paper.paper_score).toFixed(1)}/10` : ''}
+      ${paper.paper_score ? ` · ${(+paper.paper_score).toFixed(1)}/10` : ''}
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.75rem">${tags}</div>
     <p class="potd-abstract">${escHtml((paper.abstract || paper.summary || '').slice(0, 300))}</p>
     <div class="potd-actions">
       <a href="${escHtml(url)}" target="_blank" rel="noopener" class="potd-btn potd-btn-primary">Read Paper →</a>
-      ${(() => { const aid = extractArxivId(url); return aid ? `<a href="https://kishormorol.github.io/CiteLens/?q=${encodeURIComponent(aid)}" target="_blank" rel="noopener" class="potd-btn potd-btn-ghost" title="See who cited this paper">🔍 Analyze citations</a>` : ''; })()}
+      ${(() => { const aid = extractArxivId(url); return aid ? `<a href="https://kishormorol.github.io/CiteLens/?q=${encodeURIComponent(aid)}" target="_blank" rel="noopener" class="potd-btn potd-btn-ghost" title="See who cited this paper">Analyze citations</a>` : ''; })()}
       <a href="${escHtml(tweetPaperUrl(paper))}" target="_blank" rel="noopener" class="potd-btn potd-btn-ghost">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.738-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         Share
       </a>
-      <button onclick="copyPotdLink('${escHtml(url)}',this)" class="potd-btn potd-btn-ghost">📋 Copy Link</button>
+      <button onclick="copyPotdLink('${escHtml(url)}',this)" class="potd-btn potd-btn-ghost">Copy Link</button>
       <span class="potd-next">${nextLabel}</span>
     </div>
   </div>`;
@@ -489,7 +489,7 @@ function renderPotdCard(paper) {
 function copyPotdLink(url, btn) {
   navigator.clipboard.writeText(url).then(() => {
     const orig = btn.textContent;
-    btn.textContent = '✓ Copied!';
+    btn.textContent = 'Copied!';
     setTimeout(() => btn.textContent = orig, 2000);
   });
 }
@@ -523,8 +523,8 @@ function buildDropdownNav() {
     linksDiv.innerHTML =
       navLink('papers', 'Papers') +
       dropdown('Venues', [
-        ['conferences', '🎓 Conferences'],
-        ['journals',    '📖 Journals'],
+        ['conferences', 'Conferences'],
+        ['journals',    'Journals'],
         [null, null, true],
         ['conference-recommender', 'Conference Recommender'],
         ['journal-recommender',    'Journal Recommender'],
@@ -532,13 +532,13 @@ function buildDropdownNav() {
       dropdown('Discover', [
         ['topics', 'Topics'],
         ['gaps',   'Research Gaps'],
-        ['digest', '📬 Digest'],
+        ['digest', 'Digest'],
       ]) +
       dropdown('People', [
         ['authors', 'Authors'],
         ['labs',    'Labs & Unis'],
       ]) +
-      navLink('deadlines', '📅 Deadlines');
+      navLink('deadlines', 'Deadlines');
   }
 
   if (mobLinks) {
@@ -549,19 +549,19 @@ function buildDropdownNav() {
       ml('./',  'Home') +
       ml('papers', 'Papers') +
       sec('Venues') +
-      ml('conferences',           '🎓 Conferences') +
-      ml('journals',              '📖 Journals') +
+      ml('conferences',           'Conferences') +
+      ml('journals',              'Journals') +
       ml('conference-recommender','Conference Recommender') +
       ml('journal-recommender',   'Journal Recommender') +
       sec('Discover') +
       ml('topics', 'Topics') +
       ml('gaps',   'Research Gaps') +
-      ml('digest', '📬 Digest') +
+      ml('digest', 'Digest') +
       sec('People') +
       ml('authors',    'Authors') +
       ml('labs',       'Labs & Unis') +
-      ml('deadlines',  '📅 Deadlines') +
-      ml('favourites', '⭐ My Favourites');
+      ml('deadlines',  'Deadlines') +
+      ml('favourites', 'My Favourites');
   }
 }
 
