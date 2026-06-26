@@ -23,9 +23,9 @@
     "tags": [
       "Model Compression",
       "RL",
-      "Deep Reinforcement Learning",
       "Continual RL",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Deep Reinforcement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -74,10 +74,10 @@
     "topics": [],
     "tags": [
       "GNNs",
-      "Dynamics",
+      "Graph Neural Networks",
       "Cell dynamics",
-      "Flow matching",
-      "Graph Neural Networks"
+      "Dynamics",
+      "Flow matching"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -121,10 +121,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "bilevel optimization",
-      "Hessian-free",
       "single-loop",
       "constrained optimization",
+      "Hessian-free",
+      "bilevel optimization",
       "gap function"
     ],
     "paper_type": "theory",
@@ -140,10 +140,10 @@
     "summary": "Constrained bilevel optimization tackles nested structures present in constrained learning tasks like constrained meta-learning, adversarial learning, and distributed bilevel optimization. However, existing bilevel optimization methods mostly are typically restricted to specific constraint settings, such as linear lower-level constraints.",
     "key_contribution": "Constrained bilevel optimization tackles nested structures present in constrained learning tasks like constrained meta-learning, adversarial learning, and distributed bilevel optimization.",
     "why_it_matters": "Overcoming Lower-Level Constraints in Bilevel Optimization: A Novel Approach with Regularized Gap Functions represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about bilevel optimization.",
+    "content_hook": "A new paper that could change how we think about single-loop.",
     "one_line_takeaway": "Constrained bilevel optimization tackles nested structures present in constrained learning tasks like constrained…",
     "biggest_caveat": "buted bilevel optimization.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in bilevel optimization.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in single-loop.",
     "url": "https://openreview.net/forum?id=cyPMEXdqQ2",
     "difficulty": "advanced"
   },
@@ -177,9 +177,9 @@
     "tags": [
       "Diffusion",
       "Model Compression",
-      "Acceleration",
+      "Quantization",
       "Diffusion Models",
-      "Quantization"
+      "Acceleration"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -225,8 +225,8 @@
       "RL",
       "Bayesian Reinforcement Learning",
       "Reward Hacking",
-      "Reinforcement Learning Theory",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Reinforcement Learning Theory"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -514,9 +514,9 @@
     "tags": [
       "LLMs",
       "RLHF",
-      "Reinforcement Learning",
+      "Stable Diffusion",
       "ranking and preferences",
-      "Stable Diffusion"
+      "Reinforcement Learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -611,10 +611,10 @@
     "topics": [],
     "tags": [
       "Robotics",
+      "Safe imitation learning",
       "Dynamical system",
       "Robotics & Embodied AI",
-      "Learning from demonstration",
-      "Safe imitation learning"
+      "Learning from demonstration"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -658,8 +658,8 @@
     "tags": [
       "RL",
       "inverse reinforcement learning",
-      "Reinforcement Learning",
-      "meta learning"
+      "meta learning",
+      "Reinforcement Learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -707,8 +707,8 @@
       "Prompting",
       "Info Extraction",
       "Prompting & In-Context Learning",
-      "convergence analysis",
-      "bilevel optimization"
+      "bilevel optimization",
+      "convergence analysis"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -756,8 +756,8 @@
     "tags": [
       "LLMs",
       "Transformer Architectures",
-      "Transformer models",
       "Inference efficiency",
+      "Transformer models",
       "Text generation APIs"
     ],
     "paper_type": "systems",
@@ -811,8 +811,8 @@
       "LLMs",
       "Reasoning",
       "Self-Supervised",
-      "Reasoning & Chain-of-Thought",
-      "NLP"
+      "NLP",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -902,8 +902,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
       "NLP",
+      "Large Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "systems",
@@ -1000,9 +1000,9 @@
     "tags": [
       "RAG",
       "Physics Simulations",
+      "Meta-Learning",
       "Physics-based Deep Learning",
-      "Retrieval-Augmented Generation",
-      "Meta-Learning"
+      "Retrieval-Augmented Generation"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -1106,9 +1106,9 @@
     "tags": [
       "Transformers",
       "RL",
-      "Transformer Architectures",
       "Reinforcement Learning",
-      "in-context learning"
+      "in-context learning",
+      "Transformer Architectures"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -1122,7 +1122,7 @@
     "evidence_strength": 0.0,
     "summary": "Recent studies have shown that Transformers can perform in-context reinforcement learning (RL) by imitating existing RL algorithms, enabling sample-efficient adaptation to unseen tasks without parameter updates. However, these models also inherit the suboptimal behaviors of the RL algorithms they imitate.",
     "key_contribution": "Rather than learning a separate dynamics model, we propose Distillation for In-Context Planning (DICP), an in-context model-based RL framework where Transformers simultaneously learn environment dynamics and improve policy in-context.",
-    "why_it_matters": "Distilling Reinforcement Learning Algorithms for In-Context Model-Based Planning extends Transformer capabilities — the architecture underpinning virtually every modern NLP and vision model.",
+    "why_it_matters": "Distilling Reinforcement Learning Algorithms for In-Context Model-Based Planning contributes to reinforcement learning — a key paradigm for training agents that make sequential decisions.",
     "content_hook": "A new paper that could change how we think about Transformers.",
     "one_line_takeaway": "Rather than learning a separate dynamics model, we propose Distillation for In-Context Planning (DICP), an in-context…",
     "biggest_caveat": "However, these models also inherit the suboptimal behaviors of the RL algorithms they imitate.",
@@ -1203,9 +1203,9 @@
     "tags": [
       "Biomedical AI",
       "Fairness & Ethics",
+      "molecular dynamics",
       "Biomedical & Clinical AI",
-      "Bias, Fairness & Ethics",
-      "molecular dynamics"
+      "Bias, Fairness & Ethics"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -1252,8 +1252,8 @@
     "tags": [
       "Evaluation",
       "Out-of-distribution Detection",
-      "Meta-learning",
       "AutoML",
+      "Meta-learning",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -1299,8 +1299,8 @@
     "tags": [
       "RL",
       "Evaluation",
-      "Model-based Reinforcement Learning; Reward Shaping; Reward Smoothing",
       "Reinforcement Learning",
+      "Model-based Reinforcement Learning; Reward Shaping; Reward Smoothing",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -1400,8 +1400,8 @@
       "VLMs",
       "RL",
       "Robotics",
-      "Vision-Language Models",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Vision-Language Models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -1446,9 +1446,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Large Language Models",
+      "NLP",
       "Reasoning & Chain-of-Thought",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -1548,8 +1548,8 @@
     "topics": [],
     "tags": [
       "Prompting",
-      "Prompting & In-Context Learning",
-      "NLP"
+      "NLP",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -1742,8 +1742,8 @@
     "topics": [],
     "tags": [
       "Self-Supervised",
-      "Graph Neural Network; Graph Dataset Condensation",
-      "Self-Supervised & Contrastive Learning"
+      "Self-Supervised & Contrastive Learning",
+      "Graph Neural Network; Graph Dataset Condensation"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -1788,10 +1788,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "bi-level optimization",
       "Model-based reinforcement learning",
-      "generative model",
-      "Reinforcement Learning"
+      "bi-level optimization",
+      "Reinforcement Learning",
+      "generative model"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -2345,9 +2345,9 @@
     "tags": [
       "LLMs",
       "Language Model Agents",
+      "Benchmark",
       "Cybersecurity",
-      "Risk",
-      "Benchmark"
+      "Risk"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -2397,9 +2397,9 @@
     "tags": [
       "LLMs",
       "RL",
-      "Large Language Models",
+      "NLP",
       "Reinforcement Learning",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -2413,7 +2413,7 @@
     "evidence_strength": 0.0,
     "summary": "The recent progress of AI can be largely attributed to large language models (LLMs). However, their escalating memory requirements introduce challenges for machine learning (ML) researchers and engineers.",
     "key_contribution": "However, their escalating memory requirements introduce challenges for machine learning (ML) researchers and engineers.",
-    "why_it_matters": "RedCoast: A Lightweight Tool to Automate Distributed Training of LLMs on Any GPU/TPUs advances our understanding of large language models, which are reshaping how we build AI systems and interact with knowledge.",
+    "why_it_matters": "RedCoast: A Lightweight Tool to Automate Distributed Training of LLMs on Any GPU/TPUs contributes to reinforcement learning — a key paradigm for training agents that make sequential decisions.",
     "content_hook": "A new paper that could change how we think about LLMs.",
     "one_line_takeaway": "However, their escalating memory requirements introduce challenges for machine learning (ML) researchers and engineers.",
     "biggest_caveat": "buted to large language models (LLMs).",
@@ -2444,8 +2444,8 @@
       "Fine-Tuning",
       "Info Extraction",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "meta learning"
+      "meta learning",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -2489,9 +2489,9 @@
     "tags": [
       "RL",
       "Adversarial",
-      "Adversarial Robustness",
+      "MPC",
       "optimal control",
-      "MPC"
+      "Adversarial Robustness"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -2539,9 +2539,9 @@
     "tags": [
       "LLMs",
       "AI Agents",
-      "Large Language Models",
+      "NLP",
       "AI Agents & Tool Use",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -2555,7 +2555,7 @@
     "evidence_strength": 0.0,
     "summary": "The rapid advancement of large language models (LLMs) has significantly enhanced the capabilities of agents across various tasks. However, existing agentic systems, whether based on fixed pipeline algorithms or pre-defined meta-learning frameworks, cannot search the whole agent design space due to the restriction of human-designed components, and thus might miss the more optimal agent design.",
     "key_contribution": "In this paper, we introduce Godel Agent, a self-evolving framework inspired by the Godel Machine, enabling agents to recursively improve themselves without relying on predefined routines or fixed optimization algorithms.",
-    "why_it_matters": "Godel Agent: A Self-Referential Agent Framework for Recursively Self-Improvement advances our understanding of large language models, which are reshaping how we build AI systems and interact with knowledge.",
+    "why_it_matters": "Godel Agent: A Self-Referential Agent Framework for Recursively Self-Improvement moves AI from passive text generators to active problem-solvers that use tools and reason over time.",
     "content_hook": "A new paper that could change how we think about LLMs.",
     "one_line_takeaway": "In this paper, we introduce Godel Agent, a self-evolving framework inspired by the Godel Machine, enabling agents to…",
     "biggest_caveat": "cannot search the whole agent design space due to the restriction of human-designed components, and thus might miss the more optimal agent design.",
@@ -2583,9 +2583,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
+      "Online Learning",
       "Dynamic Environments",
-      "Non-convexity",
-      "Online Learning"
+      "Non-convexity"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -2600,10 +2600,10 @@
     "summary": "This paper considers the problem of online learning with non-convex loss functions in dynamic environments. Recently, Suggala and Netrapalli [2020] demonstrated that follow the perturbed leader (FTPL) can achieve optimal regret for non-convex losses, but their results are limited to static environments.",
     "key_contribution": "Recently, Suggala and Netrapalli [2020] demonstrated that follow the perturbed leader (FTPL) can achieve optimal regret for non-convex losses, but their results are limited to static environments.",
     "why_it_matters": "Online Non-convex Learning in Dynamic Environments represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Dynamic Environments.",
+    "content_hook": "A new paper that could change how we think about Online Learning.",
     "one_line_takeaway": "Recently, Suggala and Netrapalli [2020] demonstrated that follow the perturbed leader (FTPL) can achieve optimal regret…",
     "biggest_caveat": "but their results are limited to static environments.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Dynamic Environments.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Online Learning.",
     "url": "https://openreview.net/forum?id=DrQXDKbGgy",
     "difficulty": "frontier"
   },
@@ -2632,9 +2632,9 @@
     "tags": [
       "Info Extraction",
       "RL",
-      "empirical Bayes",
       "maximum entropy",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "empirical Bayes"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -2783,9 +2783,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
+      "control",
       "hyperparameter optimization",
-      "online learning",
-      "control"
+      "online learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -2800,10 +2800,10 @@
     "summary": "Choosing the optimal hyperparameters, including learning rate and momentum, for specific optimization instances is a significant yet non-convex challenge. This makes conventional iterative techniques such as hypergradient descent \\cite{baydin2017online} insufficient in obtaining global optimality guarantees.",
     "key_contribution": "We consider the more general task of meta-optimization -- online learning of the best optimization algorithm given problem instances, and introduce a novel approach based on control theory.",
     "why_it_matters": "Online Control for Meta-optimization represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about hyperparameter optimization.",
+    "content_hook": "A new paper that could change how we think about control.",
     "one_line_takeaway": "We consider the more general task of meta-optimization -- online learning of the best optimization algorithm given…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in hyperparameter optimization.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in control.",
     "url": "https://openreview.net/forum?id=bOQNd7tWAp",
     "difficulty": "intermediate"
   },
@@ -2832,9 +2832,9 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "efficient models",
       "Transformer Architectures",
-      "Panoptic segmentation"
+      "Panoptic segmentation",
+      "efficient models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -2929,10 +2929,10 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
-      "Federated bilevel optimization",
       "system-level heterogeneity",
-      "linear speedup"
+      "Federated bilevel optimization",
+      "linear speedup",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -2977,9 +2977,9 @@
     "topics": [],
     "tags": [
       "Continual Learning",
-      "Neural Process",
       "Incremental Learning",
-      "Uncertainty"
+      "Uncertainty",
+      "Neural Process"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -3026,9 +3026,9 @@
     "tags": [
       "LLMs",
       "Hallucination",
+      "NLP",
       "Factuality & Hallucination",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -3129,8 +3129,8 @@
       "Reasoning",
       "Knowledge Graphs",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Knowledge Graphs & Representation"
+      "Knowledge Graphs & Representation",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -3175,10 +3175,10 @@
     "topics": [],
     "tags": [
       "Prompting",
-      "Prompting & In-Context Learning",
       "Machine Learning",
-      "Bilevel Optimization",
-      "Meta Learning"
+      "Prompting & In-Context Learning",
+      "Meta Learning",
+      "Bilevel Optimization"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -3330,8 +3330,8 @@
       "Prompting",
       "Transformers",
       "RL",
-      "Multi-Task RL",
-      "Transformer Architectures"
+      "Transformer Architectures",
+      "Multi-Task RL"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -3625,9 +3625,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Large Language Models",
+      "NLP",
       "Reasoning & Chain-of-Thought",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -3671,9 +3671,9 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
+      "NLP",
       "Large Language Models",
-      "NLP"
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -3823,8 +3823,8 @@
     "tags": [
       "Evaluation",
       "Embeddings",
-      "near-duplicate detection",
       "Text Embeddings & Semantic Similarity",
+      "near-duplicate detection",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -4125,8 +4125,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Reinforcement Learning",
-      "Visual Active Search"
+      "Visual Active Search",
+      "Reinforcement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -4222,9 +4222,9 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
+      "NLP",
       "Large Language Models",
-      "NLP"
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -4428,9 +4428,9 @@
     "topics": [],
     "tags": [
       "Robotics",
-      "Active Imitation Learning",
-      "Navigation",
       "Interactive Learning",
+      "Navigation",
+      "Active Imitation Learning",
       "Imitation Learning"
     ],
     "paper_type": "dataset",
@@ -4527,9 +4527,9 @@
     "tags": [
       "LLMs",
       "Prompting",
+      "NLP",
       "Prompting & In-Context Learning",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -4760,10 +4760,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "deep reinforcement learning",
-      "maximum-likelihood estimation",
+      "TD-Learning with function approximation",
       "Reinforcement Learning",
-      "TD-Learning with function approximation"
+      "maximum-likelihood estimation",
+      "deep reinforcement learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -4808,9 +4808,9 @@
     "tags": [
       "Model Compression",
       "graph neural networks",
+      "Model Compression & Efficiency",
       "machine learning force fields",
-      "knowledge distillation",
-      "Model Compression & Efficiency"
+      "knowledge distillation"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -4855,9 +4855,9 @@
     "tags": [
       "Info Extraction",
       "RL",
-      "compositional optimization; nonsmooth analysis",
       "Information Extraction",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "compositional optimization; nonsmooth analysis"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -4955,8 +4955,8 @@
       "VLMs",
       "Model Compression",
       "Data-Free Learning",
-      "CLIP Model",
-      "Vision-Language Models"
+      "Vision-Language Models",
+      "CLIP Model"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -5004,8 +5004,8 @@
     "tags": [
       "Fine-Tuning",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Fine-Tuning & PEFT"
+      "Fine-Tuning & PEFT",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -5101,8 +5101,8 @@
     "tags": [
       "3D Vision",
       "Continual Learning",
-      "3D Vision & Scene Understanding",
-      "Meta-Learning; Continual Learning; 3D Vision; Neural Radiance Fields;"
+      "Meta-Learning; Continual Learning; 3D Vision; Neural Radiance Fields;",
+      "3D Vision & Scene Understanding"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -5210,8 +5210,8 @@
     "tags": [
       "Reasoning",
       "Evaluation",
-      "Reasoning & Chain-of-Thought",
       "NLP",
+      "Reasoning & Chain-of-Thought",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "theory",
@@ -5361,8 +5361,8 @@
     "tags": [
       "LLMs",
       "AI Safety",
-      "privacy",
       "language models",
+      "privacy",
       "data extraction"
     ],
     "paper_type": "systems",
@@ -5557,10 +5557,10 @@
     "topics": [],
     "tags": [
       "Robotics",
-      "Robotics & Embodied AI",
       "policy transfer",
-      "imitation learning",
-      "transfer learning"
+      "transfer learning",
+      "Robotics & Embodied AI",
+      "imitation learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -5603,10 +5603,10 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
-      "byzantine robust learning",
+      "online convex optimization",
       "stochastic convex optimization",
       "Bias, Fairness & Ethics",
-      "online convex optimization"
+      "byzantine robust learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -5847,10 +5847,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "state embedding",
       "episodic incentive",
+      "Reinforcement Learning",
       "episodic control",
-      "Reinforcement Learning"
+      "state embedding"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -5896,9 +5896,9 @@
     "tags": [
       "LLMs",
       "Info Extraction",
+      "NLP",
       "Information Extraction",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -5942,8 +5942,8 @@
     "tags": [
       "Dialogue",
       "Evaluation",
-      "Dialogue Systems",
       "NLP",
+      "Dialogue Systems",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "systems",
@@ -6243,10 +6243,10 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
+      "meta learning",
       "bi-level optimization",
       "Bias, Fairness & Ethics",
-      "large-scale optimization",
-      "meta learning"
+      "large-scale optimization"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -6292,8 +6292,8 @@
       "Info Extraction",
       "Federated Learning",
       "Causality",
-      "treatment effect estimation",
-      "differential privacy"
+      "differential privacy",
+      "treatment effect estimation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -6380,9 +6380,9 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
+      "NLP",
       "Large Language Models",
-      "NLP"
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -6429,9 +6429,9 @@
     "topics": [],
     "tags": [
       "Meta-Causality",
+      "Agent Behavior",
       "System Dynamics",
-      "Meta-Causal Reasoning",
-      "Agent Behavior"
+      "Meta-Causal Reasoning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -6476,10 +6476,10 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
-      "Learning to Optimize",
       "Meta-Black-Box-Optimization",
-      "Black-Box Optimization"
+      "Learning to Optimize",
+      "Black-Box Optimization",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -6525,10 +6525,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "Generative Flow Networks",
-      "Generative Models",
+      "Exploration",
       "Reinforcement Learning",
-      "Exploration"
+      "Generative Flow Networks",
+      "Generative Models"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -6620,8 +6620,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
       "NLP",
+      "Large Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -6718,9 +6718,9 @@
     "tags": [
       "Prompting",
       "SSMs",
+      "meta learning",
       "Prompting & In-Context Learning",
-      "State Space Models",
-      "meta learning"
+      "State Space Models"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -6765,8 +6765,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "human-AI collaboration",
       "Bayesian policy reuse",
+      "human-AI collaboration",
       "reinforcement learning"
     ],
     "paper_type": "theory",
@@ -6782,10 +6782,10 @@
     "summary": "In human-AI collaborative tasks, the distribution of human behavior, influenced by mental models, is non-stationary, manifesting in various levels of initiative and different collaborative strategies. A significant challenge in human-AI collaboration is determining how to collaborate effectively with humans exhibiting non-stationary dynamics.",
     "key_contribution": "Accordingly, we propose $\\textbf{C}$ollaborative $\\textbf{B}$ayesian $\\textbf{P}$olicy $\\textbf{R}$euse ($\\textbf{CBPR}$), a novel Bayesian-based framework that $\\textbf{adaptively selects optimal collaborative policies matching the current meta-task from multiple policy networks}$ instead of just selecting actions relying on a single policy network.",
     "why_it_matters": "Beyond Single Stationary Policies: Meta-Task Players as Naturally Superior Collaborators represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about human-AI collaboration.",
+    "content_hook": "A new paper that could change how we think about Bayesian policy reuse.",
     "one_line_takeaway": "Accordingly, we propose $\\textbf{C}$ollaborative $\\textbf{B}$ayesian $\\textbf{P}$olicy $\\textbf{R}$euse…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in human-AI collaboration.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Bayesian policy reuse.",
     "url": "https://openreview.net/forum?id=HpN4xeDJQF",
     "difficulty": "frontier"
   },
@@ -6867,8 +6867,8 @@
       "LLMs",
       "Fine-Tuning",
       "RL",
-      "Best-of-N sampling",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Best-of-N sampling"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -6915,9 +6915,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Large Language Models",
+      "NLP",
       "Reasoning & Chain-of-Thought",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -7178,11 +7178,11 @@
     "citations": 0,
     "topics": [],
     "tags": [
+      "PAC-Bayes generalization bound",
       "non-convex online meta learning",
       "piecewise-Lipschitz/non-Lipschitz functions",
       "meta learning theory",
-      "regret bounds",
-      "PAC-Bayes generalization bound"
+      "regret bounds"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -7197,10 +7197,10 @@
     "summary": "Online-Within-Online (OWO) meta learning stands for the online multi-task learning paradigm in which both tasks and data within each task become available in a sequential order. In this work, we study the OWO meta learning of the initialization and step size of within-task online algorithms in the non-convex setting, and provide improved regret bounds under mild assumptions of loss functions.",
     "key_contribution": "Then, we propose a new algorithm of regret $O((\\frac{\\log{T}}{T}+V)\\sqrt{m})$ for non-convex OWO meta learning.",
     "why_it_matters": "Improved Regret Bounds for Non-Convex Online-Within-Online Meta Learning represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about non-convex online meta learning.",
+    "content_hook": "A new paper that could change how we think about PAC-Bayes generalization bound.",
     "one_line_takeaway": "Then, we propose a new algorithm of regret $O((\\frac{\\log{T}}{T}+V)\\sqrt{m})$ for non-convex OWO meta learning.",
     "biggest_caveat": "butions include investigating how to attain generalization bounds for statistical meta learning via regret analysis.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in non-convex online meta learning.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in PAC-Bayes generalization bound.",
     "url": "https://openreview.net/forum?id=pA8Q5WiEMg",
     "difficulty": "frontier"
   },
@@ -7277,8 +7277,8 @@
       "Transformers",
       "Self-Supervised",
       "RL",
-      "Transformer Architectures",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Transformer Architectures"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -7292,7 +7292,7 @@
     "evidence_strength": 0.0,
     "summary": "Real-world multi-agent tasks usually involve dynamic team composition with the emergence of roles, which should also be a key to efficient cooperation in multi-agent reinforcement learning (MARL). Drawing inspiration from the correlation between roles and agent's behavior patterns, we propose a novel framework of **A**ttention-guided **CO**ntrastive **R**ole representation learning for **M**ARL (**ACORM**) to promote behavior heterogeneity, knowledge transfer, and skillful coordination across agents.",
     "key_contribution": "Drawing inspiration from the correlation between roles and agent's behavior patterns, we propose a novel framework of **A**ttention-guided **CO**ntrastive **R**ole representation learning for **M**ARL (**ACORM**) to promote behavior heterogeneity, knowledge transfer, and skillful coordination across agents.",
-    "why_it_matters": "Attention-Guided Contrastive Role Representations for Multi-agent Reinforcement Learning extends Transformer capabilities — the architecture underpinning virtually every modern NLP and vision model.",
+    "why_it_matters": "Attention-Guided Contrastive Role Representations for Multi-agent Reinforcement Learning contributes to reinforcement learning — a key paradigm for training agents that make sequential decisions.",
     "content_hook": "A new paper that could change how we think about Transformers.",
     "one_line_takeaway": "Drawing inspiration from the correlation between roles and agent's behavior patterns, we propose a novel framework of…",
     "biggest_caveat": "bution of negative pairs.",
@@ -7327,8 +7327,8 @@
       "RL",
       "Interpretability",
       "Symbolic Equation Learning",
-      "Meta-Black-Box Optimization",
-      "Black-Box Optimization"
+      "Black-Box Optimization",
+      "Meta-Black-Box Optimization"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -7372,10 +7372,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "meta-reinforcement learning",
-      "Reinforcement Learning",
       "representation learning",
-      "bisimulation"
+      "Reinforcement Learning",
+      "bisimulation",
+      "meta-reinforcement learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -7490,9 +7490,9 @@
     "tags": [
       "AI Agents",
       "Code Generation",
-      "large language models",
+      "LLM agents",
       "software engineering",
-      "LLM agents"
+      "large language models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -7638,9 +7638,9 @@
     "topics": [],
     "tags": [
       "RL",
-      "temporal-difference learning",
-      "neuroscience",
       "Reinforcement Learning",
+      "neuroscience",
+      "temporal-difference learning",
       "reinforcement learning"
     ],
     "paper_type": "methods",
@@ -7685,9 +7685,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
+      "transformers",
       "neural processes",
-      "bayesian causal discovery",
-      "transformers"
+      "bayesian causal discovery"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -7702,10 +7702,10 @@
     "summary": "Discovering a unique causal structure is difficult due to both inherent identifiability issues, and the consequences of finite data. As such, uncertainty over causal structures, such as those obtained from a Bayesian posterior, are often necessary for downstream tasks.",
     "key_contribution": "To address these limitations, we propose a Bayesian meta learning model that allows for sampling causal structures from the posterior and encodes these key properties.",
     "why_it_matters": "A Meta-Learning Approach to Bayesian Causal Discovery represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about neural processes.",
+    "content_hook": "A new paper that could change how we think about transformers.",
     "one_line_takeaway": "To address these limitations, we propose a Bayesian meta learning model that allows for sampling causal structures from…",
     "biggest_caveat": "limitations, we propose a Bayesian meta learning model that allows for sampling causal structures from the posterior and encodes these key properties.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in neural processes.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in transformers.",
     "url": "https://openreview.net/forum?id=eeJz7eDWKO",
     "difficulty": "frontier"
   },
@@ -7842,9 +7842,9 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
+      "interference bias",
       "First-price auctions",
       "Bias, Fairness & Ethics",
-      "interference bias",
       "Pacing equilibrium"
     ],
     "paper_type": "methods",
@@ -7993,8 +7993,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
       "NLP",
+      "Large Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -8095,9 +8095,9 @@
     "tags": [
       "Self-Supervised",
       "Robotics",
-      "Robotic manipulation",
       "Robotics & Embodied AI",
-      "Self-Supervised & Contrastive Learning"
+      "Self-Supervised & Contrastive Learning",
+      "Robotic manipulation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -8353,8 +8353,8 @@
       "LLMs",
       "Robotics",
       "Embodied AI",
-      "multi-agent cooperation",
-      "Robotics & Embodied AI"
+      "Robotics & Embodied AI",
+      "multi-agent cooperation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -8404,8 +8404,8 @@
     "tags": [
       "GNNs",
       "Evaluation",
-      "temporal graph learning",
       "datasets and benchmarks",
+      "temporal graph learning",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -8501,8 +8501,8 @@
       "LLMs",
       "RLHF",
       "AI Safety",
-      "AI Safety & Alignment",
-      "NLP"
+      "NLP",
+      "AI Safety & Alignment"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -8555,8 +8555,8 @@
       "Reasoning",
       "Fairness & Ethics",
       "Evaluation",
-      "Datasets",
-      "Reasoning & Chain-of-Thought"
+      "Reasoning & Chain-of-Thought",
+      "Datasets"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -8812,10 +8812,10 @@
     "topics": [],
     "tags": [
       "Biomedical AI",
-      "Network Science",
-      "Sparse Training",
       "Network Automata",
-      "Epitopological Learning"
+      "Sparse Training",
+      "Epitopological Learning",
+      "Network Science"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -8863,10 +8863,10 @@
     "topics": [],
     "tags": [
       "Biomedical AI",
-      "Biomedical & Clinical AI",
       "Precision Matrix Estimation",
-      "Meta Learning",
-      "Small Sample"
+      "Biomedical & Clinical AI",
+      "Small Sample",
+      "Meta Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -8910,9 +8910,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Spurious correlation",
+      "Group robustness",
       "Distribution shift",
-      "Group robustness"
+      "Spurious correlation"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -8927,10 +8927,10 @@
     "summary": "Changes in the data distribution at test time can have deleterious effects on the performance of predictive models $p(y|x)$. We consider situations where there are additional meta-data labels (such as group labels), denoted by $z$, that can account for such changes in the distribution.",
     "key_contribution": "Based on this observation,  we propose a test-time label shift correction that adapts to changes in the joint distribution $p(y, z)$ using EM applied to unlabeled samples from the target domain distribution, $p_t(x)$.",
     "why_it_matters": "Beyond Invariance: Test-Time Label-Shift Adaptation for Addressing \"Spurious\" Correlations represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Spurious correlation.",
+    "content_hook": "A new paper that could change how we think about Group robustness.",
     "one_line_takeaway": "Based on this observation,  we propose a test-time label shift correction that adapts to changes in the joint…",
     "biggest_caveat": "bution at test time can have deleterious effects on the performance of predictive models $p(y|x)$.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Spurious correlation.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Group robustness.",
     "url": "https://openreview.net/forum?id=9mJXDcr17V",
     "difficulty": "intermediate"
   },
@@ -9151,9 +9151,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
+      "Benchmarking",
       "Time-series",
       "Causal Discovery",
-      "Benchmarking",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -9208,9 +9208,9 @@
     "tags": [
       "LLMs",
       "Summarization",
-      "Semantic File System",
+      "Large Language Model",
       "Text Summarization",
-      "Large Language Model"
+      "Semantic File System"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -9257,9 +9257,9 @@
     "tags": [
       "RL",
       "Evolutionary algorithm",
-      "Neural Combinatorial Optimization",
       "Ant Colony Optimization",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Neural Combinatorial Optimization"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -9356,9 +9356,9 @@
     "topics": [],
     "tags": [
       "RL",
-      "Reinforcement Learning",
       "Bayesian Reinforcement Learning",
-      "Meta-Reinforcement Learning"
+      "Meta-Reinforcement Learning",
+      "Reinforcement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -9452,9 +9452,9 @@
     "tags": [
       "SSMs",
       "Transformers",
+      "object-centric representation learning",
       "multivariate time-series forecasting",
-      "sequence modelling",
-      "object-centric representation learning"
+      "sequence modelling"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -9500,9 +9500,9 @@
     "topics": [],
     "tags": [
       "RL",
-      "Reinforcement Learning",
+      "Boosting",
       "Adversarial Imitation Learning",
-      "Boosting"
+      "Reinforcement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -9597,9 +9597,9 @@
     "tags": [
       "RL",
       "Fairness & Ethics",
+      "Reinforcement Learning",
       "stochastic gradient estimation",
-      "online gradient estimation",
-      "Reinforcement Learning"
+      "online gradient estimation"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -9744,8 +9744,8 @@
     "tags": [
       "LLMs",
       "Interpretability",
-      "GPT",
       "AI detection",
+      "GPT",
       "Text Detection"
     ],
     "paper_type": "dataset",
@@ -9791,9 +9791,9 @@
     "tags": [
       "deep learning",
       "nonconvex optimization",
+      "second order optimization",
       "first order optimization",
-      "convex optimization",
-      "second order optimization"
+      "convex optimization"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -9841,9 +9841,9 @@
     "topics": [],
     "tags": [
       "Self-Supervised",
+      "continual learning",
       "embeddings",
       "meta-learning",
-      "continual learning",
       "plasticity"
     ],
     "paper_type": "theory",
@@ -9889,9 +9889,9 @@
     "tags": [
       "Classification",
       "Self-Supervised",
-      "Bilevel Optimization",
+      "Unbounded Smoothness",
       "Text Classification",
-      "Unbounded Smoothness"
+      "Bilevel Optimization"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -10036,9 +10036,9 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "model shift",
       "API monitoring",
       "Large Language Models",
+      "model shift",
       "two-sample testing"
     ],
     "paper_type": "methods",
@@ -10083,10 +10083,10 @@
     "topics": [],
     "tags": [
       "Diffusion",
-      "Denoising Diffusion Model",
-      "Monte Carlo sampling",
+      "Non-logconcave sampling",
       "Diffusion Models",
-      "Non-logconcave sampling"
+      "Monte Carlo sampling",
+      "Denoising Diffusion Model"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -10129,10 +10129,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
+      "generalized smoothness",
       "Lipschitz-adaptive algorithm",
       "gradient-variation regret bound",
-      "online learning",
-      "generalized smoothness"
+      "online learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -10147,10 +10147,10 @@
     "summary": "Gradient-variation online learning aims to achieve regret guarantees that scale with variations in the gradients of online functions, which is crucial for attaining fast convergence in games and robustness in stochastic optimization, hence receiving increased attention. Existing results often require the smoothness condition by imposing a fixed bound on gradient Lipschitzness, which may be unrealistic in practice.",
     "key_contribution": "Gradient-variation online learning aims to achieve regret guarantees that scale with variations in the gradients of online functions, which is crucial for attaining fast convergence in games and robustness in stochastic optimization, hence receiving increased attention.",
     "why_it_matters": "Gradient-Variation Online Learning under Generalized Smoothness represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Lipschitz-adaptive algorithm.",
+    "content_hook": "A new paper that could change how we think about generalized smoothness.",
     "one_line_takeaway": "Gradient-variation online learning aims to achieve regret guarantees that scale with variations in the gradients of…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Lipschitz-adaptive algorithm.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in generalized smoothness.",
     "url": "https://openreview.net/forum?id=V75gAxpW40",
     "difficulty": "frontier"
   },
@@ -10321,8 +10321,8 @@
     "topics": [],
     "tags": [
       "Structured Data",
-      "deep anomaly detection",
       "batch normalization",
+      "deep anomaly detection",
       "zero-shot learning",
       "Structured Data & Tables"
     ],
@@ -10423,9 +10423,9 @@
     "tags": [
       "Fine-Tuning",
       "Adversarial",
-      "Adversarial Robustness",
+      "Segment anything",
       "Fine-Tuning & PEFT",
-      "Segment anything"
+      "Adversarial Robustness"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -10473,8 +10473,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "evaluation",
       "benchmark",
+      "evaluation",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -10570,9 +10570,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
+      "Benchmarking & Evaluation",
       "semi-supervised learning",
-      "graph learning",
-      "Benchmarking & Evaluation"
+      "graph learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -10618,8 +10618,8 @@
     "tags": [
       "Federated Learning",
       "Evaluation",
-      "data augmentation",
       "federated learning",
+      "data augmentation",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -10666,9 +10666,9 @@
     "tags": [
       "Info Extraction",
       "Fairness & Ethics",
+      "neural tangent kernel",
       "scientific computing",
-      "fourier feature encodings",
-      "neural tangent kernel"
+      "fourier feature encodings"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -10777,8 +10777,8 @@
     "topics": [],
     "tags": [
       "Reasoning",
-      "Reasoning & Chain-of-Thought",
-      "NLP"
+      "NLP",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -10822,9 +10822,9 @@
     "tags": [
       "Interpretability",
       "interpretable deep learning",
+      "Interpretability & Explainability",
       "meta-learning",
-      "physical systems",
-      "Interpretability & Explainability"
+      "physical systems"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -10870,8 +10870,8 @@
     "tags": [
       "Reasoning",
       "Evaluation",
-      "Reasoning & Chain-of-Thought",
       "NLP",
+      "Reasoning & Chain-of-Thought",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -11173,8 +11173,8 @@
       "3D Vision",
       "Diffusion",
       "Evaluation",
-      "generative neural fields; implicit neural representation; model averaging",
-      "Diffusion Models"
+      "Diffusion Models",
+      "generative neural fields; implicit neural representation; model averaging"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -11511,9 +11511,9 @@
     "tags": [
       "LLMs",
       "optimizer",
+      "prompting",
       "large language model",
-      "Large Language Models",
-      "prompting"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -11713,10 +11713,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "causal structure discovery",
-      "OOD robustness",
       "meta learning",
-      "physics-informed machine learning"
+      "causal structure discovery",
+      "physics-informed machine learning",
+      "OOD robustness"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -11731,10 +11731,10 @@
     "summary": "A fundamental challenge in physics-informed machine learning (PIML) is the design of robust PIML methods for out-of-distribution (OOD) forecasting tasks. These OOD tasks require learning-to-learn from observations of the same (ODE) dynamical system with different unknown ODE parameters, and demand accurate forecasts even under out-of-support initial conditions and out-of-support ODE parameters.",
     "key_contribution": "In this work we propose to improve the OOD robustness of PIML via a meta-learning procedure for causal structure discovery.",
     "why_it_matters": "MetaPhysiCa: Improving OOD Robustness in Physics-informed Machine Learning represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about causal structure discovery.",
+    "content_hook": "A new paper that could change how we think about meta learning.",
     "one_line_takeaway": "In this work we propose to improve the OOD robustness of PIML via a meta-learning procedure for causal structure…",
     "biggest_caveat": "bution (OOD) forecasting tasks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in causal structure discovery.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in meta learning.",
     "url": "https://openreview.net/forum?id=KrWuDiW4Qm",
     "difficulty": "intermediate"
   },
@@ -11760,8 +11760,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
       "NLP",
+      "Large Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -12018,9 +12018,9 @@
     "tags": [
       "Fine-Tuning",
       "Continual Learning",
-      "Fine-Tuning & PEFT",
       "Continual Imitation Learning",
-      "Unlearning"
+      "Unlearning",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -12065,11 +12065,11 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "deep learning",
-      "neural processes",
-      "probabilistic methods",
+      "meta learning",
       "equivariance",
-      "meta learning"
+      "deep learning",
+      "probabilistic methods",
+      "neural processes"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -12084,10 +12084,10 @@
     "summary": "Equivariant deep learning architectures exploit symmetries in learning problems to improve the sample efficiency of neural-network-based models and their ability to generalise. However, when modelling real-world data, learning problems are often not *exactly* equivariant, but only approximately.",
     "key_contribution": "We demonstrate the effectiveness of our approach on a number of synthetic and real-world regression experiments, showing that approximately equivariant NP models can outperform both their non-equivariant and strictly equivariant counterparts.",
     "why_it_matters": "Approximately Equivariant Neural Processes represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about deep learning.",
+    "content_hook": "A new paper that could change how we think about meta learning.",
     "one_line_takeaway": "We demonstrate the effectiveness of our approach on a number of synthetic and real-world regression experiments,…",
     "biggest_caveat": "However, when modelling real-world data, learning problems are often not *exactly* equivariant, but only approximately.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in deep learning.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in meta learning.",
     "url": "https://openreview.net/forum?id=dqT9MC5NQl",
     "difficulty": "intermediate"
   },
@@ -12311,8 +12311,8 @@
     "tags": [
       "Prompting",
       "Evaluation",
-      "Prompting & In-Context Learning",
       "NLP",
+      "Prompting & In-Context Learning",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -12409,8 +12409,8 @@
       "LLMs",
       "Reasoning",
       "RLHF",
-      "Reasoning & Chain-of-Thought",
-      "NLP"
+      "NLP",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -12463,8 +12463,8 @@
     "tags": [
       "AI Safety",
       "Evaluation",
-      "AI Safety & Alignment",
       "NLP",
+      "AI Safety & Alignment",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -12560,8 +12560,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
       "NLP",
+      "Large Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -12659,9 +12659,9 @@
     "topics": [],
     "tags": [
       "Adversarial",
-      "Adversarial Robustness",
+      "approximate unlearning",
       "adversarial training",
-      "approximate unlearning"
+      "Adversarial Robustness"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -13204,8 +13204,8 @@
     "topics": [],
     "tags": [
       "Classification",
-      "Text Classification",
-      "NLP"
+      "NLP",
+      "Text Classification"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -13251,8 +13251,8 @@
     "topics": [],
     "tags": [
       "Interpretability",
-      "machine unlearning",
-      "Interpretability & Explainability"
+      "Interpretability & Explainability",
+      "machine unlearning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -13780,8 +13780,8 @@
       "LLMs",
       "Model Compression",
       "Transformer Architectures",
-      "large language models",
-      "low-rank"
+      "low-rank",
+      "large language models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -13828,10 +13828,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "Meta-Optimization",
-      "Policy Meta-Optimization",
+      "Reinforcement Learning",
       "Meta-Learning",
-      "Reinforcement Learning"
+      "Meta-Optimization",
+      "Policy Meta-Optimization"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -13981,8 +13981,8 @@
     "topics": [],
     "tags": [
       "AI Safety",
-      "AI Safety & Alignment",
-      "NLP"
+      "NLP",
+      "AI Safety & Alignment"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -14191,8 +14191,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Partially Observable Markov Decision Process",
       "Reinforcement Learning",
+      "Partially Observable Markov Decision Process",
       "Recurrent Off-Policy Reinforcement Learning"
     ],
     "paper_type": "methods",
@@ -14334,9 +14334,9 @@
     "tags": [
       "LLMs",
       "Model Compression",
-      "Model Compression & Efficiency",
+      "NLP",
       "Large Language Models",
-      "NLP"
+      "Model Compression & Efficiency"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -14350,7 +14350,7 @@
     "evidence_strength": 0.0,
     "summary": "The deployment of Large Language Models (LLMs) faces significant challenges due to high computational costs,driving the demand for effective pruning techniques. Existing structured pruning methods employ uniform compression rates across network layers, neglecting the varying importance of different network depths.",
     "key_contribution": "To address this limitation, we propose a novel optimization framework that directly minimizes global capability loss through layer-adaptive pruning rates.",
-    "why_it_matters": "GAP: a Global Adaptive Pruning Method for Large Language Models makes powerful models practical on resource-constrained devices and reduces deployment costs.",
+    "why_it_matters": "GAP: a Global Adaptive Pruning Method for Large Language Models advances our understanding of large language models, which are reshaping how we build AI systems and interact with knowledge.",
     "content_hook": "A new paper that could change how we think about LLMs.",
     "one_line_takeaway": "To address this limitation, we propose a novel optimization framework that directly minimizes global capability loss…",
     "biggest_caveat": "limitation, we propose a novel optimization framework that directly minimizes global capability loss through layer-adaptive pruning rates.",
@@ -14483,8 +14483,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Policy Optimization",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Policy Optimization"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -14775,8 +14775,8 @@
     "topics": [],
     "tags": [
       "Prompting",
-      "Prompting & In-Context Learning",
-      "Few-shot learning"
+      "Few-shot learning",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -15171,8 +15171,8 @@
       "Info Extraction",
       "RL",
       "Interpretability",
-      "context variables",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "context variables"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -15464,10 +15464,10 @@
     "topics": [],
     "tags": [
       "RL",
+      "Reinforcement Learning",
       "convergence analysis",
-      "Bilevel optimization",
       "nonconvex constrained optimization",
-      "Reinforcement Learning"
+      "Bilevel optimization"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -15510,10 +15510,10 @@
     "topics": [],
     "tags": [
       "Dataset Distillation",
-      "Conditional Generation",
-      "Meta Learning",
       "Dataset Condensation",
-      "Efficient Learning"
+      "Efficient Learning",
+      "Conditional Generation",
+      "Meta Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -15557,10 +15557,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "dynamic regret",
-      "time-varying games",
+      "no-regret learning",
       "optimistic gradient descent",
-      "no-regret learning"
+      "time-varying games",
+      "dynamic regret"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -15575,10 +15575,10 @@
     "summary": "Most of the literature on learning in games has focused on the restrictive setting where the underlying repeated game does not change over time. Much less is known about the convergence of no-regret learning algorithms in dynamic multiagent settings.",
     "key_contribution": "Our results also apply to time-varying general-sum multi-player games via a bilinear formulation of correlated equilibria, which has novel implications for meta-learning and for obtaining refined variation-dependent regret bounds, addressing questions left open in prior papers.",
     "why_it_matters": "On the Convergence of No-Regret Learning Dynamics in Time-Varying Games represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about dynamic regret.",
+    "content_hook": "A new paper that could change how we think about no-regret learning.",
     "one_line_takeaway": "Our results also apply to time-varying general-sum multi-player games via a bilinear formulation of correlated…",
     "biggest_caveat": "does not change over time.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in dynamic regret.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in no-regret learning.",
     "url": "https://openreview.net/forum?id=0x2Ou3xHbH",
     "difficulty": "advanced"
   },
@@ -15608,10 +15608,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "game theory",
-      "multi-agent systems",
+      "Reinforcement Learning",
       "Reinforcement learning",
-      "Reinforcement Learning"
+      "game theory",
+      "multi-agent systems"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -15658,9 +15658,9 @@
     "topics": [],
     "tags": [
       "Multimodal",
+      "adaptive tokenization",
       "adaptive representation",
       "autoencoder",
-      "adaptive tokenization",
       "Multimodal Learning"
     ],
     "paper_type": "systems",
@@ -15813,9 +15813,9 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
       "training data attribution",
       "privacy",
+      "Fine-Tuning & PEFT",
       "data attribution"
     ],
     "paper_type": "methods",
@@ -16051,10 +16051,10 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
       "distillation",
-      "large language models",
-      "watermarking"
+      "watermarking",
+      "Fine-Tuning & PEFT",
+      "large language models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -16157,9 +16157,9 @@
     "tags": [
       "LLMs",
       "AI Safety",
+      "NLP",
       "AI Safety & Alignment",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -16206,8 +16206,8 @@
     "topics": [],
     "tags": [
       "IR",
-      "Information Retrieval",
-      "NLP"
+      "NLP",
+      "Information Retrieval"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -16299,9 +16299,9 @@
     "tags": [
       "Transformers",
       "ASR",
+      "NLP",
       "Transformer Architectures",
-      "Speech Recognition",
-      "NLP"
+      "Speech Recognition"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -16347,10 +16347,10 @@
     "topics": [],
     "tags": [
       "Self-Supervised",
-      "egocentric video",
       "computer vision",
-      "self-supervised learning",
-      "representation learning"
+      "representation learning",
+      "egocentric video",
+      "self-supervised learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -16483,8 +16483,8 @@
     "tags": [
       "Info Extraction",
       "Robotics",
-      "Information Extraction",
       "Robotics & Embodied AI",
+      "Information Extraction",
       "Reward Learning"
     ],
     "paper_type": "methods",
@@ -16679,8 +16679,8 @@
       "Self-Supervised",
       "RL",
       "Robotics",
-      "Self-Supervised & Contrastive Learning",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -16883,9 +16883,9 @@
     "tags": [
       "RL",
       "Robotics",
-      "optimal transport",
       "Robotics & Embodied AI",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "optimal transport"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -16932,8 +16932,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "density function theory",
       "Generative models for materials",
+      "density function theory",
       "diffusion models"
     ],
     "paper_type": "systems",
@@ -16949,10 +16949,10 @@
     "summary": "​​​​Generative models trained on internet-scale data are capable of generating novel and realistic texts, images, and videos. A natural next question is whether these models can advance science, for example by generating novel stable materials.",
     "key_contribution": "​​​​Generative models trained on internet-scale data are capable of generating novel and realistic texts, images, and videos.",
     "why_it_matters": "Scalable Diffusion for Materials Generation represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about density function theory.",
+    "content_hook": "A new paper that could change how we think about Generative models for materials.",
     "one_line_takeaway": "​​​​Generative models trained on internet-scale data are capable of generating novel and realistic texts, images, and…",
     "biggest_caveat": "but generating structures can be difficult to scale to large and complex systems.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in density function theory.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Generative models for materials.",
     "url": "https://openreview.net/forum?id=wm4WlHoXpC",
     "difficulty": "intermediate"
   },
@@ -16981,8 +16981,8 @@
     "tags": [
       "RL",
       "Evaluation",
-      "POMDP",
       "Reinforcement Learning",
+      "POMDP",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -17027,8 +17027,8 @@
     "tags": [
       "Info Extraction",
       "Evaluation",
-      "Information Extraction",
       "NLP",
+      "Information Extraction",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -17169,9 +17169,9 @@
     "tags": [
       "AI Safety",
       "TTS",
+      "NLP",
       "AI Safety & Alignment",
-      "Speech Synthesis",
-      "NLP"
+      "Speech Synthesis"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -17332,9 +17332,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Large Language Models",
+      "NLP",
       "Reasoning & Chain-of-Thought",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -17390,8 +17390,8 @@
       "LLMs",
       "RLHF",
       "AI Safety",
-      "AI Safety & Alignment",
-      "NLP"
+      "NLP",
+      "AI Safety & Alignment"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -17535,8 +17535,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Meta Learning",
-      "Contextual Bandits"
+      "Contextual Bandits",
+      "Meta Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -17551,10 +17551,10 @@
     "summary": "Meta-learning has been proven an effective learning paradigm for training machine learning models with good generalization ability. Apart from the common practice of uniformly sampling the meta-training tasks, existing methods working on task scheduling strategies are mainly based on pre-defined sampling protocols or the assumed task-model correlations, and greedily make scheduling decisions, which can lead to sub-optimal performance bottlenecks of the meta-model.",
     "key_contribution": "In this paper, we propose a novel task scheduling framework under Contextual Bandits settings, named BASS, which directly optimizes the task scheduling strategy based on the status of the meta-model.",
     "why_it_matters": "Meta-Learning with Neural Bandit Scheduler represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Meta Learning.",
+    "content_hook": "A new paper that could change how we think about Contextual Bandits.",
     "one_line_takeaway": "In this paper, we propose a novel task scheduling framework under Contextual Bandits settings, named BASS, which…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Meta Learning.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Contextual Bandits.",
     "url": "https://openreview.net/forum?id=Z2L7F0nekb",
     "difficulty": "intermediate"
   },
@@ -17584,9 +17584,9 @@
     "tags": [
       "Diffusion",
       "Robotics",
-      "instantaneous observation",
+      "Robotics & Embodied AI",
       "Diffusion Models",
-      "Robotics & Embodied AI"
+      "instantaneous observation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -17635,8 +17635,8 @@
       "LLMs",
       "RL",
       "language models",
-      "embedding spaces",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "embedding spaces"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -17684,8 +17684,8 @@
       "Info Extraction",
       "Federated Learning",
       "Privacy Preservation",
-      "Action Recognition",
-      "Meta-Learning"
+      "Meta-Learning",
+      "Action Recognition"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -17776,8 +17776,8 @@
       "Info Extraction",
       "Transformers",
       "Transformer Architectures",
-      "treatment effect estimation",
-      "doubly robust learning"
+      "doubly robust learning",
+      "treatment effect estimation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -17877,8 +17877,8 @@
       "LLMs",
       "Dialogue",
       "Fairness & Ethics",
-      "Dialogue Systems",
-      "NLP"
+      "NLP",
+      "Dialogue Systems"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -17923,10 +17923,10 @@
     "topics": [],
     "tags": [
       "Text-to-Image",
-      "image autoregressive models",
-      "Text-to-Image Generation",
       "distillation",
-      "parallel decoding"
+      "parallel decoding",
+      "image autoregressive models",
+      "Text-to-Image Generation"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -17971,10 +17971,10 @@
     "topics": [],
     "tags": [
       "AI Safety",
-      "cross-view",
-      "AI Safety & Alignment",
+      "camera localization",
       "Optical flow",
-      "camera localization"
+      "AI Safety & Alignment",
+      "cross-view"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -18019,8 +18019,8 @@
     "topics": [],
     "tags": [
       "Multimodal",
-      "Multimodal Learning",
       "gradient modulation",
+      "Multimodal Learning",
       "balanced multimodal learning"
     ],
     "paper_type": "methods",
@@ -18315,8 +18315,8 @@
     "tags": [
       "Reasoning",
       "Transformers",
-      "Transformer Architectures",
       "3D vision",
+      "Transformer Architectures",
       "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "methods",
@@ -18455,8 +18455,8 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
-      "Bias, Fairness & Ethics",
-      "NLP"
+      "NLP",
+      "Bias, Fairness & Ethics"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -18509,8 +18509,8 @@
       "LLMs",
       "Long Context",
       "QA",
-      "Long-Context Modeling",
-      "Coreference Resolution"
+      "Coreference Resolution",
+      "Long-Context Modeling"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -18658,8 +18658,8 @@
     "tags": [
       "RL",
       "amortized inference",
-      "generative models",
       "Reinforcement Learning",
+      "generative models",
       "GFlowNets"
     ],
     "paper_type": "methods",
@@ -18762,9 +18762,9 @@
     "tags": [
       "Prompting",
       "Model Compression",
+      "NLP",
       "Prompting & In-Context Learning",
-      "Model Compression & Efficiency",
-      "NLP"
+      "Model Compression & Efficiency"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -18959,8 +18959,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "large language models",
       "large code models",
+      "large language models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -19053,10 +19053,10 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "regression",
-      "Transformer Architectures",
+      "bayesian optimization",
       "Neural Processes",
-      "bayesian optimization"
+      "regression",
+      "Transformer Architectures"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -19149,8 +19149,8 @@
     "tags": [
       "RL",
       "Fairness & Ethics",
-      "ensembles",
       "Reinforcement Learning",
+      "ensembles",
       "value-decomposition"
     ],
     "paper_type": "methods",
@@ -19350,8 +19350,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
       "NLP",
+      "Large Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -19442,9 +19442,9 @@
     "tags": [
       "GNNs",
       "Fairness & Ethics",
-      "learning physics",
+      "meta learning",
       "Graph Neural Networks",
-      "meta learning"
+      "learning physics"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -19490,8 +19490,8 @@
       "Structured Data",
       "Evaluation",
       "deep learning",
-      "benchmark",
-      "default parameters"
+      "default parameters",
+      "benchmark"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -19534,8 +19534,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "supervised learning",
       "optimization",
+      "supervised learning",
       "generalization",
       "efficient learning",
       "Sharpness aware minimization"
@@ -19553,10 +19553,10 @@
     "summary": "Sharpness-aware minimization (SAM) has been shown to improve the generalization of neural networks. However, each SAM update requires _sequentially_ computing two gradients, effectively doubling the per-iteration cost compared to base optimizers like SGD.",
     "key_contribution": "We propose a simple modification of SAM, termed SAMPa, which allows us to fully parallelize the two gradient computations.",
     "why_it_matters": "SAMPa: Sharpness-aware Minimization Parallelized represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about supervised learning.",
+    "content_hook": "A new paper that could change how we think about optimization.",
     "one_line_takeaway": "We propose a simple modification of SAM, termed SAMPa, which allows us to fully parallelize the two gradient…",
     "biggest_caveat": "However, each SAM update requires _sequentially_ computing two gradients, effectively doubling the per-iteration cost compared to base optimizers like SGD.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in supervised learning.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in optimization.",
     "url": "https://openreview.net/forum?id=IGn0ktYDwV",
     "difficulty": "frontier"
   },
@@ -19640,9 +19640,9 @@
     "tags": [
       "3D Vision",
       "Transformers",
+      "3d shape generation",
       "text to 3d",
-      "Transformer Architectures",
-      "3d shape generation"
+      "Transformer Architectures"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -19784,8 +19784,8 @@
       "LLMs",
       "RL",
       "Robotics",
-      "Reinforcement Learning",
-      "NLP"
+      "NLP",
+      "Reinforcement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -19878,8 +19878,8 @@
     "tags": [
       "RL",
       "Robotics",
-      "Robotics & Embodied AI",
       "dexterous grasping",
+      "Robotics & Embodied AI",
       "Reinforcement Learning"
     ],
     "paper_type": "dataset",
@@ -20019,10 +20019,10 @@
     "topics": [],
     "tags": [
       "Robotics",
-      "Human-asissting Dexterous Grasping",
+      "Score-matching",
       "Robotics & Embodied AI",
-      "Reinforcement Learning",
-      "Score-matching"
+      "Human-asissting Dexterous Grasping",
+      "Reinforcement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -20157,9 +20157,9 @@
     "tags": [
       "LLMs",
       "Info Extraction",
+      "NLP",
       "Information Extraction",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -20304,9 +20304,9 @@
     "tags": [
       "LLMs",
       "Interpretability",
-      "Transformer Architectures",
       "Features",
-      "Representation"
+      "Representation",
+      "Transformer Architectures"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -20350,10 +20350,10 @@
     "topics": [],
     "tags": [
       "LLMs",
+      "Large language models",
       "Randomization test",
-      "Large Language Models",
       "Watermark",
-      "Large language models"
+      "Large Language Models"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -20401,8 +20401,8 @@
       "LLMs",
       "Fine-Tuning",
       "Text-to-Image",
-      "Fine-Tuning & PEFT",
-      "Large Language Models"
+      "Large Language Models",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -20504,8 +20504,8 @@
       "Diffusion",
       "Evaluation",
       "Diffusion Models",
-      "Benchmarking & Evaluation",
-      "diffusion models"
+      "diffusion models",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -20833,8 +20833,8 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Reasoning & Chain-of-Thought",
-      "Large Language Models"
+      "Large Language Models",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -21175,8 +21175,8 @@
     "tags": [
       "Continual Learning",
       "continual meta-learning",
-      "time-series",
-      "latent dynamics forecasting"
+      "latent dynamics forecasting",
+      "time-series"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -21268,10 +21268,10 @@
     "topics": [],
     "tags": [
       "Diffusion",
-      "out-of-distribution detection",
-      "diffusion model",
       "Diffusion Models",
-      "anomaly detection"
+      "anomaly detection",
+      "diffusion model",
+      "out-of-distribution detection"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -21320,9 +21320,9 @@
     "tags": [
       "LLMs",
       "Federated Learning",
+      "NLP",
       "Federated & Privacy-Preserving Learning",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -21514,8 +21514,8 @@
       "LLMs",
       "Reasoning",
       "Dialogue",
-      "Reasoning & Chain-of-Thought",
-      "NLP"
+      "NLP",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -21561,8 +21561,8 @@
       "LLMs",
       "Reasoning",
       "QA",
-      "Reasoning & Chain-of-Thought",
-      "NLP"
+      "NLP",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -21611,9 +21611,9 @@
     "tags": [
       "Diffusion",
       "Fairness & Ethics",
-      "probabilistic diffusion models",
       "statistical downscaling",
-      "Diffusion Models"
+      "Diffusion Models",
+      "probabilistic diffusion models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -21663,8 +21663,8 @@
       "Fine-Tuning",
       "AI Agents",
       "Evaluation",
-      "Skill expansion",
-      "skill composition"
+      "skill composition",
+      "Skill expansion"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -21711,8 +21711,8 @@
       "Hallucination",
       "Self-Supervised",
       "Factuality & Hallucination",
-      "video",
-      "object captioning"
+      "object captioning",
+      "video"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -21758,9 +21758,9 @@
     "tags": [
       "optimal state",
       "kalman filter",
-      "human motion",
+      "physics-based",
       "dynamics",
-      "physics-based"
+      "human motion"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -21906,9 +21906,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
+      "Task Representation",
       "Few-Shot Learning",
       "Meta Learning",
-      "Task Representation",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -22376,9 +22376,9 @@
     "tags": [
       "MoE",
       "Transformers",
-      "Transformer Architectures",
+      "mixture of experts",
       "language modeling",
-      "mixture of experts"
+      "Transformer Architectures"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -22472,9 +22472,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Wasserstein Fisher-Rao gradient flow",
+      "Schrödinger equation",
       "Quantum Monte Carlo",
-      "Schrödinger equation"
+      "Wasserstein Fisher-Rao gradient flow"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -22489,10 +22489,10 @@
     "summary": "Solving the quantum many-body Schrödinger equation is a fundamental and challenging problem in the fields of quantum physics, quantum chemistry, and material sciences. One of the common computational approaches to this problem is Quantum Variational Monte Carlo (QVMC), in which ground-state solutions are obtained by minimizing the energy of the system within a restricted family of parameterized wave functions.",
     "key_contribution": "More specifically, we propose \"Wasserstein Quantum Monte Carlo\" (WQMC), which uses the gradient flow induced by the Wasserstein metric, rather than the Fisher--Rao metric, and corresponds to *transporting* the probability mass, rather than *teleporting* it.",
     "why_it_matters": "Wasserstein Quantum Monte Carlo: A Novel Approach for Solving the Quantum Many-Body Schrödinger Equation represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Wasserstein Fisher-Rao gradient flow.",
+    "content_hook": "A new paper that could change how we think about Schrödinger equation.",
     "one_line_takeaway": "More specifically, we propose \"Wasserstein Quantum Monte Carlo\" (WQMC), which uses the gradient flow induced by the…",
     "biggest_caveat": "limitations of traditional QVMC by representing a rich family of wave functions in terms of neural networks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Wasserstein Fisher-Rao gradient flow.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Schrödinger equation.",
     "url": "https://openreview.net/forum?id=pjSzKhSrfs",
     "difficulty": "frontier"
   },
@@ -22571,8 +22571,8 @@
     "topics": [],
     "tags": [
       "Model Compression",
-      "NLP",
-      "Model Compression & Efficiency"
+      "Model Compression & Efficiency",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -22665,8 +22665,8 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
       "chemistry",
+      "Fine-Tuning & PEFT",
       "large language models"
     ],
     "paper_type": "methods",
@@ -22911,8 +22911,8 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
-      "Model Merging; Backdoor Defense; Subspace"
+      "Model Merging; Backdoor Defense; Subspace",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -23070,8 +23070,8 @@
       "Prompting",
       "Transformers",
       "Self-Supervised",
-      "Prompting & In-Context Learning",
-      "Opponent Modeling"
+      "Opponent Modeling",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -23275,9 +23275,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Large Language Models",
+      "NLP",
       "Reasoning & Chain-of-Thought",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -23320,8 +23320,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "molecule",
       "routing mechanism",
+      "molecule",
       "meta gradient"
     ],
     "paper_type": "dataset",
@@ -23337,10 +23337,10 @@
     "summary": "The limited availability of annotations in small molecule datasets presents a challenge to machine learning models. To address this, one common strategy is to collaborate with additional auxiliary datasets.",
     "key_contribution": "Motivated by this insight, we propose MolGroup, which separates the dataset affinity into task and structure affinity to predict the potential benefits of each auxiliary molecule dataset.",
     "why_it_matters": "Learning to Group Auxiliary Datasets for Molecule represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about molecule.",
+    "content_hook": "A new paper that could change how we think about routing mechanism.",
     "one_line_takeaway": "Motivated by this insight, we propose MolGroup, which separates the dataset affinity into task and structure affinity…",
     "biggest_caveat": "However, having more data does not always guarantee improvements.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in molecule.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in routing mechanism.",
     "url": "https://openreview.net/forum?id=r9eZH6WNm2",
     "difficulty": "intermediate"
   },
@@ -23460,8 +23460,8 @@
     "topics": [],
     "tags": [
       "Neural Relational Inference",
-      "Online Learning",
-      "Multi-agent System"
+      "Multi-agent System",
+      "Online Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -23555,11 +23555,11 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Active Learning",
+      "AI For Science",
       "PINNs",
-      "Experimental Design",
       "Physics-Informed Neural Network",
-      "AI For Science"
+      "Experimental Design",
+      "Active Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -23574,10 +23574,10 @@
     "summary": "In many science and engineering settings, system dynamics are characterized by governing partial differential equations (PDEs), and a major challenge is to solve inverse problems (IPs) where unknown PDE parameters are inferred based on observational data gathered under limited budget. Due to the high costs of setting up and running experiments, experimental design (ED) is often done with the help of PDE simulations to optimize for the most informative design parameters (e.g., sensor placements) to solve such IPs, prior to actual data collection.",
     "key_contribution": "PIED overcomes existing methods' computational bottlenecks through parallelized computation and meta-learning of PINN parameter initialization, and proposes novel methods to effectively take into account PINN training dynamics in optimizing the ED parameters.",
     "why_it_matters": "PIED: Physics-Informed Experimental Design for Inverse Problems represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Active Learning.",
+    "content_hook": "A new paper that could change how we think about AI For Science.",
     "one_line_takeaway": "PIED overcomes existing methods' computational bottlenecks through parallelized computation and meta-learning of PINN…",
     "biggest_caveat": "However, existing experimental design (ED) methods tend to require sequential and frequent design parameter adjustments between trials.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Active Learning.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in AI For Science.",
     "url": "https://openreview.net/forum?id=w7P92BEsb2",
     "difficulty": "intermediate"
   },
@@ -23607,8 +23607,8 @@
       "Info Extraction",
       "Self-Supervised",
       "Robotics",
-      "robotics",
-      "representation learning"
+      "representation learning",
+      "robotics"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -23800,10 +23800,10 @@
     "topics": [],
     "tags": [
       "Self-Supervised",
-      "identifiability",
-      "ICA",
       "causality",
-      "Self-Supervised & Contrastive Learning"
+      "Self-Supervised & Contrastive Learning",
+      "identifiability",
+      "ICA"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -24387,9 +24387,9 @@
     "tags": [
       "Self-Supervised",
       "RL",
-      "Self-Supervised & Contrastive Learning",
       "offline meta-reinforcement learning",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -24486,9 +24486,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
+      "SLAM",
       "Structure from motion",
       "Visual Odometry",
-      "SLAM",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -24534,9 +24534,9 @@
     "tags": [
       "LLMs",
       "Robotics",
-      "Place Event Memory",
       "Generalist Agents",
-      "Minecraft"
+      "Minecraft",
+      "Place Event Memory"
     ],
     "paper_type": "position",
     "difficulty_level": "L2",
@@ -24685,10 +24685,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "diffusion model",
-      "video generation",
       "brain-computer interface",
-      "EEG"
+      "diffusion model",
+      "EEG",
+      "video generation"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -24703,10 +24703,10 @@
     "summary": "Our visual experience in daily life are dominated by dynamic change. Decoding such dynamic information from brain activity can enhance the understanding of the brain’s visual processing system.",
     "key_contribution": "Thirdly, we propose a novel baseline EEG2Video for video reconstruction from EEG signals that better aligns dynamic movements with high temporal resolution brain signals by Seq2Seq architecture.",
     "why_it_matters": "EEG2Video: Towards Decoding Dynamic Visual Perception from EEG Signals represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about diffusion model.",
+    "content_hook": "A new paper that could change how we think about brain-computer interface.",
     "one_line_takeaway": "Thirdly, we propose a novel baseline EEG2Video for video reconstruction from EEG signals that better aligns dynamic…",
     "biggest_caveat": "However, previous studies predominately focus on reconstructing static visual stimuli.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in diffusion model.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in brain-computer interface.",
     "url": "https://openreview.net/forum?id=RfsfRn9OFd",
     "difficulty": "intermediate"
   },
@@ -24994,8 +24994,8 @@
       "Fine-Tuning",
       "Diffusion",
       "Robotics",
-      "Diffusion Models",
-      "Category-Level Object Pose Estimation"
+      "Category-Level Object Pose Estimation",
+      "Diffusion Models"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -25134,8 +25134,8 @@
     "topics": [],
     "tags": [
       "Model Compression",
-      "NLP",
-      "Model Compression & Efficiency"
+      "Model Compression & Efficiency",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -25323,9 +25323,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "stability analysis",
       "meta learning",
-      "generalization guarantees"
+      "generalization guarantees",
+      "stability analysis"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -25340,10 +25340,10 @@
     "summary": "We focus on developing a theoretical understanding of meta-learning. Given multiple tasks drawn i.i.d.",
     "key_contribution": "We introduce a novel notion of stability for meta-learning algorithms, namely *uniform meta-stability*.",
     "why_it_matters": "On the Stability and Generalization of Meta-Learning represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about stability analysis.",
+    "content_hook": "A new paper that could change how we think about meta learning.",
     "one_line_takeaway": "We introduce a novel notion of stability for meta-learning algorithms, namely *uniform meta-stability*.",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in stability analysis.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in meta learning.",
     "url": "https://openreview.net/forum?id=J8rOw29df2",
     "difficulty": "frontier"
   },
@@ -25370,10 +25370,10 @@
     "topics": [],
     "tags": [
       "RLHF",
-      "intrinsic reward",
       "exploration bonus",
-      "metric-based behavioral similarity",
-      "Reinforcement Learning"
+      "intrinsic reward",
+      "Reinforcement Learning",
+      "metric-based behavioral similarity"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -25419,9 +25419,9 @@
     "tags": [
       "LLMs",
       "RAG",
-      "Retrieval-Augmented Generation",
+      "NLP",
       "Large Language Models",
-      "NLP"
+      "Retrieval-Augmented Generation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -25435,7 +25435,7 @@
     "evidence_strength": 0.0,
     "summary": "LLM query-passage relevance assessment is typically studied using a one-by-one pointwise (PW) strategy where each LLM call judges one passage at a time. However, this strategy requires as many LLM calls as there are passages while also preventing information sharing between passages.",
     "key_contribution": "We show that batching can greatly amplify self-consistency benefits, making batched PW methods achieve the best performance while often reducing latency by an order of magnitude or more compared to one-by-one PW methods.",
-    "why_it_matters": "Batched Self-Consistency Improves LLM Relevance Assessment and Ranking improves how language models ground their responses in verified, up-to-date knowledge.",
+    "why_it_matters": "Batched Self-Consistency Improves LLM Relevance Assessment and Ranking advances our understanding of large language models, which are reshaping how we build AI systems and interact with knowledge.",
     "content_hook": "A new paper that could change how we think about LLMs.",
     "one_line_takeaway": "We show that batching can greatly amplify self-consistency benefits, making batched PW methods achieve the best…",
     "biggest_caveat": "However, this strategy requires as many LLM calls as there are passages while also preventing information sharing between passages.",
@@ -25468,8 +25468,8 @@
     "tags": [
       "Text-to-Image",
       "Evaluation",
-      "Diffusion Models",
       "nesting architecture",
+      "Diffusion Models",
       "progressive training"
     ],
     "paper_type": "dataset",
@@ -25617,8 +25617,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
       "LLM as a judge",
+      "Large Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -25767,10 +25767,10 @@
     "topics": [],
     "tags": [
       "Object Detection",
-      "Hard Negative Mining",
-      "Object Detection & Segmentation",
       "Triplet Loss",
-      "Metric Learning"
+      "Object Detection & Segmentation",
+      "Metric Learning",
+      "Hard Negative Mining"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -25814,9 +25814,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Meta learning",
       "Few-shot learning",
-      "Fast adaptation robustness"
+      "Fast adaptation robustness",
+      "Meta learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -25831,10 +25831,10 @@
     "summary": "Meta learning is a promising paradigm in the era of large models and  task distributional robustness has become an indispensable consideration in real-world scenarios. Recent advances have examined the effectiveness of tail task risk minimization in fast adaptation robustness improvement \\citep{wang2023simple}.",
     "key_contribution": "Accordingly, extensive evaluations demonstrate the significance of our proposal in boosting robustness.",
     "why_it_matters": "Theoretical Investigations and Practical Enhancements on Tail Task Risk Minimization in Meta Learning represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Meta learning.",
+    "content_hook": "A new paper that could change how we think about Few-shot learning.",
     "one_line_takeaway": "Accordingly, extensive evaluations demonstrate the significance of our proposal in boosting robustness.",
     "biggest_caveat": "butional robustness has become an indispensable consideration in real-world scenarios.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Meta learning.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Few-shot learning.",
     "url": "https://openreview.net/forum?id=McrzOo0hwr",
     "difficulty": "intermediate"
   },
@@ -25911,8 +25911,8 @@
     "tags": [
       "Prompting",
       "Classification",
-      "Prompting & In-Context Learning",
       "NLP",
+      "Prompting & In-Context Learning",
       "Text Classification"
     ],
     "paper_type": "methods",
@@ -25961,8 +25961,8 @@
       "Fine-Tuning",
       "Adversarial",
       "Evaluation",
-      "Adversarial Robustness",
-      "Low Rank"
+      "Low Rank",
+      "Adversarial Robustness"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -26153,8 +26153,8 @@
     "tags": [
       "Transformers",
       "Evaluation",
-      "Point Tracking",
       "3D Computer Vision",
+      "Point Tracking",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -26207,9 +26207,9 @@
     "tags": [
       "Model Compression",
       "Adversarial",
-      "Adversarial Robustness",
       "zeroth-order optimization",
-      "gradient-free learning"
+      "gradient-free learning",
+      "Adversarial Robustness"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -26547,8 +26547,8 @@
     "tags": [
       "RL",
       "Evaluation",
-      "Meta-learning",
       "Reinforcement Learning",
+      "Meta-learning",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "dataset",
@@ -26639,9 +26639,9 @@
     "tags": [
       "Object Detection",
       "Transformers",
+      "Spectral Transformer",
       "Scatter Network",
-      "Channel Mixing",
-      "Spectral Transformer"
+      "Channel Mixing"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -26739,9 +26739,9 @@
     "tags": [
       "Info Extraction",
       "Self-Supervised",
+      "complex-valued networks",
       "unsupervised learning",
-      "temporal correlation hypothesis",
-      "complex-valued networks"
+      "temporal correlation hypothesis"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -26838,8 +26838,8 @@
     "tags": [
       "RL",
       "Evaluation",
-      "Scaling",
       "Reinforcement Learning",
+      "Scaling",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -26978,8 +26978,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
       "NLP",
+      "Large Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -27025,9 +27025,9 @@
     "tags": [
       "LLMs",
       "Summarization",
+      "NLP",
       "Text Summarization",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -27271,9 +27271,9 @@
     "tags": [
       "Code Generation",
       "Fairness & Ethics",
-      "Bias, Fairness & Ethics",
       "Code Generation & Synthesis",
-      "NLP"
+      "NLP",
+      "Bias, Fairness & Ethics"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -27319,10 +27319,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "data augmentation",
       "high update ratios",
+      "Reinforcement Learning",
       "model based reinforcement learning",
-      "Reinforcement Learning"
+      "data augmentation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -27368,10 +27368,10 @@
     "topics": [],
     "tags": [
       "Object Detection",
-      "meta-learning",
-      "Object Detection & Segmentation",
+      "transfer learning",
       "pretrained model hubs",
-      "transfer learning"
+      "Object Detection & Segmentation",
+      "meta-learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -27467,9 +27467,9 @@
     "tags": [
       "Info Extraction",
       "Biomedical AI",
-      "Biomedical & Clinical AI",
+      "NLP",
       "Information Extraction",
-      "NLP"
+      "Biomedical & Clinical AI"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -27914,9 +27914,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Large Language Models",
+      "NLP",
       "Reasoning & Chain-of-Thought",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -28006,9 +28006,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Large Language Models",
+      "NLP",
       "Reasoning & Chain-of-Thought",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -28261,8 +28261,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
       "NLP",
+      "Large Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "dataset",
@@ -28549,9 +28549,9 @@
     "tags": [
       "LLMs",
       "Fairness & Ethics",
+      "NLP",
       "Bias, Fairness & Ethics",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -28598,9 +28598,9 @@
     "tags": [
       "LLMs",
       "Prompting",
+      "NLP",
       "Prompting & In-Context Learning",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -28645,11 +28645,11 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "inverse design",
       "cellular solids",
       "crystallographic symmetries",
       "differentiable simulator",
-      "neural network equivariant flow"
+      "neural network equivariant flow",
+      "inverse design"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -28664,10 +28664,10 @@
     "summary": "Mechanical meta-materials are solids whose geometric structure results in exotic nonlinear behaviors that are not typically achievable via homogeneous materials. We show how to drastically expand the design space of a class of mechanical meta-materials known as $\\textit{cellular solids}$, by generalizing beyond translational symmetry.",
     "key_contribution": "We show how to drastically expand the design space of a class of mechanical meta-materials known as $\\textit{cellular solids}$, by generalizing beyond translational symmetry.",
     "why_it_matters": "Designing Mechanical Meta-Materials by Learning Equivariant Flows represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about inverse design.",
+    "content_hook": "A new paper that could change how we think about cellular solids.",
     "one_line_takeaway": "We show how to drastically expand the design space of a class of mechanical meta-materials known as $\\textit{cellular…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in inverse design.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in cellular solids.",
     "url": "https://openreview.net/forum?id=VMurwgAFWP",
     "difficulty": "intermediate"
   },
@@ -28819,9 +28819,9 @@
     "tags": [
       "AI Safety",
       "Text-to-Image",
-      "transformers",
       "model stitching",
-      "Diffusion Models"
+      "Diffusion Models",
+      "transformers"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -28962,9 +28962,9 @@
     "tags": [
       "Fine-Tuning",
       "AI Safety",
+      "NLP",
       "Fine-Tuning & PEFT",
-      "AI Safety & Alignment",
-      "NLP"
+      "AI Safety & Alignment"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -29103,8 +29103,8 @@
       "Prompting",
       "Info Extraction",
       "Classification",
-      "Prompting & In-Context Learning",
-      "NLP"
+      "NLP",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -29485,8 +29485,8 @@
       "Prompting",
       "Robotics",
       "Adversarial",
-      "Adversarial Robustness",
-      "Prompting & In-Context Learning"
+      "Prompting & In-Context Learning",
+      "Adversarial Robustness"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -29538,8 +29538,8 @@
       "LLMs",
       "RLHF",
       "AI Safety",
-      "AI Safety & Alignment",
-      "NLP"
+      "NLP",
+      "AI Safety & Alignment"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -29634,8 +29634,8 @@
     "tags": [
       "Prompting",
       "QA",
-      "Prompting & In-Context Learning",
       "NLP",
+      "Prompting & In-Context Learning",
       "Question Answering"
     ],
     "paper_type": "methods",
@@ -29779,9 +29779,9 @@
     "tags": [
       "Prompting",
       "VLMs",
+      "NLP",
       "Prompting & In-Context Learning",
-      "Vision-Language Models",
-      "NLP"
+      "Vision-Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -29827,8 +29827,8 @@
     "tags": [
       "RL",
       "Evaluation",
-      "MDP",
       "sequential decision-making",
+      "MDP",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -29970,9 +29970,9 @@
     "tags": [
       "Adversarial",
       "Embeddings",
-      "Adversarial Robustness",
+      "Text Embeddings & Semantic Similarity",
       "text vectorization",
-      "Text Embeddings & Semantic Similarity"
+      "Adversarial Robustness"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -30017,9 +30017,9 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Transformer Architectures",
       "episodic training",
       "multi-task learning and neural processes",
+      "Transformer Architectures",
       "data-insufficiency problem"
     ],
     "paper_type": "methods",
@@ -30156,8 +30156,8 @@
       "AI Safety",
       "Info Extraction",
       "Self-Supervised",
-      "Self-Supervised & Contrastive Learning",
-      "NLP"
+      "NLP",
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -30352,8 +30352,8 @@
     "tags": [
       "Robotics",
       "Evaluation",
-      "Object Pose Estimation",
       "Robotics & Embodied AI",
+      "Object Pose Estimation",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -30397,10 +30397,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
+      "loss reweighting",
       "bi-level optimization",
       "model calibration",
       "epistemic uncertainty",
-      "loss reweighting",
       "bayesian neural networks"
     ],
     "paper_type": "methods",
@@ -30416,10 +30416,10 @@
     "summary": "Predictive uncertainty--a model’s self-awareness regarding its accuracy on an input--is key for both building robust models via training interventions and for test-time applications such as selective classification. We propose a novel instance-conditional reweighting approach that captures predictive uncertainty using an auxiliary network, and unifies these train- and test-time applications.",
     "key_contribution": "We propose a novel instance-conditional reweighting approach that captures predictive uncertainty using an auxiliary network, and unifies these train- and test-time applications.",
     "why_it_matters": "Learning model uncertainty as variance-minimizing instance weights represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about bi-level optimization.",
+    "content_hook": "A new paper that could change how we think about loss reweighting.",
     "one_line_takeaway": "We propose a novel instance-conditional reweighting approach that captures predictive uncertainty using an auxiliary…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in bi-level optimization.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in loss reweighting.",
     "url": "https://openreview.net/forum?id=bDWXhzZT40",
     "difficulty": "frontier"
   },
@@ -30494,8 +30494,8 @@
       "LLMs",
       "Prompting",
       "Fine-Tuning",
-      "Prompting & In-Context Learning",
-      "NLP"
+      "NLP",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -30539,8 +30539,8 @@
     "tags": [
       "Fine-Tuning",
       "Evaluation",
-      "Fine-Tuning & PEFT",
       "NLP",
+      "Fine-Tuning & PEFT",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -30586,10 +30586,10 @@
     "topics": [],
     "tags": [
       "GNNs",
-      "long-range dependency",
       "Heterogeneous graph",
-      "sampling",
-      "Graph Neural Networks"
+      "Graph Neural Networks",
+      "long-range dependency",
+      "sampling"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -30635,8 +30635,8 @@
       "RL",
       "Robotics",
       "visual reinforcement learning",
-      "deep reinforcement learning",
-      "robotic object manipulation"
+      "robotic object manipulation",
+      "deep reinforcement learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -30785,8 +30785,8 @@
     "tags": [
       "Multimodal",
       "Dialogue",
-      "Dialogue Systems",
       "NLP",
+      "Dialogue Systems",
       "Multimodal Learning"
     ],
     "paper_type": "dataset",
@@ -30980,9 +30980,9 @@
     "tags": [
       "RL",
       "Causal Reasoning",
-      "Model-based RL",
       "Reinforcement Learning",
-      "Offline RL"
+      "Offline RL",
+      "Model-based RL"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -31124,8 +31124,8 @@
       "Info Extraction",
       "GNNs",
       "graph neural networks",
-      "3D graphs",
-      "computational physics"
+      "computational physics",
+      "3D graphs"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -31172,9 +31172,9 @@
     "tags": [
       "LLMs",
       "AI Safety",
+      "NLP",
       "AI Safety & Alignment",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -31222,9 +31222,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Large Language Models",
+      "NLP",
       "Reasoning & Chain-of-Thought",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -31417,8 +31417,8 @@
       "Prompting",
       "Object Detection",
       "Prompting & In-Context Learning",
-      "Object Detection & Segmentation",
-      "semantic segmentation"
+      "semantic segmentation",
+      "Object Detection & Segmentation"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -31516,8 +31516,8 @@
     "tags": [
       "Prompting",
       "Evaluation",
-      "Prompting & In-Context Learning",
       "NLP",
+      "Prompting & In-Context Learning",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -31654,10 +31654,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
+      "Learning Theory",
       "PAC-Bayes",
       "Optimisation",
-      "Generalisation",
-      "Learning Theory"
+      "Generalisation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -31672,10 +31672,10 @@
     "summary": "PAC-Bayes learning is a comprehensive setting for (i) studying the generalisation ability of learning algorithms and (ii) deriving new learning algorithms by optimising a generalisation bound. However, optimising generalisation bounds might not always be viable for tractable or computational reasons, or both.",
     "key_contribution": "In response, we introduce a novel principled strategy for building an iterative learning algorithm via the optimisation of a sequence of surrogate training objectives, inherited from PAC-Bayes generalisation bounds.",
     "why_it_matters": "Learning via Surrogate PAC-Bayes represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about PAC-Bayes.",
+    "content_hook": "A new paper that could change how we think about Learning Theory.",
     "one_line_takeaway": "In response, we introduce a novel principled strategy for building an iterative learning algorithm via the optimisation…",
     "biggest_caveat": "However, optimising generalisation bounds might not always be viable for tractable or computational reasons, or both.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in PAC-Bayes.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Learning Theory.",
     "url": "https://openreview.net/forum?id=IEyXWuXAQT",
     "difficulty": "intermediate"
   },
@@ -31757,8 +31757,8 @@
       "Info Extraction",
       "RL",
       "Structured Data",
-      "dynamic regret",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "dynamic regret"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -31804,11 +31804,11 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Data Pruning",
+      "Implicit Neural Representations",
       "Neural Fields",
+      "Data Pruning",
       "Meta-Learning",
-      "Efficient Meta-Learning",
-      "Implicit Neural Representations"
+      "Efficient Meta-Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -31823,10 +31823,10 @@
     "summary": "We introduce an efficient optimization-based meta-learning technique for large-scale neural field training by realizing significant memory savings through automated online context point selection. This is achieved by focusing each learning step on the subset of data with the highest expected immediate improvement in model quality, resulting in the almost instantaneous modeling of global structure and subsequent refinement of high-frequency details.",
     "key_contribution": "We introduce an efficient optimization-based meta-learning technique for large-scale neural field training by realizing significant memory savings through automated online context point selection.",
     "why_it_matters": "Learning Large-scale Neural Fields via Context Pruned Meta-Learning represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Data Pruning.",
+    "content_hook": "A new paper that could change how we think about Implicit Neural Representations.",
     "one_line_takeaway": "We introduce an efficient optimization-based meta-learning technique for large-scale neural field training by realizing…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Data Pruning.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Implicit Neural Representations.",
     "url": "https://openreview.net/forum?id=QGmNMtK3pQ",
     "difficulty": "intermediate"
   },
@@ -31854,8 +31854,8 @@
     "tags": [
       "Transformers",
       "RL",
-      "Transformer Architectures",
       "Reinforcement Learning",
+      "Transformer Architectures",
       "State-to-Go Transformer"
     ],
     "paper_type": "methods",
@@ -31870,7 +31870,7 @@
     "evidence_strength": 0.0,
     "summary": "Learning from visual observation (LfVO), aiming at recovering policies from only visual observation data, is promising yet a challenging problem. Existing LfVO approaches either only adopt inefficient online learning schemes or require additional task-specific information like goal states, making them not suited for open-ended tasks.",
     "key_contribution": "To address these issues, we propose a two-stage framework for learning from visual observation.",
-    "why_it_matters": "Learning from Visual Observation via Offline Pretrained State-to-Go Transformer extends Transformer capabilities — the architecture underpinning virtually every modern NLP and vision model.",
+    "why_it_matters": "Learning from Visual Observation via Offline Pretrained State-to-Go Transformer contributes to reinforcement learning — a key paradigm for training agents that make sequential decisions.",
     "content_hook": "A new paper that could change how we think about Transformers.",
     "one_line_takeaway": "To address these issues, we propose a two-stage framework for learning from visual observation.",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -31950,8 +31950,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
       "NLP",
+      "Large Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "dataset",
@@ -32008,9 +32008,9 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
+      "NLP",
       "Large Language Models",
-      "NLP"
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -32057,10 +32057,10 @@
     "topics": [],
     "tags": [
       "Multimodal",
+      "Multimodal Learning",
       "Distribution shift",
       "Meta-distribution",
-      "Automated Model Evalutaion",
-      "Multimodal Learning"
+      "Automated Model Evalutaion"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -32106,8 +32106,8 @@
     "topics": [],
     "tags": [
       "Summarization",
-      "Text Summarization",
-      "Meta-Learning;Memory Augmented Neural Network; Deep Neural Network Application;Graph Summarization"
+      "Meta-Learning;Memory Augmented Neural Network; Deep Neural Network Application;Graph Summarization",
+      "Text Summarization"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -32155,9 +32155,9 @@
     "topics": [],
     "tags": [
       "Self-Supervised",
+      "Heterogeneous graph",
       "Self-supervised learning",
       "Graph representation learning",
-      "Heterogeneous graph",
       "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "methods",
@@ -32254,10 +32254,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "bisimulation metric",
-      "deep reinforcement learning",
+      "representation learning",
       "Reinforcement Learning",
-      "representation learning"
+      "bisimulation metric",
+      "deep reinforcement learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -32357,9 +32357,9 @@
     "tags": [
       "Fine-Tuning",
       "Self-Supervised",
-      "Fine-Tuning & PEFT",
+      "NLP",
       "Self-Supervised & Contrastive Learning",
-      "NLP"
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -32459,9 +32459,9 @@
     "tags": [
       "LLMs",
       "Hallucination",
+      "NLP",
       "Factuality & Hallucination",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -32507,9 +32507,9 @@
     "tags": [
       "LLMs",
       "AI Safety",
+      "NLP",
       "AI Safety & Alignment",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -32562,8 +32562,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
       "NLP",
+      "Large Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -32753,9 +32753,9 @@
     "tags": [
       "RL",
       "opponent shaping",
-      "cooperation",
       "Reinforcement Learning",
-      "multi-agent reinforcement learning"
+      "multi-agent reinforcement learning",
+      "cooperation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -33142,10 +33142,10 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Transformer Architectures",
+      "Neuromorphic chips",
       "Spike-driven self-attention",
-      "Spiking neural networks",
-      "Neuromorphic chips"
+      "Transformer Architectures",
+      "Spiking neural networks"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -33191,8 +33191,8 @@
     "topics": [],
     "tags": [
       "Model Compression",
-      "NLP",
-      "Model Compression & Efficiency"
+      "Model Compression & Efficiency",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -33490,9 +33490,9 @@
     "tags": [
       "Prompting",
       "VLMs",
+      "computer vision",
       "deep learning",
-      "few-shot classification",
-      "computer vision"
+      "few-shot classification"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -33640,8 +33640,8 @@
       "LLMs",
       "Self-Supervised",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Large language models"
+      "Large language models",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -33739,8 +33739,8 @@
       "Prompting",
       "Fine-Tuning",
       "Classification",
-      "Prompting & In-Context Learning",
-      "NLP"
+      "NLP",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -33785,9 +33785,9 @@
     "tags": [
       "AI Safety",
       "Info Extraction",
-      "AI Safety & Alignment",
+      "NLP",
       "Information Extraction",
-      "NLP"
+      "AI Safety & Alignment"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -33836,8 +33836,8 @@
       "LLMs",
       "AI Safety",
       "Info Extraction",
-      "Language Models",
-      "Multi-objective Alignment"
+      "Multi-objective Alignment",
+      "Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -33987,9 +33987,9 @@
     "tags": [
       "Self-Supervised",
       "Adversarial",
-      "Adversarial Robustness",
+      "NLP",
       "Self-Supervised & Contrastive Learning",
-      "NLP"
+      "Adversarial Robustness"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -34035,9 +34035,9 @@
     "tags": [
       "LLMs",
       "Dialogue",
+      "NLP",
       "Dialogue Systems",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -34433,9 +34433,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
+      "Synthetic Data",
       "Benchmarks",
       "Object re-ID",
-      "Synthetic Data",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -34530,8 +34530,8 @@
       "Self-Supervised",
       "RL",
       "downstream RL",
-      "object discovery",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "object discovery"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -34578,8 +34578,8 @@
     "topics": [],
     "tags": [
       "membership inference",
-      "machine learning",
-      "privacy"
+      "privacy",
+      "machine learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -34673,9 +34673,9 @@
     "tags": [
       "Reasoning",
       "GNNs",
-      "Reasoning & Chain-of-Thought",
+      "NLP",
       "Graph Neural Networks",
-      "NLP"
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -34818,9 +34818,9 @@
     "tags": [
       "RLHF",
       "AI Safety",
-      "RLHF & Preference Alignment",
       "Policy optimization",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "RLHF & Preference Alignment"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -35075,8 +35075,8 @@
     "tags": [
       "Translation",
       "Evaluation",
-      "Machine Translation",
       "NLP",
+      "Machine Translation",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -35125,8 +35125,8 @@
       "LLMs",
       "Reasoning",
       "Model Compression",
-      "Reasoning & Chain-of-Thought",
-      "NLP"
+      "NLP",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -35175,9 +35175,9 @@
     "tags": [
       "LLMs",
       "Self-Supervised",
-      "Large Language Models",
+      "NLP",
       "Self-Supervised & Contrastive Learning",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "theory",
     "difficulty_level": "L1",
@@ -35903,8 +35903,8 @@
       "Multimodal",
       "Sentiment Analysis",
       "Adversarial",
-      "Adversarial Robustness",
-      "NLP"
+      "NLP",
+      "Adversarial Robustness"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -35953,10 +35953,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "Meta-Optimization",
-      "Policy Meta-Optimization",
+      "Reinforcement Learning",
       "Meta-Learning",
-      "Reinforcement Learning"
+      "Meta-Optimization",
+      "Policy Meta-Optimization"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -36051,9 +36051,9 @@
     "tags": [
       "LLMs",
       "Prompting",
+      "NLP",
       "Prompting & In-Context Learning",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -36100,9 +36100,9 @@
     "tags": [
       "3D Vision",
       "3D Vision & Scene Understanding",
-      "discontinuity awareness",
       "gradient approximation",
-      "Gaussian Splatting"
+      "Gaussian Splatting",
+      "discontinuity awareness"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -36151,9 +36151,9 @@
     "tags": [
       "LLMs",
       "Self-Supervised",
-      "Large Language Models",
+      "NLP",
       "Self-Supervised & Contrastive Learning",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -36338,9 +36338,9 @@
     "topics": [],
     "tags": [
       "RL",
-      "Sample Efficiency",
       "Visual Reinforcement Learning",
       "Reinforcement Learning",
+      "Sample Efficiency",
       "Data Augmentation"
     ],
     "paper_type": "methods",
@@ -36536,8 +36536,8 @@
     "topics": [],
     "tags": [
       "AI for science",
-      "metal-organic framework",
-      "material structure prediction"
+      "material structure prediction",
+      "metal-organic framework"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -36680,9 +36680,9 @@
     "topics": [],
     "tags": [
       "RL",
-      "humanoid",
-      "world model",
       "Reinforcement Learning",
+      "world model",
+      "humanoid",
       "reinforcement learning"
     ],
     "paper_type": "methods",
@@ -37111,9 +37111,9 @@
     "tags": [
       "Fine-Tuning",
       "Biomedical AI",
+      "offline model-based optimization",
       "meta-learning",
-      "sample reweighting",
-      "offline model-based optimization"
+      "sample reweighting"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -37163,9 +37163,9 @@
     "tags": [
       "Self-Supervised",
       "RL",
+      "Action Representation",
       "Reinforcement Learning",
-      "Deep Reinforcement Learning",
-      "Action Representation"
+      "Deep Reinforcement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -37363,8 +37363,8 @@
       "LLMs",
       "Fine-Tuning",
       "Translation",
-      "Fine-Tuning & PEFT",
-      "Adapter"
+      "Adapter",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -37565,8 +37565,8 @@
     "tags": [
       "Text-to-Image",
       "Diffusion Models",
-      "finetuning",
       "Text-to-image",
+      "finetuning",
       "diffusion models"
     ],
     "paper_type": "theory",
@@ -37614,9 +37614,9 @@
     "tags": [
       "Info Extraction",
       "Self-Supervised",
-      "large language models",
       "pretraining",
-      "Self-Supervised & Contrastive Learning"
+      "Self-Supervised & Contrastive Learning",
+      "large language models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -37999,8 +37999,8 @@
       "Biomedical AI",
       "Fairness & Ethics",
       "Medical Segmentation",
-      "Deep Learning",
-      "Health Equity"
+      "Health Equity",
+      "Deep Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -38045,8 +38045,8 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
-      "NLP"
+      "NLP",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -38090,8 +38090,8 @@
     "topics": [],
     "tags": [
       "Info Extraction",
-      "Information Extraction",
       "side information",
+      "Information Extraction",
       "mechanism design",
       "weakest competitors"
     ],
@@ -38140,8 +38140,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Reinforcement Learning",
       "imitation learning",
+      "Reinforcement Learning",
       "reinforcement learning"
     ],
     "paper_type": "methods",
@@ -38249,8 +38249,8 @@
     "topics": [],
     "tags": [
       "Classification",
-      "Text Classification",
-      "NLP"
+      "NLP",
+      "Text Classification"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -38296,8 +38296,8 @@
     "tags": [
       "Classification",
       "Biomedical AI",
-      "Biomedical & Clinical AI",
       "NLP",
+      "Biomedical & Clinical AI",
       "Text Classification"
     ],
     "paper_type": "dataset",
@@ -38449,10 +38449,10 @@
     "topics": [],
     "tags": [
       "Code Generation",
-      "Efficient Decoding",
-      "Autoregressive Modelling",
       "Code Generation & Synthesis",
-      "Superposition"
+      "Superposition",
+      "Efficient Decoding",
+      "Autoregressive Modelling"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -38553,10 +38553,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Inverse Rendering",
-      "3D reconstruction",
       "Material Decomposition",
-      "relighting"
+      "relighting",
+      "3D reconstruction",
+      "Inverse Rendering"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -38571,10 +38571,10 @@
     "summary": "We introduce MIRReS, a novel two-stage inverse rendering framework that jointly reconstructs and optimizes explicit geometry, materials, and lighting from multi-view images. Unlike previous methods that rely on implicit irradiance fields or oversimplified ray tracing, our method begins with an initial stage that extracts an explicit triangular mesh.",
     "key_contribution": "We introduce MIRReS, a novel two-stage inverse rendering framework that jointly reconstructs and optimizes explicit geometry, materials, and lighting from multi-view images.",
     "why_it_matters": "Inverse Rendering using Multi-Bounce Path Tracing and Reservoir Sampling represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Inverse Rendering.",
+    "content_hook": "A new paper that could change how we think about Material Decomposition.",
     "one_line_takeaway": "We introduce MIRReS, a novel two-stage inverse rendering framework that jointly reconstructs and optimizes explicit…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Inverse Rendering.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Material Decomposition.",
     "url": "https://openreview.net/forum?id=KEXoZxTwbr",
     "difficulty": "intermediate"
   },
@@ -38858,9 +38858,9 @@
     "tags": [
       "LLMs",
       "Structured Data",
+      "Tabular data",
       "Automatic data science",
-      "Graph machine learning",
-      "Tabular data"
+      "Graph machine learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -38955,8 +38955,8 @@
     "tags": [
       "Diffusion",
       "deep learning",
-      "time series forecasting",
       "Diffusion Models",
+      "time series forecasting",
       "diffusion models"
     ],
     "paper_type": "methods",
@@ -39284,8 +39284,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Equivariant Neural Network",
       "Density Functional Theory",
+      "Equivariant Neural Network",
       "Local Graph Neural Network"
     ],
     "paper_type": "systems",
@@ -39301,10 +39301,10 @@
     "summary": "Predicting quantum operator matrices such as Hamiltonian, overlap, and density matrices in the density functional theory (DFT) framework is crucial for material science. Current methods often focus on individual operators and struggle with efficiency and scalability for large systems.",
     "key_contribution": "Here we introduce a novel deep learning model, SLEM (strictly localized equivariant message-passing), for predicting multiple quantum operators that achieves state-of-the-art accuracy while dramatically improving computational efficiency.",
     "why_it_matters": "Learning local equivariant representations for quantum operators represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Equivariant Neural Network.",
+    "content_hook": "A new paper that could change how we think about Density Functional Theory.",
     "one_line_takeaway": "Here we introduce a novel deep learning model, SLEM (strictly localized equivariant message-passing), for predicting…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Equivariant Neural Network.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Density Functional Theory.",
     "url": "https://openreview.net/forum?id=kpq3IIjUD3",
     "difficulty": "intermediate"
   },
@@ -39337,8 +39337,8 @@
       "LLMs",
       "Fine-Tuning",
       "Multimodal",
-      "Multimodal large language model",
-      "Image segmentation"
+      "Image segmentation",
+      "Multimodal large language model"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -39384,8 +39384,8 @@
     "topics": [],
     "tags": [
       "TTS",
-      "Speech Synthesis",
-      "NLP"
+      "NLP",
+      "Speech Synthesis"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -39431,10 +39431,10 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Transformer Architectures",
-      "Transformers in physics",
+      "Generative",
       "AI4SCIENCE",
-      "Generative"
+      "Transformer Architectures",
+      "Transformers in physics"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -39526,9 +39526,9 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
+      "Regularization",
       "Continuous sparsification",
       "Implicit bias",
-      "Regularization",
       "Mirror flow"
     ],
     "paper_type": "theory",
@@ -39620,8 +39620,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "POMDPs",
       "neural ode",
+      "POMDPs",
       "Reinforcement Learning",
       "reinforcement learning"
     ],
@@ -39670,8 +39670,8 @@
     "topics": [],
     "tags": [
       "Federated Learning",
-      "Nonconvex Optimization",
       "Federated & Privacy-Preserving Learning",
+      "Nonconvex Optimization",
       "Conditional Stochastic Optimization"
     ],
     "paper_type": "methods",
@@ -39762,9 +39762,9 @@
     "topics": [],
     "tags": [
       "RL",
-      "Reinforcement Learning",
+      "Offline Reinforcement Learning",
       "Preference-based Reinforcement Learning",
-      "Offline Reinforcement Learning"
+      "Reinforcement Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -39864,9 +39864,9 @@
     "tags": [
       "Prompting",
       "Info Extraction",
-      "Prompting & In-Context Learning",
+      "meta learning",
       "Hessian",
-      "meta learning"
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -40060,9 +40060,9 @@
     "tags": [
       "Diffusion",
       "Transformers",
+      "Diffusion Models",
       "Transformer Architectures",
-      "diffusion",
-      "Diffusion Models"
+      "diffusion"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -40076,7 +40076,7 @@
     "evidence_strength": 0.0,
     "summary": "Spectral Compressive Imaging (SCI) reconstruction is inherently ill-posed because a single observation admits multiple plausible reconstructions. Traditional deterministic methods struggle to effectively recover high-frequency details.",
     "key_contribution": "To address these issues, we propose a novel Predict-and-unmixing-driven-Subspace-Refine framework (PSR-SCI).",
-    "why_it_matters": "Spectral Compressive Imaging via Unmixing-driven Subspace Diffusion Refinement extends Transformer capabilities — the architecture underpinning virtually every modern NLP and vision model.",
+    "why_it_matters": "Spectral Compressive Imaging via Unmixing-driven Subspace Diffusion Refinement pushes the frontier of generative AI, enabling higher-quality and more controllable content creation.",
     "content_hook": "A new paper that could change how we think about Diffusion.",
     "one_line_takeaway": "To address these issues, we propose a novel Predict-and-unmixing-driven-Subspace-Refine framework (PSR-SCI).",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -40107,10 +40107,10 @@
     "topics": [],
     "tags": [
       "Federated Learning",
-      "privacy",
-      "Federated & Privacy-Preserving Learning",
+      "Bandits",
       "robustness",
-      "Bandits"
+      "privacy",
+      "Federated & Privacy-Preserving Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -40253,8 +40253,8 @@
       "LLMs",
       "Reasoning",
       "QA",
-      "Reasoning & Chain-of-Thought",
-      "NLP"
+      "NLP",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -40306,8 +40306,8 @@
     "tags": [
       "Summarization",
       "Evaluation",
-      "Text Summarization",
       "NLP",
+      "Text Summarization",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -40412,8 +40412,8 @@
     "tags": [
       "LLMs",
       "Robotics",
-      "Unsupervised Skill Discovery",
       "Language Guided RL",
+      "Unsupervised Skill Discovery",
       "Reinforcement Learning"
     ],
     "paper_type": "methods",
@@ -40463,9 +40463,9 @@
     "tags": [
       "Diffusion",
       "binarization",
-      "diffusion model",
       "Diffusion Models",
-      "image super-resolution"
+      "image super-resolution",
+      "diffusion model"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -40616,10 +40616,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Scientific machine learning",
-      "Meta learning",
       "Physics-informed neural networks",
-      "Hypernetworks"
+      "Meta learning",
+      "Hypernetworks",
+      "Scientific machine learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -40634,10 +40634,10 @@
     "summary": "In various engineering and applied science applications, repetitive numerical simulations of partial differential equations (PDEs) for varying input parameters are often required (e.g., aircraft shape optimization over many design parameters) and solvers are required to perform rapid execution. In this study, we suggest a path that potentially opens up a possibility for physics-informed neural networks (PINNs), emerging deep-learning-based solvers, to be considered as one such solver.",
     "key_contribution": "To address this issue, we propose a lightweight low-rank PINNs containing only hundreds of model parameters and an associated hypernetwork-based meta-learning algorithm, which allows efficient approximation of solutions of PDEs for varying ranges of PDE input parameters.",
     "why_it_matters": "Hypernetwork-based Meta-Learning for Low-Rank Physics-Informed Neural Networks represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Scientific machine learning.",
+    "content_hook": "A new paper that could change how we think about Physics-informed neural networks.",
     "one_line_takeaway": "To address this issue, we propose a lightweight low-rank PINNs containing only hundreds of model parameters and an…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Scientific machine learning.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Physics-informed neural networks.",
     "url": "https://openreview.net/forum?id=dzqKAM2sKa",
     "difficulty": "intermediate"
   },
@@ -40666,8 +40666,8 @@
       "Reasoning",
       "QA",
       "Summarization",
-      "Reasoning & Chain-of-Thought",
-      "NLP"
+      "NLP",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -40945,9 +40945,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
+      "Partial-label learning",
       "weakly supervised learning",
       "benchmark.",
-      "Partial-label learning",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -41051,10 +41051,10 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
       "depth estimation",
+      "3D computer vision",
       "structure from motion",
-      "3D computer vision"
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -41100,8 +41100,8 @@
     "tags": [
       "Federated Learning",
       "Fairness & Ethics",
-      "Federated & Privacy-Preserving Learning",
       "Bias, Fairness & Ethics",
+      "Federated & Privacy-Preserving Learning",
       "federated learning; manifold regularization; update reaggregation"
     ],
     "paper_type": "theory",
@@ -41245,11 +41245,11 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Stochastic Gradient Descent",
       "acceleration",
+      "SGD",
       "spectral power laws",
-      "effective learning rate",
-      "SGD"
+      "Stochastic Gradient Descent",
+      "effective learning rate"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -41264,10 +41264,10 @@
     "summary": "An important open problem is the theoretically feasible acceleration of mini-batch SGD-type algorithms on quadratic problems with power-law spectrum. In the non-stochastic setting, the optimal exponent $\\xi$ in the loss convergence $L_t\\sim C_Lt^{-\\xi}$ is double that in plain GD and is achievable using Heavy Ball (HB) with a suitable schedule; this no longer works in the presence of mini-batch noise.",
     "key_contribution": "Using it, we show that losses of stationary stable memory-$M$ algorithms always retain the exponent $\\xi$ of plain GD, but can have different constants $C_L$ depending on their *effective learning rate* that generalizes that of HB.",
     "why_it_matters": "SGD with memory: fundamental properties and stochastic acceleration represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Stochastic Gradient Descent.",
+    "content_hook": "A new paper that could change how we think about acceleration.",
     "one_line_takeaway": "Using it, we show that losses of stationary stable memory-$M$ algorithms always retain the exponent $\\xi$ of plain GD,…",
     "biggest_caveat": "but can have different constants $C_L$ depending on their *effective learning rate* that generalizes that of HB.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Stochastic Gradient Descent.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in acceleration.",
     "url": "https://openreview.net/forum?id=Qzd4BloAjQ",
     "difficulty": "frontier"
   },
@@ -41295,10 +41295,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "Markov Games",
-      "Mechanism Design",
+      "Steering Learning Dynamics",
       "Reinforcement Learning",
-      "Steering Learning Dynamics"
+      "Mechanism Design",
+      "Markov Games"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -41441,10 +41441,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "exploration",
       "learning from demonstrations",
       "sparse reward",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "exploration"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -41490,8 +41490,8 @@
     "tags": [
       "Federated Learning",
       "Federated & Privacy-Preserving Learning",
-      "Meta-Learning",
       "Bayesian Neural Network",
+      "Meta-Learning",
       "Variational Dropout"
     ],
     "paper_type": "methods",
@@ -41534,9 +41534,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
+      "Score Based Models",
       "Data Assimilation",
       "Weather Forecasting",
-      "Score Based Models",
       "Diffusion Models"
     ],
     "paper_type": "theory",
@@ -41552,10 +41552,10 @@
     "summary": "Accurate modeling and prediction of complex physical systems often rely on data assimilation techniques to correct errors inherent in model simulations. Traditional methods like the Ensemble Kalman Filter (EnKF) and its variants as well as the recently developed Ensemble Score Filters (EnSF) face significant challenges when dealing with high-dimensional and nonlinear Bayesian filtering problems with sparse observations, which are ubiquitous in real-world applications.",
     "key_contribution": "In this paper, we propose a novel data assimilation method, Latent-EnSF, which leverages EnSF with efficient and consistent latent representations of the full states and sparse observations to address the joint challenges of high dimensionlity in states and high sparsity in observations for nonlinear Bayesian filtering.",
     "why_it_matters": "Latent-EnSF: A Latent Ensemble Score Filter for High-Dimensional Data Assimilation with Sparse Observation Data pushes the frontier of generative AI, enabling higher-quality and more controllable content creation.",
-    "content_hook": "A new paper that could change how we think about Data Assimilation.",
+    "content_hook": "A new paper that could change how we think about Score Based Models.",
     "one_line_takeaway": "In this paper, we propose a novel data assimilation method, Latent-EnSF, which leverages EnSF with efficient and…",
     "biggest_caveat": "bution matching and regularization as well as a consistent state reconstruction.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Data Assimilation.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Score Based Models.",
     "url": "https://openreview.net/forum?id=urcEYsZOBz",
     "difficulty": "frontier"
   },
@@ -42019,8 +42019,8 @@
       "Fine-Tuning",
       "Diffusion",
       "Interpretability",
-      "Diffusion Models",
-      "Model Editing"
+      "Model Editing",
+      "Diffusion Models"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -42068,9 +42068,9 @@
     "tags": [
       "VLMs",
       "Self-Supervised",
-      "dataset curation",
+      "dataset filtering",
       "Vision-Language Models",
-      "dataset filtering"
+      "dataset curation"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -42117,8 +42117,8 @@
       "Fine-Tuning",
       "Self-Supervised",
       "RL",
-      "Pre-train",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Pre-train"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -42169,8 +42169,8 @@
     "tags": [
       "Info Extraction",
       "Model Compression",
-      "Spiking Neural Networks",
       "Spiking Pruning",
+      "Spiking Neural Networks",
       "Spiking Quantization"
     ],
     "paper_type": "systems",
@@ -42322,10 +42322,10 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "large language model",
+      "combinatorial optimization",
       "neural combinatorial optimization",
       "heuristic",
-      "combinatorial optimization"
+      "large language model"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -42377,8 +42377,8 @@
       "LLMs",
       "Interpretability",
       "sparse autoencoders",
-      "interpretability",
-      "Interpretability & Explainability"
+      "Interpretability & Explainability",
+      "interpretability"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -42429,9 +42429,9 @@
     "tags": [
       "LLMs",
       "Hallucination",
+      "NLP",
       "Factuality & Hallucination",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -42478,9 +42478,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Large Language Models",
+      "NLP",
       "Reasoning & Chain-of-Thought",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -42580,8 +42580,8 @@
     "tags": [
       "Adversarial",
       "Evaluation",
-      "Adversarial Robustness",
       "meta-learning",
+      "Adversarial Robustness",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -42682,8 +42682,8 @@
       "VLMs",
       "Object Detection",
       "Adversarial",
-      "Adversarial Robustness",
-      "transferability"
+      "transferability",
+      "Adversarial Robustness"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -42727,9 +42727,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Stackelberg games",
       "Information asymmetry",
-      "Repeated games"
+      "Repeated games",
+      "Stackelberg games"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -42744,10 +42744,10 @@
     "summary": "When learning in strategic environments, a key question is whether agents can overcome uncertainty about their preferences to achieve outcomes they could have achieved absent any uncertainty. Can they do this solely through interactions with each other?",
     "key_contribution": "When learning in strategic environments, a key question is whether agents can overcome uncertainty about their preferences to achieve outcomes they could have achieved absent any uncertainty.",
     "why_it_matters": "Is Knowledge Power? On the (Im)possibility of Learning from Strategic Interactions represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Stackelberg games.",
+    "content_hook": "A new paper that could change how we think about Information asymmetry.",
     "one_line_takeaway": "When learning in strategic environments, a key question is whether agents can overcome uncertainty about their…",
     "biggest_caveat": "does not determine which agent can achieve her Stackelberg value.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Stackelberg games.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Information asymmetry.",
     "url": "https://openreview.net/forum?id=Dlm6Z1RrjV",
     "difficulty": "intermediate"
   },
@@ -42882,11 +42882,11 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Robustness",
       "Intelligent Education",
-      "Disentanglement Learning",
+      "Graph Learning",
+      "Robustness",
       "Cognitive Diagnosis",
-      "Graph Learning"
+      "Disentanglement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -42901,10 +42901,10 @@
     "summary": "Existing graph learning-based cognitive diagnosis (CD) methods have made relatively good results, but their student, exercise, and concept representations are learned and exchanged in an implicit unified graph, which makes the interaction-agnostic exercise and concept representations be learned poorly, failing to provide high robustness against noise in students' interactions. Besides,  lower-order exercise latent representations obtained in shallow layers are not well explored when learning the student representation.",
     "key_contribution": "Finally, a novel diagnostic function is devised to handle three disentangled representations for prediction.",
     "why_it_matters": "DisenGCD: A Meta Multigraph-assisted Disentangled Graph Learning Framework for  Cognitive Diagnosis represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Robustness.",
+    "content_hook": "A new paper that could change how we think about Intelligent Education.",
     "one_line_takeaway": "Finally, a novel diagnostic function is devised to handle three disentangled representations for prediction.",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Robustness.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Intelligent Education.",
     "url": "https://openreview.net/forum?id=lJuQxkDbDo",
     "difficulty": "intermediate"
   },
@@ -43088,9 +43088,9 @@
     "tags": [
       "VLMs",
       "Info Extraction",
-      "Vision-Language Models",
       "NLP",
-      "Multimodal Learning"
+      "Multimodal Learning",
+      "Vision-Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -43240,10 +43240,10 @@
     "topics": [],
     "tags": [
       "Model Compression",
-      "Model Compression & Efficiency",
-      "random sampling",
       "data pruning",
-      "dataset distillation"
+      "random sampling",
+      "dataset distillation",
+      "Model Compression & Efficiency"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -43291,9 +43291,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Meta Learning",
       "Adaptive Sampler",
       "Partial Differential Equations",
+      "Meta Learning",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -43385,8 +43385,8 @@
     "topics": [],
     "tags": [
       "Robotics",
-      "biologically plausible learning rules plasticity self-organization RNNs homeostasis meta-learning",
-      "Robotics & Embodied AI"
+      "Robotics & Embodied AI",
+      "biologically plausible learning rules plasticity self-organization RNNs homeostasis meta-learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -43431,8 +43431,8 @@
       "Prompting",
       "RL",
       "Prompting & In-Context Learning",
-      "meta-RL",
-      "adaptation"
+      "adaptation",
+      "meta-RL"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -43477,9 +43477,9 @@
     "tags": [
       "AI Safety",
       "Self-Supervised",
-      "Feedback alignment",
+      "Random noise training",
       "Network pretraining",
-      "Random noise training"
+      "Feedback alignment"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -43619,8 +43619,8 @@
       "LLMs",
       "Long Context",
       "AI Safety",
-      "large language models",
-      "Long-Context Modeling"
+      "Long-Context Modeling",
+      "large language models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -43664,9 +43664,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Projection",
       "Online Convex Optimization",
-      "Universal Online Learning"
+      "Universal Online Learning",
+      "Projection"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -43681,10 +43681,10 @@
     "summary": "To address the uncertainty in function types, recent progress in online convex optimization (OCO) has spurred the development of universal algorithms that simultaneously attain minimax rates for multiple types of convex functions. However, for a $T$-round online problem, state-of-the-art methods typically conduct $O(\\log T)$ projections onto the domain in each round, a process potentially time-consuming with complicated feasible sets.",
     "key_contribution": "Furthermore, we enhance the expert-loss to exploit the smoothness property, and demonstrate that our algorithm can attain small-loss regret for multiple types of convex and smooth functions.",
     "why_it_matters": "Universal Online Convex Optimization with $1$ Projection per Round represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Projection.",
+    "content_hook": "A new paper that could change how we think about Online Convex Optimization.",
     "one_line_takeaway": "Furthermore, we enhance the expert-loss to exploit the smoothness property, and demonstrate that our algorithm can…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Projection.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Online Convex Optimization.",
     "url": "https://openreview.net/forum?id=xNncVKbwwS",
     "difficulty": "intermediate"
   },
@@ -43711,9 +43711,9 @@
     "topics": [],
     "tags": [
       "RL",
-      "learning with expert advice",
       "online learning",
       "Reinforcement Learning",
+      "learning with expert advice",
       "non-stationary MDPs"
     ],
     "paper_type": "methods",
@@ -43810,10 +43810,10 @@
     "topics": [],
     "tags": [
       "Interpretability",
-      "Group Convolution",
-      "Geometric Deep Learning",
+      "Equivariant Neural Network",
       "Interpretability & Explainability",
-      "Equivariant Neural Network"
+      "Group Convolution",
+      "Geometric Deep Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -43857,9 +43857,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Data Heterogeneity",
       "Dictionary Learning",
-      "Personalization"
+      "Personalization",
+      "Data Heterogeneity"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -43874,10 +43874,10 @@
     "summary": "We introduce a relevant yet challenging problem named Personalized Dictionary Learning (PerDL), where the goal is to learn sparse linear representations from heterogeneous datasets that share some commonality. In PerDL, we model each dataset's shared and unique features as global and local dictionaries.",
     "key_contribution": "We introduce a relevant yet challenging problem named Personalized Dictionary Learning (PerDL), where the goal is to learn sparse linear representations from heterogeneous datasets that share some commonality.",
     "why_it_matters": "Personalized Dictionary Learning for Heterogeneous Datasets represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Data Heterogeneity.",
+    "content_hook": "A new paper that could change how we think about Dictionary Learning.",
     "one_line_takeaway": "We introduce a relevant yet challenging problem named Personalized Dictionary Learning (PerDL), where the goal is to…",
     "biggest_caveat": "but also arise due to the unknown nature of the shared and unique features.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Data Heterogeneity.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Dictionary Learning.",
     "url": "https://openreview.net/forum?id=xw6Szwu4xz",
     "difficulty": "intermediate"
   },
@@ -43905,8 +43905,8 @@
     "topics": [],
     "tags": [
       "Federated Learning",
-      "bilevel optimization",
       "stochastic optimization",
+      "bilevel optimization",
       "Multilevel Monte Carlo",
       "contextual stochastic optimization"
     ],
@@ -43953,11 +43953,11 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Meta-Learning",
-      "Deep Learning",
       "Generative Models",
+      "Regularization",
+      "Meta-Learning",
       "Generative Data Augmentation",
-      "Regularization"
+      "Deep Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -43972,10 +43972,10 @@
     "summary": "This paper investigates methods for improving generative data augmentation for deep learning. Generative data augmentation leverages the synthetic samples produced by generative models as an additional dataset for classification with small dataset settings.",
     "key_contribution": "In this paper, we present a novel strategy for generative data augmentation called *meta generative regularization* (MGR).",
     "why_it_matters": "Regularizing Neural Networks with Meta-Learning Generative Models represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Meta-Learning.",
+    "content_hook": "A new paper that could change how we think about Generative Models.",
     "one_line_takeaway": "In this paper, we present a novel strategy for generative data augmentation called *meta generative regularization*…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Meta-Learning.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Generative Models.",
     "url": "https://openreview.net/forum?id=WpuBEtrn0t",
     "difficulty": "intermediate"
   },
@@ -44105,9 +44105,9 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
+      "NLP",
       "Large Language Models",
-      "NLP"
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -44154,8 +44154,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Large Language Models",
       "NLP",
+      "Large Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -44248,8 +44248,8 @@
     "topics": [],
     "tags": [
       "Reasoning",
-      "Reasoning & Chain-of-Thought",
-      "NLP"
+      "NLP",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -44297,8 +44297,8 @@
       "LLMs",
       "Hallucination",
       "Summarization",
-      "Factuality & Hallucination",
-      "NLP"
+      "NLP",
+      "Factuality & Hallucination"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -44398,8 +44398,8 @@
       "Multimodal",
       "Self-Supervised",
       "Evaluation",
-      "multimodal learning",
-      "sentiment analysis"
+      "sentiment analysis",
+      "multimodal learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -44495,9 +44495,9 @@
     "tags": [
       "LLMs",
       "Adversarial",
+      "black box",
       "Adversarial Robustness",
-      "large language models",
-      "black box"
+      "large language models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -44544,8 +44544,8 @@
     "tags": [
       "SSMs",
       "Multimodal",
-      "State Space Models",
       "Mamba",
+      "State Space Models",
       "multi-modal sentiment analysis"
     ],
     "paper_type": "methods",
@@ -44637,9 +44637,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Large Language Models",
+      "NLP",
       "Reasoning & Chain-of-Thought",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -44684,8 +44684,8 @@
     "tags": [
       "LLMs",
       "Natural Language Generation",
-      "Large Language Models",
-      "NLP"
+      "NLP",
+      "Large Language Models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -44790,9 +44790,9 @@
     "tags": [
       "Multimodal",
       "Info Extraction",
-      "Information Extraction",
       "NLP",
-      "Multimodal Learning"
+      "Multimodal Learning",
+      "Information Extraction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -44884,8 +44884,8 @@
     "topics": [],
     "tags": [
       "ASR",
-      "NLP",
-      "Speech Recognition"
+      "Speech Recognition",
+      "NLP"
     ],
     "paper_type": "empirical",
     "difficulty_level": "L2",
@@ -45170,9 +45170,9 @@
     "tags": [
       "Fine-Tuning",
       "RL",
+      "meta learning",
       "multi-objective combinatorial optimization",
-      "deep reinforcement learning",
-      "meta learning"
+      "deep reinforcement learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -45269,10 +45269,10 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "large language models",
       "speculative decoding",
       "Large Language Models",
-      "EAGLE"
+      "EAGLE",
+      "large language models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -45415,9 +45415,9 @@
     "tags": [
       "Reasoning",
       "Multimodal",
-      "Reasoning & Chain-of-Thought",
       "NLP",
-      "Multimodal Learning"
+      "Multimodal Learning",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -45468,9 +45468,9 @@
     "tags": [
       "RL",
       "Interpretability",
+      "macro-actions",
       "hierarchical planning",
-      "Reinforcement Learning",
-      "macro-actions"
+      "Reinforcement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -45621,9 +45621,9 @@
     "tags": [
       "Info Extraction",
       "Zero-Shot Coordination",
-      "Human-AI coordination",
       "Information Extraction",
-      "Training Efficiency"
+      "Training Efficiency",
+      "Human-AI coordination"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -45819,9 +45819,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Large Language Models",
+      "NLP",
       "Reasoning & Chain-of-Thought",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -45871,8 +45871,8 @@
     "tags": [
       "Fine-Tuning",
       "VLMs",
-      "Vision-Language Models",
       "Temporal Redundancy",
+      "Vision-Language Models",
       "Text-Video Retrieval"
     ],
     "paper_type": "systems",
@@ -45919,10 +45919,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "causal discovery",
-      "structure learning",
       "bayesian network",
       "bayesian",
+      "causal discovery",
+      "structure learning",
       "gflownet"
     ],
     "paper_type": "dataset",
@@ -45938,10 +45938,10 @@
     "summary": "Generative Flow Networks (GFlowNets), a class of generative models over discrete and structured sample spaces, have been previously applied to the problem of inferring the marginal posterior distribution over the directed acyclic graph (DAG) of a Bayesian Network, given a dataset of observations. Based on recent advances extending this framework to non-discrete sample spaces, we propose in this paper to approximate the joint posterior over not only the structure of a Bayesian Network, but also the parameters of its conditional probability distributions.",
     "key_contribution": "Based on recent advances extending this framework to non-discrete sample spaces, we propose in this paper to approximate the joint posterior over not only the structure of a Bayesian Network, but also the parameters of its conditional probability distributions.",
     "why_it_matters": "Joint Bayesian Inference of Graphical Structure and Parameters with a Single Generative Flow Network represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about causal discovery.",
+    "content_hook": "A new paper that could change how we think about bayesian network.",
     "one_line_takeaway": "Based on recent advances extending this framework to non-discrete sample spaces, we propose in this paper to…",
     "biggest_caveat": "bution over the directed acyclic graph (DAG) of a Bayesian Network, given a dataset of observations.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in causal discovery.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in bayesian network.",
     "url": "https://openreview.net/forum?id=t7lnhhi7De",
     "difficulty": "frontier"
   },
@@ -46068,11 +46068,11 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "causal inference",
-      "CATE",
       "CATE estimation",
+      "causal machine learning",
       "causal ML",
-      "causal machine learning"
+      "CATE",
+      "causal inference"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -46087,10 +46087,10 @@
     "summary": "Predicting how different interventions will causally affect a specific individual is important in a variety of domains such as personalized medicine, public policy, and online marketing. There are a large number of methods to predict the effect of an existing intervention based on historical data from individuals who received it.",
     "key_contribution": "However, in many settings it is important to predict the effects of novel interventions (e.g., a newly invented drug), which these methods do not address.",
     "why_it_matters": "Zero-shot causal learning represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about causal inference.",
+    "content_hook": "A new paper that could change how we think about CATE estimation.",
     "one_line_takeaway": "However, in many settings it is important to predict the effects of novel interventions (e.g., a newly invented drug),…",
     "biggest_caveat": "However, in many settings it is important to predict the effects of novel interventions (e.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in causal inference.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in CATE estimation.",
     "url": "https://openreview.net/forum?id=BfQJrIiOZC",
     "difficulty": "intermediate"
   },
@@ -46282,8 +46282,8 @@
       "Fine-Tuning",
       "Self-Supervised",
       "Fine-Tuning & PEFT",
-      "urban time series forecasting",
-      "neuron detection"
+      "neuron detection",
+      "urban time series forecasting"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -46333,11 +46333,11 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "multi-objective optimization",
-      "task arithmetic",
-      "model merging",
+      "transfer learning",
       "multitask learning",
-      "transfer learning"
+      "task arithmetic",
+      "multi-objective optimization",
+      "model merging"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -46352,10 +46352,10 @@
     "summary": "Model merging has emerged as an effective approach to combining multiple single-task models into a multitask model. This process typically involves computing a weighted average of the model parameters without additional training.",
     "key_contribution": "In this paper, we introduce a novel and low-compute algorithm, Model Merging with Amortized Pareto Front (MAP).",
     "why_it_matters": "MAP: Low-compute Model Merging with Amortized Pareto Fronts via Quadratic Approximation represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about multi-objective optimization.",
+    "content_hook": "A new paper that could change how we think about transfer learning.",
     "one_line_takeaway": "In this paper, we introduce a novel and low-compute algorithm, Model Merging with Amortized Pareto Front (MAP).",
     "biggest_caveat": "However, interference and conflicts between the objectives of different tasks can lead to trade-offs during the merging process.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in multi-objective optimization.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in transfer learning.",
     "url": "https://openreview.net/forum?id=1v7SRWsYve",
     "difficulty": "frontier"
   },
@@ -46383,9 +46383,9 @@
     "tags": [
       "Multimodal",
       "Sentiment Analysis",
-      "Sentiment & Opinion Analysis",
       "NLP",
-      "Multimodal Learning"
+      "Multimodal Learning",
+      "Sentiment & Opinion Analysis"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -46431,8 +46431,8 @@
       "LLMs",
       "Structured Data",
       "Interpretability",
-      "Tabular Data",
-      "Automated Feature Engineering"
+      "Automated Feature Engineering",
+      "Tabular Data"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -46475,8 +46475,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distribution shift detection",
-      "Window-based detection"
+      "Window-based detection",
+      "Distribution shift detection"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -46491,10 +46491,10 @@
     "summary": "To deploy and operate deep neural models in production, the quality of their predictions, which might be contaminated benignly or manipulated maliciously by input distributional deviations, must be monitored and assessed. Specifically, we study the case of monitoring the healthy operation of a deep neural network (DNN) receiving a stream of data, with the aim of detecting input distributional deviations over which the quality of the network's predictions is potentially damaged.",
     "key_contribution": "Using selective prediction principles, we propose a distribution deviation detection method for DNNs.",
     "why_it_matters": "Window-Based Distribution Shift Detection for Deep Neural Networks represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distribution shift detection.",
+    "content_hook": "A new paper that could change how we think about Window-based detection.",
     "one_line_takeaway": "Using selective prediction principles, we propose a distribution deviation detection method for DNNs.",
     "biggest_caveat": "butional deviations, must be monitored and assessed.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Distribution shift detection.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Window-based detection.",
     "url": "https://openreview.net/forum?id=P3n4wFJGs5",
     "difficulty": "intermediate"
   },
@@ -46521,9 +46521,9 @@
     "tags": [
       "Prompting",
       "NLG",
-      "Prompting & In-Context Learning",
       "Natural Language Generation",
-      "NLP"
+      "NLP",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -46572,9 +46572,9 @@
     "tags": [
       "Prompting",
       "Self-Supervised",
+      "NLP",
       "Prompting & In-Context Learning",
-      "Self-Supervised & Contrastive Learning",
-      "NLP"
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -46672,8 +46672,8 @@
     "tags": [
       "RL",
       "Continuous-Time Reinforcement Learning (CT-RL)",
-      "Flight Control",
       "Adaptive/Approximate Dynamic Programming (ADP)",
+      "Flight Control",
       "Optimal Control"
     ],
     "paper_type": "theory",
@@ -46718,9 +46718,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
+      "quaternion representation",
       "rigid flow matching",
       "inertial frame",
-      "quaternion representation",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
@@ -46869,8 +46869,8 @@
     "tags": [
       "LLMs",
       "AI Safety",
-      "AI Safety & Alignment",
       "Speculative Decoding",
+      "AI Safety & Alignment",
       "Decoding Acceleration"
     ],
     "paper_type": "systems",
@@ -46923,10 +46923,10 @@
     "topics": [],
     "tags": [
       "Text-to-Image",
-      "diffusion model",
       "Diffusion Models",
-      "consistency model",
-      "Model merging"
+      "Model merging",
+      "diffusion model",
+      "consistency model"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -47025,8 +47025,8 @@
     "tags": [
       "VLMs",
       "Evaluation",
-      "mixture-of-experts",
       "Vision-Language Models",
+      "mixture-of-experts",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "dataset",
@@ -47269,10 +47269,10 @@
     "topics": [],
     "tags": [
       "Text-to-Image",
-      "Text-to-Image Generation",
+      "Novel View Synthesis",
       "Diffusion Models",
       "Diffusion Model",
-      "Novel View Synthesis"
+      "Text-to-Image Generation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -47286,7 +47286,7 @@
     "evidence_strength": 0.0,
     "summary": "Synthesizing novel view images from a few views is a challenging but practical problem. Existing methods often struggle with producing high-quality results or necessitate per-object optimization in such few-view settings due to the insufficient information provided.",
     "key_contribution": "Synthesizing novel view images from a few views is a challenging but practical problem.",
-    "why_it_matters": "DreamSparse: Escaping from Plato’s Cave with 2D Diffusion Model Given Sparse Views advances AI-generated imagery, enabling more creative and controllable visual content.",
+    "why_it_matters": "DreamSparse: Escaping from Plato’s Cave with 2D Diffusion Model Given Sparse Views pushes the frontier of generative AI, enabling higher-quality and more controllable content creation.",
     "content_hook": "A new paper that could change how we think about Text-to-Image.",
     "one_line_takeaway": "Synthesizing novel view images from a few views is a challenging but practical problem.",
     "biggest_caveat": "but practical problem.",
@@ -47410,9 +47410,9 @@
     "topics": [],
     "tags": [
       "RL",
-      "Variational Inference",
-      "Reinforcement Learning",
       "Transfer Learning",
+      "Reinforcement Learning",
+      "Variational Inference",
       "Imitation Learning"
     ],
     "paper_type": "methods",
@@ -47463,8 +47463,8 @@
       "Fine-Tuning",
       "Multimodal",
       "Self-Supervised",
-      "Fine-Tuning & PEFT",
-      "Recommendation System"
+      "Recommendation System",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -47510,10 +47510,10 @@
     "topics": [],
     "tags": [
       "RL",
+      "Reinforcement Learning",
       "plasticity loss",
-      "negative transfer",
       "continual reinforcement learning",
-      "Reinforcement Learning"
+      "negative transfer"
     ],
     "paper_type": "position",
     "difficulty_level": "L3",
@@ -47561,8 +47561,8 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "depth estimation",
       "Transformer Architectures",
+      "depth estimation",
       "computer vision"
     ],
     "paper_type": "methods",
@@ -47717,9 +47717,9 @@
     "tags": [
       "LLMs",
       "Prompting",
+      "NLP",
       "Prompting & In-Context Learning",
-      "Large Language Models",
-      "NLP"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -47769,9 +47769,9 @@
     "tags": [
       "LLMs",
       "Hallucination",
-      "Factuality & Hallucination",
       "LLM evaluation",
-      "GPT-4"
+      "GPT-4",
+      "Factuality & Hallucination"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -48054,8 +48054,8 @@
       "Prompting",
       "Info Extraction",
       "Classification",
-      "Prompting & In-Context Learning",
-      "NLP"
+      "NLP",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -48103,8 +48103,8 @@
     "topics": [],
     "tags": [
       "IR",
-      "Information Retrieval",
-      "NLP"
+      "NLP",
+      "Information Retrieval"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -48253,9 +48253,9 @@
     "tags": [
       "RL",
       "sample transfer",
-      "doubly robust (DR)",
+      "Reinforcement Learning",
       "Meta-reinforcement learning",
-      "Reinforcement Learning"
+      "doubly robust (DR)"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -48305,8 +48305,8 @@
     "tags": [
       "MoE",
       "Transformers",
-      "Transformer Architectures",
       "NLP",
+      "Transformer Architectures",
       "Mixture of Experts"
     ],
     "paper_type": "systems",
@@ -48353,8 +48353,8 @@
       "VLMs",
       "Adversarial",
       "Fairness & Ethics",
-      "Adversarial Robustness",
-      "Action Recognition"
+      "Action Recognition",
+      "Adversarial Robustness"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -48450,8 +48450,8 @@
     "tags": [
       "AI Safety",
       "Evaluation",
-      "Neural Networks",
       "Generalization",
+      "Neural Networks",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -48498,10 +48498,10 @@
     "topics": [],
     "tags": [
       "Self-Supervised",
-      "Self-Supervised & Contrastive Learning",
-      "Self-Supervised Learning",
       "Deep Neural Networks",
-      "Generalization Bounds"
+      "Self-Supervised Learning",
+      "Generalization Bounds",
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -48601,8 +48601,8 @@
       "LLMs",
       "AI Safety",
       "Model Compression",
-      "AI Safety & Alignment",
-      "safety guard"
+      "safety guard",
+      "AI Safety & Alignment"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -48647,8 +48647,8 @@
     "tags": [
       "Diffusion",
       "score matching",
-      "Diffusion Models",
       "Hamiltonian dynamics",
+      "Diffusion Models",
       "diffusion models"
     ],
     "paper_type": "systems",
@@ -48696,9 +48696,9 @@
     "topics": [],
     "tags": [
       "Interpretability",
+      "Interpretability & Explainability",
       "generalization",
       "spurious correlations",
-      "Interpretability & Explainability",
       "circuits"
     ],
     "paper_type": "systems",
@@ -48744,10 +48744,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "computational neuroscience",
       "meta-learning",
-      "synaptic plasticity",
-      "spiking network"
+      "computational neuroscience",
+      "spiking network",
+      "synaptic plasticity"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -48762,10 +48762,10 @@
     "summary": "There is substantial experimental evidence that learning and memory-related behaviours rely on local synaptic changes, but the search for distinct plasticity rules has been driven by human intuition, with limited success for multiple, co-active plasticity rules in biological networks. More recently, automated meta-learning approaches have been used in simplified settings, such as rate networks and small feed-forward spiking networks.",
     "key_contribution": "There is substantial experimental evidence that learning and memory-related behaviours rely on local synaptic changes, but the search for distinct plasticity rules has been driven by human intuition, with limited success for multiple, co-active plasticity rules in biological networks.",
     "why_it_matters": "Meta-learning families of plasticity rules in recurrent spiking networks using simulation-based inference represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about computational neuroscience.",
+    "content_hook": "A new paper that could change how we think about meta-learning.",
     "one_line_takeaway": "There is substantial experimental evidence that learning and memory-related behaviours rely on local synaptic changes,…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in computational neuroscience.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in meta-learning.",
     "url": "https://openreview.net/forum?id=FLFasCFJNo",
     "difficulty": "intermediate"
   },
@@ -48794,9 +48794,9 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
       "text detection",
-      "AI-generated text detection"
+      "AI-generated text detection",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -48844,8 +48844,8 @@
     "tags": [
       "VLMs",
       "Evaluation",
-      "Vision-Language Models",
       "Membership inference attack; Large Vision-Language Models",
+      "Vision-Language Models",
       "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
@@ -48945,9 +48945,9 @@
     "tags": [
       "Multimodal",
       "Self-Supervised",
-      "Self-Supervised & Contrastive Learning",
       "NLP",
-      "Multimodal Learning"
+      "Multimodal Learning",
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -49043,8 +49043,8 @@
     "tags": [
       "LLMs",
       "Model Compression",
-      "Efficient Inference",
       "Model Pruning",
+      "Efficient Inference",
       "Large Language Models"
     ],
     "paper_type": "systems",
@@ -49248,10 +49248,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
+      "Prototype Bank",
       "Missing Value",
       "S4 Models",
-      "Multivariate Time Series Forecasting",
-      "Prototype Bank"
+      "Multivariate Time Series Forecasting"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -49266,10 +49266,10 @@
     "summary": "Multivariate time series data play a pivotal role in a wide range of real-world applications, such as finance, healthcare, and meteorology, where accurate forecasting is critical for informed decision-making and proactive interventions. However, the presence of block missing data introduces significant challenges, often compromising the performance of predictive models.",
     "key_contribution": "In this work, we introduce S4M, an end-to-end time series forecasting framework that seamlessly integrates missing data handling into the Structured State Space Sequence (S4) model architecture.",
     "why_it_matters": "S4M: S4 for multivariate time series forecasting with Missing values represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Missing Value.",
+    "content_hook": "A new paper that could change how we think about Prototype Bank.",
     "one_line_takeaway": "In this work, we introduce S4M, an end-to-end time series forecasting framework that seamlessly integrates missing data…",
     "biggest_caveat": "However, the presence of block missing data introduces significant challenges, often compromising the performance of predictive models.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Missing Value.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Prototype Bank.",
     "url": "https://openreview.net/forum?id=BkftcwIVmR",
     "difficulty": "advanced"
   },
@@ -49296,8 +49296,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "GFlowNet",
       "f-Divergence",
+      "GFlowNet",
       "Loss Function",
       "Benchmarking & Evaluation"
     ],
