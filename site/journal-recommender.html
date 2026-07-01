@@ -154,8 +154,8 @@ let recommenderIndex = null;
 
 function qBadge(q) {
   if (!q) return '';
-  const cls = q === 'Q1' ? 'background:#dcfce7;color:#166534' : 'background:#fef9c3;color:#854d0e';
-  return `<span class="badge" style="${cls}">${escHtml(q)}</span>`;
+  const cls = q === 'Q1' ? 'rs-status--success' : 'rs-status--warning';
+  return `<span class="rs-status ${cls}">${escHtml(q)}</span>`;
 }
 
 function contribAdjust(venue, contribType) {
@@ -233,7 +233,7 @@ function recommendJournals() {
         <div class="font-semibold" style="color:var(--rs-text)">Top ${ranked.length} journal recommendations${detectedNote}</div>
         <p class="mt-1">Ranked by topic overlap and field match. Fit labels are advisory — check each journal's scope before submitting.</p>
       </div>
-      <button id="copy-shortlist-btn" type="button" class="shrink-0 text-xs font-medium px-2.5 py-1 rounded-lg border" style="border-color:var(--rs-border);color:var(--rs-primary)">⧉ Copy shortlist</button>
+      <button id="copy-shortlist-btn" type="button" class="shrink-0 text-xs font-medium px-2.5 py-1 rounded-lg border" style="border-color:var(--rs-border);color:var(--rs-primary)">Copy shortlist</button>
     </div>
     ${fitLegend()}`;
   resultsEl.innerHTML = renderAnalysisPanel(analysis) + ranked.map(renderResult).join('');
@@ -243,7 +243,7 @@ function recommendJournals() {
 function renderResult(item, index) {
   const v  = item.venue;
   const mw = Math.min(100, Math.round(item.score * 2.8));
-  const oa = v.open_access ? '<span class="badge" style="background:#dcfce7;color:#166534">Open Access</span>' : '';
+  const oa = v.open_access ? '<span class="rs-status rs-status--success">Open Access</span>' : '';
   const ifBadge = v.impact_factor != null ? `<span class="badge badge-tag" title="OpenAlex 2-year mean citedness — an impact-factor-style metric">IF ${v.impact_factor}</span>` : '';
   const accBadge = v.acceptance_rate ? `<span class="badge badge-tag" title="Approximate — most journals do not publish official acceptance rates">Accept ${escHtml(v.acceptance_rate)}</span>` : '';
   const websiteLink = v.website
