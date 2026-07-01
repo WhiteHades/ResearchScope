@@ -6,26 +6,26 @@
 
 :root {
   /* ── Brand (single-accent by Atelier Zero spec) ── */
-  --rs-coral:        #ed6f5c;
-  --rs-coral-soft:   #f08e7c;
-  --rs-coral-deep:   #d65a47;
-  --rs-mustard:      #e9b94a;
-  --rs-olive:        #6e7448;
+  --rs-coral:        #a63b2d;
+  --rs-coral-soft:   #d76552;
+  --rs-coral-deep:   #5f2119;
+  --rs-mustard:      #b07616;
+  --rs-olive:        #4f5a2f;
 
   /* Legacy token aliases — old names still resolve to atelier values so
      every existing class (`.rs-card`, `.rs-nav`, `.topic-graph-*`) picks
      up the new palette without touching 18 HTML files. */
   --rs-primary:      var(--rs-coral);
   --rs-primary-dark: var(--rs-coral-deep);
-  --rs-primary-50:   #fcebe7;
-  --rs-primary-100:  #f9d6cd;
+  --rs-primary-50:   #f7dfd7;
+  --rs-primary-100:  #efc4b9;
   --rs-accent:       var(--rs-olive);
 
   /* ── Paper ── */
-  --rs-paper:        #efe7d2;
-  --rs-paper-warm:   #ece4cf;
-  --rs-paper-dark:   #ddd2b6;
-  --rs-bone:         #f7f1de;
+  --rs-paper:        #eee4c9;
+  --rs-paper-warm:   #e2d4b4;
+  --rs-paper-dark:   #cdbb91;
+  --rs-bone:         #fff6df;
 
   --rs-bg:           var(--rs-paper);
   --rs-surface:      var(--rs-bone);
@@ -33,39 +33,43 @@
   --rs-surface-3:    var(--rs-paper-dark);
 
   /* ── Ink ── */
-  --rs-ink:          #15140f;
-  --rs-ink-soft:     #2a2620;
-  --rs-ink-mute:     #5a5448;
-  --rs-ink-faint:    #8b8676;
+  --rs-ink:          #14120d;
+  --rs-ink-soft:     #261f17;
+  --rs-ink-mute:     #3f382d;
+  --rs-ink-faint:    #5f5646;
 
   --rs-text:         var(--rs-ink);
   --rs-muted:        var(--rs-ink-mute);
   --rs-faint:        var(--rs-ink-faint);
 
   /* ── Lines ── */
-  --rs-border:       #c9bfa3;
-  --rs-border-soft:  rgba(21, 20, 15, 0.08);
-  --rs-rule:         rgba(21, 20, 15, 0.16);
+  --rs-link:         #7d2c22;
+  --rs-link-hover:   #4b1913;
+  --rs-link-line:    rgba(125, 44, 34, 0.38);
+
+  --rs-border:       #aa9970;
+  --rs-border-soft:  rgba(20, 18, 13, 0.14);
+  --rs-rule:         rgba(20, 18, 13, 0.26);
 
   /* ── Semantic tints (Atelier-compatible, no default blues) ── */
-  --rs-success:      #5f6f3a;
-  --rs-success-bg:   #e8ecd8;
-  --rs-success-line: #c8d09a;
-  --rs-warning:      #8b6421;
-  --rs-warning-bg:   #f6edcc;
-  --rs-warning-line: #dec77a;
-  --rs-danger:       #a84636;
-  --rs-danger-bg:    #f8ded7;
-  --rs-danger-line:  #efb6aa;
-  --rs-info:         #6e7448;
-  --rs-info-bg:      #e5e8d4;
-  --rs-info-line:    #c7cca0;
-  --rs-focus-ring:   rgba(237, 111, 92, 0.18);
+  --rs-success:      #3f4c20;
+  --rs-success-bg:   #e3e8cc;
+  --rs-success-line: #aeb879;
+  --rs-warning:      #684511;
+  --rs-warning-bg:   #f3e4b8;
+  --rs-warning-line: #caa954;
+  --rs-danger:       #7f2d23;
+  --rs-danger-bg:    #f3d1c8;
+  --rs-danger-line:  #d89383;
+  --rs-info:         #3f4d2a;
+  --rs-info-bg:      #dfe5c7;
+  --rs-info-line:    #a7b27b;
+  --rs-focus-ring:   rgba(125, 44, 34, 0.30);
 
   /* ── Shadows (Atelier Zero: max 30px blur, warm ink-tint) ── */
-  --rs-shadow-sm:    0 1px 2px rgba(21, 20, 15, 0.06);
-  --rs-shadow:       0 8px 24px rgba(21, 20, 15, 0.08), 0 2px 6px rgba(21, 20, 15, 0.04);
-  --rs-shadow-lg:    0 24px 48px rgba(21, 20, 15, 0.10), 0 4px 12px rgba(21, 20, 15, 0.05);
+  --rs-shadow-sm:    0 1px 2px rgba(20, 18, 13, 0.10);
+  --rs-shadow:       0 10px 28px rgba(20, 18, 13, 0.12), 0 2px 8px rgba(20, 18, 13, 0.06);
+  --rs-shadow-lg:    0 24px 48px rgba(20, 18, 13, 0.14), 0 4px 14px rgba(20, 18, 13, 0.08);
 
   /* ── Radii ── */
   --rs-radius:       14px;
@@ -163,6 +167,16 @@ body::after {
 body > * { position: relative; z-index: 1; }
 
 ::selection { background: var(--rs-coral); color: var(--rs-paper); }
+
+a {
+  color: var(--rs-link);
+  text-decoration-color: var(--rs-link-line);
+  text-underline-offset: 0.16em;
+}
+a:hover {
+  color: var(--rs-link-hover);
+  text-decoration-color: currentColor;
+}
 
 /* ── Side rails (visible ≥ 1280px) ── */
 .rs-rail {
@@ -430,10 +444,10 @@ body > * { position: relative; z-index: 1; }
 .rs-card:hover {
   box-shadow: var(--rs-shadow);
   transform: translateY(-3px);
-  border-color: rgba(237, 111, 92, 0.35);
+  border-color: var(--rs-coral);
 }
 
-/* ── Badges (warm-tinted, hairline border, never solid indigo) ── */
+/* ── Badges (warm-tinted, hairline border) ── */
 .badge {
   display: inline-block;
   padding: 0.22rem 0.6rem;
@@ -557,7 +571,7 @@ body > * { position: relative; z-index: 1; }
 .rs-input:focus {
   outline: none;
   border-color: var(--rs-coral);
-  box-shadow: 0 0 0 3px rgba(237, 111, 92, 0.18);
+  box-shadow: 0 0 0 3px var(--rs-focus-ring);
 }
 .rs-input::placeholder { color: var(--rs-ink-faint); }
 
@@ -707,7 +721,7 @@ body > * { position: relative; z-index: 1; }
 .stat-card:hover {
   box-shadow: var(--rs-shadow);
   transform: translateY(-2px);
-  border-color: rgba(237, 111, 92, 0.35);
+  border-color: var(--rs-coral);
 }
 .stat-value {
   font-family: var(--rs-font-display);
@@ -727,7 +741,7 @@ body > * { position: relative; z-index: 1; }
   letter-spacing: 0.01em;
 }
 
-/* ── Hero (paper background, no purple gradient) ── */
+/* ── Hero (paper background, no gradient fill) ── */
 .hero-gradient {
   background: var(--rs-paper);
   position: relative;
@@ -834,7 +848,7 @@ body > * { position: relative; z-index: 1; }
 .topic-graph-control input:focus,
 .topic-graph-control select:focus {
   border-color: var(--rs-coral);
-  box-shadow: 0 0 0 3px rgba(237, 111, 92, 0.16);
+  box-shadow: 0 0 0 3px var(--rs-focus-ring);
 }
 .topic-graph-relations {
   align-items: center;
@@ -933,7 +947,7 @@ body > * { position: relative; z-index: 1; }
 .topic-graph-edge.edge-topic-paper    { stroke: var(--rs-coral); }
 .topic-graph-edge.edge-topic-topic,
 .topic-graph-edge.edge-prerequisite   { stroke: var(--rs-olive); }
-.topic-graph-edge.edge-paper-paper    { stroke: #6e7448; }
+.topic-graph-edge.edge-paper-paper    { stroke: var(--rs-olive); }
 .topic-graph-edge.is-active-edge      { opacity: 0.96; stroke: var(--rs-coral-deep); }
 .topic-graph-edge.is-selected         { opacity: 1; stroke: var(--rs-ink); }
 .topic-graph-edge.is-dimmed           { opacity: 0.08; }
@@ -958,19 +972,19 @@ body > * { position: relative; z-index: 1; }
 }
 .topic-graph-node.is-neighbor circle {
   fill: var(--rs-olive);
-  filter: drop-shadow(0 3px 8px rgba(110, 116, 72, 0.28));
-  stroke: #4a5a2c;
+  filter: drop-shadow(0 3px 8px rgba(63, 77, 42, 0.30));
+  stroke: var(--rs-info);
   stroke-width: 3;
 }
 .topic-graph-node:hover circle,
 .topic-graph-node:focus circle {
-  filter: drop-shadow(0 4px 10px rgba(237, 111, 92, 0.35));
+  filter: drop-shadow(0 4px 10px rgba(125, 44, 34, 0.35));
   stroke: var(--rs-coral);
   stroke-width: 3;
 }
 .topic-graph-node.is-selected circle {
   fill: var(--rs-coral);
-  filter: drop-shadow(0 5px 12px rgba(237, 111, 92, 0.4));
+  filter: drop-shadow(0 5px 12px rgba(125, 44, 34, 0.42));
   stroke: var(--rs-coral-deep);
   stroke-width: 4;
 }
@@ -1206,7 +1220,7 @@ body > * { position: relative; z-index: 1; }
 }
 
 /* ── Conference rank badge ───────────────────────── */
-.rank-astar { background: #f3ebd3; color: #6b5320; border: 1px solid #e9b94a; }
+.rank-astar { background: var(--rs-warning-bg); color: var(--rs-warning); border: 1px solid var(--rs-warning-line); }
 .rank-a     { background: var(--rs-paper-warm); color: var(--rs-ink); border: 1px solid var(--rs-rule); }
 .rank-b     { background: #e6ecd9; color: #4a5a2c; border: 1px solid var(--rs-rule); }
 
@@ -1229,7 +1243,7 @@ body > * { position: relative; z-index: 1; }
 .potd-wrap::before {
   content: ''; position: absolute; top: -50px; right: -50px;
   width: 220px; height: 220px; border-radius: 50%;
-  background: rgba(237, 111, 92, 0.10);
+  background: rgba(215, 101, 82, 0.16);
 }
 .potd-wrap::after {
   content: ''; position: absolute; bottom: -30px; left: 30%;
@@ -1240,7 +1254,7 @@ body > * { position: relative; z-index: 1; }
   font-family: var(--rs-font-display);
   font-size: 0.68rem; font-weight: 800;
   text-transform: uppercase; letter-spacing: 0.18em;
-  color: var(--rs-coral);
+  color: var(--rs-coral-soft);
   margin-bottom: 0.75rem;
   display: flex; align-items: center; gap: 0.5rem;
 }
@@ -1249,7 +1263,7 @@ body > * { position: relative; z-index: 1; }
   display: inline-block;
   width: 18px;
   height: 1px;
-  background: var(--rs-coral);
+  background: var(--rs-coral-soft);
 }
 .potd-title {
   font-family: var(--rs-font-display);
@@ -1259,7 +1273,7 @@ body > * { position: relative; z-index: 1; }
 }
 .potd-title a { color: var(--rs-paper); text-decoration: none; }
 .potd-title a:hover { color: var(--rs-coral-soft); }
-.potd-meta { font-size: 0.82rem; color: var(--rs-ink-faint); margin-bottom: 0.75rem; }
+.potd-meta { font-size: 0.82rem; color: rgba(238, 228, 201, 0.74); margin-bottom: 0.75rem; }
 .potd-abstract {
   font-size: 0.875rem; color: rgba(239, 231, 210, 0.82); line-height: 1.6;
   margin-bottom: 1.25rem;
@@ -1282,7 +1296,7 @@ body > * { position: relative; z-index: 1; }
   border: 1px solid rgba(239, 231, 210, 0.3);
 }
 .potd-btn-ghost:hover { background: rgba(239, 231, 210, 0.1); border-color: rgba(239, 231, 210, 0.5); }
-.potd-next { font-size: 0.72rem; color: var(--rs-ink-faint); margin-left: auto; }
+.potd-next { font-size: 0.72rem; color: rgba(238, 228, 201, 0.66); margin-left: auto; }
 
 /* ── GitHub Star button (kept ink, hairline border) ── */
 .github-star-btn,
@@ -1386,7 +1400,7 @@ a.github-star-btn:hover {
 .pager-btn:hover, .pager-btn.active {
   background: var(--rs-coral); color: var(--rs-paper);
   border-color: var(--rs-coral);
-  box-shadow: 0 2px 8px rgba(237, 111, 92, 0.25);
+  box-shadow: 0 2px 8px rgba(125, 44, 34, 0.28);
 }
 .pager-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
@@ -1559,7 +1573,7 @@ a.github-star-btn:hover {
 .rs-btn--primary:hover {
   background: var(--rs-coral-deep);
   transform: translateY(-1px);
-  box-shadow: 0 8px 22px rgba(237, 111, 92, 0.30);
+  box-shadow: 0 8px 22px rgba(125, 44, 34, 0.30);
 }
 .rs-btn--ghost {
   background: transparent;

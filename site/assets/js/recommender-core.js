@@ -169,7 +169,7 @@
     const quality = sc >= 4 ? 'Strong' : sc >= 3 ? 'Good' : sc >= 2 ? 'Fair' : 'Weak';
     const qClass = sc >= 4 ? 'rs-status--success' : sc >= 3 ? 'rs-status--info' : sc >= 2 ? 'rs-status--warning' : 'rs-status--danger';
     const tipsHtml = analysis.suggestions.length
-      ? `<div class="mt-3 p-2.5 rounded-lg space-y-1" style="background:var(--rs-primary-50);border:1px solid rgba(237,111,92,.22)">
+      ? `<div class="mt-3 p-2.5 rounded-lg space-y-1" style="background:var(--rs-primary-50);border:1px solid var(--rs-danger-line)">
           ${analysis.suggestions.map((s) => `<div class="text-xs" style="color:var(--rs-primary)">${escHtml(s)}</div>`).join('')}
          </div>`
       : `<div class="mt-3 p-2.5 rounded-lg text-xs" style="background:var(--rs-success-bg);border:1px solid var(--rs-success-line);color:var(--rs-success)">Abstract looks well-structured — good basis for matching.</div>`;

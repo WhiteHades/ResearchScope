@@ -268,16 +268,16 @@ function _injectNavStyles() {
   #rs-auth-btn{
     display:flex;align-items:center;gap:.4rem;
     padding:.35rem .8rem;border-radius:.5rem;
-    border:1.5px solid var(--rs-border,#c9bfa3);
-    background:var(--rs-surface,#f7f1de);cursor:pointer;
-    font-size:.8rem;font-weight:600;color:var(--rs-text,#15140f);white-space:nowrap;
+    border:1.5px solid var(--rs-border,#aa9970);
+    background:var(--rs-surface,#fff6df);cursor:pointer;
+    font-size:.8rem;font-weight:600;color:var(--rs-text,#14120d);white-space:nowrap;
     transition:border-color .15s,box-shadow .15s;
   }
-  #rs-auth-btn:hover{border-color:var(--rs-primary,#ed6f5c);box-shadow:0 0 0 3px var(--rs-focus-ring,rgba(237,111,92,.18))}
+  #rs-auth-btn:hover{border-color:var(--rs-primary,#a63b2d);box-shadow:0 0 0 3px var(--rs-focus-ring,rgba(125,44,34,.30))}
   #rs-user-menu{
     position:absolute;right:0;top:calc(100% + 8px);
-    background:var(--rs-surface,#f7f1de);
-    border:1px solid var(--rs-border,#c9bfa3);
+    background:var(--rs-surface,#fff6df);
+    border:1px solid var(--rs-border,#aa9970);
     border-radius:.75rem;
     box-shadow:0 8px 24px rgba(0,0,0,.12);
     min-width:180px;z-index:999;overflow:hidden;
@@ -288,9 +288,9 @@ function _injectNavStyles() {
     display:flex;align-items:center;gap:.5rem;
     width:100%;text-align:left;padding:.6rem 1rem;
     font-size:.85rem;background:none;border:none;cursor:pointer;
-    color:var(--rs-text,#15140f);text-decoration:none;transition:background-color .12s;
+    color:var(--rs-text,#14120d);text-decoration:none;transition:background-color .12s;
   }
-  #rs-user-menu a:hover,#rs-user-menu button:hover{background:var(--rs-bg,#efe7d2)}
+  #rs-user-menu a:hover,#rs-user-menu button:hover{background:var(--rs-bg,#eee4c9)}
   #rs-auth-wrap{position:relative}
   `;
   document.head.appendChild(s);
@@ -325,7 +325,7 @@ function _updateAuthNav() {
   const user = _auth.user();
   if (_auth.isLoggedIn() && user) {
     const initial = (user.name || user.email || '?')[0].toUpperCase();
-    btn.innerHTML = `<span style="width:22px;height:22px;border-radius:50%;background:var(--rs-primary,#ed6f5c);color:var(--rs-paper,#efe7d2);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700">${escHtml(initial)}</span>${escHtml(user.name || user.email)}`;
+    btn.innerHTML = `<span style="width:22px;height:22px;border-radius:50%;background:var(--rs-primary,#a63b2d);color:var(--rs-paper,#eee4c9);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700">${escHtml(initial)}</span>${escHtml(user.name || user.email)}`;
     btn.onclick = (e) => { e.stopPropagation(); _showUserMenu(); };
   } else {
     btn.innerHTML = `<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>Sign in`;
@@ -342,14 +342,14 @@ function _showUserMenu() {
   const menu = document.createElement('div');
   menu.id = 'rs-user-menu';
   menu.innerHTML = `
-    <div style="padding:.65rem 1rem;border-bottom:1px solid var(--rs-border,#c9bfa3)">
-      <div style="font-size:.82rem;font-weight:700;color:var(--rs-text,#15140f)">${escHtml(user?.name || user?.email || '')}</div>
-      ${user?.name ? `<div style="font-size:.72rem;color:var(--rs-muted,#888)">${escHtml(user.email || '')}</div>` : ''}
+    <div style="padding:.65rem 1rem;border-bottom:1px solid var(--rs-border,#aa9970)">
+      <div style="font-size:.82rem;font-weight:700;color:var(--rs-text,#14120d)">${escHtml(user?.name || user?.email || '')}</div>
+      ${user?.name ? `<div style="font-size:.72rem;color:var(--rs-muted,#3f382d)">${escHtml(user.email || '')}</div>` : ''}
     </div>
     <a href="profile">Profile &amp; Settings</a>
     <a href="favourites">My Favourites</a>
-    <div style="height:1px;background:var(--rs-border,#c9bfa3);margin:.25rem 0"></div>
-    <button onclick="rsLogout()" style="color:var(--rs-danger,#a84636)">Sign out</button>`;
+    <div style="height:1px;background:var(--rs-border,#aa9970);margin:.25rem 0"></div>
+    <button onclick="rsLogout()" style="color:var(--rs-danger,#7f2d23)">Sign out</button>`;
   wrap.appendChild(menu);
 
   setTimeout(() => document.addEventListener('click', function close(e) {
