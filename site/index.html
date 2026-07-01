@@ -882,7 +882,7 @@ function renderEditorial(ed) {
   const gapsEl = document.getElementById('gaps-container');
   if (gaps && gaps.length) {
     const top = gaps.slice(0,4);
-    gapsEl.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem">` +
+    gapsEl.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:1rem">` +
       top.map(g => `
         <div class="gap-card ${GAP_TYPE_COLOR[g.gap_type]||''}">
           <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
@@ -904,7 +904,7 @@ function renderEditorial(ed) {
     const authorsEl = document.getElementById('authors-container');
     if (authors && authors.length) {
       const sorted = [...authors].sort((a,b)=>(b.momentum_score||0)-(a.momentum_score||0));
-      authorsEl.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem">` +
+      authorsEl.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1rem">` +
         sorted.slice(0,6).map(a => `
           <div class="rs-card" style="padding:1.25rem">
             <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem">

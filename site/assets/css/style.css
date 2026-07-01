@@ -450,7 +450,7 @@ body > * { position: relative; z-index: 1; }
 .badge-beginner    { background: #e6ecd9; color: #4a5a2c; border-color: #c9d3a3; }
 .badge-intermediate{ background: #f3ebd3; color: #6b5320; border-color: #e2cf8a; }
 .badge-advanced    { background: #fce4dd; color: #8a3a2c; border-color: #f4c0b3; }
-.badge-tag         { background: var(--rs-paper-warm); color: var(--rs-ink); border-color: var(--rs-rule); }
+.badge-tag         { background: var(--rs-paper-warm); color: var(--rs-ink); border-color: var(--rs-rule); white-space: normal; overflow-wrap: anywhere; }
 .badge-score       { background: var(--rs-paper-dark); color: var(--rs-ink); border-color: var(--rs-rule); }
 
 /* ── Tables ──────────────────────────────────────── */
@@ -1223,6 +1223,8 @@ body > * { position: relative; z-index: 1; }
   position: relative;
   overflow: hidden;
   border: 1px solid var(--rs-ink);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .potd-wrap::before {
   content: ''; position: absolute; top: -50px; right: -50px;
@@ -1679,6 +1681,18 @@ a.github-star-btn:hover {
 }
 @media (max-width: 879px) {
   .rs-container { padding: 0 24px; }
+}
+@media (max-width: 360px) {
+  .rs-container { padding: 0 16px; }
+  .rs-slab { padding: 1.5rem 1rem; }
+  .rs-slab .grid,
+  .rs-slab .grid > * { min-width: 0; }
+  .rs-slab .p-7 { padding: 1.25rem; }
+  .potd-wrap { padding: 1.25rem; }
+  .potd-title,
+  .potd-meta,
+  .potd-abstract,
+  .gap-card { overflow-wrap: anywhere; }
 }
 
 /* Footer mega word (Atelier Zero closing kicker) */
