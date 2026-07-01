@@ -53,25 +53,25 @@
 }
 
 .recommender-fit-excellent {
-  background: #d1fae5;
-  color: #064e3b;
-  border: 1px solid #6ee7b7;
+  background: var(--rs-success-bg);
+  color: var(--rs-success);
+  border: 1px solid var(--rs-success-line);
 }
 .recommender-fit-strong {
-  background: #dcfce7;
-  color: #166534;
+  background: var(--rs-success-bg);
+  color: var(--rs-success);
 }
 .recommender-fit-moderate {
-  background: #fef9c3;
-  color: #854d0e;
+  background: var(--rs-warning-bg);
+  color: var(--rs-warning);
 }
 .recommender-fit-stretch {
-  background: #fee2e2;
-  color: #991b1b;
+  background: var(--rs-danger-bg);
+  color: var(--rs-danger);
 }
 .recommender-fit-unlikely {
-  background: #f3f4f6;
-  color: #6b7280;
+  background: var(--rs-paper-warm);
+  color: var(--rs-muted);
 }
 
 .recommender-meter {
@@ -84,12 +84,14 @@
 .recommender-meter-fill {
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #06b6d4, #4f46e5);
+  background: var(--rs-coral);
 }
 
 .recommender-paper {
-  border-left: 3px solid var(--rs-border);
-  padding-left: 0.75rem;
+  border: 1px solid var(--rs-rule);
+  border-radius: 0.65rem;
+  background: var(--rs-paper-warm);
+  padding: 0.75rem;
 }
 
 .recommender-result-head {
@@ -132,9 +134,9 @@
 }
 
 /* Deadline urgency colors */
-.dl-urgent   { color: #dc2626; font-weight: 600; }
-.dl-soon     { color: #d97706; font-weight: 600; }
-.dl-ok       { color: #16a34a; font-weight: 600; }
+.dl-urgent   { color: var(--rs-danger); font-weight: 600; }
+.dl-soon     { color: var(--rs-warning); font-weight: 600; }
+.dl-ok       { color: var(--rs-success); font-weight: 600; }
 .dl-passed   { color: var(--rs-muted); }
 .dl-unknown  { color: var(--rs-muted); }
 
@@ -146,10 +148,10 @@
   overflow: hidden;
   flex: 1;
 }
-.breakdown-fill-overlap  { height: 100%; border-radius: inherit; background: linear-gradient(90deg,#06b6d4,#4f46e5); }
-.breakdown-fill-field    { height: 100%; border-radius: inherit; background: #8b5cf6; }
-.breakdown-fill-maturity { height: 100%; border-radius: inherit; background: #10b981; }
-.breakdown-fill-rank     { height: 100%; border-radius: inherit; background: #f59e0b; }
+.breakdown-fill-overlap  { height: 100%; border-radius: inherit; background: var(--rs-coral); }
+.breakdown-fill-field    { height: 100%; border-radius: inherit; background: var(--rs-info); }
+.breakdown-fill-maturity { height: 100%; border-radius: inherit; background: var(--rs-success); }
+.breakdown-fill-rank     { height: 100%; border-radius: inherit; background: var(--rs-warning); }
 
 /* Abstract counter */
 .abstract-counter {
@@ -162,7 +164,7 @@
 /* Auto-detect badge shown in results */
 .field-detected-badge {
   font-size: 0.65rem;
-  background: rgba(79,70,229,0.12);
+  background: var(--rs-info-bg);
   color: var(--rs-primary);
   border-radius: 0.25rem;
   padding: 0.1rem 0.45rem;
@@ -179,12 +181,12 @@
 }
 
 /* Signal chips */
-.signal-strong { background: #dcfce7; color: #166534; }
-.signal-moderate { background: #eff6ff; color: #1d4ed8; }
+.signal-strong { background: var(--rs-success-bg); color: var(--rs-success); border-color: var(--rs-success-line); }
+.signal-moderate { background: var(--rs-info-bg); color: var(--rs-info); border-color: var(--rs-info-line); }
 
 /* Coverage bar */
 .coverage-bar { height: 5px; border-radius: 3px; background: var(--rs-border); overflow: hidden; }
-.coverage-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg,#06b6d4,#4f46e5); }
+.coverage-fill { height: 100%; border-radius: 3px; background: var(--rs-coral); }
 
 /* Rationale row */
 .venue-rationale {
@@ -193,8 +195,8 @@
   color: var(--rs-text);
   padding: .6rem .85rem;
   border-radius: .5rem;
-  background: var(--rs-primary-50, #eef2ff);
-  border-left: 3px solid var(--rs-primary);
+  background: var(--rs-primary-50);
+  border: 1px solid rgba(237, 111, 92, 0.22);
   margin-top: .75rem;
 }
 
@@ -209,8 +211,5 @@
   font-size: 1.75rem;
   font-weight: 900;
   line-height: 1;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--rs-coral);
 }

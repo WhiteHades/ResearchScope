@@ -50,20 +50,20 @@
 }
 
 .library-toggle:hover {
-  border-color: #e11d48;
-  color: #e11d48;
+  border-color: var(--rs-danger);
+  color: var(--rs-danger);
   transform: translateY(-1px);
 }
 
 .library-toggle.is-active {
-  border-color: rgba(225, 29, 72, 0.25);
-  background: rgba(225, 29, 72, 0.08);
-  color: #e11d48;
+  border-color: var(--rs-danger-line);
+  background: var(--rs-danger-bg);
+  color: var(--rs-danger);
 }
 
 .library-toggle:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.18);
+  box-shadow: 0 0 0 3px var(--rs-focus-ring);
 }
 
 .library-toggle__icon {
