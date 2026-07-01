@@ -134,7 +134,7 @@ function renderPaperCard(paper, opts = {}) {
     <div class="flex items-start justify-between gap-4 flex-wrap">
       <div class="flex-1 min-w-0">
         <a href="${escHtml(url)}" target="_blank" rel="noopener"
-           class="text-base font-semibold hover:text-indigo-600 transition-colors">
+           class="text-base font-semibold rs-table-title-link">
           ${escHtml(paper.title)}
         </a>
         <p class="text-xs mt-1" style="color:var(--rs-muted)">
