@@ -85,9 +85,9 @@
     <!-- Avatar + identity -->
     <div class="rs-card p-6 flex items-center gap-5">
       <div id="profile-avatar"
-           style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--rs-coral),var(--rs-coral-deep));
-                  display:flex;align-items:center;justify-content:center;
-                  font-size:1.4rem;font-weight:800;color:var(--rs-paper);flex-shrink:0;
+           style="width:56px;height:56px;border-radius:50%;background:var(--rs-paper);border:1px solid var(--rs-rule);
+                   display:flex;align-items:center;justify-content:center;
+                   font-size:1.4rem;font-weight:800;color:var(--rs-coral);flex-shrink:0;
                   font-family:var(--rs-font-display);letter-spacing:-0.02em">
         ?
       </div>
@@ -132,7 +132,7 @@
       <div class="grid grid-cols-2 gap-2">
         <a href="favourites" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
            style="background:var(--rs-bg);border:1px solid var(--rs-border)">
-          <span>⭐</span> My Favourites
+          My Favourites
         </a>
         <a href="papers" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
            style="background:var(--rs-bg);border:1px solid var(--rs-border)">
@@ -150,12 +150,10 @@
     </div>
 
     <!-- Danger zone -->
-    <div class="rs-card p-5" style="border-color:#fecaca">
-      <h2 class="font-bold text-sm mb-1" style="color:#dc2626">Sign out</h2>
+    <div class="rs-card p-5 rs-danger-zone">
+      <h2 class="font-bold text-sm mb-1 rs-danger-text">Sign out</h2>
       <p class="text-xs mb-3" style="color:var(--rs-muted)">You can sign back in any time — your favourites and notes are saved.</p>
-      <button onclick="rsLogout()"
-        class="px-4 py-2 rounded-lg text-sm font-semibold"
-        style="background:#fef2f2;color:#dc2626;border:1.5px solid #fecaca">
+      <button onclick="rsLogout()" class="rs-danger-btn px-4 py-2 rounded-lg text-sm font-semibold">
         Sign out
       </button>
     </div>
@@ -236,12 +234,12 @@ async function saveName() {
     document.getElementById('profile-email-display').textContent = user.name ? user.email || '' : '';
     document.getElementById('profile-avatar').textContent = (user.name || user.email || '?')[0].toUpperCase();
     status.textContent = ' Name updated';
-    status.style.color = '#16a34a';
+    status.style.color = 'var(--rs-success)';
     status.classList.remove('hidden');
     setTimeout(() => status.classList.add('hidden'), 2500);
   } catch (e) {
     status.textContent = 'Could not save: ' + e.message;
-    status.style.color = '#dc2626';
+    status.style.color = 'var(--rs-danger)';
     status.classList.remove('hidden');
   } finally {
     btn.disabled = false;

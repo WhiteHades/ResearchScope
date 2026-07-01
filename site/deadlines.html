@@ -8,19 +8,19 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
   <style>
-    .deadline-card { border-radius:10px; border:1px solid var(--rs-border); background:var(--rs-card); transition:box-shadow .15s; }
-    .deadline-card:hover { box-shadow:0 4px 16px rgba(0,0,0,.10); }
+    .deadline-card { border-radius:10px; border:1px solid var(--rs-border); background:var(--rs-bone); transition:box-shadow .15s, border-color .15s; }
+    .deadline-card:hover { box-shadow:var(--rs-shadow); border-color:rgba(237,111,92,.35); }
     .countdown-chip { display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:99px;font-size:.72rem;font-weight:700; }
-    .chip-urgent  { background:#fef2f2;color:#dc2626; }
-    .chip-soon    { background:#fffbeb;color:#d97706; }
-    .chip-upcoming{ background:#eff6ff;color:#2563eb; }
-    .chip-passed  { background:#f1f5f9;color:#64748b; }
-    .next-banner  { background:linear-gradient(135deg,var(--rs-coral),var(--rs-coral-deep));color:var(--rs-paper);border-radius:12px; }
-    .area-chip    { padding:4px 14px;border-radius:99px;font-size:.8rem;font-weight:600;cursor:pointer;border:1px solid var(--rs-border);transition:all .15s; }
-    .area-chip.active { background:var(--rs-primary);color:#fff;border-color:var(--rs-primary); }
+    .chip-urgent  { background:var(--rs-danger-bg);color:var(--rs-danger); }
+    .chip-soon    { background:var(--rs-warning-bg);color:var(--rs-warning); }
+    .chip-upcoming{ background:var(--rs-info-bg);color:var(--rs-info); }
+    .chip-passed  { background:var(--rs-paper-warm);color:var(--rs-muted); }
+    .next-banner  { background:var(--rs-ink);color:var(--rs-paper);border-radius:12px;border:1px solid var(--rs-ink); }
+    .area-chip    { padding:4px 14px;border-radius:99px;font-size:.8rem;font-weight:600;cursor:pointer;border:1px solid var(--rs-border);transition:background-color .15s,border-color .15s,color .15s,transform .15s; }
+    .area-chip.active { background:var(--rs-primary);color:var(--rs-paper);border-color:var(--rs-primary); }
     .dl-label { font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--rs-muted); }
     .dl-date  { font-size:.85rem;font-weight:600; }
-    .est-badge { font-size:.65rem;padding:1px 6px;border-radius:4px;background:#fef9c3;color:#92400e;font-weight:600; }
+    .est-badge { font-size:.65rem;padding:1px 6px;border-radius:4px;background:var(--rs-warning-bg);color:var(--rs-warning);font-weight:600; }
   </style>
 </head>
 <body>
@@ -82,8 +82,6 @@
   </div>
 </nav>
 
-
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <h1 class="text-2xl font-bold mb-1"> Upcoming Conferences</h1>
@@ -562,5 +560,4 @@ render();
 </script>
 </body>
 </html>
-
 

@@ -76,9 +76,9 @@
 
   <!-- Legend -->
   <div class="flex flex-wrap gap-3 mb-6">
-    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:#4f46e5"></div><span> Explicit — directly extracted</span></div>
-    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:#f59e0b"></div><span> Pattern — inferred from repeated signals</span></div>
-    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:#10b981"></div><span> Starter — beginner-friendly ideas</span></div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:var(--rs-coral)"></div><span> Explicit — directly extracted</span></div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:var(--rs-warning)"></div><span> Pattern — inferred from repeated signals</span></div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:var(--rs-success)"></div><span> Starter — beginner-friendly ideas</span></div>
   </div>
 
   <!-- Filters -->
@@ -151,8 +151,8 @@ function renderGap(g, papersById) {
     <h3 class="font-semibold mb-2">${escHtml(g.title || g.topic)}</h3>
     <p class="text-sm mb-3" style="color:var(--rs-muted)">${escHtml(g.description || '')}</p>
     ${g.starter_idea ? `
-    <div class="p-3 rounded-lg mb-3" style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2)">
-      <p class="text-xs font-bold mb-1" style="color:#10b981"> Starter Idea</p>
+    <div class="p-3 rounded-lg mb-3" style="background:var(--rs-success-bg);border:1px solid var(--rs-success-line)">
+      <p class="text-xs font-bold mb-1" style="color:var(--rs-success)"> Starter Idea</p>
       <p class="text-sm">${escHtml(g.starter_idea)}</p>
     </div>` : ''}
     ${(g.suggested_projects||[]).length ? `
@@ -241,5 +241,3 @@ function applyFilters(papersById) {
 </script>
 </body>
 </html>
-
-

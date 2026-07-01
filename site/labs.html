@@ -126,7 +126,7 @@ function labCard(l) {
   <div class="rs-card p-4">
     <div class="flex items-center gap-3 mb-3">
       <div class="w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold flex-shrink-0"
-           style="background:linear-gradient(135deg,var(--rs-coral),var(--rs-coral-deep));color:var(--rs-paper);font-family:var(--rs-font-display)">
+           style="background:var(--rs-paper);border:1px solid var(--rs-rule);color:var(--rs-coral);font-family:var(--rs-font-display)">
         ${escHtml((l.name||'?')[0].toUpperCase())}
       </div>
       <div class="min-w-0">
@@ -152,7 +152,7 @@ function uniCard(u) {
   <div class="rs-card p-4">
     <div class="flex items-center gap-3 mb-3">
       <div class="w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold flex-shrink-0"
-           style="background:linear-gradient(135deg,var(--rs-olive),var(--rs-mustard));color:var(--rs-paper);font-family:var(--rs-font-display)">
+           style="background:var(--rs-paper);border:1px solid var(--rs-rule);color:var(--rs-olive);font-family:var(--rs-font-display)">
         ${escHtml((u.name||'?')[0].toUpperCase())}
       </div>
       <div class="min-w-0">
@@ -204,5 +204,4 @@ function filterAndRender(items, query, gridId, countId, cardFn) {
 </script>
 </body>
 </html>
-
 

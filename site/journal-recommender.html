@@ -168,9 +168,9 @@ function contribAdjust(venue, contribType) {
 
 function ifContext(ifVal) {
   if (ifVal == null) return '';
-  if (ifVal >= 20)   return `<span class="text-xs" style="color:#16a34a;font-weight:600">Top 1% in CS</span>`;
-  if (ifVal >= 10)   return `<span class="text-xs" style="color:#2563eb;font-weight:600">Top 5% in CS</span>`;
-  if (ifVal >= 6)    return `<span class="text-xs" style="color:#7c3aed;font-weight:600">Q1 journal</span>`;
+  if (ifVal >= 20)   return `<span class="text-xs" style="color:var(--rs-success);font-weight:600">Top 1% in CS</span>`;
+  if (ifVal >= 10)   return `<span class="text-xs" style="color:var(--rs-info);font-weight:600">Top 5% in CS</span>`;
+  if (ifVal >= 6)    return `<span class="text-xs" style="color:var(--rs-coral);font-weight:600">Q1 journal</span>`;
   return '';
 }
 

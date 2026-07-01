@@ -92,7 +92,7 @@
     <p class="font-bold mb-2"> How Papers Are Scored (0–10)</p>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
       <div>
-        <p class="font-semibold">⭐ Paper Score</p>
+        <p class="font-semibold">Paper Score</p>
         <p style="color:var(--rs-muted)">Overall quality: citation impact, recency, venue rank (A* > A > arXiv), acceptance tier (oral/spotlight), topic relevance, and completeness of metadata.</p>
       </div>
       <div>
@@ -260,7 +260,7 @@ function renderRows(papers, startIdx = 0) {
     <tr class="cursor-pointer" onclick="toggleDetail(${idx})">
       <td>
         <a href="${escHtml(url)}" target="_blank" rel="noopener"
-           class="font-medium hover:text-indigo-600 transition-colors"
+           class="font-medium rs-table-title-link"
            onclick="event.stopPropagation()">${escHtml(p.title)}</a>
         <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${escHtml(authors)}${escHtml(more)}</div>
       </td>
@@ -272,7 +272,7 @@ function renderRows(papers, startIdx = 0) {
       <td>${difficultyBadge(p)}</td>
       <td>${typeStr}</td>
       <td>
-        <span class="badge badge-score font-bold">⭐ ${scoreVal.toFixed(1)}</span>
+        <span class="badge badge-score font-bold">${scoreVal.toFixed(1)}</span>
         <div class="text-xs mt-0.5" style="color:var(--rs-muted)">
            ${(p.read_first_score||0).toFixed(1)} ·  ${(p.content_potential_score||0).toFixed(1)}
         </div>
@@ -418,5 +418,4 @@ window.addEventListener('storage', event => {
 </script>
 </body>
 </html>
-
 

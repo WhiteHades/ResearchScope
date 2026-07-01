@@ -191,10 +191,10 @@
 .topic-filter-btn {
   padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
   border: 1px solid var(--rs-border); background: var(--rs-surface); color: var(--rs-muted);
-  cursor: pointer; transition: all .15s;
+  cursor: pointer; transition: background-color .15s, border-color .15s, color .15s, transform .15s;
 }
 .topic-filter-btn.active, .topic-filter-btn:hover {
-  background: var(--rs-primary); color: #fff; border-color: var(--rs-primary);
+  background: var(--rs-primary); color: var(--rs-paper); border-color: var(--rs-primary);
 }
 .topic-accordion { border: 1px solid var(--rs-border); border-radius: 12px; margin-bottom: 8px; overflow: hidden; background: var(--rs-surface); }
 .topic-accordion-header {
@@ -213,10 +213,10 @@ const DIFF_LABELS = {L1:'L1 Beginner',L2:'L2 Intermediate',L3:'L3 Advanced',L4:'
 const DIFF_CLS = {L1:'badge-l1',L2:'badge-l2',L3:'badge-l3',L4:'badge-l4',
   beginner:'badge-l1',intermediate:'badge-l2',advanced:'badge-l3',frontier:'badge-l4'};
 
-function paperStub(p, icon='⭐') {
+function paperStub(p, icon='') {
   const url = p.paper_url || p.url || '#';
   return `<div class="reading-path-step">
-    <div class="path-number">${icon}</div>
+    ${icon ? `<div class="path-number">${icon}</div>` : ''}
     <div class="flex-1 min-w-0">
       <a href="${escHtml(url)}" target="_blank" class="text-sm font-medium hover:underline">${escHtml(p.title)}</a>
       <div class="flex gap-1 flex-wrap mt-0.5">
@@ -265,8 +265,8 @@ function renderTopicAccordion(t, papersById) {
           <div class="flex flex-wrap gap-1">${t.keywords.slice(0,8).map(k=>`<span class="badge badge-tag">${escHtml(k)}</span>`).join('')}</div>` : ''}
         </div>
         <div>
-          ${starters.length ? `<p class="text-xs font-semibold uppercase mb-2" style="color:#10b981"> Start Here</p>${starters.slice(0,3).map(p=>paperStub(p,'')).join('')}` : ''}
-          ${frontier.length ? `<p class="text-xs font-semibold uppercase mb-2 mt-4" style="color:#7c3aed"> Frontier</p>${frontier.slice(0,3).map(p=>paperStub(p,'')).join('')}` : ''}
+          ${starters.length ? `<p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-success)"> Start Here</p>${starters.slice(0,3).map(p=>paperStub(p,'')).join('')}` : ''}
+          ${frontier.length ? `<p class="text-xs font-semibold uppercase mb-2 mt-4" style="color:var(--rs-coral)"> Frontier</p>${frontier.slice(0,3).map(p=>paperStub(p,'')).join('')}` : ''}
           ${!starters.length && !frontier.length ? `<p class="text-sm" style="color:var(--rs-muted)">No papers assigned yet.</p>` : ''}
         </div>
       </div>
@@ -496,5 +496,4 @@ function resetGraphFilters() {
 </script>
 </body>
 </html>
-
 

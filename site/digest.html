@@ -220,7 +220,7 @@ function renderDigestPaperCard(paper) {
         </p>
       </div>
       <div class="flex gap-1 items-center flex-shrink-0">
-        <span class="badge badge-score">⭐ ${(+paper.paper_score||0).toFixed(1)}</span>
+        <span class="badge badge-score">${(+paper.paper_score||0).toFixed(1)}</span>
         ${difficultyBadge(paper)}
       </div>
     </div>
@@ -422,5 +422,4 @@ function buildTweetBtn(weekLabel) {
 </script>
 </body>
 </html>
-
 

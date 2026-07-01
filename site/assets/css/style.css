@@ -483,6 +483,11 @@ body > * { position: relative; z-index: 1; }
   background: var(--rs-paper-warm);
   cursor: pointer;
 }
+.rs-table-title-link {
+  color: var(--rs-ink);
+  transition: color 0.18s ease;
+}
+.rs-table-title-link:hover { color: var(--rs-coral); }
 
 /* Column-width policy for the 7-col paper/conference/journal table.
    Title column flexes (no fixed width) and is the only cell allowed to
