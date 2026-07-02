@@ -307,7 +307,7 @@ function renderDropdown(results, query, dropdown) {
   if (papers.length) {
     html += `<div class="search-section-label">Papers</div>`;
     papers.forEach(p => {
-      html += `<a class="search-result-item" href="papers?q=${encodeURIComponent(p.title)}">
+      html += `<a class="search-result-item" href="papers.html?q=${encodeURIComponent(p.title)}">
         <div class="sr-title">${escHtml(p.title)}</div>
         <div class="sr-meta">${escHtml(p.venue || 'arXiv')} · ${p.year || ''}</div>
       </a>`;
@@ -317,7 +317,7 @@ function renderDropdown(results, query, dropdown) {
   if (authors.length) {
     html += `<div class="search-section-label">Authors</div>`;
     authors.forEach(a => {
-      html += `<a class="search-result-item" href="authors?q=${encodeURIComponent(a.name)}">
+      html += `<a class="search-result-item" href="authors.html?q=${encodeURIComponent(a.name)}">
         <div class="sr-title">${escHtml(a.name)}</div>
         <div class="sr-meta">${a.paper_ids?.length || 0} papers</div>
       </a>`;
@@ -327,14 +327,14 @@ function renderDropdown(results, query, dropdown) {
   if (topics.length) {
     html += `<div class="search-section-label">Topics</div>`;
     topics.forEach(t => {
-      html += `<a class="search-result-item" href="topics#${escHtml(t.id)}">
+      html += `<a class="search-result-item" href="topics.html#${escHtml(t.id)}">
         <div class="sr-title">${escHtml(t.name)}</div>
         <div class="sr-meta">${t.paper_ids?.length || 0} papers</div>
       </a>`;
     });
   }
 
-  html += `<a class="search-see-all" href="search?q=${encodeURIComponent(query)}">See all results →</a>`;
+  html += `<a class="search-see-all" href="search.html?q=${encodeURIComponent(query)}">See all results →</a>`;
   dropdown.innerHTML = html;
 }
 
@@ -362,7 +362,7 @@ function initSearch() {
 
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter' && input.value.trim()) {
-      window.location.href = `search?q=${encodeURIComponent(input.value.trim())}`;
+      window.location.href = `search.html?q=${encodeURIComponent(input.value.trim())}`;
     }
     if (e.key === 'Escape') {
       dropdown.classList.add('hidden');
@@ -438,7 +438,7 @@ function tweetPaperUrl(paper) {
   const venue   = [paper.venue, paper.year].filter(Boolean).join(' ');
   const score   = paper.paper_score ? ` | ${(+paper.paper_score).toFixed(1)}/10` : '';
   const snippet = (paper.abstract || paper.summary || '').slice(0, 160);
-  const pageUrl = `https://kishormorol.github.io/ResearchScope/papers?q=${encodeURIComponent(paper.title || '')}`;
+  const pageUrl = `https://kishormorol.github.io/ResearchScope/papers.html?q=${encodeURIComponent(paper.title || '')}`;
   const text    = `${paper.title}\n${venue}${score}\n\n${snippet}…\n\nResearchScope\n${pageUrl}\n\n#AIResearch #MachineLearning #ResearchScope`;
   return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
 }
@@ -521,24 +521,24 @@ function buildDropdownNav() {
 
   if (linksDiv) {
     linksDiv.innerHTML =
-      navLink('papers', 'Papers') +
+      navLink('papers.html', 'Papers') +
       dropdown('Venues', [
-        ['conferences', 'Conferences'],
-        ['journals',    'Journals'],
+        ['conferences.html', 'Conferences'],
+        ['journals.html',    'Journals'],
         [null, null, true],
-        ['conference-recommender', 'Conference Recommender'],
-        ['journal-recommender',    'Journal Recommender'],
+        ['conference-recommender.html', 'Conference Recommender'],
+        ['journal-recommender.html',    'Journal Recommender'],
       ]) +
       dropdown('Discover', [
-        ['topics', 'Topics'],
-        ['gaps',   'Research Gaps'],
-        ['digest', 'Digest'],
+        ['topics.html', 'Topics'],
+        ['gaps.html',   'Research Gaps'],
+        ['digest.html', 'Digest'],
       ]) +
       dropdown('People', [
-        ['authors', 'Authors'],
-        ['labs',    'Labs & Unis'],
+        ['authors.html', 'Authors'],
+        ['labs.html',    'Labs & Unis'],
       ]) +
-      navLink('deadlines', 'Deadlines');
+      navLink('deadlines.html', 'Deadlines');
   }
 
   if (mobLinks) {
@@ -547,21 +547,21 @@ function buildDropdownNav() {
     const sec = t => `<p class="mobile-nav-section">${t}</p>`;
     mobLinks.innerHTML =
       ml('./',  'Home') +
-      ml('papers', 'Papers') +
+      ml('papers.html', 'Papers') +
       sec('Venues') +
-      ml('conferences',           'Conferences') +
-      ml('journals',              'Journals') +
-      ml('conference-recommender','Conference Recommender') +
-      ml('journal-recommender',   'Journal Recommender') +
+      ml('conferences.html',           'Conferences') +
+      ml('journals.html',              'Journals') +
+      ml('conference-recommender.html','Conference Recommender') +
+      ml('journal-recommender.html',   'Journal Recommender') +
       sec('Discover') +
-      ml('topics', 'Topics') +
-      ml('gaps',   'Research Gaps') +
-      ml('digest', 'Digest') +
+      ml('topics.html', 'Topics') +
+      ml('gaps.html',   'Research Gaps') +
+      ml('digest.html', 'Digest') +
       sec('People') +
-      ml('authors',    'Authors') +
-      ml('labs',       'Labs & Unis') +
-      ml('deadlines',  'Deadlines') +
-      ml('favourites', 'My Favourites');
+      ml('authors.html',    'Authors') +
+      ml('labs.html',       'Labs & Unis') +
+      ml('deadlines.html',  'Deadlines') +
+      ml('favourites.html', 'My Favourites');
   }
 }
 

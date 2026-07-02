@@ -6,7 +6,7 @@
   <title>My Favourites – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-hover-links"/>
   <style>
     .note-area {
       width: 100%; min-height: 4rem; resize: vertical;
@@ -38,15 +38,15 @@
         <span>ResearchScope<span class="rs-dot">.</span></span>
       </a>
       <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1">
-        <a href="papers">Papers</a>
-        <a href="topics">Topics</a>
-        <a href="digest">Digest</a>
-        <a href="conferences">Conferences</a>
-        <a href="journals">Journals</a>
-        <a href="authors">Authors</a>
-        <a href="labs">Labs &amp; Unis</a>
-        <a href="gaps">Research Gaps</a>
-        <a href="deadlines">Upcoming</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">Upcoming</a>
       </div>
       <div class="flex items-center gap-2 justify-end" style="flex:1">
         <div class="search-wrap hidden lg:block">
@@ -75,15 +75,15 @@
   <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-rule);background:var(--rs-bone)">
     <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
       <a href="./" class="mobile-nav-link">Home</a>
-      <a href="papers" class="mobile-nav-link">Papers</a>
-      <a href="topics" class="mobile-nav-link">Topics</a>
-      <a href="digest" class="mobile-nav-link">Weekly Digest</a>
-      <a href="conferences" class="mobile-nav-link">Conferences</a>
-      <a href="journals" class="mobile-nav-link">Journals</a>
-      <a href="authors" class="mobile-nav-link">Authors</a>
-      <a href="labs" class="mobile-nav-link">Labs &amp; Unis</a>
-      <a href="gaps" class="mobile-nav-link">Research Gaps</a>
-      <a href="deadlines" class="mobile-nav-link">Upcoming Conferences</a>
+      <a href="papers.html" class="mobile-nav-link">Papers</a>
+      <a href="topics.html" class="mobile-nav-link">Topics</a>
+      <a href="digest.html" class="mobile-nav-link">Weekly Digest</a>
+      <a href="conferences.html" class="mobile-nav-link">Conferences</a>
+      <a href="journals.html" class="mobile-nav-link">Journals</a>
+      <a href="authors.html" class="mobile-nav-link">Authors</a>
+      <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines.html" class="mobile-nav-link">Upcoming Conferences</a>
     </div>
   </div>
 </nav>
@@ -108,7 +108,7 @@
         <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
         CSV
       </button>
-      <a href="profile" class="export-btn"> Profile</a>
+      <a href="profile.html" class="export-btn"> Profile</a>
     </div>
   </div>
 
@@ -118,8 +118,8 @@
     <p class="text-lg font-semibold mb-1">Sign in to see your favourites</p>
     <p class="text-sm mb-5" style="color:var(--rs-muted)">Save papers and add private notes — synced across devices.</p>
     <div class="flex gap-2 justify-center">
-      <a href="signin?returnTo=favourites" class="inline-block px-5 py-2 rounded-lg text-white font-semibold text-sm" style="background:var(--rs-primary)">Sign in</a>
-      <a href="register?returnTo=favourites" class="inline-block px-5 py-2 rounded-lg font-semibold text-sm" style="border:1.5px solid var(--rs-border);color:var(--rs-text)">Create account</a>
+      <a href="signin.html?returnTo=favourites" class="inline-block px-5 py-2 rounded-lg text-white font-semibold text-sm" style="background:var(--rs-primary)">Sign in</a>
+      <a href="register.html?returnTo=favourites" class="inline-block px-5 py-2 rounded-lg font-semibold text-sm" style="border:1.5px solid var(--rs-border);color:var(--rs-text)">Create account</a>
     </div>
   </div>
 
@@ -134,7 +134,7 @@
     <div class="text-4xl mb-3"></div>
     <p class="text-lg font-semibold mb-1">No favourites yet</p>
     <p class="text-sm mb-4" style="color:var(--rs-muted)">Star papers while browsing to save them here.</p>
-    <a href="papers" class="inline-block px-5 py-2 rounded-lg text-white font-semibold text-sm" style="background:var(--rs-primary)">Browse Papers</a>
+    <a href="papers.html" class="inline-block px-5 py-2 rounded-lg text-white font-semibold text-sm" style="background:var(--rs-primary)">Browse Papers</a>
   </div>
 
 </div>

@@ -1290,12 +1290,12 @@ a:hover {
   text-decoration: none; border: none; line-height: 1;
 }
 .potd-btn-primary { background: var(--rs-coral); color: var(--rs-paper); }
-.potd-btn-primary:hover { background: var(--rs-coral-deep); transform: translateY(-1px); }
+.potd-btn-primary:hover { background: var(--rs-coral-deep); color: var(--rs-paper); transform: translateY(-1px); }
 .potd-btn-ghost {
   background: transparent; color: var(--rs-paper);
   border: 1px solid rgba(239, 231, 210, 0.3);
 }
-.potd-btn-ghost:hover { background: rgba(239, 231, 210, 0.1); border-color: rgba(239, 231, 210, 0.5); }
+.potd-btn-ghost:hover { background: rgba(239, 231, 210, 0.1); border-color: rgba(239, 231, 210, 0.5); color: var(--rs-paper); }
 .potd-next { font-size: 0.72rem; color: rgba(238, 228, 201, 0.66); margin-left: auto; }
 
 /* ── GitHub Star button (kept ink, hairline border) ── */
@@ -1339,7 +1339,7 @@ a.github-star-btn:hover {
   font-size: 0.8rem; font-weight: 700;
   text-decoration: none; transition: background 0.18s ease; white-space: nowrap;
 }
-.star-cta-btn:hover { background: #f5d060; }
+.star-cta-btn:hover { background: #f5d060; color: var(--rs-ink); }
 
 /* ── Tweet / share button (ink fill, paper label) ─ */
 .tweet-btn {
@@ -1351,7 +1351,7 @@ a.github-star-btn:hover {
   cursor: pointer; transition: background 0.18s ease;
   text-decoration: none; border: none;
 }
-.tweet-btn:hover { background: var(--rs-coral); }
+.tweet-btn:hover { background: var(--rs-coral); color: var(--rs-paper); }
 .copy-link-btn {
   display: inline-flex; align-items: center; gap: 0.3rem;
   padding: 0.3rem 0.65rem; border-radius: 999px;
@@ -1572,6 +1572,7 @@ a.github-star-btn:hover {
 }
 .rs-btn--primary:hover {
   background: var(--rs-coral-deep);
+  color: var(--rs-paper);
   transform: translateY(-1px);
   box-shadow: 0 8px 22px rgba(125, 44, 34, 0.30);
 }
@@ -1591,6 +1592,7 @@ a.github-star-btn:hover {
 }
 .rs-btn--ink:hover {
   background: var(--rs-ink-soft);
+  color: var(--rs-paper);
   transform: translateY(-1px);
 }
 

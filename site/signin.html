@@ -6,7 +6,7 @@
   <title>Sign In – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-hover-links"/>
   <style>
     .auth-page {
       min-height: calc(100vh - 56px);
@@ -145,15 +145,15 @@
         <span>ResearchScope<span class="rs-dot">.</span></span>
       </a>
       <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1">
-        <a href="papers">Papers</a>
-        <a href="topics">Topics</a>
-        <a href="digest">Digest</a>
-        <a href="conferences">Conferences</a>
-        <a href="journals">Journals</a>
-        <a href="authors">Authors</a>
-        <a href="labs">Labs &amp; Unis</a>
-        <a href="gaps">Research Gaps</a>
-        <a href="deadlines">Upcoming</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">Upcoming</a>
       </div>
       <div class="flex items-center gap-2 justify-end" style="flex:1">
         <div class="search-wrap hidden lg:block">
@@ -182,15 +182,15 @@
   <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-rule);background:var(--rs-bone)">
     <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
       <a href="./" class="mobile-nav-link">Home</a>
-      <a href="papers" class="mobile-nav-link">Papers</a>
-      <a href="topics" class="mobile-nav-link">Topics</a>
-      <a href="digest" class="mobile-nav-link">Weekly Digest</a>
-      <a href="conferences" class="mobile-nav-link">Conferences</a>
-      <a href="journals" class="mobile-nav-link">Journals</a>
-      <a href="authors" class="mobile-nav-link">Authors</a>
-      <a href="labs" class="mobile-nav-link">Labs &amp; Unis</a>
-      <a href="gaps" class="mobile-nav-link">Research Gaps</a>
-      <a href="deadlines" class="mobile-nav-link">Upcoming Conferences</a>
+      <a href="papers.html" class="mobile-nav-link">Papers</a>
+      <a href="topics.html" class="mobile-nav-link">Topics</a>
+      <a href="digest.html" class="mobile-nav-link">Weekly Digest</a>
+      <a href="conferences.html" class="mobile-nav-link">Conferences</a>
+      <a href="journals.html" class="mobile-nav-link">Journals</a>
+      <a href="authors.html" class="mobile-nav-link">Authors</a>
+      <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines.html" class="mobile-nav-link">Upcoming Conferences</a>
     </div>
   </div>
 </nav>
@@ -225,7 +225,7 @@
       <h1 style="font-size:1.5rem;font-weight:800;letter-spacing:-.02em;color:var(--rs-ink);margin:0 0 .3rem;font-family:var(--rs-font-display)">Welcome back</h1>
       <p style="font-size:.85rem;color:var(--rs-ink-mute);margin:0 0 1.75rem">
         New to ResearchScope?
-        <a id="register-link" href="register"
+        <a id="register-link" href="register.html"
            style="color:var(--rs-coral);font-weight:600;text-decoration:none;font-family:var(--rs-font-display)">
           Create an account →
         </a>
@@ -298,7 +298,7 @@
 
   // Keep returnTo on the "Create account" link
   const regLink = document.getElementById('register-link');
-  if (regLink) regLink.href = `register?returnTo=${encodeURIComponent(returnTo)}`;
+  if (regLink) regLink.href = `register.html?returnTo=${encodeURIComponent(returnTo)}`;
 
   function togglePwd(id, btn) {
     const input = document.getElementById(id);

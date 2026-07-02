@@ -346,8 +346,8 @@ function _showUserMenu() {
       <div style="font-size:.82rem;font-weight:700;color:var(--rs-text,#14120d)">${escHtml(user?.name || user?.email || '')}</div>
       ${user?.name ? `<div style="font-size:.72rem;color:var(--rs-muted,#3f382d)">${escHtml(user.email || '')}</div>` : ''}
     </div>
-    <a href="profile">Profile &amp; Settings</a>
-    <a href="favourites">My Favourites</a>
+    <a href="profile.html">Profile &amp; Settings</a>
+    <a href="favourites.html">My Favourites</a>
     <div style="height:1px;background:var(--rs-border,#aa9970);margin:.25rem 0"></div>
     <button onclick="rsLogout()" style="color:var(--rs-danger,#7f2d23)">Sign out</button>`;
   wrap.appendChild(menu);
@@ -361,12 +361,12 @@ function _showUserMenu() {
 
 window.rsOpenModal = function(returnTo) {
   const page = returnTo || window.location.pathname.split('/').pop() || './';
-  window.location.href = `signin?returnTo=${encodeURIComponent(page)}`;
+  window.location.href = `signin.html?returnTo=${encodeURIComponent(page)}`;
 };
 
 window.rsLogout = function() {
   _authApi.logout();
-  if (window.location.pathname.endsWith('favourites')) {
+  if (window.location.pathname.endsWith('favourites.html')) {
     window.location.href = './';
   }
 };
