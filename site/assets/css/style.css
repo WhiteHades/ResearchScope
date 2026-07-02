@@ -504,9 +504,8 @@ a:hover {
 .rs-table-title-link:hover { color: var(--rs-coral); }
 
 /* Column-width policy for the 7-col paper/conference/journal table.
-   Title column flexes (no fixed width) and is the only cell allowed to
-   wrap long text; the remaining 6 columns get fixed widths + nowrap so
-   badges never wrap mid-word. */
+   Title column flexes (no fixed width). The tag column is also allowed to
+   wrap between badge chips; the remaining columns stay fixed + nowrap. */
 .rs-table th:nth-child(1),
 .rs-table td:nth-child(1) {
   width: auto;
@@ -517,6 +516,14 @@ a:hover {
 .rs-table td:nth-child(2) { width: 110px; }
 .rs-table th:nth-child(3),
 .rs-table td:nth-child(3) { width: 200px; }
+.rs-table td:nth-child(3) {
+  white-space: normal;
+}
+.rs-table td:nth-child(3) .badge-tag {
+  max-width: 100%;
+  margin: 0.12rem 0.18rem 0.12rem 0;
+  vertical-align: top;
+}
 .rs-table th:nth-child(4),
 .rs-table td:nth-child(4) { width: 130px; }
 .rs-table th:nth-child(5),
