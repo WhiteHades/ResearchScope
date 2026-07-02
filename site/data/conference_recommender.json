@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-01T13:17:33.403204+00:00",
+  "generated_at": "2026-07-02T03:25:10.168561+00:00",
   "source": {
     "papers": "site/data conference paper JSON",
     "deadlines": "site/deadlines.html",
@@ -147,9 +147,9 @@
           "tags": [
             "Model Compression",
             "RL",
+            "Continual RL",
             "Reinforcement Learning",
-            "Deep Reinforcement Learning",
-            "Continual RL"
+            "Deep Reinforcement Learning"
           ],
           "abstract": "The loss of plasticity in learning agents, analogous to the solidification of neural pathways in biological brains, significantly impedes learning and adaptation in reinforcement learning due to its non-stationary nature. To address this fundamental challenge,",
           "terms": [
@@ -288,10 +288,10 @@
           "url": "https://openreview.net/forum?id=9SYczU3Qgm",
           "tags": [
             "GNNs",
+            "Cell dynamics",
             "Flow matching",
-            "Dynamics",
             "Graph Neural Networks",
-            "Cell dynamics"
+            "Dynamics"
           ],
           "abstract": "Numerous biological and physical processes can be modeled as systems of interacting entities evolving continuously over time, e.g. the dynamics of communicating cells or physical particles. Learning the dynamics of such systems is essential for predicting the ",
           "terms": [
@@ -384,11 +384,11 @@
           "venue": "ICLR",
           "url": "https://openreview.net/forum?id=cyPMEXdqQ2",
           "tags": [
-            "single-loop",
-            "Hessian-free",
             "gap function",
             "constrained optimization",
-            "bilevel optimization"
+            "bilevel optimization",
+            "Hessian-free",
+            "single-loop"
           ],
           "abstract": "Constrained bilevel optimization tackles nested structures present in constrained learning tasks like constrained meta-learning, adversarial learning, and distributed bilevel optimization.  However, existing bilevel optimization methods mostly are typically re",
           "terms": [
@@ -481,9 +481,9 @@
           "tags": [
             "Diffusion",
             "Model Compression",
-            "Quantization",
+            "Diffusion Models",
             "Acceleration",
-            "Diffusion Models"
+            "Quantization"
           ],
           "abstract": "Diffusion models can effectively generate high-quality images. However, as they scale,  rising memory demands and higher latency pose substantial deployment challenges. In this work, we aim to accelerate diffusion models by quantizing their weights and activat",
           "terms": [
@@ -530,9 +530,9 @@
           "tags": [
             "RL",
             "Reinforcement Learning",
+            "Bayesian Reinforcement Learning",
             "Reward Hacking",
-            "Reinforcement Learning Theory",
-            "Bayesian Reinforcement Learning"
+            "Reinforcement Learning Theory"
           ],
           "abstract": "Intrinsic motivation and reward shaping guide reinforcement learning (RL) agents by adding pseudo-rewards, which can lead to useful emergent behaviors. However, they can also encourage counterproductive exploits, e.g., fixation with noisy TV screens. Here we p",
           "terms": [
@@ -983,8 +983,8 @@
         "but",
         "benchmark",
         "recent",
-        "problems",
         "benchmarks",
+        "problems",
         "work",
         "inference",
         "human",
@@ -1021,8 +1021,8 @@
         "algorithm",
         "including",
         "challenge",
-        "github",
         "present",
+        "github",
         "openai",
         "without",
         "com",
@@ -1038,23 +1038,23 @@
         },
         {
           "term": "introduce",
-          "weight": 0.6696
+          "weight": 0.6692
         },
         {
           "term": "reinforcement",
-          "weight": 0.6258
+          "weight": 0.6259
         },
         {
           "term": "reinforcement learning",
-          "weight": 0.6164
+          "weight": 0.6166
         },
         {
           "term": "framework",
-          "weight": 0.5983
+          "weight": 0.5982
         },
         {
           "term": "reasoning",
-          "weight": 0.5892
+          "weight": 0.5888
         },
         {
           "term": "training",
@@ -1062,7 +1062,7 @@
         },
         {
           "term": "language",
-          "weight": 0.518
+          "weight": 0.5179
         },
         {
           "term": "llms",
@@ -1070,47 +1070,47 @@
         },
         {
           "term": "while",
-          "weight": 0.4928
+          "weight": 0.4927
         },
         {
           "term": "agents",
-          "weight": 0.4804
+          "weight": 0.48
         },
         {
           "term": "performance",
-          "weight": 0.4757
+          "weight": 0.4761
         },
         {
           "term": "data",
-          "weight": 0.4757
+          "weight": 0.4759
         },
         {
           "term": "large",
-          "weight": 0.4683
+          "weight": 0.4682
         },
         {
           "term": "such",
-          "weight": 0.4657
+          "weight": 0.4658
         },
         {
           "term": "optimization",
-          "weight": 0.462
+          "weight": 0.4622
         },
         {
           "term": "evaluation",
-          "weight": 0.4502
+          "weight": 0.45
         },
         {
           "term": "address",
-          "weight": 0.449
+          "weight": 0.4493
         },
         {
           "term": "existing",
-          "weight": 0.4481
+          "weight": 0.4482
         },
         {
           "term": "across",
-          "weight": 0.4344
+          "weight": 0.4345
         },
         {
           "term": "policy",
@@ -1118,15 +1118,15 @@
         },
         {
           "term": "where",
-          "weight": 0.4113
+          "weight": 0.4111
         },
         {
           "term": "large language",
-          "weight": 0.4057
+          "weight": 0.4056
         },
         {
           "term": "diverse",
-          "weight": 0.3892
+          "weight": 0.3891
         },
         {
           "term": "through",
@@ -1138,7 +1138,7 @@
         },
         {
           "term": "problem",
-          "weight": 0.3829
+          "weight": 0.3831
         },
         {
           "term": "often",
@@ -1146,7 +1146,7 @@
         },
         {
           "term": "neural",
-          "weight": 0.3807
+          "weight": 0.3811
         },
         {
           "term": "code",
@@ -1154,7 +1154,7 @@
         },
         {
           "term": "agent",
-          "weight": 0.3606
+          "weight": 0.3603
         },
         {
           "term": "demonstrate",
@@ -1166,47 +1166,47 @@
         },
         {
           "term": "generalization",
-          "weight": 0.3569
+          "weight": 0.3563
         },
         {
           "term": "efficient",
-          "weight": 0.354
+          "weight": 0.3537
         },
         {
           "term": "but",
-          "weight": 0.3504
+          "weight": 0.3503
         },
         {
           "term": "benchmark",
-          "weight": 0.347
+          "weight": 0.3469
         },
         {
           "term": "recent",
-          "weight": 0.3467
-        },
-        {
-          "term": "problems",
-          "weight": 0.3447
+          "weight": 0.3468
         },
         {
           "term": "benchmarks",
           "weight": 0.3445
         },
         {
+          "term": "problems",
+          "weight": 0.3444
+        },
+        {
           "term": "work",
-          "weight": 0.3439
+          "weight": 0.3438
         },
         {
           "term": "inference",
-          "weight": 0.3424
+          "weight": 0.3422
         },
         {
           "term": "human",
-          "weight": 0.3417
+          "weight": 0.3418
         },
         {
           "term": "real-world",
-          "weight": 0.3413
+          "weight": 0.3412
         },
         {
           "term": "both",
@@ -1214,19 +1214,19 @@
         },
         {
           "term": "meta-learning",
-          "weight": 0.335
+          "weight": 0.3346
         },
         {
           "term": "time",
-          "weight": 0.3287
+          "weight": 0.3288
         },
         {
           "term": "language llms",
-          "weight": 0.3272
+          "weight": 0.3273
         },
         {
           "term": "reward",
-          "weight": 0.327
+          "weight": 0.3272
         },
         {
           "term": "systems",
@@ -1234,7 +1234,7 @@
         },
         {
           "term": "state-of-the-art",
-          "weight": 0.3176
+          "weight": 0.3175
         },
         {
           "term": "generation",
@@ -1242,27 +1242,27 @@
         },
         {
           "term": "between",
-          "weight": 0.3113
+          "weight": 0.3111
         },
         {
           "term": "https",
-          "weight": 0.3105
+          "weight": 0.3106
         },
         {
           "term": "experiments",
-          "weight": 0.31
+          "weight": 0.3102
         },
         {
           "term": "fine-tuning",
-          "weight": 0.3095
+          "weight": 0.3096
         },
         {
           "term": "paradigm",
-          "weight": 0.3071
+          "weight": 0.3069
         },
         {
           "term": "environments",
-          "weight": 0.3054
+          "weight": 0.3055
         },
         {
           "term": "under",
@@ -1270,15 +1270,15 @@
         },
         {
           "term": "dynamics",
-          "weight": 0.301
+          "weight": 0.3011
         },
         {
           "term": "challenging",
-          "weight": 0.2988
+          "weight": 0.2989
         },
         {
           "term": "llm",
-          "weight": 0.2985
+          "weight": 0.2982
         },
         {
           "term": "more",
@@ -1286,62 +1286,62 @@
         },
         {
           "term": "meta",
-          "weight": 0.296
+          "weight": 0.2961
         },
         {
           "term": "two",
-          "weight": 0.2945
+          "weight": 0.2947
         },
         {
           "term": "design",
-          "weight": 0.2914
+          "weight": 0.2916
         },
         {
           "term": "deep",
-          "weight": 0.2896
+          "weight": 0.2899
         },
         {
           "term": "control",
-          "weight": 0.2884
+          "weight": 0.2886
         },
         {
           "term": "also",
-          "weight": 0.2854
+          "weight": 0.2853
         },
         {
           "term": "capabilities",
-          "weight": 0.2817
+          "weight": 0.2815
         },
         {
           "term": "efficiency",
-          "weight": 0.2806
+          "weight": 0.2804
         },
         {
           "term": "algorithms",
-          "weight": 0.2783
+          "weight": 0.2787
         },
         {
           "term": "information",
-          "weight": 0.2765
+          "weight": 0.2762
         },
         {
           "term": "algorithm",
-          "weight": 0.2711
+          "weight": 0.2709
         },
         {
           "term": "including",
-          "weight": 0.2706
+          "weight": 0.2704
         },
         {
           "term": "challenge",
-          "weight": 0.2665
-        },
-        {
-          "term": "github",
-          "weight": 0.2644
+          "weight": 0.2663
         },
         {
           "term": "present",
+          "weight": 0.2643
+        },
+        {
+          "term": "github",
           "weight": 0.2643
         },
         {
@@ -1350,11 +1350,11 @@
         },
         {
           "term": "without",
-          "weight": 0.2637
+          "weight": 0.2636
         },
         {
           "term": "com",
-          "weight": 0.2608
+          "weight": 0.2609
         },
         {
           "term": "they",
@@ -1362,15 +1362,15 @@
         },
         {
           "term": "gap",
-          "weight": 0.2585
+          "weight": 0.2587
         },
         {
           "term": "datasets",
-          "weight": 0.2563
+          "weight": 0.2562
         },
         {
           "term": "only",
-          "weight": 0.2557
+          "weight": 0.2556
         }
       ],
       "website": "https://iclr.cc",
@@ -1655,8 +1655,8 @@
           "tags": [
             "LLMs",
             "Evaluation",
-            "Large Language Models",
             "Benchmarking & Evaluation",
+            "Large Language Models",
             "NLP"
           ],
           "abstract": "Evaluating machine-generated text remains a significant challenge in NLP, especially for non-English languages. Current methodologies, including automated metrics, human assessments, and LLM-based evaluations, predominantly focus on English, revealing a signif",
@@ -2318,20 +2318,20 @@
         "research",
         "knowledge",
         "fine-tuning",
-        "structured",
         "remains",
+        "structured",
         "efficiency",
         "safety",
-        "text",
         "system",
+        "text",
         "quality",
-        "evaluation nlp",
         "diverse",
         "scalable",
         "multiple",
         "tools",
-        "comprehensive",
         "they",
+        "comprehensive",
+        "evaluation nlp",
         "llms reasoning",
         "rely",
         "translation",
@@ -2349,10 +2349,10 @@
         "only",
         "semantic",
         "search",
-        "datasets",
-        "benchmarks",
         "both",
+        "benchmarks",
         "work",
+        "datasets",
         "efficient",
         "two",
         "further",
@@ -2368,15 +2368,15 @@
         },
         {
           "term": "language",
-          "weight": 0.895
+          "weight": 0.8949
         },
         {
           "term": "reasoning",
-          "weight": 0.8403
+          "weight": 0.8395
         },
         {
           "term": "framework",
-          "weight": 0.8231
+          "weight": 0.8225
         },
         {
           "term": "large",
@@ -2384,55 +2384,55 @@
         },
         {
           "term": "large language",
-          "weight": 0.8168
+          "weight": 0.8169
         },
         {
           "term": "language llms",
-          "weight": 0.6568
+          "weight": 0.657
         },
         {
           "term": "evaluation",
-          "weight": 0.6437
+          "weight": 0.6436
         },
         {
           "term": "nlp",
-          "weight": 0.643
+          "weight": 0.6429
         },
         {
           "term": "introduce",
-          "weight": 0.5957
+          "weight": 0.5953
         },
         {
           "term": "existing",
-          "weight": 0.5716
+          "weight": 0.5713
         },
         {
           "term": "data",
-          "weight": 0.5077
+          "weight": 0.5075
         },
         {
           "term": "address",
-          "weight": 0.4797
+          "weight": 0.4792
         },
         {
           "term": "llm",
-          "weight": 0.4771
+          "weight": 0.4767
         },
         {
           "term": "across",
-          "weight": 0.4659
+          "weight": 0.4656
         },
         {
           "term": "capabilities",
-          "weight": 0.4361
+          "weight": 0.4357
         },
         {
           "term": "performance",
-          "weight": 0.4215
+          "weight": 0.4211
         },
         {
           "term": "generation",
-          "weight": 0.4214
+          "weight": 0.421
         },
         {
           "term": "agents",
@@ -2440,55 +2440,55 @@
         },
         {
           "term": "learning",
-          "weight": 0.4177
+          "weight": 0.4169
         },
         {
           "term": "systems",
-          "weight": 0.4062
+          "weight": 0.4063
         },
         {
           "term": "through",
-          "weight": 0.3854
+          "weight": 0.3848
         },
         {
           "term": "while",
-          "weight": 0.3808
+          "weight": 0.3809
         },
         {
           "term": "deployment",
-          "weight": 0.3802
+          "weight": 0.3807
         },
         {
           "term": "experiments",
-          "weight": 0.3725
+          "weight": 0.3723
         },
         {
           "term": "metrics",
-          "weight": 0.3658
+          "weight": 0.3662
         },
         {
           "term": "training",
-          "weight": 0.3655
+          "weight": 0.3656
         },
         {
           "term": "demonstrate",
-          "weight": 0.364
+          "weight": 0.3637
         },
         {
           "term": "human",
-          "weight": 0.3562
+          "weight": 0.3563
         },
         {
           "term": "such",
-          "weight": 0.3458
+          "weight": 0.3455
         },
         {
           "term": "benchmark",
-          "weight": 0.3435
+          "weight": 0.3434
         },
         {
           "term": "but",
-          "weight": 0.3405
+          "weight": 0.3401
         },
         {
           "term": "present",
@@ -2496,15 +2496,15 @@
         },
         {
           "term": "inference",
-          "weight": 0.3352
+          "weight": 0.3354
         },
         {
           "term": "often",
-          "weight": 0.3306
+          "weight": 0.3301
         },
         {
           "term": "over",
-          "weight": 0.3226
+          "weight": 0.3224
         },
         {
           "term": "gap",
@@ -2512,63 +2512,59 @@
         },
         {
           "term": "yet",
-          "weight": 0.3173
+          "weight": 0.3174
         },
         {
           "term": "complex",
-          "weight": 0.315
+          "weight": 0.3148
         },
         {
           "term": "prompting",
-          "weight": 0.3141
+          "weight": 0.3138
         },
         {
           "term": "research",
-          "weight": 0.3102
+          "weight": 0.3105
         },
         {
           "term": "knowledge",
-          "weight": 0.3073
+          "weight": 0.3071
         },
         {
           "term": "fine-tuning",
-          "weight": 0.3063
-        },
-        {
-          "term": "structured",
-          "weight": 0.3028
+          "weight": 0.306
         },
         {
           "term": "remains",
-          "weight": 0.3027
+          "weight": 0.3026
+        },
+        {
+          "term": "structured",
+          "weight": 0.3025
         },
         {
           "term": "efficiency",
-          "weight": 0.3023
+          "weight": 0.3022
         },
         {
           "term": "safety",
-          "weight": 0.2947
-        },
-        {
-          "term": "text",
-          "weight": 0.2927
+          "weight": 0.2948
         },
         {
           "term": "system",
-          "weight": 0.2926
+          "weight": 0.2927
+        },
+        {
+          "term": "text",
+          "weight": 0.2925
         },
         {
           "term": "quality",
-          "weight": 0.2898
-        },
-        {
-          "term": "evaluation nlp",
-          "weight": 0.288
+          "weight": 0.29
         },
         {
           "term": "diverse",
-          "weight": 0.2876
+          "weight": 0.2874
         },
         {
           "term": "scalable",
@@ -2576,23 +2572,27 @@
         },
         {
           "term": "multiple",
-          "weight": 0.2815
+          "weight": 0.2813
         },
         {
           "term": "tools",
-          "weight": 0.2804
-        },
-        {
-          "term": "comprehensive",
-          "weight": 0.2789
+          "weight": 0.2807
         },
         {
           "term": "they",
           "weight": 0.2787
         },
         {
+          "term": "comprehensive",
+          "weight": 0.2785
+        },
+        {
+          "term": "evaluation nlp",
+          "weight": 0.2784
+        },
+        {
           "term": "llms reasoning",
-          "weight": 0.2782
+          "weight": 0.2779
         },
         {
           "term": "rely",
@@ -2600,27 +2600,27 @@
         },
         {
           "term": "translation",
-          "weight": 0.27
+          "weight": 0.2699
         },
         {
           "term": "accuracy",
-          "weight": 0.2682
+          "weight": 0.2684
         },
         {
           "term": "where",
-          "weight": 0.2656
+          "weight": 0.2652
         },
         {
           "term": "alignment",
-          "weight": 0.2646
+          "weight": 0.2648
         },
         {
           "term": "retrieval",
-          "weight": 0.2645
+          "weight": 0.2644
         },
         {
           "term": "dataset",
-          "weight": 0.2637
+          "weight": 0.2632
         },
         {
           "term": "more",
@@ -2636,59 +2636,59 @@
         },
         {
           "term": "extensive",
-          "weight": 0.2586
+          "weight": 0.2583
         },
         {
           "term": "reliable",
-          "weight": 0.2567
+          "weight": 0.2568
         },
         {
           "term": "available",
-          "weight": 0.256
+          "weight": 0.2559
         },
         {
           "term": "only",
-          "weight": 0.2526
+          "weight": 0.2525
         },
         {
           "term": "semantic",
-          "weight": 0.2524
+          "weight": 0.2522
         },
         {
           "term": "search",
-          "weight": 0.2514
-        },
-        {
-          "term": "datasets",
-          "weight": 0.2505
-        },
-        {
-          "term": "benchmarks",
-          "weight": 0.2504
+          "weight": 0.2511
         },
         {
           "term": "both",
           "weight": 0.2504
         },
         {
-          "term": "work",
+          "term": "benchmarks",
           "weight": 0.2502
         },
         {
+          "term": "work",
+          "weight": 0.2501
+        },
+        {
+          "term": "datasets",
+          "weight": 0.2501
+        },
+        {
           "term": "efficient",
-          "weight": 0.2496
+          "weight": 0.2495
         },
         {
           "term": "two",
-          "weight": 0.2487
+          "weight": 0.2486
         },
         {
           "term": "further",
-          "weight": 0.2482
+          "weight": 0.248
         },
         {
           "term": "agent",
-          "weight": 0.2471
+          "weight": 0.247
         },
         {
           "term": "baselines",
@@ -2696,11 +2696,11 @@
         },
         {
           "term": "computational",
-          "weight": 0.2429
+          "weight": 0.2431
         },
         {
           "term": "critical",
-          "weight": 0.2423
+          "weight": 0.2422
         }
       ],
       "website": "https://aclanthology.org",
@@ -2713,7 +2713,7 @@
       "type": "conference",
       "field": "ML",
       "rank": "A*",
-      "paper_count": 2400,
+      "paper_count": 2402,
       "expectations": [
         "A clearly scoped learning problem with strong empirical or theoretical support.",
         "Baselines, ablations, and evaluation settings that isolate the contribution.",
@@ -2743,10 +2743,10 @@
           "url": "https://openreview.net/forum?id=RJpAz15D0S",
           "tags": [
             "LLMs",
-            "Text generation APIs",
             "Transformer Architectures",
+            "Transformer models",
             "Inference efficiency",
-            "Transformer models"
+            "Text generation APIs"
           ],
           "abstract": "Large language models (LLMs) are highly capable but also computationally expensive.  Characterizing the _fundamental tradeoff_ between inference efficiency and model capabilities is thus important, but requires an efficiency metric that is comparable across mo",
           "terms": [
@@ -2887,9 +2887,9 @@
           "tags": [
             "RL",
             "Reinforcement Learning",
-            "Model-based reinforcement learning",
             "generative model",
-            "bi-level optimization"
+            "bi-level optimization",
+            "Model-based reinforcement learning"
           ],
           "abstract": "Aligning the world model with the environment for the agent’s specific task is crucial in model-based reinforcement learning. While value-equivalent models may achieve better task awareness than maximum-likelihood models, they sacrifice a large amount of seman",
           "terms": [
@@ -2986,8 +2986,8 @@
             "RL",
             "Fairness & Ethics",
             "Evaluation",
-            "Exploration",
-            "Benchmarking & Evaluation"
+            "Benchmarking & Evaluation",
+            "Exploration"
           ],
           "abstract": "A promising technique for exploration is to maximize the entropy of visited state distribution, i.e., state entropy, by encouraging uniform coverage of visited state space. While it has been effective for an unsupervised setup, it tends to struggle in a superv",
           "terms": [
@@ -3035,8 +3035,8 @@
             "Info Extraction",
             "RL",
             "Reinforcement Learning",
-            "maximum entropy",
-            "empirical Bayes"
+            "empirical Bayes",
+            "maximum entropy"
           ],
           "abstract": "We study the problem of online sequential decision-making given auxiliary demonstrations from _experts_ who made their decisions based on unobserved contextual information. These demonstrations can be viewed as solving related but slightly different tasks than",
           "terms": [
@@ -3081,9 +3081,9 @@
           "venue": "NeurIPS",
           "url": "https://openreview.net/forum?id=DrQXDKbGgy",
           "tags": [
-            "Non-convexity",
             "Online Learning",
-            "Dynamic Environments"
+            "Dynamic Environments",
+            "Non-convexity"
           ],
           "abstract": "This paper considers the problem of online learning with non-convex loss functions in dynamic environments. Recently, Suggala and Netrapalli [2020] demonstrated that follow the perturbed leader (FTPL) can achieve optimal regret for non-convex losses, but their",
           "terms": [
@@ -3128,8 +3128,8 @@
           "venue": "NeurIPS",
           "url": "https://openreview.net/forum?id=bOQNd7tWAp",
           "tags": [
-            "online learning",
             "control",
+            "online learning",
             "hyperparameter optimization"
           ],
           "abstract": "Choosing the optimal hyperparameters, including learning rate and momentum, for specific optimization instances is a significant yet non-convex challenge. This makes conventional iterative techniques such as hypergradient descent \\cite{baydin2017online} insuff",
@@ -3177,9 +3177,9 @@
           "tags": [
             "Fine-Tuning",
             "system-level heterogeneity",
+            "Fine-Tuning & PEFT",
             "Federated bilevel optimization",
-            "linear speedup",
-            "Fine-Tuning & PEFT"
+            "linear speedup"
           ],
           "abstract": "Federated bilevel optimization (FBO) has shown great potential recently in machine learning and edge computing due to the emerging nested optimization structure in meta-learning, fine-tuning, hyperparameter tuning, etc. However, existing FBO algorithms often i",
           "terms": [
@@ -3225,9 +3225,9 @@
           "url": "https://openreview.net/forum?id=SaMrN9tnxE",
           "tags": [
             "Transformers",
+            "Transformer Architectures",
             "efficient models",
-            "Panoptic segmentation",
-            "Transformer Architectures"
+            "Panoptic segmentation"
           ],
           "abstract": "This paper presents a new mechanism to facilitate the training of mask transformers for efficient panoptic segmentation, democratizing its deployment. We observe that due to the high complexity in the training objective of panoptic segmentation, it will inevit",
           "terms": [
@@ -3274,8 +3274,8 @@
           "tags": [
             "Continual Learning",
             "Neural Process",
-            "Uncertainty",
-            "Incremental Learning"
+            "Incremental Learning",
+            "Uncertainty"
           ],
           "abstract": "Continual learning (CL) aims to train deep neural networks efficiently on streaming data while limiting the forgetting caused by new tasks.  However, learning transferable knowledge with less interference between tasks is difficult, and real-world deployment o",
           "terms": [
@@ -3464,9 +3464,9 @@
           "url": "https://openreview.net/forum?id=GZoAUVSkaw",
           "tags": [
             "Prompting",
+            "Bilevel Optimization",
             "Machine Learning",
             "Prompting & In-Context Learning",
-            "Bilevel Optimization",
             "Meta Learning"
           ],
           "abstract": "Multi-block minimax bilevel optimization has been studied recently due to its great potential in multi-task learning, robust machine learning, and few-shot learning. However, due to the complex three-level optimization structure, existing algorithms often suff",
@@ -3634,8 +3634,8 @@
         "where",
         "various",
         "datasets",
-        "existing",
         "over",
+        "existing",
         "also",
         "work",
         "online",
@@ -3651,8 +3651,8 @@
         "both",
         "github com",
         "proposed",
-        "present",
         "efficient",
+        "present",
         "not",
         "without",
         "address",
@@ -3660,25 +3660,25 @@
         "offline",
         "gradient",
         "large",
+        "control",
         "time",
         "applications",
-        "control",
         "state-of-the-art",
         "state",
         "been",
         "each",
         "when",
-        "agent",
         "effective",
+        "agent",
         "language",
         "machine learning",
         "only",
         "recent",
         "simple",
-        "more",
         "through",
-        "machine",
+        "more",
         "environments",
+        "machine",
         "across",
         "number",
         "modeling",
@@ -3687,9 +3687,9 @@
         "policies",
         "efficiency",
         "optimal",
+        "evaluation",
         "code",
-        "structure",
-        "evaluation"
+        "structure"
       ],
       "weighted_keywords": [
         {
@@ -3698,11 +3698,11 @@
         },
         {
           "term": "reinforcement learning",
-          "weight": 0.5544
+          "weight": 0.5545
         },
         {
           "term": "reinforcement",
-          "weight": 0.5531
+          "weight": 0.5532
         },
         {
           "term": "policy",
@@ -3710,7 +3710,7 @@
         },
         {
           "term": "problem",
-          "weight": 0.3978
+          "weight": 0.3972
         },
         {
           "term": "algorithms",
@@ -3718,15 +3718,15 @@
         },
         {
           "term": "algorithm",
-          "weight": 0.3888
+          "weight": 0.3885
         },
         {
           "term": "meta-learning",
-          "weight": 0.3882
+          "weight": 0.3883
         },
         {
           "term": "introduce",
-          "weight": 0.3751
+          "weight": 0.3747
         },
         {
           "term": "framework",
@@ -3734,43 +3734,43 @@
         },
         {
           "term": "data",
-          "weight": 0.3681
+          "weight": 0.3673
         },
         {
           "term": "optimization",
-          "weight": 0.3661
+          "weight": 0.3663
         },
         {
           "term": "training",
-          "weight": 0.3616
+          "weight": 0.3613
         },
         {
           "term": "diffusion",
-          "weight": 0.3468
+          "weight": 0.3463
         },
         {
           "term": "deep",
-          "weight": 0.3215
+          "weight": 0.3213
         },
         {
           "term": "neural",
-          "weight": 0.3181
+          "weight": 0.3178
         },
         {
           "term": "https",
-          "weight": 0.2978
+          "weight": 0.2975
         },
         {
           "term": "com",
-          "weight": 0.2936
+          "weight": 0.2933
         },
         {
           "term": "demonstrate",
-          "weight": 0.2819
+          "weight": 0.2821
         },
         {
           "term": "while",
-          "weight": 0.2802
+          "weight": 0.2798
         },
         {
           "term": "distribution",
@@ -3782,19 +3782,19 @@
         },
         {
           "term": "space",
-          "weight": 0.2731
+          "weight": 0.2728
         },
         {
           "term": "performance",
-          "weight": 0.2724
+          "weight": 0.2723
         },
         {
           "term": "such",
-          "weight": 0.2718
+          "weight": 0.2717
         },
         {
           "term": "generalization",
-          "weight": 0.2639
+          "weight": 0.2641
         },
         {
           "term": "where",
@@ -3806,39 +3806,39 @@
         },
         {
           "term": "datasets",
-          "weight": 0.2577
-        },
-        {
-          "term": "existing",
-          "weight": 0.2536
+          "weight": 0.2575
         },
         {
           "term": "over",
           "weight": 0.2535
         },
         {
+          "term": "existing",
+          "weight": 0.2534
+        },
+        {
           "term": "also",
-          "weight": 0.2532
+          "weight": 0.2534
         },
         {
           "term": "work",
-          "weight": 0.2523
+          "weight": 0.2526
         },
         {
           "term": "online",
-          "weight": 0.2514
+          "weight": 0.2515
         },
         {
           "term": "networks",
-          "weight": 0.2506
+          "weight": 0.2508
         },
         {
           "term": "generative",
-          "weight": 0.2472
+          "weight": 0.2471
         },
         {
           "term": "https github",
-          "weight": 0.2465
+          "weight": 0.2461
         },
         {
           "term": "transformer",
@@ -3846,43 +3846,43 @@
         },
         {
           "term": "meta",
-          "weight": 0.2441
+          "weight": 0.244
         },
         {
           "term": "between",
-          "weight": 0.2437
+          "weight": 0.2434
         },
         {
           "term": "github",
-          "weight": 0.2411
+          "weight": 0.2408
         },
         {
           "term": "sample",
-          "weight": 0.2403
+          "weight": 0.2407
         },
         {
           "term": "learn",
-          "weight": 0.2398
+          "weight": 0.2393
         },
         {
           "term": "both",
-          "weight": 0.2383
+          "weight": 0.2381
         },
         {
           "term": "github com",
-          "weight": 0.2379
+          "weight": 0.2376
         },
         {
           "term": "proposed",
           "weight": 0.2374
         },
         {
-          "term": "present",
-          "weight": 0.2362
+          "term": "efficient",
+          "weight": 0.2364
         },
         {
-          "term": "efficient",
-          "weight": 0.2362
+          "term": "present",
+          "weight": 0.2361
         },
         {
           "term": "not",
@@ -3890,7 +3890,7 @@
         },
         {
           "term": "without",
-          "weight": 0.234
+          "weight": 0.2339
         },
         {
           "term": "address",
@@ -3898,67 +3898,67 @@
         },
         {
           "term": "convergence",
-          "weight": 0.2319
+          "weight": 0.2318
         },
         {
           "term": "offline",
-          "weight": 0.2315
+          "weight": 0.2317
         },
         {
           "term": "gradient",
-          "weight": 0.2294
+          "weight": 0.2295
         },
         {
           "term": "large",
           "weight": 0.2237
         },
         {
-          "term": "time",
+          "term": "control",
           "weight": 0.2229
         },
         {
-          "term": "applications",
-          "weight": 0.2226
+          "term": "time",
+          "weight": 0.2228
         },
         {
-          "term": "control",
-          "weight": 0.2224
+          "term": "applications",
+          "weight": 0.2228
         },
         {
           "term": "state-of-the-art",
-          "weight": 0.222
+          "weight": 0.2219
         },
         {
           "term": "state",
-          "weight": 0.2214
+          "weight": 0.2213
         },
         {
           "term": "been",
-          "weight": 0.217
+          "weight": 0.2175
         },
         {
           "term": "each",
-          "weight": 0.2166
+          "weight": 0.2162
         },
         {
           "term": "when",
-          "weight": 0.2154
-        },
-        {
-          "term": "agent",
-          "weight": 0.2133
+          "weight": 0.2153
         },
         {
           "term": "effective",
-          "weight": 0.2133
+          "weight": 0.2136
         },
         {
-          "term": "language",
+          "term": "agent",
           "weight": 0.2132
         },
         {
+          "term": "language",
+          "weight": 0.2131
+        },
+        {
           "term": "machine learning",
-          "weight": 0.213
+          "weight": 0.2127
         },
         {
           "term": "only",
@@ -3966,35 +3966,35 @@
         },
         {
           "term": "recent",
-          "weight": 0.2121
+          "weight": 0.2122
         },
         {
           "term": "simple",
           "weight": 0.2115
         },
         {
-          "term": "more",
+          "term": "through",
           "weight": 0.2109
         },
         {
-          "term": "through",
-          "weight": 0.2108
-        },
-        {
-          "term": "machine",
-          "weight": 0.2096
+          "term": "more",
+          "weight": 0.2105
         },
         {
           "term": "environments",
           "weight": 0.2095
         },
         {
+          "term": "machine",
+          "weight": 0.2094
+        },
+        {
           "term": "across",
-          "weight": 0.2088
+          "weight": 0.2087
         },
         {
           "term": "number",
-          "weight": 0.2082
+          "weight": 0.2078
         },
         {
           "term": "modeling",
@@ -4002,35 +4002,35 @@
         },
         {
           "term": "transformers",
-          "weight": 0.2072
+          "weight": 0.207
         },
         {
           "term": "available",
-          "weight": 0.2062
+          "weight": 0.2059
         },
         {
           "term": "policies",
-          "weight": 0.2049
+          "weight": 0.2052
         },
         {
           "term": "efficiency",
-          "weight": 0.2041
+          "weight": 0.2045
         },
         {
           "term": "optimal",
-          "weight": 0.2035
-        },
-        {
-          "term": "code",
-          "weight": 0.2022
-        },
-        {
-          "term": "structure",
-          "weight": 0.2021
+          "weight": 0.2027
         },
         {
           "term": "evaluation",
-          "weight": 0.2018
+          "weight": 0.202
+        },
+        {
+          "term": "code",
+          "weight": 0.202
+        },
+        {
+          "term": "structure",
+          "weight": 0.2017
         }
       ],
       "website": "https://neurips.cc",
@@ -4043,7 +4043,7 @@
       "type": "conference",
       "field": "NLP",
       "rank": "A*",
-      "paper_count": 1881,
+      "paper_count": 1880,
       "expectations": [
         "Task framing, datasets, and metrics that match current NLP practice.",
         "Comparisons against recent language-model or task-specific baselines.",
@@ -4073,8 +4073,8 @@
           "tags": [
             "LLMs",
             "Reasoning",
-            "Large Language Models",
             "Reasoning & Chain-of-Thought",
+            "Large Language Models",
             "NLP"
           ],
           "abstract": "Large language models (LLMs) demonstrate remarkable performance on math word problems, yet they have been shown to struggle with meta-reasoning tasks such as identifying errors in student solutions. In this work, we investigate the challenge of locating the fi",
@@ -4171,9 +4171,9 @@
           "tags": [
             "LLMs",
             "Fine-Tuning",
+            "Fine-Tuning & PEFT",
             "Large Language Models",
-            "NLP",
-            "Fine-Tuning & PEFT"
+            "NLP"
           ],
           "abstract": "Fine-tuning large language models (LLMs) with backpropagation--even for a subset of parameters such as LoRA--can be much more memory-consuming than inference and is often deemed impractical for resource-constrained mobile devices. Alternative methods, such as ",
           "terms": [
@@ -4220,9 +4220,9 @@
           "tags": [
             "LLMs",
             "Fine-Tuning",
+            "Fine-Tuning & PEFT",
             "Large Language Models",
-            "NLP",
-            "Fine-Tuning & PEFT"
+            "NLP"
           ],
           "abstract": "Prominent Large Language Model (LLM) services from providers like OpenAI and Google excel at general tasks but often underperform on domain-specific applications. Current customization services for these LLMs typically require users to upload data for fine-tun",
           "terms": [
@@ -4563,8 +4563,8 @@
           "tags": [
             "LLMs",
             "Reasoning",
-            "Large Language Models",
             "Reasoning & Chain-of-Thought",
+            "Large Language Models",
             "NLP"
           ],
           "abstract": "Chain-of-Thought (CoT) has been proven effective in enhancing the reasoning capabilities of large language models (LLMs). Recent advancements, such as OpenAI's o1 and DeepSeek-R1, suggest that scaling up the length of CoT sequences during inference could furth",
@@ -4612,8 +4612,8 @@
           "tags": [
             "LLMs",
             "Evaluation",
-            "Large Language Models",
             "Benchmarking & Evaluation",
+            "Large Language Models",
             "NLP"
           ],
           "abstract": "In this paper, we introduce a combination of novel and exciting tasks: the solution and generation of linguistic puzzles. We focus on puzzles used in Linguistic Olympiads for high school students. We first extend the existing benchmark for the task of solving ",
@@ -4961,13 +4961,13 @@
         "knowledge",
         "training",
         "generation",
-        "learning",
         "information",
+        "learning",
         "such",
         "fine-tuning",
         "across",
-        "while",
         "systems",
+        "while",
         "but",
         "existing",
         "current",
@@ -4998,11 +4998,11 @@
         "deployment",
         "between",
         "challenges",
-        "analysis",
         "effective",
+        "analysis",
+        "recent",
         "when",
         "further",
-        "recent",
         "benchmarking",
         "extensive",
         "effectiveness",
@@ -5016,19 +5016,19 @@
         "than",
         "code",
         "agents",
+        "evaluation benchmarking",
         "complex",
         "each",
         "inference",
         "efficiency",
         "research",
-        "high",
         "semantic",
+        "high",
         "capabilities",
         "state-of-the-art",
         "efficient",
         "process",
-        "significantly",
-        "few-shot"
+        "significantly"
       ],
       "weighted_keywords": [
         {
@@ -5037,31 +5037,31 @@
         },
         {
           "term": "llms",
-          "weight": 0.8985
+          "weight": 0.899
         },
         {
           "term": "large",
-          "weight": 0.8409
+          "weight": 0.8416
         },
         {
           "term": "nlp",
-          "weight": 0.7739
+          "weight": 0.7737
         },
         {
           "term": "large language",
-          "weight": 0.7499
+          "weight": 0.7507
         },
         {
           "term": "evaluation",
-          "weight": 0.6819
+          "weight": 0.6824
         },
         {
           "term": "data",
-          "weight": 0.6779
+          "weight": 0.6778
         },
         {
           "term": "reasoning",
-          "weight": 0.657
+          "weight": 0.6575
         },
         {
           "term": "performance",
@@ -5069,171 +5069,171 @@
         },
         {
           "term": "framework",
-          "weight": 0.6466
+          "weight": 0.6473
         },
         {
           "term": "language llms",
-          "weight": 0.6127
+          "weight": 0.6128
         },
         {
           "term": "work",
-          "weight": 0.5985
-        },
-        {
-          "term": "text",
           "weight": 0.5983
         },
         {
+          "term": "text",
+          "weight": 0.5979
+        },
+        {
           "term": "introduce",
-          "weight": 0.5909
+          "weight": 0.5914
         },
         {
           "term": "knowledge",
-          "weight": 0.5538
+          "weight": 0.5543
         },
         {
           "term": "training",
-          "weight": 0.5478
+          "weight": 0.5481
         },
         {
           "term": "generation",
-          "weight": 0.547
+          "weight": 0.5473
+        },
+        {
+          "term": "information",
+          "weight": 0.5422
         },
         {
           "term": "learning",
           "weight": 0.5415
         },
         {
-          "term": "information",
-          "weight": 0.5415
-        },
-        {
           "term": "such",
-          "weight": 0.5238
+          "weight": 0.5239
         },
         {
           "term": "fine-tuning",
-          "weight": 0.5151
+          "weight": 0.5156
         },
         {
           "term": "across",
-          "weight": 0.483
-        },
-        {
-          "term": "while",
-          "weight": 0.4669
+          "weight": 0.4829
         },
         {
           "term": "systems",
-          "weight": 0.4667
+          "weight": 0.4671
+        },
+        {
+          "term": "while",
+          "weight": 0.4668
         },
         {
           "term": "but",
-          "weight": 0.444
+          "weight": 0.4441
         },
         {
           "term": "existing",
-          "weight": 0.4421
+          "weight": 0.4427
         },
         {
           "term": "current",
-          "weight": 0.4167
+          "weight": 0.4169
         },
         {
           "term": "llm",
-          "weight": 0.414
+          "weight": 0.4142
         },
         {
           "term": "multiple",
-          "weight": 0.4096
+          "weight": 0.409
         },
         {
           "term": "demonstrate",
-          "weight": 0.4063
+          "weight": 0.4067
         },
         {
           "term": "present",
-          "weight": 0.3958
+          "weight": 0.395
         },
         {
           "term": "often",
-          "weight": 0.3923
+          "weight": 0.3927
         },
         {
           "term": "datasets",
-          "weight": 0.3839
+          "weight": 0.384
         },
         {
           "term": "they",
-          "weight": 0.3827
+          "weight": 0.3825
         },
         {
           "term": "address",
-          "weight": 0.3814
+          "weight": 0.3818
         },
         {
           "term": "experiments",
-          "weight": 0.3806
+          "weight": 0.3804
         },
         {
           "term": "significant",
-          "weight": 0.368
+          "weight": 0.3685
         },
         {
           "term": "retrieval",
-          "weight": 0.3658
+          "weight": 0.3657
         },
         {
           "term": "diverse",
-          "weight": 0.3648
+          "weight": 0.3655
         },
         {
           "term": "more",
-          "weight": 0.364
+          "weight": 0.3645
         },
         {
           "term": "improve",
-          "weight": 0.3598
+          "weight": 0.3588
         },
         {
           "term": "due",
-          "weight": 0.3568
+          "weight": 0.3569
         },
         {
           "term": "through",
-          "weight": 0.3537
+          "weight": 0.3542
         },
         {
           "term": "been",
-          "weight": 0.3515
+          "weight": 0.3518
         },
         {
           "term": "human",
-          "weight": 0.3502
+          "weight": 0.3501
         },
         {
           "term": "two",
-          "weight": 0.3492
+          "weight": 0.3491
         },
         {
           "term": "multimodal",
-          "weight": 0.347
+          "weight": 0.3472
         },
         {
           "term": "not",
-          "weight": 0.3428
+          "weight": 0.3424
         },
         {
           "term": "both",
-          "weight": 0.3412
+          "weight": 0.3414
         },
         {
           "term": "dataset",
-          "weight": 0.3411
+          "weight": 0.3404
         },
         {
           "term": "classification",
-          "weight": 0.3388
+          "weight": 0.3387
         },
         {
           "term": "deployment",
@@ -5241,91 +5241,95 @@
         },
         {
           "term": "between",
-          "weight": 0.3359
+          "weight": 0.3361
         },
         {
           "term": "challenges",
-          "weight": 0.3354
-        },
-        {
-          "term": "analysis",
-          "weight": 0.3327
+          "weight": 0.3357
         },
         {
           "term": "effective",
-          "weight": 0.3326
+          "weight": 0.3341
+        },
+        {
+          "term": "analysis",
+          "weight": 0.3329
+        },
+        {
+          "term": "recent",
+          "weight": 0.3304
         },
         {
           "term": "when",
-          "weight": 0.3303
+          "weight": 0.3301
         },
         {
           "term": "further",
           "weight": 0.3301
         },
         {
-          "term": "recent",
-          "weight": 0.3301
-        },
-        {
           "term": "benchmarking",
-          "weight": 0.3257
+          "weight": 0.3259
         },
         {
           "term": "extensive",
-          "weight": 0.3214
+          "weight": 0.3216
         },
         {
           "term": "effectiveness",
-          "weight": 0.3204
+          "weight": 0.3208
         },
         {
           "term": "benchmarks",
-          "weight": 0.3131
+          "weight": 0.3134
         },
         {
           "term": "yet",
-          "weight": 0.3123
+          "weight": 0.3127
         },
         {
           "term": "meta-learning",
-          "weight": 0.3109
+          "weight": 0.3113
         },
         {
           "term": "automatic",
-          "weight": 0.3108
+          "weight": 0.3107
         },
         {
           "term": "extraction",
-          "weight": 0.3098
+          "weight": 0.3103
         },
         {
           "term": "benchmarking evaluation",
-          "weight": 0.3077
+          "weight": 0.308
         },
         {
           "term": "languages",
-          "weight": 0.3069
+          "weight": 0.3065
         },
         {
           "term": "than",
-          "weight": 0.3054
+          "weight": 0.3056
         },
         {
           "term": "code",
-          "weight": 0.301
+          "weight": 0.3011
         },
         {
           "term": "agents",
-          "weight": 0.2997
+          "weight": 0.2999
         },
         {
-          "term": "complex",
+          "term": "evaluation benchmarking",
           "weight": 0.2985
         },
         {
+          "term": "complex",
+          "weight": 0.2984
+        },
+        {
           "term": "each",
-          "weight": 0.2976
+          "weight": 0.2978
         },
         {
           "term": "inference",
@@ -5333,27 +5337,27 @@
         },
         {
           "term": "efficiency",
-          "weight": 0.296
+          "weight": 0.2955
         },
         {
           "term": "research",
-          "weight": 0.2956
-        },
-        {
-          "term": "high",
-          "weight": 0.2928
+          "weight": 0.2954
         },
         {
           "term": "semantic",
-          "weight": 0.2917
+          "weight": 0.2928
+        },
+        {
+          "term": "high",
+          "weight": 0.2927
         },
         {
           "term": "capabilities",
-          "weight": 0.2912
+          "weight": 0.2914
         },
         {
           "term": "state-of-the-art",
-          "weight": 0.2911
+          "weight": 0.291
         },
         {
           "term": "efficient",
@@ -5361,15 +5365,11 @@
         },
         {
           "term": "process",
-          "weight": 0.2887
+          "weight": 0.2881
         },
         {
           "term": "significantly",
-          "weight": 0.2868
-        },
-        {
-          "term": "few-shot",
-          "weight": 0.2832
+          "weight": 0.2866
         }
       ],
       "website": "https://aclanthology.org",
@@ -5510,8 +5510,8 @@
           "tags": [
             "LLMs",
             "Reasoning",
-            "Large Language Models",
             "Reasoning & Chain-of-Thought",
+            "Large Language Models",
             "NLP"
           ],
           "abstract": "Self-reflection for Large LanguageModels (LLMs) has gained significant attention. Existing approaches involve models iterating and improving their previous responses based on LLMs' internal reflection ability or external feedback. However, recent research has ",
@@ -5655,9 +5655,9 @@
           "tags": [
             "LLMs",
             "Fine-Tuning",
+            "Fine-Tuning & PEFT",
             "Large Language Models",
-            "NLP",
-            "Fine-Tuning & PEFT"
+            "NLP"
           ],
           "abstract": "Adapting Large Language Models (LLMs) to novel tasks and enhancing their overall capabilities often requires large, high-quality training datasets. Synthetic data, generated at scale, serves a valuable alternative when real-world data is scarce or difficult to",
           "terms": [
@@ -6048,8 +6048,8 @@
             "Prompting",
             "Classification",
             "Evaluation",
-            "Prompting & In-Context Learning",
-            "Benchmarking & Evaluation"
+            "Benchmarking & Evaluation",
+            "Prompting & In-Context Learning"
           ],
           "abstract": "Text classification has achieved great success with the prosperity of deep learning and pre-trained language models. However, we often encounter labeled data deficiency problems in real-world text-classification tasks. To overcome such challenging scenarios, i",
           "terms": [
@@ -6143,8 +6143,8 @@
             "Prompting",
             "Info Extraction",
             "Evaluation",
-            "Prompting & In-Context Learning",
-            "Benchmarking & Evaluation"
+            "Benchmarking & Evaluation",
+            "Prompting & In-Context Learning"
           ],
           "abstract": "Few-Shot Sequence Labeling (FSSL) is a canonical paradigm for the tagging models, e.g., named entity recognition and slot filling, to generalize on an emerging, resource-scarce domain. Recently, the metric-based meta-learning framework has been recognized as a",
           "terms": [
@@ -6191,8 +6191,8 @@
           "tags": [
             "AI Safety",
             "TTS",
-            "AI Safety & Alignment",
             "Speech Synthesis",
+            "AI Safety & Alignment",
             "NLP"
           ],
           "abstract": "In this study, we introduce ManaTTS, the most extensive publicly accessible single-speaker Persian corpus, and a comprehensive framework for collecting transcribed speech datasets for the Persian language. ManaTTS, released under the open CC-0 license, compris",
@@ -6296,8 +6296,8 @@
         "learning",
         "work",
         "datasets",
-        "natural",
         "address",
+        "natural",
         "across",
         "research",
         "framework",
@@ -6305,8 +6305,8 @@
         "natural language",
         "information",
         "llm",
-        "more",
         "generation",
+        "more",
         "such",
         "training",
         "challenges",
@@ -6324,8 +6324,8 @@
         "both",
         "translation",
         "demonstrate",
-        "most",
         "effective",
+        "most",
         "between",
         "two",
         "quality",
@@ -6353,8 +6353,8 @@
         "significantly",
         "speech",
         "proposed",
-        "used",
         "language processing",
+        "used",
         "they",
         "without",
         "state-of-the-art",
@@ -6375,63 +6375,63 @@
         },
         {
           "term": "llms",
-          "weight": 0.8359
+          "weight": 0.8361
         },
         {
           "term": "large",
-          "weight": 0.747
+          "weight": 0.7471
         },
         {
           "term": "nlp",
-          "weight": 0.7232
+          "weight": 0.723
         },
         {
           "term": "large language",
-          "weight": 0.7187
+          "weight": 0.7189
         },
         {
           "term": "data",
-          "weight": 0.5747
+          "weight": 0.575
         },
         {
           "term": "language llms",
-          "weight": 0.5432
+          "weight": 0.5433
         },
         {
           "term": "introduce",
-          "weight": 0.5129
+          "weight": 0.5128
         },
         {
           "term": "evaluation",
-          "weight": 0.4934
+          "weight": 0.4933
         },
         {
           "term": "text",
-          "weight": 0.4861
+          "weight": 0.486
         },
         {
           "term": "performance",
-          "weight": 0.469
+          "weight": 0.4688
         },
         {
           "term": "learning",
-          "weight": 0.456
+          "weight": 0.4558
         },
         {
           "term": "work",
-          "weight": 0.4452
+          "weight": 0.4447
         },
         {
           "term": "datasets",
           "weight": 0.4339
         },
         {
-          "term": "natural",
-          "weight": 0.3995
+          "term": "address",
+          "weight": 0.3996
         },
         {
-          "term": "address",
-          "weight": 0.3993
+          "term": "natural",
+          "weight": 0.3994
         },
         {
           "term": "across",
@@ -6439,43 +6439,43 @@
         },
         {
           "term": "research",
-          "weight": 0.3885
+          "weight": 0.3886
         },
         {
           "term": "framework",
-          "weight": 0.3798
+          "weight": 0.3797
         },
         {
           "term": "reasoning",
-          "weight": 0.3778
+          "weight": 0.3772
         },
         {
           "term": "natural language",
-          "weight": 0.371
+          "weight": 0.3708
         },
         {
           "term": "information",
-          "weight": 0.3699
+          "weight": 0.37
         },
         {
           "term": "llm",
-          "weight": 0.3667
-        },
-        {
-          "term": "more",
-          "weight": 0.3665
+          "weight": 0.3669
         },
         {
           "term": "generation",
+          "weight": 0.366
+        },
+        {
+          "term": "more",
           "weight": 0.3659
         },
         {
           "term": "such",
-          "weight": 0.3644
+          "weight": 0.364
         },
         {
           "term": "training",
-          "weight": 0.359
+          "weight": 0.3592
         },
         {
           "term": "challenges",
@@ -6483,19 +6483,19 @@
         },
         {
           "term": "fine-tuning",
-          "weight": 0.3497
+          "weight": 0.3505
         },
         {
           "term": "various",
-          "weight": 0.3484
+          "weight": 0.3483
         },
         {
           "term": "existing",
-          "weight": 0.3462
+          "weight": 0.3461
         },
         {
           "term": "knowledge",
-          "weight": 0.3397
+          "weight": 0.3392
         },
         {
           "term": "dataset",
@@ -6503,51 +6503,51 @@
         },
         {
           "term": "often",
-          "weight": 0.3366
+          "weight": 0.3368
         },
         {
           "term": "while",
-          "weight": 0.3335
+          "weight": 0.3337
         },
         {
           "term": "languages",
-          "weight": 0.3247
+          "weight": 0.3244
         },
         {
           "term": "systems",
-          "weight": 0.324
+          "weight": 0.3242
         },
         {
           "term": "through",
-          "weight": 0.3091
+          "weight": 0.3086
         },
         {
           "term": "been",
-          "weight": 0.303
+          "weight": 0.3027
         },
         {
           "term": "both",
-          "weight": 0.3014
+          "weight": 0.3012
         },
         {
           "term": "translation",
-          "weight": 0.3007
+          "weight": 0.3008
         },
         {
           "term": "demonstrate",
-          "weight": 0.3
-        },
-        {
-          "term": "most",
-          "weight": 0.2984
+          "weight": 0.2998
         },
         {
           "term": "effective",
-          "weight": 0.2983
+          "weight": 0.2982
+        },
+        {
+          "term": "most",
+          "weight": 0.2981
         },
         {
           "term": "between",
-          "weight": 0.296
+          "weight": 0.2957
         },
         {
           "term": "two",
@@ -6555,7 +6555,7 @@
         },
         {
           "term": "quality",
-          "weight": 0.2893
+          "weight": 0.2894
         },
         {
           "term": "not",
@@ -6563,47 +6563,47 @@
         },
         {
           "term": "human",
-          "weight": 0.2881
+          "weight": 0.2882
         },
         {
           "term": "challenge",
-          "weight": 0.2876
+          "weight": 0.2872
         },
         {
           "term": "present",
-          "weight": 0.2851
+          "weight": 0.2852
         },
         {
           "term": "but",
-          "weight": 0.2838
+          "weight": 0.2837
         },
         {
           "term": "when",
-          "weight": 0.2829
+          "weight": 0.2827
         },
         {
           "term": "experiments",
-          "weight": 0.2823
+          "weight": 0.2822
         },
         {
           "term": "generate",
-          "weight": 0.2805
+          "weight": 0.2806
         },
         {
           "term": "significant",
-          "weight": 0.279
+          "weight": 0.2791
         },
         {
           "term": "recent",
-          "weight": 0.2767
+          "weight": 0.2766
         },
         {
           "term": "user",
-          "weight": 0.271
+          "weight": 0.2708
         },
         {
           "term": "processing",
-          "weight": 0.2701
+          "weight": 0.2702
         },
         {
           "term": "metrics",
@@ -6611,27 +6611,27 @@
         },
         {
           "term": "also",
-          "weight": 0.2682
+          "weight": 0.2685
         },
         {
           "term": "examples",
-          "weight": 0.266
+          "weight": 0.2656
         },
         {
           "term": "analysis",
-          "weight": 0.2597
+          "weight": 0.2593
         },
         {
           "term": "studies",
-          "weight": 0.2594
+          "weight": 0.259
         },
         {
           "term": "prompting",
-          "weight": 0.2533
+          "weight": 0.2531
         },
         {
           "term": "few-shot",
-          "weight": 0.2525
+          "weight": 0.252
         },
         {
           "term": "them",
@@ -6639,7 +6639,7 @@
         },
         {
           "term": "three",
-          "weight": 0.2488
+          "weight": 0.2489
         },
         {
           "term": "significantly",
@@ -6647,23 +6647,23 @@
         },
         {
           "term": "speech",
-          "weight": 0.2435
+          "weight": 0.2433
         },
         {
           "term": "proposed",
-          "weight": 0.2429
-        },
-        {
-          "term": "used",
-          "weight": 0.2418
+          "weight": 0.2428
         },
         {
           "term": "language processing",
-          "weight": 0.2417
+          "weight": 0.2418
+        },
+        {
+          "term": "used",
+          "weight": 0.2415
         },
         {
           "term": "they",
-          "weight": 0.2416
+          "weight": 0.2411
         },
         {
           "term": "without",
@@ -6671,19 +6671,19 @@
         },
         {
           "term": "state-of-the-art",
-          "weight": 0.2388
+          "weight": 0.2386
         },
         {
           "term": "capabilities",
-          "weight": 0.2368
+          "weight": 0.2366
         },
         {
           "term": "generated",
-          "weight": 0.2363
+          "weight": 0.2362
         },
         {
           "term": "context",
-          "weight": 0.236
+          "weight": 0.2361
         },
         {
           "term": "diverse",
@@ -6691,23 +6691,23 @@
         },
         {
           "term": "automatic",
-          "weight": 0.2355
+          "weight": 0.2356
         },
         {
           "term": "evaluate",
-          "weight": 0.2349
+          "weight": 0.2348
         },
         {
           "term": "system",
-          "weight": 0.2345
+          "weight": 0.2339
         },
         {
           "term": "techniques",
-          "weight": 0.2331
+          "weight": 0.233
         },
         {
           "term": "classification",
-          "weight": 0.2314
+          "weight": 0.2315
         }
       ],
       "website": "https://aclanthology.org",
@@ -7119,8 +7119,8 @@
           "tags": [
             "Video AI",
             "Evaluation",
-            "Video Understanding & Generation",
-            "Benchmarking & Evaluation"
+            "Benchmarking & Evaluation",
+            "Video Understanding & Generation"
           ],
           "abstract": "An ideal model for dense video captioning -- predicting captions localized temporally in a video -- should be able to handle long input videos predict rich detailed textual descriptions and be able to produce outputs before processing the entire video. Current",
           "terms": [
@@ -7606,8 +7606,8 @@
         "pose",
         "segmentation",
         "network",
-        "state-of-the-art",
         "performance",
+        "state-of-the-art",
         "between",
         "reconstruction",
         "demonstrate",
@@ -7660,8 +7660,8 @@
         "large-scale",
         "https",
         "single",
-        "transformer",
         "github",
+        "transformer",
         "various",
         "work",
         "only",
@@ -7678,15 +7678,15 @@
         },
         {
           "term": "diffusion",
-          "weight": 0.7926
+          "weight": 0.7924
         },
         {
           "term": "images",
-          "weight": 0.7104
+          "weight": 0.7103
         },
         {
           "term": "vision",
-          "weight": 0.6657
+          "weight": 0.6653
         },
         {
           "term": "object",
@@ -7694,35 +7694,35 @@
         },
         {
           "term": "video",
-          "weight": 0.6229
+          "weight": 0.6226
         },
         {
           "term": "visual",
-          "weight": 0.5937
+          "weight": 0.5936
         },
         {
           "term": "estimation",
-          "weight": 0.5745
+          "weight": 0.5741
         },
         {
           "term": "address",
-          "weight": 0.5736
+          "weight": 0.5734
         },
         {
           "term": "existing",
-          "weight": 0.5432
+          "weight": 0.5429
         },
         {
           "term": "x27",
-          "weight": 0.5313
+          "weight": 0.531
         },
         {
           "term": "data",
-          "weight": 0.5242
+          "weight": 0.5243
         },
         {
           "term": "training",
-          "weight": 0.5234
+          "weight": 0.5233
         },
         {
           "term": "introduce",
@@ -7730,51 +7730,51 @@
         },
         {
           "term": "motion",
-          "weight": 0.5071
+          "weight": 0.5067
         },
         {
           "term": "learning",
-          "weight": 0.5037
+          "weight": 0.5035
         },
         {
           "term": "experiments",
-          "weight": 0.4944
+          "weight": 0.4942
         },
         {
           "term": "framework",
-          "weight": 0.4826
+          "weight": 0.4827
         },
         {
           "term": "pose",
-          "weight": 0.4718
+          "weight": 0.4714
         },
         {
           "term": "segmentation",
-          "weight": 0.4658
+          "weight": 0.4656
         },
         {
           "term": "network",
-          "weight": 0.4622
-        },
-        {
-          "term": "state-of-the-art",
-          "weight": 0.4614
+          "weight": 0.462
         },
         {
           "term": "performance",
           "weight": 0.4614
         },
         {
-          "term": "between",
-          "weight": 0.4563
+          "term": "state-of-the-art",
+          "weight": 0.4613
         },
         {
-          "term": "reconstruction",
+          "term": "between",
           "weight": 0.4559
         },
         {
+          "term": "reconstruction",
+          "weight": 0.4558
+        },
+        {
           "term": "demonstrate",
-          "weight": 0.4531
+          "weight": 0.4529
         },
         {
           "term": "features",
@@ -7782,39 +7782,39 @@
         },
         {
           "term": "extensive",
-          "weight": 0.4488
+          "weight": 0.4487
         },
         {
           "term": "scenes",
-          "weight": 0.4424
+          "weight": 0.4421
         },
         {
           "term": "neural",
-          "weight": 0.4292
+          "weight": 0.4287
         },
         {
           "term": "detection",
-          "weight": 0.4192
+          "weight": 0.419
         },
         {
           "term": "objects",
-          "weight": 0.4128
+          "weight": 0.4129
         },
         {
           "term": "prediction",
-          "weight": 0.4108
+          "weight": 0.4105
         },
         {
           "term": "extensive experiments",
-          "weight": 0.4094
+          "weight": 0.4092
         },
         {
           "term": "present",
-          "weight": 0.4063
+          "weight": 0.4061
         },
         {
           "term": "representation",
-          "weight": 0.4056
+          "weight": 0.4057
         },
         {
           "term": "due",
@@ -7822,23 +7822,23 @@
         },
         {
           "term": "datasets",
-          "weight": 0.4011
+          "weight": 0.4012
         },
         {
           "term": "generation",
-          "weight": 0.3915
+          "weight": 0.3918
         },
         {
           "term": "dynamic",
-          "weight": 0.3911
+          "weight": 0.391
         },
         {
           "term": "problem",
-          "weight": 0.3861
+          "weight": 0.3856
         },
         {
           "term": "modeling",
-          "weight": 0.3826
+          "weight": 0.3823
         },
         {
           "term": "scene",
@@ -7846,7 +7846,7 @@
         },
         {
           "term": "both",
-          "weight": 0.3707
+          "weight": 0.3706
         },
         {
           "term": "transformers",
@@ -7854,19 +7854,19 @@
         },
         {
           "term": "information",
-          "weight": 0.3639
+          "weight": 0.3636
         },
         {
           "term": "experiments demonstrate",
-          "weight": 0.3585
+          "weight": 0.3584
         },
         {
           "term": "point",
-          "weight": 0.3575
+          "weight": 0.3572
         },
         {
           "term": "high-quality",
-          "weight": 0.357
+          "weight": 0.3568
         },
         {
           "term": "effectively",
@@ -7874,11 +7874,11 @@
         },
         {
           "term": "proposed",
-          "weight": 0.3508
+          "weight": 0.3507
         },
         {
           "term": "generative",
-          "weight": 0.3504
+          "weight": 0.3506
         },
         {
           "term": "recent",
@@ -7886,15 +7886,15 @@
         },
         {
           "term": "significantly",
-          "weight": 0.3467
+          "weight": 0.3466
         },
         {
           "term": "networks",
-          "weight": 0.3457
+          "weight": 0.3454
         },
         {
           "term": "space",
-          "weight": 0.345
+          "weight": 0.3448
         },
         {
           "term": "object detection",
@@ -7902,87 +7902,87 @@
         },
         {
           "term": "challenging",
-          "weight": 0.3427
+          "weight": 0.3424
         },
         {
           "term": "while",
-          "weight": 0.3398
+          "weight": 0.3396
         },
         {
           "term": "without",
-          "weight": 0.3346
+          "weight": 0.3348
         },
         {
           "term": "dataset",
-          "weight": 0.3342
+          "weight": 0.3341
         },
         {
           "term": "poses",
-          "weight": 0.3327
+          "weight": 0.333
         },
         {
           "term": "two",
-          "weight": 0.3271
+          "weight": 0.3273
         },
         {
           "term": "spatial",
-          "weight": 0.3266
+          "weight": 0.3268
         },
         {
           "term": "module",
-          "weight": 0.3245
+          "weight": 0.3242
         },
         {
           "term": "local",
-          "weight": 0.3215
+          "weight": 0.3213
         },
         {
           "term": "videos",
-          "weight": 0.3211
+          "weight": 0.321
         },
         {
           "term": "semantic",
-          "weight": 0.3205
+          "weight": 0.3202
         },
         {
           "term": "feature",
-          "weight": 0.3189
+          "weight": 0.3187
         },
         {
           "term": "human",
-          "weight": 0.3164
+          "weight": 0.3162
         },
         {
           "term": "outperforms",
-          "weight": 0.3131
+          "weight": 0.313
         },
         {
           "term": "prior",
-          "weight": 0.3095
+          "weight": 0.3096
         },
         {
           "term": "large-scale",
-          "weight": 0.3083
+          "weight": 0.3085
         },
         {
           "term": "https",
-          "weight": 0.306
+          "weight": 0.3059
         },
         {
           "term": "single",
-          "weight": 0.3052
-        },
-        {
-          "term": "transformer",
-          "weight": 0.3023
+          "weight": 0.3049
         },
         {
           "term": "github",
           "weight": 0.3021
         },
         {
+          "term": "transformer",
+          "weight": 0.3019
+        },
+        {
           "term": "various",
-          "weight": 0.3001
+          "weight": 0.3004
         },
         {
           "term": "work",
@@ -7994,7 +7994,7 @@
         },
         {
           "term": "depth",
-          "weight": 0.2979
+          "weight": 0.2977
         },
         {
           "term": "more",
@@ -8002,15 +8002,15 @@
         },
         {
           "term": "multimodal",
-          "weight": 0.2945
+          "weight": 0.2942
         },
         {
           "term": "across",
-          "weight": 0.2924
+          "weight": 0.2925
         },
         {
           "term": "evaluation",
-          "weight": 0.291
+          "weight": 0.2908
         }
       ],
       "website": "https://cvpr.thecvf.com",
@@ -8288,8 +8288,8 @@
           "tags": [
             "Fine-Tuning",
             "Evaluation",
-            "Benchmarking & Evaluation",
-            "Fine-Tuning & PEFT"
+            "Fine-Tuning & PEFT",
+            "Benchmarking & Evaluation"
           ],
           "abstract": "We show that domain-general automatic evaluators can significantly improve the performance of agents for web navigation and device control.  We experiment with multiple evaluation models that trade off between inference cost, modularity of design, and accuracy",
           "terms": [
@@ -8917,8 +8917,8 @@
         "often",
         "human",
         "capabilities",
-        "more",
         "address",
+        "more",
         "through",
         "generation",
         "demonstrate",
@@ -8935,8 +8935,8 @@
         "benchmarks",
         "both",
         "without",
-        "information",
         "dataset",
+        "information",
         "also",
         "rlhf",
         "preference",
@@ -8953,8 +8953,8 @@
         "experiments",
         "not",
         "evaluate",
-        "significant",
         "than",
+        "significant",
         "evaluating",
         "lms",
         "challenges",
@@ -8962,16 +8962,16 @@
         "present",
         "they",
         "find",
-        "simple",
         "about",
+        "simple",
         "complex",
         "recent",
         "inference",
         "diverse",
         "natural",
         "computational",
-        "process",
         "efficient",
+        "process",
         "efficiency",
         "outputs",
         "evaluations",
@@ -8979,8 +8979,8 @@
         "scaling",
         "reinforcement",
         "current",
-        "https",
-        "including"
+        "including",
+        "https"
       ],
       "weighted_keywords": [
         {
@@ -8989,23 +8989,23 @@
         },
         {
           "term": "llms",
-          "weight": 0.9993
+          "weight": 0.9996
         },
         {
           "term": "large",
-          "weight": 0.7366
+          "weight": 0.7369
         },
         {
           "term": "reasoning",
-          "weight": 0.7144
+          "weight": 0.7143
         },
         {
           "term": "large language",
-          "weight": 0.7089
+          "weight": 0.7092
         },
         {
           "term": "language llms",
-          "weight": 0.5962
+          "weight": 0.5964
         },
         {
           "term": "llm",
@@ -9013,15 +9013,15 @@
         },
         {
           "term": "introduce",
-          "weight": 0.574
+          "weight": 0.5743
         },
         {
           "term": "data",
-          "weight": 0.5633
+          "weight": 0.5632
         },
         {
           "term": "training",
-          "weight": 0.5238
+          "weight": 0.5237
         },
         {
           "term": "performance",
@@ -9029,19 +9029,19 @@
         },
         {
           "term": "evaluation",
-          "weight": 0.517
+          "weight": 0.5174
         },
         {
           "term": "framework",
-          "weight": 0.5145
+          "weight": 0.5148
         },
         {
           "term": "while",
-          "weight": 0.4468
+          "weight": 0.4472
         },
         {
           "term": "across",
-          "weight": 0.4443
+          "weight": 0.4444
         },
         {
           "term": "work",
@@ -9049,67 +9049,67 @@
         },
         {
           "term": "such",
-          "weight": 0.4325
+          "weight": 0.4324
         },
         {
           "term": "but",
-          "weight": 0.4001
+          "weight": 0.4002
         },
         {
           "term": "often",
-          "weight": 0.3946
+          "weight": 0.3945
         },
         {
           "term": "human",
-          "weight": 0.3864
+          "weight": 0.3868
         },
         {
           "term": "capabilities",
-          "weight": 0.3716
-        },
-        {
-          "term": "more",
-          "weight": 0.3645
+          "weight": 0.3718
         },
         {
           "term": "address",
-          "weight": 0.3643
+          "weight": 0.3646
+        },
+        {
+          "term": "more",
+          "weight": 0.3646
         },
         {
           "term": "through",
-          "weight": 0.3553
+          "weight": 0.355
         },
         {
           "term": "generation",
-          "weight": 0.3548
+          "weight": 0.355
         },
         {
           "term": "demonstrate",
-          "weight": 0.3539
+          "weight": 0.3542
         },
         {
           "term": "agents",
-          "weight": 0.3524
+          "weight": 0.3523
         },
         {
           "term": "accuracy",
-          "weight": 0.3485
+          "weight": 0.3484
         },
         {
           "term": "tokens",
-          "weight": 0.344
+          "weight": 0.3436
         },
         {
           "term": "learning",
-          "weight": 0.3416
+          "weight": 0.3417
         },
         {
           "term": "knowledge",
-          "weight": 0.3401
+          "weight": 0.34
         },
         {
           "term": "fine-tuning",
-          "weight": 0.3299
+          "weight": 0.3302
         },
         {
           "term": "only",
@@ -9121,15 +9121,15 @@
         },
         {
           "term": "existing",
-          "weight": 0.3239
+          "weight": 0.324
         },
         {
           "term": "benchmark",
-          "weight": 0.3207
+          "weight": 0.321
         },
         {
           "term": "benchmarks",
-          "weight": 0.319
+          "weight": 0.3192
         },
         {
           "term": "both",
@@ -9140,11 +9140,11 @@
           "weight": 0.3104
         },
         {
-          "term": "information",
-          "weight": 0.308
+          "term": "dataset",
+          "weight": 0.3081
         },
         {
-          "term": "dataset",
+          "term": "information",
           "weight": 0.3079
         },
         {
@@ -9153,19 +9153,19 @@
         },
         {
           "term": "rlhf",
-          "weight": 0.2979
+          "weight": 0.2982
         },
         {
           "term": "preference",
-          "weight": 0.2972
+          "weight": 0.2977
         },
         {
           "term": "understanding",
-          "weight": 0.2958
+          "weight": 0.2959
         },
         {
           "term": "text",
-          "weight": 0.295
+          "weight": 0.2951
         },
         {
           "term": "how",
@@ -9173,7 +9173,7 @@
         },
         {
           "term": "attention",
-          "weight": 0.2924
+          "weight": 0.2922
         },
         {
           "term": "when",
@@ -9181,11 +9181,11 @@
         },
         {
           "term": "context",
-          "weight": 0.2902
+          "weight": 0.2901
         },
         {
           "term": "challenge",
-          "weight": 0.2866
+          "weight": 0.2867
         },
         {
           "term": "over",
@@ -9193,11 +9193,11 @@
         },
         {
           "term": "multiple",
-          "weight": 0.2826
+          "weight": 0.2827
         },
         {
           "term": "each",
-          "weight": 0.2788
+          "weight": 0.2789
         },
         {
           "term": "experiments",
@@ -9205,19 +9205,19 @@
         },
         {
           "term": "not",
-          "weight": 0.2751
+          "weight": 0.2752
         },
         {
           "term": "evaluate",
-          "weight": 0.2744
-        },
-        {
-          "term": "significant",
-          "weight": 0.2741
+          "weight": 0.2743
         },
         {
           "term": "than",
-          "weight": 0.2739
+          "weight": 0.2742
+        },
+        {
+          "term": "significant",
+          "weight": 0.274
         },
         {
           "term": "evaluating",
@@ -9225,19 +9225,19 @@
         },
         {
           "term": "lms",
-          "weight": 0.2676
+          "weight": 0.2675
         },
         {
           "term": "challenges",
-          "weight": 0.266
+          "weight": 0.2662
         },
         {
           "term": "even",
-          "weight": 0.2645
+          "weight": 0.2642
         },
         {
           "term": "present",
-          "weight": 0.2624
+          "weight": 0.2627
         },
         {
           "term": "they",
@@ -9245,23 +9245,23 @@
         },
         {
           "term": "find",
-          "weight": 0.2589
-        },
-        {
-          "term": "simple",
-          "weight": 0.2583
+          "weight": 0.2588
         },
         {
           "term": "about",
+          "weight": 0.2584
+        },
+        {
+          "term": "simple",
           "weight": 0.2582
         },
         {
           "term": "complex",
-          "weight": 0.2577
+          "weight": 0.2575
         },
         {
           "term": "recent",
-          "weight": 0.2559
+          "weight": 0.256
         },
         {
           "term": "inference",
@@ -9269,23 +9269,23 @@
         },
         {
           "term": "diverse",
-          "weight": 0.2553
+          "weight": 0.2554
         },
         {
           "term": "natural",
-          "weight": 0.2537
+          "weight": 0.2536
         },
         {
           "term": "computational",
           "weight": 0.2533
         },
         {
-          "term": "process",
-          "weight": 0.2531
+          "term": "efficient",
+          "weight": 0.253
         },
         {
-          "term": "efficient",
-          "weight": 0.2531
+          "term": "process",
+          "weight": 0.253
         },
         {
           "term": "efficiency",
@@ -9293,15 +9293,15 @@
         },
         {
           "term": "outputs",
-          "weight": 0.2494
+          "weight": 0.2495
         },
         {
           "term": "evaluations",
-          "weight": 0.2479
+          "weight": 0.2481
         },
         {
           "term": "generating",
-          "weight": 0.2467
+          "weight": 0.247
         },
         {
           "term": "scaling",
@@ -9309,19 +9309,19 @@
         },
         {
           "term": "reinforcement",
-          "weight": 0.2431
+          "weight": 0.243
         },
         {
           "term": "current",
           "weight": 0.2425
         },
         {
-          "term": "https",
+          "term": "including",
           "weight": 0.2399
         },
         {
-          "term": "including",
-          "weight": 0.2399
+          "term": "https",
+          "weight": 0.2398
         }
       ],
       "website": "https://colmweb.org",
@@ -9510,8 +9510,8 @@
             "LLMs",
             "Summarization",
             "Dialogue",
-            "NLP",
-            "Dialogue Systems"
+            "Dialogue Systems",
+            "NLP"
           ],
           "abstract": "Meta-reviewing is a pivotal stage in the peer-review process, serving as the final step in determining whether a paper is recommended for acceptance. Prior research on meta-reviewing has treated this as a summarization problem over review reports. However, com",
           "terms": [
@@ -9559,8 +9559,8 @@
             "Multimodal",
             "QA",
             "Summarization",
-            "NLP",
-            "Multimodal Learning"
+            "Multimodal Learning",
+            "NLP"
           ],
           "abstract": "The globalization of education and rapid growth of online learning have made localizing educational content a critical challenge. Lecture materials are inherently multimodal, combining spoken audio with visual slides, which requires systems capable of processi",
           "terms": [
@@ -9706,8 +9706,8 @@
             "Multimodal",
             "Biomedical AI",
             "Interpretability",
-            "NLP",
-            "Multimodal Learning"
+            "Multimodal Learning",
+            "NLP"
           ],
           "abstract": "In this study, we present a multimodal framework for predicting neuro-facial disorders by capturing both vocal and facial cues. We hypothesize that explicitly disentangling shared and modality-specific representations within multimodal foundation model embeddi",
           "terms": [
@@ -9848,8 +9848,8 @@
           "tags": [
             "LLMs",
             "Fairness & Ethics",
-            "Large Language Models",
             "Bias, Fairness & Ethics",
+            "Large Language Models",
             "NLP"
           ],
           "abstract": "This paper investigates gender biases exhibited by LLM-based virtual assistants when providing educational recommendations, focusing on minimal gender indicators. Experimenting on Italian, a language with grammatical gender, we demonstrate that simply changing",
@@ -9897,9 +9897,9 @@
           "tags": [
             "LLMs",
             "Fine-Tuning",
+            "Fine-Tuning & PEFT",
             "Large Language Models",
-            "NLP",
-            "Fine-Tuning & PEFT"
+            "NLP"
           ],
           "abstract": "Despite their impressive performance on complex tasks, current language models (LMs) typically operate in a vacuum: Each input query is processed separately, without retaining insights from previous attempts. Here, we present Dynamic Cheatsheet (DC), a lightwe",
           "terms": [
@@ -10044,8 +10044,8 @@
           "tags": [
             "LLMs",
             "Fairness & Ethics",
-            "Large Language Models",
             "Bias, Fairness & Ethics",
+            "Large Language Models",
             "NLP"
           ],
           "abstract": "As large language models (LLMs) are deployed widely, detecting and understanding bias in their outputs is critical. We present LLM BiasScope, a web application for side-by-side comparison of LLM outputs with real-time bias analysis. The system supports multipl",
@@ -10094,8 +10094,8 @@
             "LLMs",
             "Dialogue",
             "Interpretability",
-            "NLP",
-            "Dialogue Systems"
+            "Dialogue Systems",
+            "NLP"
           ],
           "abstract": "We present SDialog, an MIT-licensed open-source Python toolkit for end-to-end development, simulation, evaluation, and analysis of LLM-based conversational agents. Built around a standardized Dialog representation, SDialog unifies persona-driven multi-agent si",
           "terms": [
@@ -10143,8 +10143,8 @@
             "Multimodal",
             "Evaluation",
             "Benchmarking & Evaluation",
-            "NLP",
-            "Multimodal Learning"
+            "Multimodal Learning",
+            "NLP"
           ],
           "abstract": "End-to-end (E2E) spoken language understanding (SLU) is constrained by the cost of collecting speech-semantics pairs, especially when label domains change. Hence, we explore \\textitzero-shot E2E SLU, which learns E2E SLU without speech-semantics pairs, instead",
           "terms": [
@@ -10269,7 +10269,6 @@
         "multimodal",
         "present",
         "linguistic",
-        "evaluation nlp",
         "understanding",
         "user",
         "existing",
@@ -10279,8 +10278,8 @@
         "gap",
         "analysis",
         "entity",
-        "datasets",
         "remains",
+        "datasets",
         "research",
         "yet",
         "semantic",
@@ -10292,6 +10291,7 @@
         "more",
         "experiments",
         "practical",
+        "evaluation nlp",
         "through",
         "two",
         "multiple",
@@ -10312,8 +10312,8 @@
         "search",
         "where",
         "llm-based",
-        "extraction",
         "diverse",
+        "extraction",
         "settings",
         "queries",
         "need",
@@ -10326,63 +10326,63 @@
         },
         {
           "term": "llms",
-          "weight": 0.9271
+          "weight": 0.9263
         },
         {
           "term": "evaluation",
-          "weight": 0.8132
+          "weight": 0.8128
         },
         {
           "term": "introduce",
-          "weight": 0.795
+          "weight": 0.7946
         },
         {
           "term": "nlp",
-          "weight": 0.773
+          "weight": 0.7726
         },
         {
           "term": "large",
-          "weight": 0.7479
+          "weight": 0.7478
         },
         {
           "term": "framework",
-          "weight": 0.7431
+          "weight": 0.7418
         },
         {
           "term": "large language",
-          "weight": 0.7388
+          "weight": 0.7387
         },
         {
           "term": "reasoning",
-          "weight": 0.6947
+          "weight": 0.694
         },
         {
           "term": "data",
-          "weight": 0.5975
+          "weight": 0.597
         },
         {
           "term": "knowledge",
-          "weight": 0.5899
+          "weight": 0.5882
         },
         {
           "term": "language llms",
-          "weight": 0.585
+          "weight": 0.5848
         },
         {
           "term": "address",
-          "weight": 0.5666
+          "weight": 0.5665
         },
         {
           "term": "while",
-          "weight": 0.5628
+          "weight": 0.5627
         },
         {
           "term": "across",
-          "weight": 0.5574
+          "weight": 0.5572
         },
         {
           "term": "llm",
-          "weight": 0.5497
+          "weight": 0.5492
         },
         {
           "term": "such",
@@ -10390,23 +10390,23 @@
         },
         {
           "term": "performance",
-          "weight": 0.5401
+          "weight": 0.54
         },
         {
           "term": "systems",
-          "weight": 0.51
+          "weight": 0.5096
         },
         {
           "term": "work",
-          "weight": 0.4881
+          "weight": 0.4873
         },
         {
           "term": "fine-tuning",
-          "weight": 0.4646
+          "weight": 0.4641
         },
         {
           "term": "system",
-          "weight": 0.4595
+          "weight": 0.4596
         },
         {
           "term": "both",
@@ -10414,47 +10414,47 @@
         },
         {
           "term": "text",
-          "weight": 0.4356
+          "weight": 0.435
         },
         {
           "term": "training",
-          "weight": 0.4305
+          "weight": 0.4299
         },
         {
           "term": "dataset",
-          "weight": 0.4283
+          "weight": 0.4282
         },
         {
           "term": "benchmark",
-          "weight": 0.4239
+          "weight": 0.4236
         },
         {
           "term": "limited",
-          "weight": 0.4209
+          "weight": 0.4214
         },
         {
           "term": "over",
-          "weight": 0.4205
+          "weight": 0.4204
         },
         {
           "term": "often",
-          "weight": 0.4152
+          "weight": 0.415
         },
         {
           "term": "benchmarks",
-          "weight": 0.4124
+          "weight": 0.412
         },
         {
           "term": "but",
-          "weight": 0.4024
+          "weight": 0.4023
         },
         {
           "term": "retrieval",
-          "weight": 0.3983
+          "weight": 0.3979
         },
         {
           "term": "multimodal",
-          "weight": 0.3955
+          "weight": 0.3954
         },
         {
           "term": "present",
@@ -10465,104 +10465,104 @@
           "weight": 0.3892
         },
         {
-          "term": "evaluation nlp",
-          "weight": 0.3874
-        },
-        {
           "term": "understanding",
-          "weight": 0.3874
+          "weight": 0.3872
         },
         {
           "term": "user",
-          "weight": 0.3831
+          "weight": 0.3833
         },
         {
           "term": "existing",
-          "weight": 0.38
+          "weight": 0.3802
         },
         {
           "term": "generation",
-          "weight": 0.371
+          "weight": 0.3709
         },
         {
           "term": "agents",
-          "weight": 0.3654
+          "weight": 0.3656
         },
         {
           "term": "evaluate",
-          "weight": 0.3651
+          "weight": 0.3648
         },
         {
           "term": "gap",
-          "weight": 0.3647
+          "weight": 0.3645
         },
         {
           "term": "analysis",
-          "weight": 0.3642
+          "weight": 0.3639
         },
         {
           "term": "entity",
-          "weight": 0.3605
-        },
-        {
-          "term": "datasets",
-          "weight": 0.3595
+          "weight": 0.3598
         },
         {
           "term": "remains",
-          "weight": 0.3592
+          "weight": 0.3597
+        },
+        {
+          "term": "datasets",
+          "weight": 0.3593
         },
         {
           "term": "research",
-          "weight": 0.3568
+          "weight": 0.3575
         },
         {
           "term": "yet",
-          "weight": 0.3506
+          "weight": 0.3503
         },
         {
           "term": "semantic",
-          "weight": 0.3488
+          "weight": 0.3484
         },
         {
           "term": "accuracy",
-          "weight": 0.3487
+          "weight": 0.3482
         },
         {
           "term": "demonstrate",
-          "weight": 0.348
+          "weight": 0.3475
         },
         {
           "term": "when",
-          "weight": 0.3415
+          "weight": 0.3419
         },
         {
           "term": "learning",
-          "weight": 0.3401
+          "weight": 0.3398
         },
         {
           "term": "information",
-          "weight": 0.34
-        },
-        {
-          "term": "more",
           "weight": 0.3397
         },
         {
+          "term": "more",
+          "weight": 0.3396
+        },
+        {
           "term": "experiments",
-          "weight": 0.3337
+          "weight": 0.3335
         },
         {
           "term": "practical",
-          "weight": 0.333
+          "weight": 0.3327
+        },
+        {
+          "term": "evaluation nlp",
+          "weight": 0.3306
         },
         {
           "term": "through",
-          "weight": 0.3305
+          "weight": 0.3301
         },
         {
           "term": "two",
-          "weight": 0.3283
+          "weight": 0.328
         },
         {
           "term": "multiple",
@@ -10570,39 +10570,39 @@
         },
         {
           "term": "context",
-          "weight": 0.3238
+          "weight": 0.3242
         },
         {
           "term": "inference",
-          "weight": 0.3183
+          "weight": 0.318
         },
         {
           "term": "domains",
-          "weight": 0.3126
+          "weight": 0.3125
         },
         {
           "term": "classification",
-          "weight": 0.3102
+          "weight": 0.3098
         },
         {
           "term": "designed",
-          "weight": 0.3085
-        },
-        {
-          "term": "structured",
           "weight": 0.3084
         },
         {
+          "term": "structured",
+          "weight": 0.3082
+        },
+        {
           "term": "natural",
-          "weight": 0.3078
+          "weight": 0.3081
         },
         {
           "term": "also",
-          "weight": 0.3069
+          "weight": 0.3065
         },
         {
           "term": "multilingual",
-          "weight": 0.302
+          "weight": 0.3022
         },
         {
           "term": "under",
@@ -10614,11 +10614,11 @@
         },
         {
           "term": "state-of-the-art",
-          "weight": 0.2967
+          "weight": 0.2965
         },
         {
           "term": "human",
-          "weight": 0.2966
+          "weight": 0.2965
         },
         {
           "term": "benchmarking",
@@ -10634,15 +10634,15 @@
         },
         {
           "term": "llm-based",
-          "weight": 0.2881
-        },
-        {
-          "term": "extraction",
-          "weight": 0.2866
+          "weight": 0.2883
         },
         {
           "term": "diverse",
-          "weight": 0.2862
+          "weight": 0.2867
+        },
+        {
+          "term": "extraction",
+          "weight": 0.2865
         },
         {
           "term": "settings",
@@ -10650,15 +10650,15 @@
         },
         {
           "term": "queries",
-          "weight": 0.285
-        },
-        {
-          "term": "need",
           "weight": 0.2848
         },
         {
+          "term": "need",
+          "weight": 0.2842
+        },
+        {
           "term": "real-world",
-          "weight": 0.2837
+          "weight": 0.2839
         }
       ],
       "website": "https://aclanthology.org",
@@ -11567,8 +11567,8 @@
         "vision",
         "analysis",
         "self-supervised",
-        "order",
         "interpretable",
+        "order",
         "platforms",
         "distillation",
         "bandit",
@@ -11594,8 +11594,8 @@
         "process",
         "language",
         "marl",
-        "guarantees",
         "structured",
+        "guarantees",
         "descent",
         "selection",
         "algorithms",
@@ -11616,11 +11616,11 @@
         },
         {
           "term": "convergence",
-          "weight": 0.8693
+          "weight": 0.8692
         },
         {
           "term": "learning",
-          "weight": 0.3164
+          "weight": 0.3163
         },
         {
           "term": "theorem",
@@ -11632,11 +11632,11 @@
         },
         {
           "term": "stochastic",
-          "weight": 0.2203
+          "weight": 0.2202
         },
         {
           "term": "optimization",
-          "weight": 0.2155
+          "weight": 0.2156
         },
         {
           "term": "gaussian",
@@ -11648,7 +11648,7 @@
         },
         {
           "term": "approximation",
-          "weight": 0.1558
+          "weight": 0.156
         },
         {
           "term": "deep",
@@ -11656,11 +11656,11 @@
         },
         {
           "term": "reinforcement learning",
-          "weight": 0.1455
+          "weight": 0.1454
         },
         {
           "term": "reinforcement",
-          "weight": 0.1447
+          "weight": 0.1445
         },
         {
           "term": "games",
@@ -11668,7 +11668,7 @@
         },
         {
           "term": "framework",
-          "weight": 0.1369
+          "weight": 0.137
         },
         {
           "term": "gradient",
@@ -11676,7 +11676,7 @@
         },
         {
           "term": "adaptive",
-          "weight": 0.1268
+          "weight": 0.1269
         },
         {
           "term": "proving",
@@ -11692,7 +11692,7 @@
         },
         {
           "term": "data",
-          "weight": 0.1135
+          "weight": 0.1136
         },
         {
           "term": "distributional",
@@ -11708,7 +11708,7 @@
         },
         {
           "term": "under",
-          "weight": 0.1113
+          "weight": 0.1114
         },
         {
           "term": "improved",
@@ -11720,7 +11720,7 @@
         },
         {
           "term": "sampling",
-          "weight": 0.1075
+          "weight": 0.1076
         },
         {
           "term": "continuous",
@@ -11736,7 +11736,7 @@
         },
         {
           "term": "training",
-          "weight": 0.101
+          "weight": 0.1011
         },
         {
           "term": "network",
@@ -11744,27 +11744,27 @@
         },
         {
           "term": "efficient",
-          "weight": 0.0989
+          "weight": 0.099
         },
         {
           "term": "large",
-          "weight": 0.0947
+          "weight": 0.0948
         },
         {
           "term": "llms",
-          "weight": 0.092
+          "weight": 0.0921
         },
         {
           "term": "optimal",
-          "weight": 0.0915
+          "weight": 0.0914
         },
         {
           "term": "decomposition",
-          "weight": 0.091
+          "weight": 0.0911
         },
         {
           "term": "transformers",
-          "weight": 0.0906
+          "weight": 0.0907
         },
         {
           "term": "fine-tuning",
@@ -11776,7 +11776,7 @@
         },
         {
           "term": "vision",
-          "weight": 0.0883
+          "weight": 0.0885
         },
         {
           "term": "analysis",
@@ -11787,12 +11787,12 @@
           "weight": 0.0874
         },
         {
-          "term": "order",
-          "weight": 0.0847
-        },
-        {
           "term": "interpretable",
           "weight": 0.0846
+        },
+        {
+          "term": "order",
+          "weight": 0.0845
         },
         {
           "term": "platforms",
@@ -11832,7 +11832,7 @@
         },
         {
           "term": "attention",
-          "weight": 0.0756
+          "weight": 0.0755
         },
         {
           "term": "smooth",
@@ -11852,15 +11852,15 @@
         },
         {
           "term": "state",
-          "weight": 0.0726
+          "weight": 0.0725
         },
         {
           "term": "transformer",
-          "weight": 0.0717
+          "weight": 0.0718
         },
         {
           "term": "large language",
-          "weight": 0.0712
+          "weight": 0.0713
         },
         {
           "term": "vision transformer",
@@ -11884,23 +11884,23 @@
         },
         {
           "term": "process",
-          "weight": 0.0672
+          "weight": 0.0673
         },
         {
           "term": "language",
-          "weight": 0.066
+          "weight": 0.0661
         },
         {
           "term": "marl",
           "weight": 0.0655
         },
         {
-          "term": "guarantees",
+          "term": "structured",
           "weight": 0.0655
         },
         {
-          "term": "structured",
-          "weight": 0.0655
+          "term": "guarantees",
+          "weight": 0.0654
         },
         {
           "term": "descent",
@@ -11912,7 +11912,7 @@
         },
         {
           "term": "algorithms",
-          "weight": 0.0633
+          "weight": 0.0632
         },
         {
           "term": "physics",
@@ -11928,7 +11928,7 @@
         },
         {
           "term": "alignment",
-          "weight": 0.0622
+          "weight": 0.0624
         },
         {
           "term": "reward",
@@ -12088,8 +12088,8 @@
             "Prompting",
             "AI Safety",
             "Evaluation",
-            "Prompting & In-Context Learning",
-            "Benchmarking & Evaluation"
+            "Benchmarking & Evaluation",
+            "Prompting & In-Context Learning"
           ],
           "abstract": "Few-shot learning has made impressive strides in addressing the crucial challenges of recognizing unknown samples from novel classes in target query sets and managing visual shifts between domains. However, existing techniques fall short when it comes to ident",
           "terms": [
@@ -12224,8 +12224,8 @@
           "tags": [
             "3D Vision",
             "Robotics",
-            "3D Vision & Scene Understanding",
-            "Robotics & Embodied AI"
+            "Robotics & Embodied AI",
+            "3D Vision & Scene Understanding"
           ],
           "abstract": "Vision in adverse weather conditions, whether it be snow, rain, or fog is challenging. In these scenarios, scattering and attenuation severly degrades image quality. Handling such inclement weather conditions, however, is essential to operate autonomous vehicl",
           "terms": [
@@ -12867,8 +12867,8 @@
         "available",
         "through",
         "learn",
-        "outperforms",
         "reconstruction",
+        "outperforms",
         "extensive experiments",
         "local",
         "domain",
@@ -12876,19 +12876,19 @@
         "introduce",
         "loss",
         "two",
-        "present",
         "improve",
+        "present",
         "target",
         "not",
         "scenes",
         "temporal",
-        "https",
         "retrieval",
+        "https",
         "continual",
         "code",
-        "knowledge",
         "then",
         "global",
+        "knowledge",
         "aims",
         "samples",
         "quantization",
@@ -12911,123 +12911,123 @@
         },
         {
           "term": "learning",
-          "weight": 0.7537
+          "weight": 0.7542
         },
         {
           "term": "object",
-          "weight": 0.6194
+          "weight": 0.6216
         },
         {
           "term": "x27",
-          "weight": 0.5847
+          "weight": 0.5848
         },
         {
           "term": "network",
-          "weight": 0.5826
+          "weight": 0.5832
         },
         {
           "term": "problem",
-          "weight": 0.5471
+          "weight": 0.5483
         },
         {
           "term": "detection",
-          "weight": 0.545
+          "weight": 0.5467
         },
         {
           "term": "state-of-the-art",
-          "weight": 0.5181
+          "weight": 0.5183
         },
         {
           "term": "datasets",
-          "weight": 0.5173
+          "weight": 0.5174
         },
         {
           "term": "performance",
-          "weight": 0.4994
+          "weight": 0.4998
         },
         {
           "term": "object detection",
-          "weight": 0.4934
+          "weight": 0.4959
         },
         {
           "term": "objects",
-          "weight": 0.4779
+          "weight": 0.4784
         },
         {
           "term": "segmentation",
-          "weight": 0.4753
+          "weight": 0.4758
         },
         {
           "term": "features",
-          "weight": 0.4688
+          "weight": 0.4694
         },
         {
           "term": "proposed",
-          "weight": 0.464
+          "weight": 0.4642
         },
         {
           "term": "vision",
-          "weight": 0.4368
+          "weight": 0.437
         },
         {
           "term": "videos",
-          "weight": 0.4363
+          "weight": 0.4366
         },
         {
           "term": "visual",
-          "weight": 0.4321
+          "weight": 0.4315
         },
         {
           "term": "representation",
-          "weight": 0.4206
+          "weight": 0.4215
         },
         {
           "term": "extensive",
-          "weight": 0.4159
+          "weight": 0.4164
         },
         {
           "term": "self-supervised",
-          "weight": 0.4015
+          "weight": 0.4019
         },
         {
           "term": "deep",
-          "weight": 0.3984
+          "weight": 0.3986
         },
         {
           "term": "networks",
-          "weight": 0.3984
+          "weight": 0.3986
         },
         {
           "term": "experiments",
-          "weight": 0.3973
+          "weight": 0.3978
         },
         {
           "term": "quot",
-          "weight": 0.3921
+          "weight": 0.3924
         },
         {
           "term": "dataset",
-          "weight": 0.3851
+          "weight": 0.3852
         },
         {
           "term": "between",
-          "weight": 0.3818
+          "weight": 0.382
         },
         {
           "term": "feature",
-          "weight": 0.3773
+          "weight": 0.3774
         },
         {
           "term": "training",
-          "weight": 0.3769
+          "weight": 0.3772
         },
         {
           "term": "each",
-          "weight": 0.3729
+          "weight": 0.3736
         },
         {
           "term": "address",
-          "weight": 0.3646
+          "weight": 0.3645
         },
         {
           "term": "existing",
@@ -13035,55 +13035,55 @@
         },
         {
           "term": "framework",
-          "weight": 0.3583
+          "weight": 0.3591
         },
         {
           "term": "challenging",
-          "weight": 0.3575
+          "weight": 0.3577
         },
         {
           "term": "neural",
-          "weight": 0.3519
+          "weight": 0.352
         },
         {
           "term": "information",
-          "weight": 0.3508
+          "weight": 0.3512
         },
         {
           "term": "design",
-          "weight": 0.3495
+          "weight": 0.3502
         },
         {
           "term": "data",
-          "weight": 0.346
+          "weight": 0.3463
         },
         {
           "term": "classification",
-          "weight": 0.3428
+          "weight": 0.3433
         },
         {
           "term": "space",
-          "weight": 0.3406
+          "weight": 0.3414
         },
         {
           "term": "transformers",
-          "weight": 0.3385
+          "weight": 0.3392
         },
         {
           "term": "semantic",
-          "weight": 0.3364
+          "weight": 0.3366
         },
         {
           "term": "classes",
-          "weight": 0.3357
+          "weight": 0.336
         },
         {
           "term": "such",
-          "weight": 0.3327
+          "weight": 0.3328
         },
         {
           "term": "regularization",
-          "weight": 0.3295
+          "weight": 0.3298
         },
         {
           "term": "labels",
@@ -13091,7 +13091,7 @@
         },
         {
           "term": "motion",
-          "weight": 0.3223
+          "weight": 0.3225
         },
         {
           "term": "demonstrate",
@@ -13099,71 +13099,71 @@
         },
         {
           "term": "work",
-          "weight": 0.319
+          "weight": 0.3187
         },
         {
           "term": "available",
-          "weight": 0.3184
+          "weight": 0.3186
         },
         {
           "term": "through",
-          "weight": 0.309
+          "weight": 0.3093
         },
         {
           "term": "learn",
-          "weight": 0.3078
+          "weight": 0.3081
+        },
+        {
+          "term": "reconstruction",
+          "weight": 0.3076
         },
         {
           "term": "outperforms",
           "weight": 0.3074
         },
         {
-          "term": "reconstruction",
-          "weight": 0.3074
-        },
-        {
           "term": "extensive experiments",
-          "weight": 0.3044
+          "weight": 0.3049
         },
         {
           "term": "local",
-          "weight": 0.3005
+          "weight": 0.3018
         },
         {
           "term": "domain",
-          "weight": 0.2984
+          "weight": 0.2988
         },
         {
           "term": "both",
-          "weight": 0.2975
+          "weight": 0.2977
         },
         {
           "term": "introduce",
-          "weight": 0.2911
+          "weight": 0.2913
         },
         {
           "term": "loss",
-          "weight": 0.2906
+          "weight": 0.2908
         },
         {
           "term": "two",
-          "weight": 0.2879
-        },
-        {
-          "term": "present",
-          "weight": 0.2868
+          "weight": 0.289
         },
         {
           "term": "improve",
-          "weight": 0.2868
+          "weight": 0.2869
+        },
+        {
+          "term": "present",
+          "weight": 0.2869
         },
         {
           "term": "target",
-          "weight": 0.2831
+          "weight": 0.2834
         },
         {
           "term": "not",
-          "weight": 0.2826
+          "weight": 0.2829
         },
         {
           "term": "scenes",
@@ -13171,27 +13171,23 @@
         },
         {
           "term": "temporal",
-          "weight": 0.2783
-        },
-        {
-          "term": "https",
-          "weight": 0.2732
+          "weight": 0.2785
         },
         {
           "term": "retrieval",
-          "weight": 0.2731
+          "weight": 0.2738
+        },
+        {
+          "term": "https",
+          "weight": 0.2733
         },
         {
           "term": "continual",
-          "weight": 0.273
+          "weight": 0.2732
         },
         {
           "term": "code",
-          "weight": 0.2675
-        },
-        {
-          "term": "knowledge",
-          "weight": 0.2657
+          "weight": 0.2676
         },
         {
           "term": "then",
@@ -13199,35 +13195,39 @@
         },
         {
           "term": "global",
-          "weight": 0.264
+          "weight": 0.2653
+        },
+        {
+          "term": "knowledge",
+          "weight": 0.2652
         },
         {
           "term": "aims",
-          "weight": 0.264
+          "weight": 0.2643
         },
         {
           "term": "samples",
-          "weight": 0.2634
+          "weight": 0.2637
         },
         {
           "term": "quantization",
-          "weight": 0.2633
+          "weight": 0.2634
         },
         {
           "term": "recent",
-          "weight": 0.2609
+          "weight": 0.2611
         },
         {
           "term": "few-shot",
-          "weight": 0.2601
+          "weight": 0.2604
         },
         {
           "term": "representations",
-          "weight": 0.2598
+          "weight": 0.2603
         },
         {
           "term": "github",
-          "weight": 0.2578
+          "weight": 0.2579
         },
         {
           "term": "due",
@@ -13239,7 +13239,7 @@
         },
         {
           "term": "shapes",
-          "weight": 0.2532
+          "weight": 0.2533
         }
       ],
       "website": "https://iccv.thecvf.com",
@@ -13284,8 +13284,8 @@
             "Multimodal",
             "Transformers",
             "Evaluation",
-            "Benchmarking & Evaluation",
-            "Transformer Architectures"
+            "Transformer Architectures",
+            "Benchmarking & Evaluation"
           ],
           "abstract": "Scene recognition (SR) is a fundamental task in computer vision (CV). In recent years, Transformer-based methods have achieved remarkable success in scene recognition tasks. Most existing approaches primarily rely on visual features, while failing to effective",
           "terms": [
@@ -13378,8 +13378,8 @@
             "Prompting",
             "Transformers",
             "Evaluation",
-            "Prompting & In-Context Learning",
-            "Benchmarking & Evaluation"
+            "Benchmarking & Evaluation",
+            "Prompting & In-Context Learning"
           ],
           "abstract": "Cross-Domain Few-Shot Learning (CD-FSL) aims at recognizing samples in novel classes from unseen domains that are vastly different from training classes, with few labeled samples. However, the large domain gap between training and novel classes makes previous ",
           "terms": [
@@ -13572,8 +13572,8 @@
             "VLMs",
             "Transformers",
             "Evaluation",
-            "Benchmarking & Evaluation",
-            "Transformer Architectures"
+            "Transformer Architectures",
+            "Benchmarking & Evaluation"
           ],
           "abstract": "Attribute classification is crucial for identifying specific characteristics within image regions. Vision-Language Models (VLMs) have been effective in zero-shot tasks by leveraging their general knowledge from large-scale datasets. Recent studies demonstrate ",
           "terms": [
@@ -13670,8 +13670,8 @@
             "Object Detection",
             "Transformers",
             "GNNs",
-            "Graph Neural Networks",
-            "Transformer Architectures"
+            "Transformer Architectures",
+            "Graph Neural Networks"
           ],
           "abstract": "Video object detection has made significant progress in recent years thanks to convolutional neural networks (CNNs) and vision transformers (ViTs). Typically, CNNs excel at capturing local features but struggle to model global representations. Conversely, ViTs",
           "terms": [
@@ -13864,8 +13864,8 @@
             "Transformers",
             "Evaluation",
             "Computer Science",
-            "Benchmarking & Evaluation",
-            "Transformer Architectures"
+            "Transformer Architectures",
+            "Benchmarking & Evaluation"
           ],
           "abstract": "Category-level object pose estimation is an important task in computer vision. Some prior methods based on assumptions often struggle with drastic changes in object appearance. To address this challenge, we propose a new method for object pose estimation based",
           "terms": [
@@ -13962,8 +13962,8 @@
             "Transformers",
             "Adversarial",
             "Computer Science",
-            "Adversarial Robustness",
-            "Transformer Architectures"
+            "Transformer Architectures",
+            "Adversarial Robustness"
           ],
           "abstract": "With the great achievement of vision transformers (ViTs), transformer-based approaches have become the new paradigm for solving various computer vision tasks. However, recent research shows that similar to convolutional neural networks (CNNs), ViTs are still v",
           "terms": [
@@ -14010,9 +14010,9 @@
           "tags": [
             "Object Detection",
             "Transformers",
-            "Object Detection & Segmentation",
             "Computer Science",
-            "Transformer Architectures"
+            "Transformer Architectures",
+            "Object Detection & Segmentation"
           ],
           "abstract": "Transformer models have achieved remarkable success across diverse deep learning fields, including natural language processing (NLP) and computer vision (CV). One drawback of these models is that the computational cost of the softmax attention, the core compon",
           "terms": [
@@ -14169,8 +14169,8 @@
         "both",
         "reinforcement",
         "reinforcement learning",
-        "effectively",
         "vision transformers",
+        "effectively",
         "visual",
         "image",
         "features",
@@ -14182,12 +14182,12 @@
         "object",
         "deep",
         "demonstrate",
-        "state-of-the-art",
         "extensive",
-        "feature",
-        "neural",
-        "experiments",
+        "state-of-the-art",
         "mechanism",
+        "feature",
+        "experiments",
+        "neural",
         "video",
         "existing",
         "pose",
@@ -14199,34 +14199,34 @@
         "not",
         "object detection",
         "datasets",
-        "transformer-based",
         "interaction",
+        "transformer-based",
         "enhance",
-        "networks",
-        "aims",
         "large",
+        "aims",
+        "networks",
         "convolutional",
-        "layers",
         "extensive experiments",
+        "layers",
         "field",
         "knowledge",
         "design",
         "algorithm",
         "extraction transformers",
         "backbone",
-        "scene",
         "spatial",
+        "scene",
         "extraction",
         "information",
         "language",
-        "proposed",
-        "global",
-        "between",
         "point",
-        "pruning",
+        "proposed",
+        "between",
+        "global",
         "llms",
-        "computational",
+        "pruning",
         "generation",
+        "computational",
         "prediction",
         "fine-tuning",
         "such",
@@ -14240,39 +14240,39 @@
         },
         {
           "term": "vision",
-          "weight": 0.9878
+          "weight": 0.9885
         },
         {
           "term": "transformer",
-          "weight": 0.9608
+          "weight": 0.9599
         },
         {
           "term": "computer vision",
-          "weight": 0.7703
+          "weight": 0.7706
         },
         {
           "term": "transformers",
-          "weight": 0.5645
+          "weight": 0.5659
         },
         {
           "term": "computer science",
-          "weight": 0.4993
+          "weight": 0.4995
         },
         {
           "term": "vision transformer",
-          "weight": 0.4935
+          "weight": 0.4923
         },
         {
           "term": "transformer architectures",
-          "weight": 0.4775
+          "weight": 0.4766
         },
         {
           "term": "science",
-          "weight": 0.4435
+          "weight": 0.4437
         },
         {
           "term": "learning",
-          "weight": 0.4244
+          "weight": 0.4241
         },
         {
           "term": "framework",
@@ -14280,11 +14280,11 @@
         },
         {
           "term": "architectures",
-          "weight": 0.3922
+          "weight": 0.3914
         },
         {
           "term": "attention",
-          "weight": 0.3781
+          "weight": 0.38
         },
         {
           "term": "performance",
@@ -14292,7 +14292,7 @@
         },
         {
           "term": "introduce",
-          "weight": 0.3614
+          "weight": 0.362
         },
         {
           "term": "address",
@@ -14300,139 +14300,139 @@
         },
         {
           "term": "network",
-          "weight": 0.3528
+          "weight": 0.3518
         },
         {
           "term": "vits",
-          "weight": 0.3386
+          "weight": 0.3405
         },
         {
           "term": "vit",
-          "weight": 0.3364
+          "weight": 0.3358
         },
         {
           "term": "both",
-          "weight": 0.3244
+          "weight": 0.3242
         },
         {
           "term": "reinforcement",
-          "weight": 0.3205
+          "weight": 0.3198
         },
         {
           "term": "reinforcement learning",
-          "weight": 0.3155
-        },
-        {
-          "term": "effectively",
-          "weight": 0.306
+          "weight": 0.3148
         },
         {
           "term": "vision transformers",
-          "weight": 0.3058
+          "weight": 0.3093
+        },
+        {
+          "term": "effectively",
+          "weight": 0.3054
         },
         {
           "term": "visual",
-          "weight": 0.2988
+          "weight": 0.3007
         },
         {
           "term": "image",
-          "weight": 0.2963
+          "weight": 0.2977
         },
         {
           "term": "features",
-          "weight": 0.2931
+          "weight": 0.2921
         },
         {
           "term": "detection",
-          "weight": 0.2842
+          "weight": 0.284
         },
         {
           "term": "recent",
-          "weight": 0.2828
+          "weight": 0.2829
         },
         {
           "term": "various",
-          "weight": 0.2755
+          "weight": 0.2748
         },
         {
           "term": "reasoning",
-          "weight": 0.2685
+          "weight": 0.2678
         },
         {
           "term": "accuracy",
-          "weight": 0.2659
+          "weight": 0.2654
         },
         {
           "term": "object",
-          "weight": 0.265
+          "weight": 0.2648
         },
         {
           "term": "deep",
-          "weight": 0.2615
+          "weight": 0.2607
         },
         {
           "term": "demonstrate",
-          "weight": 0.2602
-        },
-        {
-          "term": "state-of-the-art",
-          "weight": 0.2555
+          "weight": 0.2601
         },
         {
           "term": "extensive",
-          "weight": 0.2553
+          "weight": 0.2554
+        },
+        {
+          "term": "state-of-the-art",
+          "weight": 0.2548
+        },
+        {
+          "term": "mechanism",
+          "weight": 0.252
         },
         {
           "term": "feature",
-          "weight": 0.2528
-        },
-        {
-          "term": "neural",
-          "weight": 0.2508
+          "weight": 0.2518
         },
         {
           "term": "experiments",
           "weight": 0.2506
         },
         {
-          "term": "mechanism",
-          "weight": 0.2504
+          "term": "neural",
+          "weight": 0.25
         },
         {
           "term": "video",
-          "weight": 0.2498
+          "weight": 0.249
         },
         {
           "term": "existing",
-          "weight": 0.2474
+          "weight": 0.2482
         },
         {
           "term": "pose",
-          "weight": 0.247
+          "weight": 0.2465
         },
         {
           "term": "data",
-          "weight": 0.2464
+          "weight": 0.2461
         },
         {
           "term": "multimodal",
-          "weight": 0.2446
+          "weight": 0.2441
         },
         {
           "term": "research",
-          "weight": 0.2388
+          "weight": 0.2385
         },
         {
           "term": "cnns",
-          "weight": 0.2372
+          "weight": 0.2363
         },
         {
           "term": "images",
-          "weight": 0.2352
+          "weight": 0.2348
         },
         {
           "term": "not",
-          "weight": 0.2342
+          "weight": 0.2337
         },
         {
           "term": "object detection",
@@ -14440,139 +14440,139 @@
         },
         {
           "term": "datasets",
-          "weight": 0.2237
-        },
-        {
-          "term": "transformer-based",
-          "weight": 0.2225
+          "weight": 0.2234
         },
         {
           "term": "interaction",
           "weight": 0.2221
         },
         {
-          "term": "enhance",
-          "weight": 0.2209
+          "term": "transformer-based",
+          "weight": 0.2221
         },
         {
-          "term": "networks",
+          "term": "enhance",
+          "weight": 0.2203
+        },
+        {
+          "term": "large",
           "weight": 0.2196
         },
         {
           "term": "aims",
-          "weight": 0.2196
+          "weight": 0.2194
         },
         {
-          "term": "large",
-          "weight": 0.2195
+          "term": "networks",
+          "weight": 0.2189
         },
         {
           "term": "convolutional",
-          "weight": 0.2181
-        },
-        {
-          "term": "layers",
-          "weight": 0.2174
+          "weight": 0.2173
         },
         {
           "term": "extensive experiments",
-          "weight": 0.2169
+          "weight": 0.2171
+        },
+        {
+          "term": "layers",
+          "weight": 0.2168
         },
         {
           "term": "field",
-          "weight": 0.2132
+          "weight": 0.2133
         },
         {
           "term": "knowledge",
-          "weight": 0.2126
+          "weight": 0.2122
         },
         {
           "term": "design",
-          "weight": 0.2046
+          "weight": 0.2041
         },
         {
           "term": "algorithm",
-          "weight": 0.2043
+          "weight": 0.2039
         },
         {
           "term": "extraction transformers",
-          "weight": 0.2042
+          "weight": 0.2037
         },
         {
           "term": "backbone",
-          "weight": 0.2033
+          "weight": 0.2034
+        },
+        {
+          "term": "spatial",
+          "weight": 0.2023
         },
         {
           "term": "scene",
           "weight": 0.2017
         },
         {
-          "term": "spatial",
-          "weight": 0.1983
-        },
-        {
           "term": "extraction",
-          "weight": 0.1977
+          "weight": 0.1971
         },
         {
           "term": "information",
-          "weight": 0.1974
+          "weight": 0.1969
         },
         {
           "term": "language",
           "weight": 0.1959
         },
         {
-          "term": "proposed",
-          "weight": 0.1951
+          "term": "point",
+          "weight": 0.1946
         },
         {
-          "term": "global",
-          "weight": 0.1948
+          "term": "proposed",
+          "weight": 0.1945
         },
         {
           "term": "between",
-          "weight": 0.1947
+          "weight": 0.1945
         },
         {
-          "term": "point",
-          "weight": 0.1941
-        },
-        {
-          "term": "pruning",
-          "weight": 0.1929
+          "term": "global",
+          "weight": 0.1943
         },
         {
           "term": "llms",
           "weight": 0.1928
         },
         {
-          "term": "computational",
-          "weight": 0.1912
+          "term": "pruning",
+          "weight": 0.1928
         },
         {
           "term": "generation",
+          "weight": 0.1913
+        },
+        {
+          "term": "computational",
           "weight": 0.1909
         },
         {
           "term": "prediction",
-          "weight": 0.1901
+          "weight": 0.1899
         },
         {
           "term": "fine-tuning",
-          "weight": 0.19
+          "weight": 0.1895
         },
         {
           "term": "such",
-          "weight": 0.1898
+          "weight": 0.1895
         },
         {
           "term": "efficiency",
-          "weight": 0.1885
+          "weight": 0.1881
         },
         {
           "term": "scenes",
-          "weight": 0.187
+          "weight": 0.1869
         }
       ],
       "website": "https://aaai.org",
@@ -14853,8 +14853,8 @@
             "Multimodal",
             "Transformers",
             "Evaluation",
-            "Benchmarking & Evaluation",
-            "Transformer Architectures"
+            "Transformer Architectures",
+            "Benchmarking & Evaluation"
           ],
           "abstract": "Multi-modal point cloud completion, which utilizes a complete image and a partial point cloud as input, is a crucial task in 3D computer vision. Previous methods commonly employ a cross-attention mechanism to fuse point clouds and images. However, these approa",
           "terms": [
@@ -14902,8 +14902,8 @@
             "Reasoning",
             "Transformers",
             "Self-Supervised",
-            "Reasoning & Chain-of-Thought",
-            "Transformer Architectures"
+            "Transformer Architectures",
+            "Reasoning & Chain-of-Thought"
           ],
           "abstract": "Self-supervised monocular depth estimation that does not require hard-to-source depth labels for training has been widely studied in recent years. Due to its significant and growing needs, many lightweight but effective architectures have been designed for edg",
           "terms": [
@@ -15192,8 +15192,8 @@
             "Object Detection",
             "Transformers",
             "Self-Supervised",
-            "Object Detection & Segmentation",
-            "Transformer Architectures"
+            "Transformer Architectures",
+            "Object Detection & Segmentation"
           ],
           "abstract": "Transformer has recently gained significant attention and achieved state-of-the-art performance in various computer vision applications, including image classification, instance segmentation, and object detection. However, the self-attention mechanism underlyi",
           "terms": [
@@ -15337,8 +15337,8 @@
           "url": "https://doi.org/10.24963/ijcai.2025/178",
           "tags": [
             "AI Safety",
-            "AI Safety & Alignment",
-            "Computer Science"
+            "Computer Science",
+            "AI Safety & Alignment"
           ],
           "abstract": "Facial Expression Recognition (FER) is a fundamental problem in computer vision. Despite recent advances, significant challenges remain. Current methods primarily focus on extracting visual representations while overlooking other valuable information. To addre",
           "terms": [
@@ -15490,13 +15490,13 @@
         "reinforcement learning",
         "challenges",
         "reinforcement",
+        "self-attention",
         "learning",
         "such",
-        "self-attention",
         "transformers",
         "efficient",
-        "due",
         "spatial",
+        "due",
         "features",
         "leverages",
         "transformer architectures",
@@ -15507,8 +15507,8 @@
         "but",
         "architectures",
         "various",
-        "feature",
         "network",
+        "feature",
         "images",
         "computing",
         "improve",
@@ -15523,21 +15523,21 @@
         "llms",
         "quantization",
         "state-of-the-art",
-        "point cloud",
         "module",
-        "multi-modal",
+        "point cloud",
         "graphs",
+        "multi-modal",
         "process",
         "while",
         "demonstrate",
         "data",
+        "dual",
         "problem",
         "challenging",
-        "dual",
         "vision transformer",
         "edge devices",
-        "cloud",
         "networks",
+        "cloud",
         "introduce",
         "efficiency",
         "environments",
@@ -15550,11 +15550,11 @@
         "modeling",
         "constraints",
         "actions",
-        "enabling",
-        "three",
-        "large language",
-        "additionally",
         "detection",
+        "enabling",
+        "large language",
+        "three",
+        "additionally",
         "utilizes",
         "furthermore",
         "face"
@@ -15566,11 +15566,11 @@
         },
         {
           "term": "computer science",
-          "weight": 0.7211
+          "weight": 0.7212
         },
         {
           "term": "vision",
-          "weight": 0.7071
+          "weight": 0.7076
         },
         {
           "term": "science",
@@ -15578,7 +15578,7 @@
         },
         {
           "term": "computer vision",
-          "weight": 0.5202
+          "weight": 0.5201
         },
         {
           "term": "fusion",
@@ -15586,75 +15586,75 @@
         },
         {
           "term": "transformer",
-          "weight": 0.436
+          "weight": 0.4366
         },
         {
           "term": "image",
-          "weight": 0.4157
+          "weight": 0.4159
         },
         {
           "term": "edge",
-          "weight": 0.3911
+          "weight": 0.3909
         },
         {
           "term": "address",
-          "weight": 0.3454
+          "weight": 0.345
         },
         {
           "term": "information",
-          "weight": 0.341
+          "weight": 0.3412
         },
         {
           "term": "attention",
-          "weight": 0.3255
+          "weight": 0.3258
         },
         {
           "term": "significant",
-          "weight": 0.3194
+          "weight": 0.3202
         },
         {
           "term": "performance",
-          "weight": 0.3162
+          "weight": 0.3163
         },
         {
           "term": "reinforcement learning",
-          "weight": 0.2986
+          "weight": 0.2977
         },
         {
           "term": "challenges",
-          "weight": 0.2978
+          "weight": 0.2972
         },
         {
           "term": "reinforcement",
-          "weight": 0.2969
-        },
-        {
-          "term": "learning",
-          "weight": 0.2926
-        },
-        {
-          "term": "such",
-          "weight": 0.2916
+          "weight": 0.296
         },
         {
           "term": "self-attention",
-          "weight": 0.2912
+          "weight": 0.2926
+        },
+        {
+          "term": "learning",
+          "weight": 0.292
+        },
+        {
+          "term": "such",
+          "weight": 0.2919
         },
         {
           "term": "transformers",
-          "weight": 0.29
+          "weight": 0.2903
         },
         {
           "term": "efficient",
-          "weight": 0.2863
-        },
-        {
-          "term": "due",
-          "weight": 0.2768
+          "weight": 0.2869
         },
         {
           "term": "spatial",
-          "weight": 0.2764
+          "weight": 0.2773
+        },
+        {
+          "term": "due",
+          "weight": 0.2772
         },
         {
           "term": "features",
@@ -15662,11 +15662,11 @@
         },
         {
           "term": "leverages",
-          "weight": 0.2739
+          "weight": 0.274
         },
         {
           "term": "transformer architectures",
-          "weight": 0.27
+          "weight": 0.2703
         },
         {
           "term": "existing",
@@ -15674,75 +15674,75 @@
         },
         {
           "term": "dynamic",
-          "weight": 0.2584
+          "weight": 0.2592
         },
         {
           "term": "speed",
-          "weight": 0.2577
+          "weight": 0.2579
         },
         {
           "term": "knowledge",
-          "weight": 0.2555
+          "weight": 0.2557
         },
         {
           "term": "but",
-          "weight": 0.2544
+          "weight": 0.2541
         },
         {
           "term": "architectures",
-          "weight": 0.252
+          "weight": 0.2522
         },
         {
           "term": "various",
-          "weight": 0.2507
-        },
-        {
-          "term": "feature",
-          "weight": 0.2459
+          "weight": 0.2511
         },
         {
           "term": "network",
           "weight": 0.2458
         },
         {
+          "term": "feature",
+          "weight": 0.2457
+        },
+        {
           "term": "images",
-          "weight": 0.2423
+          "weight": 0.242
         },
         {
           "term": "computing",
-          "weight": 0.2403
+          "weight": 0.2402
         },
         {
           "term": "improve",
-          "weight": 0.238
+          "weight": 0.2379
         },
         {
           "term": "point",
-          "weight": 0.238
+          "weight": 0.2369
         },
         {
           "term": "between",
-          "weight": 0.2332
+          "weight": 0.2331
         },
         {
           "term": "computational",
-          "weight": 0.2275
+          "weight": 0.2282
         },
         {
           "term": "applications",
-          "weight": 0.2273
+          "weight": 0.2278
         },
         {
           "term": "crucial",
-          "weight": 0.2253
-        },
-        {
-          "term": "often",
           "weight": 0.2252
         },
         {
+          "term": "often",
+          "weight": 0.2245
+        },
+        {
           "term": "scenarios",
-          "weight": 0.2247
+          "weight": 0.2244
         },
         {
           "term": "cross-attention",
@@ -15750,155 +15750,155 @@
         },
         {
           "term": "llms",
-          "weight": 0.2206
+          "weight": 0.2207
         },
         {
           "term": "quantization",
-          "weight": 0.2205
+          "weight": 0.2204
         },
         {
           "term": "state-of-the-art",
-          "weight": 0.2172
-        },
-        {
-          "term": "point cloud",
-          "weight": 0.2165
+          "weight": 0.2174
         },
         {
           "term": "module",
-          "weight": 0.2151
+          "weight": 0.2158
         },
         {
-          "term": "multi-modal",
-          "weight": 0.2149
+          "term": "point cloud",
+          "weight": 0.2153
         },
         {
           "term": "graphs",
-          "weight": 0.2143
+          "weight": 0.215
         },
         {
-          "term": "process",
+          "term": "multi-modal",
           "weight": 0.214
         },
         {
+          "term": "process",
+          "weight": 0.2136
+        },
+        {
           "term": "while",
-          "weight": 0.2134
+          "weight": 0.2133
         },
         {
           "term": "demonstrate",
-          "weight": 0.2126
+          "weight": 0.2124
         },
         {
           "term": "data",
-          "weight": 0.2038
-        },
-        {
-          "term": "problem",
-          "weight": 0.2031
-        },
-        {
-          "term": "challenging",
-          "weight": 0.2031
+          "weight": 0.2036
         },
         {
           "term": "dual",
-          "weight": 0.2027
+          "weight": 0.2034
+        },
+        {
+          "term": "problem",
+          "weight": 0.203
+        },
+        {
+          "term": "challenging",
+          "weight": 0.2028
         },
         {
           "term": "vision transformer",
-          "weight": 0.2005
+          "weight": 0.2013
         },
         {
           "term": "edge devices",
-          "weight": 0.1994
-        },
-        {
-          "term": "cloud",
-          "weight": 0.198
+          "weight": 0.1993
         },
         {
           "term": "networks",
           "weight": 0.1975
         },
         {
+          "term": "cloud",
+          "weight": 0.1968
+        },
+        {
           "term": "introduce",
-          "weight": 0.1959
+          "weight": 0.1961
         },
         {
           "term": "efficiency",
-          "weight": 0.1935
+          "weight": 0.1938
         },
         {
           "term": "environments",
-          "weight": 0.1921
+          "weight": 0.1918
         },
         {
           "term": "framework",
-          "weight": 0.1917
+          "weight": 0.1916
         },
         {
           "term": "extensive",
-          "weight": 0.1914
+          "weight": 0.1915
         },
         {
           "term": "original",
-          "weight": 0.1912
+          "weight": 0.1911
         },
         {
           "term": "inference speed",
-          "weight": 0.1905
+          "weight": 0.1907
         },
         {
           "term": "large",
-          "weight": 0.1905
+          "weight": 0.1906
         },
         {
           "term": "problems",
-          "weight": 0.1892
+          "weight": 0.1895
         },
         {
           "term": "modeling",
-          "weight": 0.1891
+          "weight": 0.1894
         },
         {
           "term": "constraints",
-          "weight": 0.1889
+          "weight": 0.1885
         },
         {
           "term": "actions",
-          "weight": 0.1866
-        },
-        {
-          "term": "enabling",
-          "weight": 0.184
-        },
-        {
-          "term": "three",
-          "weight": 0.184
-        },
-        {
-          "term": "large language",
-          "weight": 0.184
-        },
-        {
-          "term": "additionally",
-          "weight": 0.1834
+          "weight": 0.1855
         },
         {
           "term": "detection",
-          "weight": 0.1832
+          "weight": 0.1844
         },
         {
-          "term": "utilizes",
+          "term": "enabling",
+          "weight": 0.1843
+        },
+        {
+          "term": "large language",
+          "weight": 0.1842
+        },
+        {
+          "term": "three",
+          "weight": 0.1836
+        },
+        {
+          "term": "additionally",
           "weight": 0.1831
         },
         {
+          "term": "utilizes",
+          "weight": 0.183
+        },
+        {
           "term": "furthermore",
-          "weight": 0.1827
+          "weight": 0.1829
         },
         {
           "term": "face",
-          "weight": 0.1824
+          "weight": 0.1822
         }
       ],
       "website": "https://www.ijcai.org",
@@ -16206,7 +16206,7 @@
         "labeled",
         "language processing",
         "most existing",
-        "present"
+        "functions"
       ],
       "weighted_keywords": [
         {
@@ -16215,7 +16215,7 @@
         },
         {
           "term": "labeling",
-          "weight": 0.9399
+          "weight": 0.94
         },
         {
           "term": "system",
@@ -16239,7 +16239,7 @@
         },
         {
           "term": "challenge",
-          "weight": 0.8194
+          "weight": 0.8195
         },
         {
           "term": "computer",
@@ -16259,7 +16259,7 @@
         },
         {
           "term": "active learning",
-          "weight": 0.7116
+          "weight": 0.7117
         },
         {
           "term": "attention-based",
@@ -16279,7 +16279,7 @@
         },
         {
           "term": "processing",
-          "weight": 0.6704
+          "weight": 0.6705
         },
         {
           "term": "estimates",
@@ -16295,11 +16295,11 @@
         },
         {
           "term": "programming",
-          "weight": 0.6436
+          "weight": 0.6437
         },
         {
           "term": "framework integrates",
-          "weight": 0.6258
+          "weight": 0.6259
         },
         {
           "term": "context-aware",
@@ -16311,7 +16311,7 @@
         },
         {
           "term": "instances",
-          "weight": 0.5962
+          "weight": 0.5963
         },
         {
           "term": "frame",
@@ -16355,7 +16355,7 @@
         },
         {
           "term": "usability",
-          "weight": 0.5049
+          "weight": 0.505
         },
         {
           "term": "understanding",
@@ -16379,7 +16379,7 @@
         },
         {
           "term": "address challenge",
-          "weight": 0.4677
+          "weight": 0.4678
         },
         {
           "term": "opportunities",
@@ -16439,7 +16439,7 @@
         },
         {
           "term": "learning large",
-          "weight": 0.4331
+          "weight": 0.4309
         },
         {
           "term": "single",
@@ -16455,11 +16455,11 @@
         },
         {
           "term": "heavily",
-          "weight": 0.4244
+          "weight": 0.4245
         },
         {
           "term": "integrates",
-          "weight": 0.4204
+          "weight": 0.4205
         },
         {
           "term": "limit",
@@ -16519,7 +16519,7 @@
         },
         {
           "term": "deep learning",
-          "weight": 0.3871
+          "weight": 0.3872
         },
         {
           "term": "balance",
@@ -16546,7 +16546,7 @@
           "weight": 0.3747
         },
         {
-          "term": "present",
+          "term": "functions",
           "weight": 0.374
         }
       ],
@@ -16958,8 +16958,8 @@
           "tags": [
             "LLMs",
             "Reasoning",
-            "Large Language Models",
             "Reasoning & Chain-of-Thought",
+            "Large Language Models",
             "NLP"
           ],
           "abstract": "Advanced models such as OpenAI o1 exhibit impressive problem-solving capabilities through step-by-step reasoning. However, they may still falter on more complex problems, making errors that disrupt their reasoning paths. We attribute this to the expansive solu",
@@ -17105,8 +17105,8 @@
           "tags": [
             "LLMs",
             "Reasoning",
-            "Large Language Models",
             "Reasoning & Chain-of-Thought",
+            "Large Language Models",
             "NLP"
           ],
           "abstract": "Inference-time scaling has attracted much attention which significantly enhance the performance of Large Language Models (LLMs) in complex reasoning tasks by increasing the length of Chain-of-Thought. These longer intermediate reasoning rationales embody vario",
@@ -17482,8 +17482,8 @@
         "information",
         "yet",
         "diverse",
-        "enhance",
         "often",
+        "enhance",
         "openai",
         "benchmarks",
         "scenarios",
@@ -17493,13 +17493,12 @@
         "remains",
         "work",
         "how",
-        "but",
         "effective",
-        "domains",
+        "but",
         "benchmarking",
+        "domains",
         "llms reasoning",
         "visual",
-        "evaluation nlp",
         "quality",
         "present",
         "like",
@@ -17515,8 +17514,9 @@
         "benchmarking evaluation",
         "between",
         "most",
-        "three",
         "evaluate",
+        "evaluation benchmarking",
+        "three",
         "domain",
         "ability",
         "real-world",
@@ -17530,27 +17530,27 @@
         },
         {
           "term": "language",
-          "weight": 0.958
+          "weight": 0.9591
         },
         {
           "term": "llms",
-          "weight": 0.9448
+          "weight": 0.9456
         },
         {
           "term": "large",
-          "weight": 0.8999
+          "weight": 0.9008
         },
         {
           "term": "large language",
-          "weight": 0.8113
+          "weight": 0.8124
         },
         {
           "term": "evaluation",
-          "weight": 0.7565
+          "weight": 0.7569
         },
         {
           "term": "introduce",
-          "weight": 0.6699
+          "weight": 0.6704
         },
         {
           "term": "framework",
@@ -17558,11 +17558,11 @@
         },
         {
           "term": "address",
-          "weight": 0.6376
+          "weight": 0.6384
         },
         {
           "term": "nlp",
-          "weight": 0.6256
+          "weight": 0.6261
         },
         {
           "term": "existing",
@@ -17570,23 +17570,23 @@
         },
         {
           "term": "across",
-          "weight": 0.5622
+          "weight": 0.5625
         },
         {
           "term": "performance",
-          "weight": 0.5575
+          "weight": 0.5583
         },
         {
           "term": "while",
-          "weight": 0.5479
+          "weight": 0.5485
         },
         {
           "term": "language llms",
-          "weight": 0.5444
+          "weight": 0.545
         },
         {
           "term": "data",
-          "weight": 0.5365
+          "weight": 0.5371
         },
         {
           "term": "such",
@@ -17594,11 +17594,11 @@
         },
         {
           "term": "generation",
-          "weight": 0.5119
+          "weight": 0.5124
         },
         {
           "term": "capabilities",
-          "weight": 0.4791
+          "weight": 0.4792
         },
         {
           "term": "benchmark",
@@ -17610,91 +17610,91 @@
         },
         {
           "term": "learning",
-          "weight": 0.4399
+          "weight": 0.4405
         },
         {
           "term": "human",
-          "weight": 0.4356
+          "weight": 0.4355
         },
         {
           "term": "datasets",
-          "weight": 0.426
+          "weight": 0.4267
         },
         {
           "term": "knowledge",
-          "weight": 0.4176
+          "weight": 0.4178
         },
         {
           "term": "text",
-          "weight": 0.404
+          "weight": 0.405
         },
         {
           "term": "training",
-          "weight": 0.4037
+          "weight": 0.4039
         },
         {
           "term": "both",
-          "weight": 0.4032
+          "weight": 0.4029
         },
         {
           "term": "through",
-          "weight": 0.3998
+          "weight": 0.4003
         },
         {
           "term": "experiments",
-          "weight": 0.3995
+          "weight": 0.3998
         },
         {
           "term": "dataset",
-          "weight": 0.3989
+          "weight": 0.399
         },
         {
           "term": "agents",
-          "weight": 0.3963
+          "weight": 0.3969
         },
         {
           "term": "challenges",
-          "weight": 0.3802
+          "weight": 0.3804
         },
         {
           "term": "fine-tuning",
-          "weight": 0.3786
+          "weight": 0.3797
         },
         {
           "term": "systems",
-          "weight": 0.3748
+          "weight": 0.3754
         },
         {
           "term": "more",
-          "weight": 0.3708
+          "weight": 0.3709
         },
         {
           "term": "significant",
-          "weight": 0.3701
+          "weight": 0.3706
         },
         {
           "term": "chain-of-thought",
-          "weight": 0.3698
+          "weight": 0.3697
         },
         {
           "term": "multimodal",
-          "weight": 0.363
+          "weight": 0.3627
         },
         {
           "term": "demonstrate",
-          "weight": 0.3598
+          "weight": 0.3602
         },
         {
           "term": "when",
-          "weight": 0.3509
+          "weight": 0.3513
         },
         {
           "term": "two",
-          "weight": 0.35
+          "weight": 0.3502
         },
         {
           "term": "information",
-          "weight": 0.3481
+          "weight": 0.3483
         },
         {
           "term": "yet",
@@ -17702,15 +17702,15 @@
         },
         {
           "term": "diverse",
-          "weight": 0.3432
-        },
-        {
-          "term": "enhance",
-          "weight": 0.3424
+          "weight": 0.3429
         },
         {
           "term": "often",
-          "weight": 0.3422
+          "weight": 0.3425
+        },
+        {
+          "term": "enhance",
+          "weight": 0.3425
         },
         {
           "term": "openai",
@@ -17718,95 +17718,91 @@
         },
         {
           "term": "benchmarks",
-          "weight": 0.3317
+          "weight": 0.3314
         },
         {
           "term": "scenarios",
-          "weight": 0.3302
+          "weight": 0.3301
         },
         {
           "term": "complex",
-          "weight": 0.3292
+          "weight": 0.3295
         },
         {
           "term": "agent",
-          "weight": 0.3275
+          "weight": 0.3278
         },
         {
           "term": "over",
-          "weight": 0.325
+          "weight": 0.3254
         },
         {
           "term": "remains",
-          "weight": 0.3236
+          "weight": 0.324
         },
         {
           "term": "work",
-          "weight": 0.3176
+          "weight": 0.3179
         },
         {
           "term": "how",
-          "weight": 0.3163
+          "weight": 0.3165
+        },
+        {
+          "term": "effective",
+          "weight": 0.3153
         },
         {
           "term": "but",
           "weight": 0.3151
         },
         {
-          "term": "effective",
-          "weight": 0.3145
+          "term": "benchmarking",
+          "weight": 0.3115
         },
         {
           "term": "domains",
-          "weight": 0.3112
-        },
-        {
-          "term": "benchmarking",
-          "weight": 0.311
+          "weight": 0.3111
         },
         {
           "term": "llms reasoning",
-          "weight": 0.3092
+          "weight": 0.3093
         },
         {
           "term": "visual",
-          "weight": 0.3088
-        },
-        {
-          "term": "evaluation nlp",
-          "weight": 0.3044
+          "weight": 0.3089
         },
         {
           "term": "quality",
-          "weight": 0.3025
+          "weight": 0.3028
         },
         {
           "term": "present",
-          "weight": 0.3018
+          "weight": 0.3016
         },
         {
           "term": "like",
-          "weight": 0.2999
+          "weight": 0.3003
         },
         {
           "term": "research",
-          "weight": 0.2971
+          "weight": 0.2975
         },
         {
           "term": "recent",
-          "weight": 0.2933
+          "weight": 0.2934
         },
         {
           "term": "extraction",
-          "weight": 0.2924
+          "weight": 0.2927
         },
         {
           "term": "alignment",
-          "weight": 0.2914
+          "weight": 0.2912
         },
         {
           "term": "extensive",
-          "weight": 0.29
+          "weight": 0.2904
         },
         {
           "term": "inference",
@@ -17814,11 +17810,11 @@
         },
         {
           "term": "optimization",
-          "weight": 0.2869
+          "weight": 0.287
         },
         {
           "term": "where",
-          "weight": 0.2853
+          "weight": 0.2852
         },
         {
           "term": "code",
@@ -17826,43 +17822,47 @@
         },
         {
           "term": "benchmarking evaluation",
-          "weight": 0.2822
+          "weight": 0.2826
         },
         {
           "term": "between",
-          "weight": 0.2797
+          "weight": 0.2794
         },
         {
           "term": "most",
           "weight": 0.2786
         },
         {
-          "term": "three",
-          "weight": 0.2785
+          "term": "evaluate",
+          "weight": 0.2784
         },
         {
-          "term": "evaluate",
-          "weight": 0.278
+          "term": "evaluation benchmarking",
+          "weight": 0.2781
+        },
+        {
+          "term": "three",
+          "weight": 0.2778
         },
         {
           "term": "domain",
-          "weight": 0.2771
+          "weight": 0.2765
         },
         {
           "term": "ability",
-          "weight": 0.2763
+          "weight": 0.2762
         },
         {
           "term": "real-world",
-          "weight": 0.2719
+          "weight": 0.2717
         },
         {
           "term": "significantly",
-          "weight": 0.2714
+          "weight": 0.2717
         },
         {
           "term": "state-of-the-art",
-          "weight": 0.2708
+          "weight": 0.2709
         }
       ],
       "website": "",
@@ -18138,8 +18138,8 @@
           "tags": [
             "LLMs",
             "Reasoning",
-            "Large Language Models",
             "Reasoning & Chain-of-Thought",
+            "Large Language Models",
             "NLP"
           ],
           "abstract": "Accurately classifying the relevance of Query-Product pairs is critical in online retail stores such as Amazon, as displaying irrelevant products can harm user experience and reduce engagement. While Large Language Models (LLMs) excel at this task due to their",
@@ -18380,8 +18380,8 @@
             "Multimodal",
             "Sentiment Analysis",
             "Fairness & Ethics",
-            "NLP",
-            "Multimodal Learning"
+            "Multimodal Learning",
+            "NLP"
           ],
           "abstract": "The advancement of social media has intensified interest in the research direction of Multimodal Sentiment Analysis (MSA). However, current methodologies exhibit relative limitations, particularly in their fusion mechanisms that overlook nuanced differences an",
           "terms": [
@@ -18478,8 +18478,8 @@
             "Reasoning",
             "Prompting",
             "Knowledge Graphs",
-            "Reasoning & Chain-of-Thought",
-            "Knowledge Graphs & Representation"
+            "Knowledge Graphs & Representation",
+            "Reasoning & Chain-of-Thought"
           ],
           "abstract": "In knowledge graphs (KGs), predicting missing relations is a critical reasoning task. Recent subgraph-based models have delved into inductive settings, which aim to predict relations between newly added entities. While these models have demonstrated the abilit",
           "terms": [
@@ -18526,9 +18526,9 @@
           "tags": [
             "Fine-Tuning",
             "VLMs",
+            "Fine-Tuning & PEFT",
             "Vision-Language Models",
-            "NLP",
-            "Fine-Tuning & PEFT"
+            "NLP"
           ],
           "abstract": "Image Translation (IT) holds immense potential across diverse domains, enabling the translation of textual content within images into various languages. However, existing datasets often suffer from limitations in scale, diversity, and quality, hindering the de",
           "terms": [
@@ -18670,8 +18670,8 @@
             "Info Extraction",
             "GNNs",
             "Knowledge Graphs",
-            "NLP",
-            "Knowledge Graphs & Representation"
+            "Knowledge Graphs & Representation",
+            "NLP"
           ],
           "abstract": "N-ary Knowledge Graphs (NKGs), where a fact can involve more than two entities, have gained increasing attention. Link Prediction in NKGs (LPN) aims to predict missing elements in facts to facilitate the completion of NKGs. Current LPN methods implicitly opera",
           "terms": [
@@ -18793,18 +18793,18 @@
         "between",
         "llm",
         "multilingual",
-        "sentiment",
         "domain",
+        "sentiment",
         "extraction",
         "training",
         "challenge",
         "retrieval",
+        "various",
         "demonstrate",
         "analysis",
-        "various",
         "system",
-        "human",
         "experimental",
+        "human",
         "ability",
         "transfer",
         "semantic",
@@ -18815,9 +18815,9 @@
         "evaluate",
         "such",
         "real-world",
+        "research",
         "recent",
         "also",
-        "research",
         "often",
         "significant",
         "domains",
@@ -18834,10 +18834,10 @@
         "significantly",
         "generation",
         "across",
-        "each",
         "document",
         "effective",
         "target",
+        "each",
         "particularly",
         "enhance",
         "designed",
@@ -18853,67 +18853,67 @@
         },
         {
           "term": "llms",
-          "weight": 0.8473
+          "weight": 0.8476
         },
         {
           "term": "nlp",
-          "weight": 0.808
+          "weight": 0.809
         },
         {
           "term": "data",
-          "weight": 0.7381
+          "weight": 0.7393
         },
         {
           "term": "text",
-          "weight": 0.7364
+          "weight": 0.7367
         },
         {
           "term": "large language",
-          "weight": 0.7176
+          "weight": 0.7173
         },
         {
           "term": "large",
-          "weight": 0.6998
+          "weight": 0.6997
         },
         {
           "term": "address",
-          "weight": 0.6926
+          "weight": 0.6931
         },
         {
           "term": "introduce",
-          "weight": 0.6308
+          "weight": 0.6319
         },
         {
           "term": "learning",
-          "weight": 0.629
+          "weight": 0.6295
         },
         {
           "term": "performance",
-          "weight": 0.6266
+          "weight": 0.6272
         },
         {
           "term": "evaluation",
-          "weight": 0.6127
+          "weight": 0.6123
         },
         {
           "term": "framework",
-          "weight": 0.6075
+          "weight": 0.6082
         },
         {
           "term": "information",
-          "weight": 0.5967
+          "weight": 0.5977
         },
         {
           "term": "classification",
-          "weight": 0.5745
+          "weight": 0.5758
         },
         {
           "term": "language llms",
-          "weight": 0.5508
+          "weight": 0.5513
         },
         {
           "term": "existing",
-          "weight": 0.5406
+          "weight": 0.5416
         },
         {
           "term": "knowledge",
@@ -18921,23 +18921,23 @@
         },
         {
           "term": "natural",
-          "weight": 0.4978
+          "weight": 0.4968
         },
         {
           "term": "datasets",
-          "weight": 0.4798
+          "weight": 0.4805
         },
         {
           "term": "fine-tuning",
-          "weight": 0.4602
+          "weight": 0.4608
         },
         {
           "term": "natural language",
-          "weight": 0.4538
+          "weight": 0.4527
         },
         {
           "term": "more",
-          "weight": 0.4456
+          "weight": 0.4457
         },
         {
           "term": "languages",
@@ -18945,159 +18945,159 @@
         },
         {
           "term": "meta-learning",
-          "weight": 0.4381
+          "weight": 0.4382
         },
         {
           "term": "low-resource",
-          "weight": 0.4294
+          "weight": 0.4299
         },
         {
           "term": "been",
-          "weight": 0.4284
+          "weight": 0.4288
         },
         {
           "term": "dataset",
-          "weight": 0.427
+          "weight": 0.4281
         },
         {
           "term": "few-shot",
-          "weight": 0.4224
+          "weight": 0.4225
         },
         {
           "term": "experiments",
-          "weight": 0.4113
+          "weight": 0.412
         },
         {
           "term": "between",
-          "weight": 0.4035
+          "weight": 0.4041
         },
         {
           "term": "llm",
-          "weight": 0.4018
+          "weight": 0.4021
         },
         {
           "term": "multilingual",
-          "weight": 0.3996
-        },
-        {
-          "term": "sentiment",
-          "weight": 0.3962
+          "weight": 0.4002
         },
         {
           "term": "domain",
-          "weight": 0.3957
+          "weight": 0.3969
+        },
+        {
+          "term": "sentiment",
+          "weight": 0.3965
         },
         {
           "term": "extraction",
-          "weight": 0.3931
+          "weight": 0.3946
         },
         {
           "term": "training",
-          "weight": 0.3921
+          "weight": 0.3926
         },
         {
           "term": "challenge",
-          "weight": 0.3878
+          "weight": 0.388
         },
         {
           "term": "retrieval",
-          "weight": 0.3875
-        },
-        {
-          "term": "demonstrate",
-          "weight": 0.385
-        },
-        {
-          "term": "analysis",
-          "weight": 0.3849
+          "weight": 0.3877
         },
         {
           "term": "various",
-          "weight": 0.3849
+          "weight": 0.3856
+        },
+        {
+          "term": "demonstrate",
+          "weight": 0.3852
+        },
+        {
+          "term": "analysis",
+          "weight": 0.3846
         },
         {
           "term": "system",
-          "weight": 0.384
-        },
-        {
-          "term": "human",
-          "weight": 0.3821
+          "weight": 0.3842
         },
         {
           "term": "experimental",
-          "weight": 0.3815
+          "weight": 0.3818
+        },
+        {
+          "term": "human",
+          "weight": 0.3814
         },
         {
           "term": "ability",
-          "weight": 0.368
+          "weight": 0.3681
         },
         {
           "term": "transfer",
-          "weight": 0.3644
+          "weight": 0.3645
         },
         {
           "term": "semantic",
-          "weight": 0.3642
+          "weight": 0.3639
         },
         {
           "term": "while",
-          "weight": 0.3633
+          "weight": 0.3638
         },
         {
           "term": "prompting",
-          "weight": 0.3602
+          "weight": 0.3604
         },
         {
           "term": "text classification",
-          "weight": 0.357
+          "weight": 0.3582
         },
         {
           "term": "problem",
-          "weight": 0.3545
+          "weight": 0.3546
         },
         {
           "term": "evaluate",
-          "weight": 0.3537
+          "weight": 0.3533
         },
         {
           "term": "such",
-          "weight": 0.3524
+          "weight": 0.3525
         },
         {
           "term": "real-world",
-          "weight": 0.3503
-        },
-        {
-          "term": "recent",
-          "weight": 0.3479
-        },
-        {
-          "term": "also",
-          "weight": 0.3472
+          "weight": 0.3495
         },
         {
           "term": "research",
-          "weight": 0.347
+          "weight": 0.3475
+        },
+        {
+          "term": "recent",
+          "weight": 0.3473
+        },
+        {
+          "term": "also",
+          "weight": 0.3473
         },
         {
           "term": "often",
-          "weight": 0.3459
+          "weight": 0.3469
         },
         {
           "term": "significant",
-          "weight": 0.3432
+          "weight": 0.344
         },
         {
           "term": "domains",
-          "weight": 0.3418
+          "weight": 0.3426
         },
         {
           "term": "extensive",
-          "weight": 0.3414
+          "weight": 0.3419
         },
         {
           "term": "effectiveness",
-          "weight": 0.3411
+          "weight": 0.3413
         },
         {
           "term": "like",
@@ -19105,83 +19105,83 @@
         },
         {
           "term": "two",
-          "weight": 0.3374
+          "weight": 0.3382
         },
         {
           "term": "critical",
-          "weight": 0.3367
+          "weight": 0.337
         },
         {
           "term": "state-of-the-art",
-          "weight": 0.3356
+          "weight": 0.3354
         },
         {
           "term": "focus",
-          "weight": 0.3344
+          "weight": 0.3346
         },
         {
           "term": "challenges",
-          "weight": 0.3237
+          "weight": 0.3245
         },
         {
           "term": "not",
-          "weight": 0.323
+          "weight": 0.3235
         },
         {
           "term": "additionally",
-          "weight": 0.323
+          "weight": 0.3228
         },
         {
           "term": "significantly",
-          "weight": 0.3205
+          "weight": 0.3208
         },
         {
           "term": "generation",
-          "weight": 0.3203
+          "weight": 0.3205
         },
         {
           "term": "across",
           "weight": 0.3195
         },
         {
-          "term": "each",
+          "term": "document",
           "weight": 0.3174
         },
         {
-          "term": "document",
-          "weight": 0.3172
-        },
-        {
           "term": "effective",
-          "weight": 0.3166
+          "weight": 0.3173
         },
         {
           "term": "target",
-          "weight": 0.3158
+          "weight": 0.3168
+        },
+        {
+          "term": "each",
+          "weight": 0.3164
         },
         {
           "term": "particularly",
-          "weight": 0.314
+          "weight": 0.3142
         },
         {
           "term": "enhance",
-          "weight": 0.3135
+          "weight": 0.3137
         },
         {
           "term": "designed",
-          "weight": 0.3133
+          "weight": 0.3136
         },
         {
           "term": "sentiment analysis",
-          "weight": 0.3128
+          "weight": 0.313
         },
         {
           "term": "systems",
-          "weight": 0.3101
+          "weight": 0.3103
         },
         {
           "term": "neural",
-          "weight": 0.3091
+          "weight": 0.3096
         },
         {
           "term": "all",
