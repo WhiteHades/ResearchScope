@@ -29,6 +29,7 @@ permissions:
 
 jobs:
   pipeline:
+    if: github.repository == 'kishormorol/ResearchScope' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -90,6 +91,7 @@ jobs:
 
   deploy:
     needs: pipeline
+    if: github.repository == 'kishormorol/ResearchScope'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -111,6 +113,7 @@ jobs:
   # (untouched by the --skip-conferences pipeline job), so no dependency needed.
   build-sections:
     name: Build section fine-tuning dataset
+    if: github.repository == 'kishormorol/ResearchScope'
     runs-on: ubuntu-latest
     timeout-minutes: 330   # under the 6h job cap even with GROBID restarts
     services:

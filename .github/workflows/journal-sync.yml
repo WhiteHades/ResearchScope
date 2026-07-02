@@ -90,6 +90,7 @@ jobs:
 
   deploy:
     needs: journal-sync
+    if: github.repository == 'kishormorol/ResearchScope'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

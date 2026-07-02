@@ -20,6 +20,7 @@ concurrency:
 jobs:
   update-data:
     name: Fetch & Process Research Data
+    if: github.repository == 'kishormorol/ResearchScope' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.check.outputs.changed }}
@@ -71,6 +72,7 @@ jobs:
   deploy-pages:
     name: Deploy to GitHub Pages
     needs: update-data
+    if: github.repository == 'kishormorol/ResearchScope'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
