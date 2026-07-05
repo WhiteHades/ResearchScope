@@ -723,8 +723,74 @@ function textSwap(el, nextText) {
   }, 180);
 }
 
+// ── Review comparison bridge ───────────────────────────────────────────
+function initReviewCompareBridge() {
+  const params = new URLSearchParams(location.search);
+  if (!params.has('compare')) return;
+
+  const parentOrigins = new Set(['http://127.0.0.1:8789', 'http://localhost:8789']);
+  const ownOrigin = location.origin;
+  let applyingRemoteScroll = false;
+  let lastPostedRatio = -1;
+
+  const normalizePath = url => {
+    let path = url.pathname || '/';
+    if (path === '/index.html') path = '/';
+    return `${path}${url.search}${url.hash}`;
+  };
+
+  const scrollRatio = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    return max > 0 ? window.scrollY / max : 0;
+  };
+
+  const post = message => {
+    if (window.parent === window) return;
+    for (const origin of parentOrigins) {
+      window.parent.postMessage({ ...message, rsOrigin: ownOrigin }, origin);
+    }
+  };
+
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (!link || link.target === '_blank' || link.hasAttribute('download')) return;
+    if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    const url = new URL(link.getAttribute('href'), location.href);
+    if (url.origin !== location.origin) return;
+
+    event.preventDefault();
+    post({ type: 'researchscope:compare-route', path: normalizePath(url) });
+  });
+
+  window.addEventListener('scroll', () => {
+    if (applyingRemoteScroll) return;
+    const ratio = scrollRatio();
+    if (Math.abs(ratio - lastPostedRatio) < 0.003) return;
+    lastPostedRatio = ratio;
+    post({ type: 'researchscope:compare-scroll', ratio });
+  }, { passive: true });
+
+  window.addEventListener('message', event => {
+    if (!parentOrigins.has(event.origin)) return;
+    if (event.data?.type !== 'researchscope:apply-scroll') return;
+
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const ratio = Number(event.data.ratio || 0);
+    applyingRemoteScroll = true;
+    lastPostedRatio = ratio;
+    window.scrollTo({ top: Math.max(0, max) * ratio, behavior: 'auto' });
+    window.setTimeout(() => { applyingRemoteScroll = false; }, 180);
+  });
+
+  window.addEventListener('load', () => {
+    post({ type: 'researchscope:compare-ready', path: normalizePath(location), ratio: scrollRatio() });
+  });
+}
+
 // ── Bootstrap transitions ──────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initNavDropdowns();
   pulseStarBadge();
+  initReviewCompareBridge();
 });
