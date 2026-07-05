@@ -294,6 +294,7 @@ let _allPaperData = [];
 let _sortedTopics = [];
 let _activeTopicView = 'list';
 let _graphApi = null;
+let _graphCacheKey = '';
 let _showGraphPapers = true;
 
 function applyFilters() {
@@ -348,14 +349,28 @@ function graphFilters() {
   };
 }
 
-function renderGraphView() {
+function focusGraphHash() {
+  if (!location.hash || !_graphApi) return;
+  const hashId = location.hash.slice(1).replace(/^topic-/, '');
+  _graphApi.focusNode(`topic:${hashId}`);
+}
+
+function renderGraphView(force = false) {
   const graphLib = window.ResearchScopeTopicGraph;
   const canvas = document.getElementById('topic-graph-canvas');
   const panel = document.getElementById('topic-graph-panel');
   const statsEl = document.getElementById('topic-graph-stats');
   if (!graphLib || !canvas) return;
 
-  const graph = graphLib.buildTopicGraph(_allTopicData, _allPaperData, graphFilters());
+  const filters = graphFilters();
+  const cacheKey = JSON.stringify(filters);
+  if (!force && _graphApi && _graphCacheKey === cacheKey) {
+    focusGraphHash();
+    return;
+  }
+
+  const graph = graphLib.buildTopicGraph(_allTopicData, _allPaperData, filters);
+  _graphCacheKey = cacheKey;
   if (statsEl) {
     statsEl.innerHTML = `
       <span class="topic-graph-stat"><strong>${graph.stats.topicCount}</strong> topics</span>
@@ -366,11 +381,7 @@ function renderGraphView() {
   }
 
   _graphApi = graphLib.renderGraph(canvas, graph, { panel });
-
-  if (location.hash && _graphApi) {
-    const hashId = location.hash.slice(1).replace(/^topic-/, '');
-    _graphApi.focusNode(`topic:${hashId}`);
-  }
+  focusGraphHash();
 }
 
 const renderGraphDebounced = debounce(() => {
@@ -478,7 +489,7 @@ function resetGraphFilters() {
   document.getElementById('graph-fit')?.addEventListener('click', () => _graphApi?.fit());
   document.getElementById('graph-zoom-in')?.addEventListener('click', () => _graphApi?.zoomIn());
   document.getElementById('graph-zoom-out')?.addEventListener('click', () => _graphApi?.zoomOut());
-  document.getElementById('graph-layout')?.addEventListener('click', renderGraphView);
+  document.getElementById('graph-layout')?.addEventListener('click', () => renderGraphView(true));
   document.getElementById('graph-toggle-papers')?.addEventListener('click', (event) => {
     _showGraphPapers = !_showGraphPapers;
     event.currentTarget.textContent = _showGraphPapers ? 'Hide papers' : 'Show papers';
