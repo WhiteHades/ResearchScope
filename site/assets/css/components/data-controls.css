@@ -1,0 +1,276 @@
+/* Cards, badges, tables, filters, form controls, chips, meters, and primitive UI objects.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* ── Cards (bone-fill, 14px radius, coral hover arrow) ── */
+.rs-card {
+  background-color: var(--rs-bone);
+  border: 1px solid var(--rs-rule);
+  border-radius: var(--rs-radius);
+  transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+}
+.rs-card:hover {
+  box-shadow: var(--rs-shadow);
+  transform: translateY(-3px);
+  border-color: var(--rs-coral);
+}
+
+/* ── Badges (warm-tinted, hairline border) ── */
+.badge {
+  display: inline-block;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  font-family: var(--rs-font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  border: 1px solid var(--rs-rule);
+  white-space: nowrap;
+}
+.badge-beginner    { background: #e6ecd9; color: #4a5a2c; border-color: #c9d3a3; }
+.badge-intermediate{ background: #f3ebd3; color: #6b5320; border-color: #e2cf8a; }
+.badge-advanced    { background: #fce4dd; color: #8a3a2c; border-color: #f4c0b3; }
+.badge-tag         { background: var(--rs-paper-warm); color: var(--rs-ink); border-color: var(--rs-rule); white-space: normal; overflow-wrap: anywhere; }
+.badge-score       { background: var(--rs-paper-dark); color: var(--rs-ink); border-color: var(--rs-rule); }
+
+/* ── Tables ──────────────────────────────────────── */
+.rs-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.rs-table th {
+  background-color: var(--rs-paper-warm);
+  color: var(--rs-ink-mute);
+  font-family: var(--rs-font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.75rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--rs-rule);
+  white-space: nowrap;
+}
+.rs-table td {
+  padding: 0.875rem 0.75rem;
+  border-bottom: 1px solid var(--rs-rule);
+  vertical-align: top;
+  color: var(--rs-ink);
+  font-size: 0.875rem;
+  overflow-wrap: break-word;
+  white-space: nowrap;
+}
+.rs-table tr:last-child td { border-bottom: none; }
+.rs-table tbody tr { transition: background 0.18s ease; }
+.rs-table tbody tr:hover {
+  background: var(--rs-paper-warm);
+  cursor: pointer;
+}
+.rs-table-title-link {
+  color: var(--rs-ink);
+  transition: color 0.18s ease;
+}
+.rs-table-title-link:hover { color: var(--rs-coral); }
+
+/* Column-width policy for the 7-col paper/conference/journal table.
+   Title column flexes (no fixed width). The tag column is also allowed to
+   wrap between badge chips; the remaining columns stay fixed + nowrap. */
+.rs-table th:nth-child(1),
+.rs-table td:nth-child(1) {
+  width: auto;
+  white-space: normal;
+  min-width: 200px;
+}
+.rs-table th:nth-child(2),
+.rs-table td:nth-child(2) { width: 110px; }
+.rs-table th:nth-child(3),
+.rs-table td:nth-child(3) { width: 200px; }
+.rs-table td:nth-child(3) {
+  white-space: normal;
+}
+.rs-table td:nth-child(3) .badge-tag {
+  max-width: 100%;
+  margin: 0.12rem 0.18rem 0.12rem 0;
+  vertical-align: top;
+}
+.rs-table th:nth-child(4),
+.rs-table td:nth-child(4) { width: 130px; }
+.rs-table th:nth-child(5),
+.rs-table td:nth-child(5) { width: 110px; }
+.rs-table th:nth-child(6),
+.rs-table td:nth-child(6) { width: 100px; }
+.rs-table th:nth-child(7),
+.rs-table td:nth-child(7) { width: 70px; }
+
+/* Mobile: let the table scroll horizontally inside its card so badges
+   stay readable instead of being clipped. We override the card's
+   `overflow: hidden` to `overflow-x: auto` via a more specific rule so
+   the table can scroll inside it. */
+@media (max-width: 640px) {
+  .rs-card:has(> .rs-table) {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .rs-table { min-width: 720px; }
+  .rs-table th,
+  .rs-table td { padding: 0.625rem 0.5rem; font-size: 0.8rem; }
+  .rs-table th:nth-child(2),
+  .rs-table td:nth-child(2) { width: 90px; }
+  .rs-table th:nth-child(3),
+  .rs-table td:nth-child(3) { width: 160px; }
+  .rs-table th:nth-child(4),
+  .rs-table td:nth-child(4) { width: 110px; }
+  .rs-table th:nth-child(5),
+  .rs-table td:nth-child(5) { width: 90px; }
+  .rs-table th:nth-child(6),
+  .rs-table td:nth-child(6) { width: 90px; }
+}
+
+/* Score cell: badge + small "5.6 · 1.0" line below; keep on one column */
+.rs-table .badge-score {
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
+/* ── Search / filters ────────────────────────────── */
+.rs-input {
+  background-color: var(--rs-bone);
+  border: 1.5px solid var(--rs-border);
+  border-radius: 10px;
+  color: var(--rs-ink);
+  padding: 0.5rem 0.875rem;
+  width: 100%;
+  font-size: 0.875rem;
+  font-family: inherit;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.rs-input:focus {
+  outline: none;
+  border-color: var(--rs-coral);
+  box-shadow: 0 0 0 3px var(--rs-focus-ring);
+}
+.rs-input::placeholder { color: var(--rs-ink-faint); }
+
+/* ── Shared UI primitives (visual-only helpers) ───────────────── */
+.rs-panel {
+  background: var(--rs-bone);
+  border: 1px solid var(--rs-rule);
+  border-radius: var(--rs-radius);
+  padding: 1.25rem;
+}
+
+.rs-alert {
+  border: 1px solid var(--rs-rule);
+  border-radius: 10px;
+  background: var(--rs-paper-warm);
+  color: var(--rs-ink);
+  padding: 0.75rem 0.95rem;
+}
+
+.rs-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--rs-rule);
+  border-radius: var(--rs-radius-pill);
+  padding: 0.2rem 0.62rem;
+  font-family: var(--rs-font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.rs-status--success { background: var(--rs-success-bg); color: var(--rs-success); border-color: var(--rs-success-line); }
+.rs-status--warning { background: var(--rs-warning-bg); color: var(--rs-warning); border-color: var(--rs-warning-line); }
+.rs-status--danger  { background: var(--rs-danger-bg);  color: var(--rs-danger);  border-color: var(--rs-danger-line); }
+.rs-status--info    { background: var(--rs-info-bg);    color: var(--rs-info);    border-color: var(--rs-info-line); }
+
+.rs-meter {
+  height: 0.4rem;
+  border-radius: var(--rs-radius-pill);
+  background: var(--rs-paper-dark);
+  overflow: hidden;
+}
+.rs-meter__fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--rs-coral);
+  transition: background-color 180ms var(--rs-motion-out);
+}
+.rs-meter__fill--success { background: var(--rs-success); }
+.rs-meter__fill--warning { background: var(--rs-warning); }
+.rs-meter__fill--info    { background: var(--rs-info); }
+
+.rs-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  border: 1px solid var(--rs-border);
+  border-radius: var(--rs-radius-pill);
+  background: transparent;
+  color: var(--rs-ink);
+  padding: 0.28rem 0.82rem;
+  font-family: var(--rs-font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+.rs-chip:hover { border-color: var(--rs-coral); color: var(--rs-coral); }
+.rs-chip.is-active,
+.rs-chip.active { background: var(--rs-coral); border-color: var(--rs-coral); color: var(--rs-paper); }
+
+.rs-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--rs-coral);
+  font-family: var(--rs-font-display);
+  font-size: 0.82rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+.rs-action-link:hover { color: var(--rs-coral-deep); text-decoration: underline; text-underline-offset: 3px; }
+
+.rs-danger-zone {
+  border-color: var(--rs-danger-line) !important;
+  background: var(--rs-danger-bg);
+}
+.rs-danger-text { color: var(--rs-danger) !important; }
+.rs-danger-btn {
+  background: var(--rs-danger-bg);
+  color: var(--rs-danger);
+  border: 1.5px solid var(--rs-danger-line);
+}
+
+.rs-icon-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--rs-paper);
+  border: 1px solid var(--rs-rule);
+  color: var(--rs-coral);
+  font-family: var(--rs-font-display);
+  font-weight: 800;
+}
+
+.rs-saved-note { color: var(--rs-success); font-size: .7rem; font-weight: 600; }
+
+.rs-select {
+  background-color: var(--rs-bone);
+  border: 1px solid var(--rs-border);
+  border-radius: 8px;
+  color: var(--rs-ink);
+  padding: 0.5rem 2rem 0.5rem 0.875rem;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%235a5448'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1rem;
+  cursor: pointer;
+}

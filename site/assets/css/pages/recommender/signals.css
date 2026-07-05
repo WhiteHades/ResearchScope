@@ -1,0 +1,83 @@
+/* Deadline urgency, score breakdowns, abstracts, signal chips, coverage, rationale, and score ring.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* Deadline urgency colors */
+.dl-urgent   { color: var(--rs-danger); font-weight: 600; }
+.dl-soon     { color: var(--rs-warning); font-weight: 600; }
+.dl-ok       { color: var(--rs-success); font-weight: 600; }
+.dl-passed   { color: var(--rs-muted); }
+.dl-unknown  { color: var(--rs-muted); }
+
+/* Score breakdown bars */
+.breakdown-bar {
+  height: 0.35rem;
+  border-radius: 999px;
+  background: var(--rs-border);
+  overflow: hidden;
+  flex: 1;
+}
+.breakdown-fill-overlap  { height: 100%; border-radius: inherit; background: var(--rs-coral); }
+.breakdown-fill-field    { height: 100%; border-radius: inherit; background: var(--rs-info); }
+.breakdown-fill-maturity { height: 100%; border-radius: inherit; background: var(--rs-success); }
+.breakdown-fill-rank     { height: 100%; border-radius: inherit; background: var(--rs-warning); }
+
+/* Abstract counter */
+.abstract-counter {
+  font-size: 0.7rem;
+  text-align: right;
+  color: var(--rs-muted);
+  margin-top: 0.25rem;
+}
+
+/* Auto-detect badge shown in results */
+.field-detected-badge {
+  font-size: 0.65rem;
+  background: var(--rs-info-bg);
+  color: var(--rs-primary);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.45rem;
+  font-weight: 600;
+  margin-left: 0.35rem;
+}
+
+/* Paper abstract snippet */
+.paper-abstract-snippet {
+  font-size: 0.7rem;
+  line-height: 1.45;
+  color: var(--rs-muted);
+  margin-top: 0.2rem;
+}
+
+/* Signal chips */
+.signal-strong { background: var(--rs-success-bg); color: var(--rs-success); border-color: var(--rs-success-line); }
+.signal-moderate { background: var(--rs-info-bg); color: var(--rs-info); border-color: var(--rs-info-line); }
+
+/* Coverage bar */
+.coverage-bar { height: 5px; border-radius: 3px; background: var(--rs-border); overflow: hidden; }
+.coverage-fill { height: 100%; border-radius: 3px; background: var(--rs-coral); }
+
+/* Rationale row */
+.venue-rationale {
+  font-size: .82rem;
+  line-height: 1.55;
+  color: var(--rs-text);
+  padding: .6rem .85rem;
+  border-radius: .5rem;
+  background: var(--rs-primary-50);
+  border: 1px solid var(--rs-danger-line);
+  margin-top: .75rem;
+}
+
+/* Score ring */
+.score-ring-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .2rem;
+}
+.score-ring-value {
+  font-size: 1.75rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--rs-coral);
+}

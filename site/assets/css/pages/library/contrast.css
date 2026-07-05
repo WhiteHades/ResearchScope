@@ -1,0 +1,29 @@
+/* Library control contrast hardening.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* Control contrast audit: keep library controls readable in normal and hover states. */
+.library-link,
+.library-toggle {
+  border-color: var(--rs-border) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink) !important;
+}
+
+.library-link:hover,
+.library-toggle:hover {
+  border-color: var(--rs-ink) !important;
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+}
+
+.library-toggle.is-active {
+  border-color: var(--rs-coral) !important;
+  background: var(--rs-coral) !important;
+  color: var(--rs-paper) !important;
+}
+
+.library-toggle.is-active:hover {
+  border-color: var(--rs-coral-deep) !important;
+  background: var(--rs-coral-deep) !important;
+  color: var(--rs-paper) !important;
+}

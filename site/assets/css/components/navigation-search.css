@@ -1,0 +1,229 @@
+/* Desktop navigation, dropdowns, global search, and mobile menu shell.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* ── Nav ─────────────────────────────────────────── */
+.rs-nav {
+  background: rgba(239, 231, 210, 0.86);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid var(--rs-rule);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.rs-nav a {
+  color: var(--rs-ink-mute);
+  transition: color 0.18s ease;
+}
+.rs-nav a:hover,
+.rs-nav a.active {
+  color: var(--rs-coral);
+}
+
+/* ── Nav top-level links ─────────────────────────── */
+.rs-nav-top-link {
+  font-family: var(--rs-font-display);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--rs-ink-mute);
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: color 0.18s ease;
+  letter-spacing: 0.005em;
+}
+.rs-nav-top-link:hover,
+.rs-nav-top-link.active { color: var(--rs-coral); }
+
+/* ── Nav dropdowns ───────────────────────────────── */
+.rs-nav-dd { position: relative; }
+.rs-nav-dd-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--rs-font-display);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--rs-ink-mute);
+  padding: 0.25rem 0.4rem;
+  border-radius: 4px;
+  transition: color 0.18s ease;
+  white-space: nowrap;
+}
+.rs-nav-dd-btn:hover,
+.rs-nav-dd-btn.active { color: var(--rs-coral); }
+.rs-nav-dd-arrow {
+  font-size: 0.6rem;
+  opacity: 0.7;
+  transition: transform 0.18s ease;
+}
+.rs-nav-dd:hover .rs-nav-dd-arrow { transform: rotate(180deg); }
+/* Hover bridge: the dropdown's hit-box must overlap the button so moving
+   the mouse from button → menu never crosses a non-:hover gap (otherwise
+   the menu closes mid-traversal). We use padding-top instead of a top
+   offset to keep the visual gap without breaking pointer continuity. */
+.rs-nav-dd-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 6px;
+  background: var(--rs-bone);
+  border: 1px solid var(--rs-rule);
+  border-radius: 12px;
+  box-shadow: var(--rs-shadow);
+  min-width: 200px;
+  z-index: 200;
+  overflow: hidden;
+}
+.rs-nav-dd:hover .rs-nav-dd-menu,
+.rs-nav-dd:focus-within .rs-nav-dd-menu { display: block; }
+.rs-nav-dd-menu a {
+  display: block;
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  color: var(--rs-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.rs-nav-dd-menu a:hover,
+.rs-nav-dd-menu a.active {
+  background: var(--rs-paper-warm);
+  color: var(--rs-coral);
+}
+.rs-nav-dd-divider {
+  height: 1px;
+  background: var(--rs-rule);
+  margin: 0.3rem 0;
+}
+.mobile-nav-section {
+  font-family: var(--rs-font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--rs-ink-faint);
+  padding: 0.6rem 1rem 0.2rem;
+  pointer-events: none;
+}
+
+/* ── Global search ───────────────────────────────── */
+.search-wrap { position: relative; }
+.search-input {
+  background: var(--rs-paper);
+  border: 1px solid var(--rs-border);
+  border-radius: 999px;
+  color: var(--rs-ink);
+  font-size: 0.8rem;
+  padding: 0.3rem 0.75rem 0.3rem 2rem;
+  width: 14rem;
+  transition: border-color 150ms var(--rs-motion-out), background-color 150ms var(--rs-motion-out), box-shadow 150ms var(--rs-motion-out);
+  outline: none;
+  font-family: var(--rs-font-body);
+}
+.search-input:focus {
+  border-color: var(--rs-coral);
+  background: var(--rs-bone);
+}
+.search-input::placeholder { color: var(--rs-ink-faint); }
+.search-icon {
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--rs-ink-faint);
+  pointer-events: none;
+  width: 14px; height: 14px;
+}
+.search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 380px;
+  max-height: 480px;
+  overflow-y: auto;
+  background: var(--rs-bone);
+  border: 1px solid var(--rs-rule);
+  border-radius: 14px;
+  box-shadow: var(--rs-shadow);
+  z-index: 200;
+}
+.search-dropdown.hidden { display: none; }
+.search-section-label {
+  font-family: var(--rs-font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rs-ink-faint);
+  padding: 0.6rem 0.75rem 0.3rem;
+}
+.search-result-item {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background 0.18s ease;
+  text-decoration: none;
+  color: var(--rs-ink);
+  border-radius: 0;
+}
+.search-result-item:hover,
+.search-result-item.focused {
+  background: var(--rs-paper-warm);
+}
+.search-result-item .sr-title {
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.search-result-item .sr-meta {
+  font-size: 0.72rem;
+  color: var(--rs-ink-mute);
+  margin-top: 1px;
+}
+.search-see-all {
+  display: block;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--rs-coral);
+  padding: 0.6rem;
+  border-top: 1px solid var(--rs-rule);
+  cursor: pointer;
+  text-decoration: none;
+}
+.search-see-all:hover { text-decoration: underline; }
+.search-empty {
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--rs-ink-faint);
+}
+
+/* ── Mobile nav menu ─────────────────────────────── */
+.mobile-nav-link {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  color: var(--rs-ink-mute);
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+  color: var(--rs-coral);
+  background-color: var(--rs-paper-warm);
+}
+#mobile-menu-btn {
+  color: var(--rs-ink-mute);
+  transition: color 0.18s ease;
+}
+#mobile-menu-btn:hover { color: var(--rs-coral); }
