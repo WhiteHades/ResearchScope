@@ -731,6 +731,7 @@ function initReviewCompareBridge() {
   const parentOrigins = new Set(['http://127.0.0.1:8789', 'http://localhost:8789']);
   const ownOrigin = location.origin;
   let applyingRemoteScroll = false;
+  let remoteScrollTimer = 0;
   let lastPostedRatio = -1;
 
   const normalizePath = url => {
@@ -777,10 +778,11 @@ function initReviewCompareBridge() {
 
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const ratio = Number(event.data.ratio || 0);
+    window.clearTimeout(remoteScrollTimer);
     applyingRemoteScroll = true;
     lastPostedRatio = ratio;
     window.scrollTo({ top: Math.max(0, max) * ratio, behavior: 'auto' });
-    window.setTimeout(() => { applyingRemoteScroll = false; }, 180);
+    remoteScrollTimer = window.setTimeout(() => { applyingRemoteScroll = false; }, 220);
   });
 
   window.addEventListener('load', () => {
