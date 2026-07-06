@@ -33,7 +33,9 @@
       this.themes = themes;
       this.storageKey = 'researchscope-theme';
       this.linkId = 'rs-theme-css';
+      this.cacheKey = 'theme-field-notes-3';
       this.current = this.resolveInitialTheme();
+      this.setPageDataset();
       this.apply(this.current, false);
       this.loadFieldShader();
       this.ready(() => this.mount());
@@ -62,6 +64,11 @@
       return this.themes.find(theme => theme.id === id) || this.themes[0];
     }
 
+    setPageDataset() {
+      const page = window.location.pathname.split('/').pop()?.replace(/\.html$/, '') || 'index';
+      document.documentElement.dataset.rsPage = page;
+    }
+
     apply(id, persist = true) {
       const theme = this.getTheme(id);
       this.current = theme.id;
@@ -77,7 +84,7 @@
           link.rel = 'stylesheet';
           document.head.appendChild(link);
         }
-        link.href = `${theme.css}?v=theme-polish-1`;
+        link.href = `${theme.css}?v=${this.cacheKey}`;
       }
 
       if (persist) window.localStorage?.setItem(this.storageKey, theme.id);
@@ -156,8 +163,7 @@
         <button class="rs-theme-option" type="button" role="menuitemradio" data-rs-theme-option="${theme.id}" aria-checked="false">
           <span class="rs-theme-option__swatch" style="background:${theme.swatch}" aria-hidden="true"></span>
           <span>
-            <span class="rs-theme-option__name">${compact ? theme.shortName : theme.name}</span>
-            <span class="rs-theme-option__desc">${theme.description}</span>
+            <span class="rs-theme-option__name">${theme.name}</span>
           </span>
         </button>
       `;
@@ -165,7 +171,7 @@
 
     updateControls() {
       const theme = this.getTheme(this.current);
-      document.querySelectorAll('.rs-theme-label').forEach(label => { label.textContent = theme.shortName; });
+      document.querySelectorAll('.rs-theme-label').forEach(label => { label.textContent = theme.name; });
       document.querySelectorAll('[data-rs-theme-option]').forEach(option => {
         option.setAttribute('aria-checked', String(option.dataset.rsThemeOption === theme.id));
       });
@@ -188,7 +194,7 @@
       const script = document.createElement('script');
       script.id = 'rs-field-notes-shader-script';
       script.type = 'module';
-      script.src = 'assets/js/field-notes-shader.js?v=theme-polish-1';
+      script.src = `assets/js/field-notes-shader.js?v=${this.cacheKey}`;
       document.head.appendChild(script);
     }
   }

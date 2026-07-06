@@ -1,27 +1,177 @@
-/* Field Notes page surfaces: library, recommenders, graph, auth, profile. */
+/* Field Notes page surfaces: dossier sheets, pinboards, timelines, forms, auth. */
+
+html[data-rs-page="papers"] main h1,
+html[data-rs-page="conferences"] main h1,
+html[data-rs-page="journals"] main h1,
+html[data-rs-page="authors"] main h1,
+html[data-rs-page="labs"] main h1,
+html[data-rs-page="gaps"] main h1,
+html[data-rs-page="search"] main h1,
+html[data-rs-page="library"] main h1,
+html[data-rs-page="favourites"] main h1,
+html[data-rs-page="profile"] main h1,
+html[data-rs-page="topics"] main h1,
+html[data-rs-page="deadlines"] main h1,
+html[data-rs-page="conference-recommender"] main h1,
+html[data-rs-page="journal-recommender"] main h1 {
+  background: var(--rs-yellow);
+  border: 2px solid rgba(23, 19, 15, 0.18);
+  border-radius: 999px 999px 999px 10px;
+  box-shadow: 0 4px 0 rgba(23, 19, 15, 0.12);
+  display: inline-block;
+  font-family: var(--rs-font-display) !important;
+  font-size: clamp(2rem, 4vw, 3.8rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.065em !important;
+  line-height: 0.95;
+  margin-bottom: 0.7rem !important;
+  padding: 0.34rem 0.95rem 0.48rem;
+  transform: rotate(-1.2deg);
+}
+
+html[data-rs-page="papers"] main h1::after,
+html[data-rs-page="conferences"] main h1::after,
+html[data-rs-page="journals"] main h1::after,
+html[data-rs-page="topics"] main h1::after,
+html[data-rs-page="deadlines"] main h1::after,
+html[data-rs-page="conference-recommender"] main h1::after,
+html[data-rs-page="journal-recommender"] main h1::after {
+  color: var(--rs-coral);
+  content: ' / annotated';
+  font-family: var(--rs-font-hand);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.library-toolbar,
+.topic-view-switch,
+html[data-rs-page="topics"] .flex.flex-wrap.items-center.gap-2.mb-6,
+html[data-rs-page="papers"] .grid.grid-cols-1,
+html[data-rs-page="conferences"] .grid.grid-cols-1,
+html[data-rs-page="journals"] .grid.grid-cols-1,
+html[data-rs-page="authors"] .rs-card,
+html[data-rs-page="labs"] .rs-card,
+html[data-rs-page="gaps"] .rs-card,
+html[data-rs-page="search"] .rs-card {
+  position: relative;
+}
+
+.library-toolbar {
+  align-items: flex-start;
+  background:
+    linear-gradient(90deg, rgba(23, 19, 15, 0.08) 1px, transparent 1px),
+    rgba(255, 253, 242, 0.72);
+  background-size: 30px 30px, auto;
+  border: 2px dashed rgba(23, 19, 15, 0.18);
+  border-radius: 30px 18px 30px 18px;
+  box-shadow: var(--rs-shadow-sm);
+  margin-bottom: 1.5rem;
+  padding: 1.15rem;
+}
+
+.library-toolbar::after {
+  color: rgba(23, 19, 15, 0.48);
+  content: 'browse, clip, return';
+  font-family: var(--rs-font-hand);
+  font-size: 1.35rem;
+  position: absolute;
+  right: 1.2rem;
+  top: -0.2rem;
+  transform: rotate(4deg);
+}
 
 .topic-graph-shell {
   background:
-    linear-gradient(rgba(17, 17, 17, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(17, 17, 17, 0.04) 1px, transparent 1px),
-    rgba(255, 254, 250, 0.84) !important;
-  background-size: 22px 22px;
+    linear-gradient(rgba(255, 253, 242, 0.82), rgba(255, 253, 242, 0.90)),
+    var(--rs-field-img-topic) right -5rem top -3rem / min(42vw, 34rem) auto no-repeat,
+    radial-gradient(circle at 18% 16%, rgba(123, 97, 255, 0.10), transparent 18rem),
+    linear-gradient(rgba(28, 100, 132, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 100, 132, 0.07) 1px, transparent 1px),
+    rgba(255, 253, 242, 0.88) !important;
+  background-size: auto, min(42vw, 34rem) auto, auto, 24px 24px, 24px 24px, auto !important;
+  border: 2px solid rgba(23, 19, 15, 0.16) !important;
+  border-radius: 32px 18px 38px 20px !important;
+  box-shadow: var(--rs-shadow-lg) !important;
+  overflow: visible !important;
+  position: relative;
+}
+
+.topic-graph-shell::before {
+  background: rgba(123, 97, 255, 0.20);
+  border: 1px solid rgba(23, 19, 15, 0.12);
+  content: '';
+  height: 1rem;
+  left: 2rem;
+  position: absolute;
+  top: -0.5rem;
+  transform: rotate(1deg);
+  width: 7rem;
+  z-index: 2;
+}
+
+.topic-graph-canvas {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 216, 77, 0.18), transparent 23rem),
+    rgba(255, 250, 240, 0.68) !important;
+  border: 2px dashed rgba(23, 19, 15, 0.16) !important;
+  border-radius: 26px !important;
 }
 
 .topic-graph-node circle,
-.topic-node circle { filter: drop-shadow(0 8px 12px rgba(17, 17, 17, 0.12)); }
+.topic-node circle { filter: drop-shadow(0 8px 12px rgba(23, 19, 15, 0.14)); }
 
 .topic-graph-link,
-.topic-link { stroke-dasharray: 5 6; }
+.topic-link { stroke-dasharray: 5 6; stroke-linecap: round; }
+
+.topic-accordion {
+  background: var(--rs-card-paper) !important;
+  border: 2px solid rgba(23, 19, 15, 0.14) !important;
+  border-radius: 24px 16px 26px 18px !important;
+  box-shadow: var(--rs-shadow-sm) !important;
+  margin-bottom: 0.9rem !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.topic-accordion:nth-child(3n + 1) { background: var(--rs-blue-note) !important; transform: rotate(-0.25deg); }
+.topic-accordion:nth-child(3n + 2) { background: var(--rs-mint) !important; transform: rotate(0.22deg); }
+.topic-accordion:nth-child(3n) { background: var(--rs-pink) !important; transform: rotate(-0.12deg); }
+
+.topic-accordion-header {
+  background: rgba(255, 253, 242, 0.58) !important;
+  border-bottom: 1px dashed rgba(23, 19, 15, 0.16) !important;
+}
 
 .digest-header,
 .potd-wrap,
 .star-cta {
   background:
-    radial-gradient(circle at 18% 18%, rgba(255, 225, 92, 0.44), transparent 18rem),
-    radial-gradient(circle at 88% 28%, rgba(191, 238, 255, 0.62), transparent 20rem),
-    rgba(255, 254, 250, 0.9) !important;
+    linear-gradient(90deg, rgba(255, 253, 242, 0.95) 0 44%, rgba(255, 253, 242, 0.66) 72%, rgba(255, 253, 242, 0.36) 100%),
+    var(--rs-field-img-digest) right -2rem center / min(44vw, 31rem) auto no-repeat,
+    radial-gradient(circle at 18% 18%, rgba(255, 216, 77, 0.54), transparent 18rem),
+    radial-gradient(circle at 88% 28%, rgba(174, 232, 255, 0.68), transparent 20rem),
+    linear-gradient(112deg, rgba(255, 253, 242, 0.96) 0 62%, rgba(255, 210, 225, 0.68) 62% 100%) !important;
+  border: 2px solid rgba(23, 19, 15, 0.16) !important;
+  border-radius: 34px 18px 40px 20px !important;
+  box-shadow: var(--rs-shadow) !important;
   color: var(--rs-ink) !important;
+  overflow: visible !important;
+  position: relative;
+}
+
+.digest-header::before,
+.potd-wrap::before,
+.star-cta::before {
+  background: rgba(255, 216, 77, 0.62);
+  border: 1px solid rgba(23, 19, 15, 0.08);
+  content: '';
+  height: 1rem;
+  left: 2rem;
+  position: absolute;
+  top: -0.5rem;
+  transform: rotate(-2deg);
+  width: 7rem;
 }
 
 .digest-header :is(p, h1, span, div),
@@ -73,9 +223,28 @@
 }
 
 .digest-topic-token {
-  background: rgba(255, 255, 255, 0.66) !important;
-  border: 1px dashed rgba(17, 17, 17, 0.20) !important;
+  background: rgba(255, 253, 242, 0.80) !important;
+  border: 2px dashed rgba(23, 19, 15, 0.20) !important;
   border-radius: var(--rs-radius-pill) !important;
+  box-shadow: 0 2px 0 rgba(23, 19, 15, 0.08);
+  color: var(--rs-ink) !important;
+}
+
+#digest-content {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.digest-paper-card {
+  padding: 1.05rem !important;
+}
+
+.digest-paper-card:nth-child(2n) {
+  margin-left: min(2vw, 1.2rem);
+}
+
+.digest-paper-card:nth-child(3n) {
+  margin-right: min(2vw, 1.2rem);
 }
 
 .library-hero,
@@ -88,9 +257,9 @@
 
 .library-panel::before,
 .recommender-panel::before {
-  background: var(--rs-yellow);
+  background: var(--rs-tape);
   border-radius: 999px;
-  box-shadow: 0 4px 0 rgba(17, 17, 17, 0.10);
+  box-shadow: 0 4px 0 rgba(23, 19, 15, 0.08);
   content: '';
   height: 0.72rem;
   left: 1.2rem;
@@ -98,6 +267,43 @@
   top: -0.36rem;
   transform: rotate(-2deg);
   width: 4.8rem;
+}
+
+.recommender-shell {
+  gap: 1.5rem !important;
+}
+
+.recommender-form {
+  gap: 1.15rem !important;
+}
+
+.recommender-textarea {
+  min-height: 18rem !important;
+}
+
+.recommender-panel {
+  background:
+    linear-gradient(rgba(255, 250, 240, 0.90), rgba(255, 250, 240, 0.94)),
+    var(--rs-field-img-recommender) right -3rem bottom -3rem / min(32vw, 23rem) auto no-repeat,
+    linear-gradient(90deg, rgba(217, 79, 56, 0.10) 0 2px, transparent 2px 100%),
+    linear-gradient(rgba(28, 100, 132, 0.065) 1px, transparent 1px),
+    var(--rs-card-paper) !important;
+  background-size: auto, min(32vw, 23rem) auto, 42px 100%, 100% 1.65rem, auto !important;
+  padding: clamp(1rem, 2vw, 1.4rem) !important;
+}
+
+.recommender-result,
+.recommender-paper {
+  background: var(--rs-blue-note) !important;
+}
+
+.recommender-result:nth-child(2n),
+.recommender-paper:nth-child(2n) { background: var(--rs-mint) !important; }
+
+.abstract-counter,
+.field-detected-badge {
+  font-family: var(--rs-font-hand) !important;
+  font-size: 1.05rem !important;
 }
 
 .recommender-meter,
@@ -128,21 +334,45 @@
 
 .auth-page {
   background:
-    radial-gradient(circle at 14% 12%, rgba(191, 238, 255, 0.82), transparent 26rem),
-    radial-gradient(circle at 88% 82%, rgba(255, 225, 92, 0.34), transparent 24rem),
+    radial-gradient(circle at 14% 12%, rgba(174, 232, 255, 0.86), transparent 26rem),
+    radial-gradient(circle at 88% 82%, rgba(255, 216, 77, 0.40), transparent 24rem),
+    linear-gradient(rgba(28, 100, 132, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 100, 132, 0.05) 1px, transparent 1px),
     var(--rs-paper) !important;
+  background-size: auto, auto, 28px 28px, 28px 28px, auto !important;
 }
 
 .auth-card {
-  background: rgba(255, 254, 250, 0.92) !important;
-  border-radius: 36px !important;
+  background: rgba(255, 253, 242, 0.94) !important;
+  border: 2px solid rgba(23, 19, 15, 0.16) !important;
+  border-radius: 38px 20px 44px 24px !important;
+  box-shadow: var(--rs-shadow-lg) !important;
   overflow: visible !important;
+  position: relative;
+}
+
+.auth-card::before {
+  background: var(--rs-tape);
+  border: 1px solid rgba(23, 19, 15, 0.08);
+  content: '';
+  height: 1rem;
+  left: 2rem;
+  position: absolute;
+  top: -0.5rem;
+  transform: rotate(-2deg);
+  width: 8rem;
+  z-index: 3;
 }
 
 .auth-brand {
   background:
-    linear-gradient(135deg, rgba(191, 238, 255, 0.86), rgba(255, 225, 92, 0.42)),
+    linear-gradient(rgba(174, 232, 255, 0.68), rgba(255, 210, 225, 0.54)),
+    var(--rs-field-img-auth) center bottom 1rem / min(84%, 21rem) auto no-repeat,
+    radial-gradient(circle at 22% 18%, rgba(255, 216, 77, 0.58), transparent 12rem),
+    linear-gradient(rgba(23, 19, 15, 0.08) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(174, 232, 255, 0.90), rgba(255, 210, 225, 0.52)),
     var(--rs-sky) !important;
+  background-size: auto, min(84%, 21rem) auto, auto, 100% 1.7rem, auto, auto !important;
   color: var(--rs-ink) !important;
 }
 
@@ -164,38 +394,196 @@
 .auth-panel h1,
 #profile-name-display {
   color: var(--rs-ink) !important;
-  font-family: var(--rs-font-italic) !important;
-  font-weight: 400 !important;
-  letter-spacing: -0.05em !important;
+  font-family: var(--rs-font-display) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.065em !important;
 }
 
 .auth-brand-blurb,
 .auth-helper,
 .auth-optional { color: var(--rs-ink-mute) !important; }
 
-.deadline-card { overflow: hidden; position: relative; }
+.deadline-card { overflow: visible; position: relative; }
 .deadline-card::after {
-  background: var(--rs-yellow);
+  background: var(--rs-coral);
+  border-radius: 999px;
+  bottom: auto;
   content: '';
-  height: 0.5rem;
-  left: 0;
+  height: 0.78rem;
+  left: auto;
+  opacity: 0.78;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 1rem;
+  top: 1rem;
+  width: 0.78rem;
+}
+
+.deadline-card.cc-soon,
+.deadline-card.urgent {
+  background: var(--rs-peach-note) !important;
+  border-color: rgba(217, 79, 56, 0.36) !important;
+}
+
+.dl-label {
+  color: var(--rs-ink-faint) !important;
+  font-family: var(--rs-font-mono) !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dl-date {
+  color: var(--rs-ink) !important;
+  font-family: var(--rs-font-display) !important;
+  font-size: 1.02rem;
+  font-weight: 800;
 }
 
 .next-banner {
-  background: var(--rs-ink) !important;
-  border-radius: var(--rs-radius-lg) !important;
-  color: var(--rs-bone) !important;
+  background:
+    linear-gradient(90deg, rgba(255, 216, 77, 0.96) 0 45%, rgba(255, 216, 77, 0.72) 100%),
+    var(--rs-field-img-deadline) right -2rem center / min(38vw, 24rem) auto no-repeat,
+    linear-gradient(105deg, var(--rs-yellow), var(--rs-peach-note)) !important;
+  border: 2px solid rgba(23, 19, 15, 0.18) !important;
+  border-radius: 32px 18px 34px 18px !important;
+  box-shadow: var(--rs-shadow) !important;
+  color: var(--rs-ink) !important;
+  position: relative;
+  transform: rotate(-0.4deg);
 }
 
 .next-banner a,
-.next-banner .text-xs { color: var(--rs-bone) !important; }
+.next-banner .text-xs { color: var(--rs-ink) !important; }
+
+html[data-rs-page="papers"] .rs-card.overflow-hidden,
+html[data-rs-page="conferences"] .rs-card.overflow-hidden,
+html[data-rs-page="journals"] .rs-card.overflow-hidden {
+  background:
+    linear-gradient(rgba(255, 250, 240, 0.94), rgba(255, 250, 240, 0.98)),
+    var(--rs-field-img-paper) right -4rem top -4rem / min(34vw, 28rem) auto no-repeat,
+    linear-gradient(90deg, rgba(217, 79, 56, 0.12) 0 2px, transparent 2px 100%),
+    var(--rs-card-paper) !important;
+  background-size: auto, min(34vw, 28rem) auto, 44px 100%, auto !important;
+  border-radius: 28px 16px 30px 18px !important;
+}
+
+html[data-rs-page="papers"] #result-count,
+html[data-rs-page="conferences"] #result-count,
+html[data-rs-page="journals"] #result-count,
+html[data-rs-page="authors"] #author-count,
+html[data-rs-page="labs"] #lab-count,
+html[data-rs-page="library"] #library-count {
+  color: var(--rs-coral) !important;
+  font-family: var(--rs-font-hand) !important;
+  font-size: 1.22rem !important;
+}
+
+#library-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.library-card {
+  margin-left: 0 !important;
+}
+
+.library-card:nth-child(2n) {
+  margin-left: min(3vw, 2rem) !important;
+}
+
+.library-card:nth-child(3n) {
+  margin-right: min(3vw, 2rem) !important;
+}
+
+#profile-gate,
+#fav-gate,
+#fav-empty,
+#library-empty,
+.empty-state {
+  background:
+    linear-gradient(90deg, rgba(215, 233, 255, 0.96) 0 48%, rgba(215, 233, 255, 0.62) 100%),
+    var(--rs-field-img-empty) right 1rem center / min(38vw, 22rem) auto no-repeat,
+    radial-gradient(circle at 18% 18%, rgba(255, 216, 77, 0.40), transparent 14rem),
+    var(--rs-blue-note) !important;
+}
+
+.star-cta-btn,
+.github-star-btn {
+  transform: rotate(-1deg);
+}
 
 .text-red-500 { color: var(--rs-danger) !important; }
 
 @media (max-width: 767px) {
+  html[data-rs-page="papers"] main h1,
+  html[data-rs-page="conferences"] main h1,
+  html[data-rs-page="journals"] main h1,
+  html[data-rs-page="authors"] main h1,
+  html[data-rs-page="labs"] main h1,
+  html[data-rs-page="gaps"] main h1,
+  html[data-rs-page="search"] main h1,
+  html[data-rs-page="library"] main h1,
+  html[data-rs-page="favourites"] main h1,
+  html[data-rs-page="profile"] main h1,
+  html[data-rs-page="topics"] main h1,
+  html[data-rs-page="deadlines"] main h1,
+  html[data-rs-page="conference-recommender"] main h1,
+  html[data-rs-page="journal-recommender"] main h1 {
+    font-size: clamp(1.85rem, 11vw, 3rem) !important;
+    transform: rotate(-0.6deg);
+  }
+
+  .library-toolbar::after,
+  html[data-rs-page="papers"] main h1::after,
+  html[data-rs-page="conferences"] main h1::after,
+  html[data-rs-page="journals"] main h1::after,
+  html[data-rs-page="topics"] main h1::after,
+  html[data-rs-page="deadlines"] main h1::after,
+  html[data-rs-page="conference-recommender"] main h1::after,
+  html[data-rs-page="journal-recommender"] main h1::after { display: none; }
+
+  .library-toolbar { padding: 1rem; }
+  .digest-header,
+  .potd-wrap,
+  .star-cta {
+    background:
+      radial-gradient(circle at 18% 18%, rgba(255, 216, 77, 0.42), transparent 14rem),
+      var(--rs-card-paper) !important;
+  }
+
+  .recommender-panel,
+  html[data-rs-page="papers"] .rs-card.overflow-hidden,
+  html[data-rs-page="conferences"] .rs-card.overflow-hidden,
+  html[data-rs-page="journals"] .rs-card.overflow-hidden {
+    background:
+      linear-gradient(90deg, rgba(217, 79, 56, 0.10) 0 2px, transparent 2px 100%),
+      linear-gradient(rgba(28, 100, 132, 0.055) 1px, transparent 1px),
+      var(--rs-card-paper) !important;
+    background-size: 42px 100%, 100% 1.65rem, auto !important;
+  }
+
+  .auth-brand,
+  #profile-gate,
+  #fav-gate,
+  #fav-empty,
+  #library-empty,
+  .empty-state {
+    background:
+      radial-gradient(circle at 18% 18%, rgba(255, 216, 77, 0.38), transparent 14rem),
+      var(--rs-blue-note) !important;
+  }
+
+  .next-banner {
+    background:
+      linear-gradient(105deg, var(--rs-yellow), var(--rs-peach-note)) !important;
+  }
   .library-panel::before,
   .recommender-panel::before { left: 1rem; width: 3.6rem; }
+
+  .library-card:nth-child(2n),
+  .library-card:nth-child(3n),
+  .digest-paper-card:nth-child(2n),
+  .digest-paper-card:nth-child(3n) {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }

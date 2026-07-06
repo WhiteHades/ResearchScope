@@ -54,7 +54,7 @@
   border-radius: var(--rs-radius-lg);
   box-shadow: var(--rs-shadow);
   display: none;
-  min-width: 15rem;
+  min-width: 12rem;
   padding: 0.35rem;
   position: absolute;
   right: 0;
@@ -65,7 +65,7 @@
 .rs-theme-switcher.is-open .rs-theme-menu { display: block; }
 
 .rs-theme-option {
-  align-items: flex-start;
+  align-items: center;
   background: transparent;
   border: 0;
   border-radius: calc(var(--rs-radius) - 4px);
@@ -73,7 +73,7 @@
   cursor: pointer;
   display: flex;
   gap: 0.55rem;
-  padding: 0.62rem 0.68rem;
+  padding: 0.66rem 0.72rem;
   text-align: left;
   width: 100%;
 }
@@ -88,7 +88,6 @@
   border-radius: 999px;
   flex: 0 0 auto;
   height: 1rem;
-  margin-top: 0.08rem;
   width: 1rem;
 }
 
@@ -98,14 +97,6 @@
   font-size: 0.82rem;
   font-weight: 750;
   line-height: 1.15;
-}
-
-.rs-theme-option__desc {
-  color: var(--rs-muted);
-  display: block;
-  font-size: 0.72rem;
-  line-height: 1.3;
-  margin-top: 0.12rem;
 }
 
 .rs-theme-mobile {
@@ -136,8 +127,6 @@
   padding: 0.42rem 0.58rem;
   width: auto;
 }
-
-.rs-theme-mobile .rs-theme-option__desc { display: none; }
 
 @media (max-width: 1023px) {
   .rs-theme-switcher { display: none; }
