@@ -796,3 +796,13 @@ document.addEventListener('DOMContentLoaded', () => {
   pulseStarBadge();
   initReviewCompareBridge();
 });
+
+// ── Theme system bootstrap ──────────────────────────────────────────────
+(function loadThemeSystem() {
+  if (document.getElementById('rs-theme-switcher-script')) return;
+  const script = document.createElement('script');
+  script.id = 'rs-theme-switcher-script';
+  script.src = 'assets/js/theme-switcher.js?v=theme-unified-1';
+  script.defer = true;
+  document.head.appendChild(script);
+})();

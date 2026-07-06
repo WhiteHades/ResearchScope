@@ -1,0 +1,39 @@
+/* Industrial library control overrides loaded after base library styles.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* Industrial library controls. Loaded after the global skin. */
+.library-link,
+.library-toggle {
+  border-color: var(--rs-border) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  letter-spacing: 0.08em !important;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease, box-shadow 160ms ease !important;
+}
+
+.library-link:hover,
+.library-toggle:hover {
+  background: var(--rs-ink-soft) !important;
+  border-color: var(--rs-ink-soft) !important;
+  color: var(--rs-paper) !important;
+  transform: none !important;
+}
+
+.library-toggle.is-active {
+  background: var(--rs-coral) !important;
+  border-color: var(--rs-coral) !important;
+  color: var(--rs-bone) !important;
+}
+
+.library-toggle:focus-visible {
+  outline: 2px solid oklch(51% 0.18 28 / 0.42) !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+}
+
+.library-card__eyebrow {
+  color: var(--rs-muted) !important;
+  letter-spacing: 0.08em !important;
+}

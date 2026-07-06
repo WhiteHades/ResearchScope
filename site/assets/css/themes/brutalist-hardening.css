@@ -1,0 +1,428 @@
+/* Final brutalist hardening: square geometry, dark-mode tokens, inverse slabs, and contrast fixes.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* Industrial brutalist hardening. Keep the branch square, printed, and mode-safe. */
+:root {
+  --rs-radius: 0px;
+  --rs-radius-lg: 0px;
+  --rs-radius-pill: 0px;
+  --rs-shadow-sm: none;
+  --rs-shadow: none;
+  --rs-shadow-lg: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --rs-coral:        #ff3b30;
+    --rs-coral-soft:   #ff6b61;
+    --rs-coral-deep:   #ff1f12;
+    --rs-mustard:      #ff3b30;
+    --rs-olive:        #f5f0de;
+
+    --rs-primary:      #ff3b30;
+    --rs-primary-dark: #ff1f12;
+    --rs-primary-50:   #2a1411;
+    --rs-primary-100:  #421b17;
+    --rs-accent:       #ff3b30;
+
+    --rs-paper:        #10100e;
+    --rs-paper-warm:   #181713;
+    --rs-paper-dark:   #24221b;
+    --rs-bone:         #0b0b09;
+    --rs-bg:           var(--rs-paper);
+    --rs-surface:      var(--rs-bone);
+    --rs-surface-2:    var(--rs-paper-warm);
+    --rs-surface-3:    var(--rs-paper-dark);
+
+    --rs-ink:          #f6f1df;
+    --rs-ink-soft:     #fff8df;
+    --rs-ink-mute:     #d8d0b8;
+    --rs-ink-faint:    #a99f85;
+    --rs-text:         var(--rs-ink);
+    --rs-muted:        var(--rs-ink-mute);
+    --rs-faint:        var(--rs-ink-faint);
+
+    --rs-inverse-surface: #0b0b09;
+    --rs-inverse-text:    #f6f1df;
+    --rs-inverse-muted:   #d8d0b8;
+    --rs-inverse-accent:  #ff6b61;
+    --rs-inverse-line:    rgba(246, 241, 223, 0.42);
+
+    --rs-link:         #ff6b61;
+    --rs-link-hover:   #ff948c;
+    --rs-link-line:    rgba(255, 107, 97, 0.5);
+    --rs-border:       #f6f1df;
+    --rs-border-soft:  rgba(246, 241, 223, 0.24);
+    --rs-rule:         rgba(246, 241, 223, 0.42);
+
+    --rs-success:      #f6f1df;
+    --rs-success-bg:   #181713;
+    --rs-success-line: rgba(246, 241, 223, 0.48);
+    --rs-warning:      #f6f1df;
+    --rs-warning-bg:   #181713;
+    --rs-warning-line: rgba(246, 241, 223, 0.48);
+    --rs-danger:       #ff6b61;
+    --rs-danger-bg:    #2a1411;
+    --rs-danger-line:  #ff3b30;
+    --rs-info:         #f6f1df;
+    --rs-info-bg:      #181713;
+    --rs-info-line:    rgba(246, 241, 223, 0.48);
+    --rs-focus-ring:   rgba(255, 59, 48, 0.5);
+  }
+
+  body::before {
+    opacity: 0.08;
+    mix-blend-mode: screen;
+  }
+
+  body::after {
+    background:
+      radial-gradient(48% 42% at 10% 0%, rgba(255, 59, 48, 0.12) 0%, transparent 62%),
+      radial-gradient(42% 36% at 95% 100%, rgba(246, 241, 223, 0.08) 0%, transparent 62%);
+  }
+}
+
+body {
+  background-image:
+    linear-gradient(var(--rs-border-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rs-border-soft) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+body::after,
+.rs-card::before,
+.potd-wrap::before,
+.potd-wrap::after {
+  border-radius: 0 !important;
+}
+
+.rs-nav {
+  background: var(--rs-paper) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: 2px solid var(--rs-ink) !important;
+}
+
+.rs-nav::before {
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+  border-bottom: 1px solid var(--rs-ink) !important;
+}
+
+.rs-nav-top-link,
+.rs-nav-dd-btn,
+#mobile-menu-btn,
+.mobile-nav-link {
+  border-radius: 0 !important;
+  color: var(--rs-ink) !important;
+  font-family: var(--rs-font-mono) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+.rs-nav-top-link:hover,
+.rs-nav-top-link.active,
+.rs-nav-dd-btn:hover,
+.rs-nav-dd-btn.active,
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+}
+
+.rs-nav-dd-menu,
+.search-dropdown,
+#rs-user-menu,
+#mobile-menu {
+  background: var(--rs-bone) !important;
+  border: 2px solid var(--rs-ink) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.rs-nav-dd-menu a,
+.search-result-item,
+#rs-user-menu a,
+#rs-user-menu button {
+  border-radius: 0 !important;
+  font-family: var(--rs-font-mono) !important;
+  letter-spacing: 0.04em !important;
+}
+
+.rs-nav-dd-menu a:hover,
+.rs-nav-dd-menu a.active,
+.search-result-item:hover,
+.search-result-item.focused,
+#rs-user-menu a:hover,
+#rs-user-menu button:hover {
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+}
+
+button,
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea,
+:where(.rs-card, .rs-panel, .editorial-card, .gap-card, .digest-paper-card, .stat-card, .topic-graph-shell, .rs-slab, .potd-wrap, .digest-header, .rs-alert, .empty-state, .deadline-card, .auth-card, .auth-brand, .auth-panel, .next-banner, .recommender-panel, .recommender-result, .recommender-paper, .library-link, .library-toggle, .badge, .rs-status, .rs-meter, .rs-chip, .rs-icon-mark, .rs-select, .rs-input, .search-input, .github-star-btn, .github-star-count, .star-cta-btn, .tweet-btn, .copy-link-btn, .pager-btn, .topic-filter-btn, .topic-view-btn, .topic-view-switch, .topic-chip, .area-chip, .topic-accordion, .topic-graph-stat, .topic-graph-mini-chip, .topic-graph-control input, .topic-graph-control select, .topic-graph-actions button, .topic-graph-action, .rs-time-pill, .rs-pill, .rs-live, .countdown-chip, .est-badge, .rank-astar, .rank-a, .rank-b, .badge-oral, .badge-spotlight, .field-detected-badge, .venue-rationale) {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+:where(.rs-card, .rs-panel, .editorial-card, .gap-card, .digest-paper-card, .stat-card, .topic-graph-shell, .rs-slab, .potd-wrap, .digest-header, .rs-alert, .empty-state, .deadline-card, .auth-card, .auth-brand, .auth-panel, .next-banner, .recommender-panel, .recommender-result, .recommender-paper) {
+  border: 2px solid var(--rs-ink) !important;
+}
+
+.rs-card:hover,
+.gap-card:hover,
+.digest-paper-card:hover,
+.stat-card:hover,
+.deadline-card:hover,
+.library-link:hover,
+.library-toggle:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.rs-disc,
+.rs-icon-mark,
+.path-number,
+.rs-icon-btn,
+.rs-live::before,
+.t-badge__pulse,
+#profile-avatar {
+  border-radius: 0 !important;
+}
+
+.badge,
+.rs-status,
+.topic-graph-stat,
+.topic-graph-mini-chip,
+.rs-time-pill,
+.rs-pill,
+.rs-live,
+.countdown-chip,
+.est-badge,
+.area-chip,
+.topic-filter-btn,
+.topic-view-btn,
+.library-link,
+.library-toggle {
+  font-family: var(--rs-font-mono) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+.digest-topic-token {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.digest-topic-token__mark {
+  background: var(--rs-paper);
+  border: 1px solid currentColor;
+  display: inline-block;
+  flex: 0 0 auto;
+  height: 0.72rem;
+  width: 0.72rem;
+}
+
+.area-chip.active .digest-topic-token__mark,
+.digest-section-title .digest-topic-token__mark {
+  background: var(--rs-coral);
+  border-color: var(--rs-coral);
+}
+
+#digest-tweet-btn {
+  color: var(--rs-ink) !important;
+}
+
+#digest-tweet-btn:hover {
+  color: var(--rs-paper) !important;
+}
+
+.topic-graph-canvas {
+  background-color: var(--rs-bone) !important;
+  background-image:
+    linear-gradient(var(--rs-rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rs-rule) 1px, transparent 1px) !important;
+  background-size: 48px 48px !important;
+}
+
+.rs-table {
+  border-collapse: collapse !important;
+}
+
+.rs-table th,
+.rs-table td {
+  border-color: var(--rs-ink) !important;
+}
+
+[style*="border-radius"] {
+  border-radius: 0 !important;
+}
+
+[style*="box-shadow"] {
+  box-shadow: none !important;
+}
+
+.score-bar-bg,
+.momentum-bar,
+.rs-meter,
+.breakdown-bar,
+.coverage-bar {
+  border-radius: 0 !important;
+  border-color: var(--rs-ink) !important;
+}
+
+.score-bar-fill,
+.momentum-fill,
+.rs-meter__fill,
+.coverage-fill,
+.breakdown-fill-overlap,
+.breakdown-fill-field,
+.breakdown-fill-maturity,
+.breakdown-fill-rank {
+  border-radius: 0 !important;
+}
+
+/* Contrast hardening for inverse slabs. These sections intentionally stay dark
+   in both color schemes; do not bind them to ink/paper tokens that swap roles. */
+.potd-wrap,
+.rs-slab,
+.digest-header,
+.star-cta,
+.next-banner {
+  background: var(--rs-inverse-surface) !important;
+  border-color: var(--rs-inverse-line) !important;
+  color: var(--rs-inverse-text) !important;
+}
+
+.potd-wrap a,
+.rs-slab a,
+.digest-header a,
+.star-cta a,
+.next-banner a {
+  color: var(--rs-inverse-text) !important;
+  text-decoration-color: var(--rs-inverse-line) !important;
+}
+
+.potd-title,
+.potd-title a,
+.potd-wrap strong,
+.potd-wrap .rs-display-3,
+.rs-slab strong,
+.rs-slab .rs-display-3,
+.digest-header strong,
+.digest-header .rs-display-3,
+.star-cta strong,
+.star-cta .rs-display-3,
+.next-banner strong,
+.next-banner .rs-display-3,
+.next-banner #banner-name,
+.next-banner #banner-countdown {
+  color: var(--rs-inverse-text) !important;
+}
+
+.potd-label,
+.potd-meta,
+.potd-abstract,
+.potd-next,
+.rs-slab p,
+.digest-header p,
+.star-cta-text,
+.next-banner p,
+.next-banner .text-xs {
+  color: var(--rs-inverse-muted) !important;
+}
+
+.potd-label::before {
+  background: var(--rs-inverse-muted) !important;
+}
+
+.potd-wrap .rs-em,
+.potd-wrap .rs-dot,
+.potd-wrap .rs-eyebrow,
+.potd-wrap .rs-eyebrow span,
+.potd-wrap .rs-disc,
+.rs-slab .rs-em,
+.rs-slab .rs-dot,
+.rs-slab .rs-eyebrow,
+.rs-slab .rs-eyebrow span,
+.rs-slab .rs-disc,
+.digest-header .rs-em,
+.digest-header .rs-dot,
+.digest-header .rs-eyebrow,
+.digest-header .rs-eyebrow span,
+.digest-header .rs-disc,
+.star-cta .rs-em,
+.star-cta .rs-dot,
+.star-cta .rs-eyebrow,
+.star-cta .rs-eyebrow span,
+.star-cta .rs-disc,
+.next-banner .rs-em,
+.next-banner .rs-dot,
+.next-banner .rs-eyebrow,
+.next-banner .rs-eyebrow span,
+.next-banner .rs-disc {
+  color: var(--rs-inverse-accent) !important;
+}
+
+.potd-wrap .rs-disc,
+.rs-slab .rs-disc,
+.digest-header .rs-disc,
+.star-cta .rs-disc,
+.next-banner .rs-disc {
+  background: transparent !important;
+  border-color: var(--rs-inverse-accent) !important;
+}
+
+.potd-wrap .rs-eyebrow span[style*="background"],
+.rs-slab .rs-eyebrow span[style*="background"],
+.digest-header .rs-eyebrow span[style*="background"],
+.star-cta .rs-eyebrow span[style*="background"],
+.next-banner .rs-eyebrow span[style*="background"] {
+  background: var(--rs-inverse-accent) !important;
+}
+
+.potd-wrap a.rs-btn,
+.potd-wrap a.potd-btn,
+.rs-slab a.rs-btn,
+.digest-header a.rs-btn,
+.star-cta a.rs-btn,
+.next-banner a.rs-btn {
+  color: var(--rs-ink) !important;
+}
+
+.potd-wrap a.rs-btn--primary,
+.potd-wrap a.potd-btn-primary,
+.rs-slab a.rs-btn--primary,
+.digest-header a.rs-btn--primary,
+.star-cta a.rs-btn--primary,
+.next-banner a.rs-btn--primary,
+.star-cta a.star-cta-btn {
+  color: var(--rs-bone) !important;
+}
+
+.rs-nav a.rs-nav-top-link:hover,
+.rs-nav a.rs-nav-top-link.active,
+.rs-nav button.rs-nav-dd-btn:hover,
+.rs-nav button.rs-nav-dd-btn.active,
+.rs-nav a.mobile-nav-link:hover,
+.rs-nav a.mobile-nav-link.active {
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+}
+
+.auth-brand p,
+.auth-brand li {
+  color: var(--rs-ink) !important;
+}
+
+.auth-brand .auth-brand-blurb,
+.auth-brand p:last-child {
+  color: var(--rs-muted) !important;
+}

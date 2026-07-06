@@ -11,7 +11,8 @@ Atelier Zero keeps the public CSS entrypoints stable while splitting implementat
 - `pages/` owns page-specific modules loaded by page-level facades.
 - `motion/` owns animation and interaction feedback rules.
 - `overrides/` owns audit and compatibility layers that intentionally win late in the cascade.
-- `themes/` owns theme-specific overrides. Base components should not import theme modules.
+- `themes/` owns additive theme facades and their short modules. Base components should not import theme modules.
+- Theme facades are loaded at runtime by `assets/js/theme-switcher.js`; adding a theme should mean adding a facade plus small owned modules, then registering it in the switcher.
 
 SDLC rules:
 

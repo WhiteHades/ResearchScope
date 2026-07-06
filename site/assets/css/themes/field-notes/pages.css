@@ -1,0 +1,136 @@
+/* Field Notes page surfaces: library, recommenders, graph, auth, profile. */
+
+.topic-graph-shell {
+  background:
+    linear-gradient(rgba(17, 17, 17, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 17, 17, 0.04) 1px, transparent 1px),
+    rgba(255, 254, 250, 0.84) !important;
+  background-size: 22px 22px;
+}
+
+.topic-graph-node circle,
+.topic-node circle { filter: drop-shadow(0 8px 12px rgba(17, 17, 17, 0.12)); }
+
+.topic-graph-link,
+.topic-link { stroke-dasharray: 5 6; }
+
+.digest-header,
+.potd-wrap,
+.star-cta {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 225, 92, 0.44), transparent 18rem),
+    radial-gradient(circle at 88% 28%, rgba(191, 238, 255, 0.62), transparent 20rem),
+    rgba(255, 254, 250, 0.9) !important;
+}
+
+.digest-topic-token {
+  background: rgba(255, 255, 255, 0.66) !important;
+  border: 1px dashed rgba(17, 17, 17, 0.20) !important;
+  border-radius: var(--rs-radius-pill) !important;
+}
+
+.library-hero,
+.library-panel,
+.library-card__body,
+.recommender-hero,
+.recommender-panel {
+  position: relative;
+}
+
+.library-panel::before,
+.recommender-panel::before {
+  background: var(--rs-yellow);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 rgba(17, 17, 17, 0.10);
+  content: '';
+  height: 0.72rem;
+  left: 1.2rem;
+  position: absolute;
+  top: -0.36rem;
+  transform: rotate(-2deg);
+  width: 4.8rem;
+}
+
+.recommender-meter,
+.breakdown-bar,
+.coverage-bar,
+.rs-meter,
+.score-bar-bg {
+  background: rgba(17, 17, 17, 0.08) !important;
+  border-radius: var(--rs-radius-pill) !important;
+}
+
+.recommender-meter-fill,
+.breakdown-fill-overlap,
+.breakdown-fill-field,
+.breakdown-fill-maturity,
+.breakdown-fill-rank,
+.coverage-fill,
+.rs-meter__fill,
+.score-bar-fill {
+  background: linear-gradient(90deg, #0f6c8f, var(--rs-mint), var(--rs-yellow)) !important;
+  border-radius: inherit !important;
+}
+
+.score-ring {
+  background: conic-gradient(var(--rs-yellow), var(--rs-sky), var(--rs-mint), var(--rs-yellow)) !important;
+  box-shadow: inset 0 0 0 10px rgba(255, 254, 250, 0.8), var(--rs-shadow-sm) !important;
+}
+
+.auth-page {
+  background:
+    radial-gradient(circle at 14% 12%, rgba(191, 238, 255, 0.82), transparent 26rem),
+    radial-gradient(circle at 88% 82%, rgba(255, 225, 92, 0.34), transparent 24rem),
+    var(--rs-paper) !important;
+}
+
+.auth-card {
+  background: rgba(255, 254, 250, 0.92) !important;
+  border-radius: 36px !important;
+  overflow: visible !important;
+}
+
+.auth-brand {
+  background:
+    linear-gradient(135deg, rgba(191, 238, 255, 0.86), rgba(255, 225, 92, 0.42)),
+    var(--rs-sky) !important;
+  color: var(--rs-ink) !important;
+}
+
+.auth-brand-title,
+.auth-panel h1,
+#profile-name-display {
+  color: var(--rs-ink) !important;
+  font-family: var(--rs-font-italic) !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.05em !important;
+}
+
+.auth-brand-blurb,
+.auth-helper,
+.auth-optional { color: var(--rs-ink-mute) !important; }
+
+.deadline-card { overflow: hidden; position: relative; }
+.deadline-card::after {
+  background: var(--rs-yellow);
+  content: '';
+  height: 0.5rem;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.next-banner {
+  background: var(--rs-ink) !important;
+  border-radius: var(--rs-radius-lg) !important;
+  color: var(--rs-bone) !important;
+}
+
+.next-banner a,
+.next-banner .text-xs { color: var(--rs-bone) !important; }
+
+@media (max-width: 767px) {
+  .library-panel::before,
+  .recommender-panel::before { left: 1rem; width: 3.6rem; }
+}

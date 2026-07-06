@@ -1,0 +1,123 @@
+/* Industrial recommender overrides loaded after base recommender styles.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* Industrial recommender controls. Loaded after the global skin. */
+.recommender-panel,
+.recommender-result,
+.recommender-paper,
+.venue-rationale {
+  background: var(--rs-bone) !important;
+  border-color: var(--rs-border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.recommender-panel label {
+  color: var(--rs-muted) !important;
+  letter-spacing: 0.08em !important;
+}
+
+.recommender-paper a {
+  color: var(--rs-ink) !important;
+  font-family: var(--rs-font-body) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+  text-transform: none !important;
+  text-decoration-color: var(--rs-link-line) !important;
+}
+
+.recommender-fit-excellent,
+.recommender-fit-strong,
+.recommender-fit-moderate,
+.recommender-fit-stretch,
+.recommender-fit-unlikely,
+.field-detected-badge,
+.signal-strong,
+.signal-moderate {
+  border-color: var(--rs-border-soft) !important;
+  border-radius: 0 !important;
+  font-family: var(--rs-font-mono) !important;
+  letter-spacing: 0.06em !important;
+}
+
+.recommender-fit-excellent {
+  background: var(--rs-coral) !important;
+  color: var(--rs-bone) !important;
+}
+
+.recommender-fit-strong,
+.signal-strong {
+  background: var(--rs-ink-soft) !important;
+  color: var(--rs-paper) !important;
+}
+
+.recommender-fit-moderate,
+.recommender-fit-stretch,
+.recommender-fit-unlikely,
+.signal-moderate,
+.field-detected-badge {
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink-soft) !important;
+}
+
+.recommender-fit-stretch,
+.field-detected-badge {
+  color: var(--rs-coral) !important;
+}
+
+.recommender-meter,
+.breakdown-bar,
+.coverage-bar {
+  background: var(--rs-paper-dark) !important;
+  border-color: var(--rs-border-soft) !important;
+  border-radius: 0 !important;
+}
+
+.recommender-meter-fill,
+.breakdown-fill-overlap,
+.breakdown-fill-field,
+.breakdown-fill-maturity,
+.breakdown-fill-rank,
+.coverage-fill {
+  background: var(--rs-coral) !important;
+  border-radius: 0 !important;
+}
+
+.score-ring-value {
+  color: var(--rs-coral) !important;
+  letter-spacing: -0.035em !important;
+}
+
+#recommend-btn,
+#rec-sample-btn,
+#copy-shortlist-btn,
+main a[href$="recommender.html"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-color: var(--rs-border) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  letter-spacing: 0.08em !important;
+  min-height: 2.35rem !important;
+  padding: 0.62rem 0.9rem !important;
+}
+
+#recommend-btn {
+  background: var(--rs-coral) !important;
+  border-color: var(--rs-coral) !important;
+  color: var(--rs-bone) !important;
+  width: 100% !important;
+}
+
+#recommend-btn:hover,
+#rec-sample-btn:hover,
+#copy-shortlist-btn:hover,
+main a[href$="recommender.html"]:hover {
+  background: var(--rs-ink-soft) !important;
+  border-color: var(--rs-ink-soft) !important;
+  color: var(--rs-paper) !important;
+  transform: none !important;
+}
