@@ -45,10 +45,10 @@ async function mountShader() {
         getShaderColorFromString('#dff6e4'),
       ],
       u_colorsCount: 5,
-      u_distortion: 0.42,
-      u_swirl: 0.18,
-      u_grainMixer: 0.12,
-      u_grainOverlay: 0.08,
+      u_distortion: 0.28,
+      u_swirl: 0.1,
+      u_grainMixer: 0.08,
+      u_grainOverlay: 0.04,
       u_fit: 2,
       u_scale: 1.08,
       u_rotation: -0.02,
@@ -60,7 +60,7 @@ async function mountShader() {
       u_worldHeight: 0,
     };
 
-    shaderState.mount = new ShaderMount(container, meshGradientFragmentShader, uniforms, undefined, 0.12, 0, 1, 1920 * 1080 * 2);
+    shaderState.mount = new ShaderMount(container, meshGradientFragmentShader, uniforms, undefined, 0.06, 0, 1, 1920 * 1080 * 1.25);
   } catch (error) {
     container.dataset.shaderFallback = 'true';
     console.warn('Field Notes shader fallback:', error.message);

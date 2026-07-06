@@ -21,6 +21,55 @@
     radial-gradient(circle at 18% 18%, rgba(255, 225, 92, 0.44), transparent 18rem),
     radial-gradient(circle at 88% 28%, rgba(191, 238, 255, 0.62), transparent 20rem),
     rgba(255, 254, 250, 0.9) !important;
+  color: var(--rs-ink) !important;
+}
+
+.digest-header :is(p, h1, span, div),
+.star-cta-text {
+  color: var(--rs-ink-soft) !important;
+}
+
+.digest-header :is(#digest-week-label, #digest-total) {
+  color: var(--rs-ink) !important;
+}
+
+.potd-label,
+.potd-label span {
+  color: var(--rs-primary) !important;
+  opacity: 1 !important;
+}
+
+.potd-label::before { background: var(--rs-primary) !important; }
+
+.potd-wrap .rs-dot,
+.rs-slab .rs-dot,
+.digest-header .rs-dot,
+.star-cta .rs-dot,
+.next-banner .rs-dot {
+  color: var(--rs-primary) !important;
+}
+
+.potd-title a,
+.potd-wrap .rs-display-3 {
+  color: var(--rs-ink) !important;
+}
+
+.potd-meta,
+.potd-abstract,
+.potd-next {
+  color: var(--rs-ink-mute) !important;
+}
+
+.potd-wrap span[style*="color:#fff"] {
+  background: rgba(255, 254, 250, 0.82) !important;
+  border: 1px solid rgba(17, 17, 17, 0.12) !important;
+  color: var(--rs-ink) !important;
+}
+
+.potd-wrap .potd-btn-ghost {
+  background: rgba(255, 254, 250, 0.86) !important;
+  border: 1px solid rgba(17, 17, 17, 0.14) !important;
+  color: var(--rs-ink) !important;
 }
 
 .digest-topic-token {
@@ -97,6 +146,20 @@
   color: var(--rs-ink) !important;
 }
 
+.auth-brand :is(p, li, span),
+.auth-brand [style*="rgba(247,241,222"] {
+  color: var(--rs-ink) !important;
+}
+
+.auth-brand [style*="rgba(247,241,222"] {
+  opacity: 0.72 !important;
+}
+
+.auth-brand-mark {
+  background: rgba(255, 254, 250, 0.76) !important;
+  color: var(--rs-primary) !important;
+}
+
 .auth-brand-title,
 .auth-panel h1,
 #profile-name-display {
@@ -129,6 +192,8 @@
 
 .next-banner a,
 .next-banner .text-xs { color: var(--rs-bone) !important; }
+
+.text-red-500 { color: var(--rs-danger) !important; }
 
 @media (max-width: 767px) {
   .library-panel::before,

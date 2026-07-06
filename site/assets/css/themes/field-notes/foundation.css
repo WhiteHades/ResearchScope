@@ -4,8 +4,8 @@ html { background: var(--rs-paper); }
 
 body {
   background:
-    radial-gradient(circle at 10% 10%, rgba(191, 238, 255, 0.9), transparent 34rem),
-    radial-gradient(circle at 92% 5%, rgba(255, 225, 92, 0.28), transparent 28rem),
+    radial-gradient(circle at 10% 10%, rgba(191, 238, 255, 0.74), transparent 34rem),
+    radial-gradient(circle at 92% 5%, rgba(255, 225, 92, 0.22), transparent 28rem),
     linear-gradient(180deg, #fffdf8 0%, var(--rs-paper) 38%, #fff8df 100%);
   color: var(--rs-ink);
   overflow-x: clip;
@@ -29,19 +29,32 @@ body::after {
 }
 
 body > .rs-field-shader {
-  border-radius: 44px;
-  height: 40rem;
-  left: 1rem;
-  opacity: 0.42;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(191, 238, 255, 0.72), transparent 34rem),
+    radial-gradient(circle at 88% 28%, rgba(255, 225, 92, 0.28), transparent 32rem),
+    radial-gradient(circle at 74% 86%, rgba(255, 220, 232, 0.32), transparent 30rem);
+  border-radius: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.24;
   overflow: hidden;
   pointer-events: none;
   position: fixed;
-  right: 1rem;
-  top: 1rem;
+  right: 0;
+  top: 0;
+  transform: translateZ(0);
   z-index: 0;
 }
 
-.rs-field-shader canvas { filter: saturate(0.9) blur(0.2px); }
+.rs-field-shader canvas {
+  filter: saturate(0.82) contrast(0.96) blur(0.16px);
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.rs-field-shader[data-shader-fallback="true"] {
+  opacity: 0.36;
+}
 
 .rs-rail { display: none; }
 
@@ -99,7 +112,7 @@ body > .rs-field-shader {
 }
 
 @media (max-width: 767px) {
-  body > .rs-field-shader { border-radius: 26px; height: 28rem; }
+  body > .rs-field-shader { opacity: 0.2; }
   .hero-gradient { border-radius: 0 0 28px 28px; margin-inline: 0.4rem; }
   .hero-gradient::after { top: 24rem; }
 }

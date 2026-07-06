@@ -77,7 +77,7 @@
           link.rel = 'stylesheet';
           document.head.appendChild(link);
         }
-        link.href = `${theme.css}?v=theme-unified-1`;
+        link.href = `${theme.css}?v=theme-polish-1`;
       }
 
       if (persist) window.localStorage?.setItem(this.storageKey, theme.id);
@@ -188,7 +188,7 @@
       const script = document.createElement('script');
       script.id = 'rs-field-notes-shader-script';
       script.type = 'module';
-      script.src = 'assets/js/field-notes-shader.js?v=theme-unified-1';
+      script.src = 'assets/js/field-notes-shader.js?v=theme-polish-1';
       document.head.appendChild(script);
     }
   }
