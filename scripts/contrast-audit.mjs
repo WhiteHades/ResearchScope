@@ -30,8 +30,9 @@ const CONFIG = {
   themes: ['atelier', 'brutalist', 'field-notes'],
   media: ['light', 'dark'],
   viewports: [
-    { name: 'desktop', width: 1366, height: 900 },
     { name: 'mobile', width: 390, height: 844 },
+    { name: 'compact', width: 1279, height: 900 },
+    { name: 'desktop', width: 1280, height: 900 },
   ],
 };
 
@@ -330,6 +331,39 @@ const sampler = String.raw`
 const shellSampler = String.raw`
 (() => {
   const failures = [];
+  const visible = element => {
+    if (!element) return false;
+    const style = getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+    return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0;
+  };
+  const label = element => element.id || element.textContent.trim().replace(/\s+/g, ' ').slice(0, 40);
+  const navRow = document.querySelector('.rs-nav .flex.items-center.h-14');
+  if (navRow) {
+    const navElements = [
+      navRow.querySelector(':scope > a:first-child'),
+      ...document.querySelectorAll('#rs-nav-links > *'),
+      ...document.querySelectorAll('#rs-nav-actions > *'),
+    ].filter(visible);
+    for (let left = 0; left < navElements.length; left++) {
+      for (let right = left + 1; right < navElements.length; right++) {
+        const a = navElements[left].getBoundingClientRect();
+        const b = navElements[right].getBoundingClientRect();
+        const overlapWidth = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+        const overlapHeight = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+        if (overlapWidth > 1 && overlapHeight > 1) failures.push({ type: 'nav-overlap', detail: label(navElements[left]) + ' intersects ' + label(navElements[right]) });
+      }
+    }
+    const rowRect = navRow.getBoundingClientRect();
+    navElements.forEach(element => {
+      const rect = element.getBoundingClientRect();
+      if (rect.left < rowRect.left - 1 || rect.right > rowRect.right + 1) failures.push({ type: 'nav-overflow', detail: label(element) + ' escapes the navigation row' });
+    });
+    const desktopLinksVisible = visible(document.getElementById('rs-nav-links'));
+    const mobileButtonVisible = visible(document.getElementById('mobile-menu-btn'));
+    if (window.innerWidth < 1280 && (desktopLinksVisible || !mobileButtonVisible)) failures.push({ type: 'nav-breakpoint', detail: 'compact navigation not active below 1280px' });
+    if (window.innerWidth >= 1280 && (!desktopLinksVisible || mobileButtonVisible)) failures.push({ type: 'nav-breakpoint', detail: 'desktop navigation not active at 1280px' });
+  }
   const hitTest = (element, type) => {
     const rect = element?.getBoundingClientRect();
     if (!rect || rect.width <= 0 || rect.height <= 0) {
@@ -340,7 +374,7 @@ const shellSampler = String.raw`
     if (!hit || !element.contains(hit)) failures.push({ type, detail: hit ? hit.tagName.toLowerCase() + '.' + String(hit.className) : 'no hit target' });
   };
 
-  if (window.innerWidth >= 1024) {
+  if (window.innerWidth >= 1280) {
     const dropdown = document.querySelectorAll('.rs-nav-dd')[2];
     const dropdownButton = dropdown?.querySelector('.rs-nav-dd-btn');
     const dropdownMenu = dropdown?.querySelector('.rs-nav-dd-menu');

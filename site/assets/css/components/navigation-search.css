@@ -266,6 +266,12 @@
   border-color: var(--rs-primary);
   box-shadow: 0 0 0 3px var(--rs-focus-ring);
 }
+.rs-auth-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 #rs-user-menu {
   animation: rs-slide-up 150ms ease;
   background: var(--rs-surface);
@@ -305,6 +311,56 @@
   font: inherit;
   text-align: left;
   width: 100%;
+}
+
+@media (max-width: 1279px) {
+  #rs-nav-links,
+  #rs-nav-actions > #rs-theme-switcher,
+  #rs-nav-actions > #rs-auth-wrap,
+  #rs-nav-actions > .search-wrap {
+    display: none !important;
+  }
+
+  #rs-nav-actions {
+    flex: 1 1 auto !important;
+    margin-left: auto;
+  }
+
+  #mobile-menu-btn {
+    display: inline-flex !important;
+    margin-left: auto;
+  }
+
+  #mobile-menu.is-open,
+  #mobile-menu.is-closing { display: block !important; }
+}
+
+@media (min-width: 1280px) {
+  .rs-nav .flex.items-center.h-14 > a:first-child {
+    flex: 0 0 auto !important;
+  }
+
+  #rs-nav-links {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    min-width: max-content;
+  }
+
+  #rs-nav-actions {
+    flex: 0 0 auto !important;
+    margin-left: auto;
+  }
+
+  #rs-nav-actions > #rs-theme-switcher,
+  #rs-nav-actions > #rs-auth-wrap,
+  #rs-nav-actions > .search-wrap { display: block !important; }
+
+  #rs-nav-actions > .github-star-btn { display: inline-flex !important; }
+  #mobile-menu-btn,
+  #mobile-menu { display: none !important; }
+
+  .search-input { width: 12rem; }
+  #rs-auth-btn { max-width: 9rem; }
 }
 
 @keyframes rs-slide-up {

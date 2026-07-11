@@ -284,12 +284,12 @@ function _updateAuthNav() {
   const loggedIn = Boolean(_auth.isLoggedIn() && user);
   if (btn && loggedIn) {
     const initial = (user.name || user.email || '?')[0].toUpperCase();
-    btn.innerHTML = `<span style="width:22px;height:22px;border-radius:50%;background:var(--rs-primary,#a63b2d);color:var(--rs-paper,#eee4c9);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700">${escHtml(initial)}</span>${escHtml(user.name || user.email)}`;
+    btn.innerHTML = `<span style="width:22px;height:22px;border-radius:50%;background:var(--rs-primary,#a63b2d);color:var(--rs-paper,#eee4c9);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex:0 0 auto">${escHtml(initial)}</span><span class="rs-auth-label">${escHtml(user.name || user.email)}</span>`;
     btn.setAttribute('aria-haspopup', 'menu');
     btn.setAttribute('aria-expanded', 'false');
     btn.onclick = (e) => { e.stopPropagation(); _showUserMenu(); };
   } else if (btn) {
-    btn.innerHTML = `<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>Sign in`;
+    btn.innerHTML = `<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><span class="rs-auth-label">Sign in</span>`;
     btn.removeAttribute('aria-haspopup');
     btn.removeAttribute('aria-expanded');
     btn.onclick = (e) => { e.stopPropagation(); rsOpenModal(); };
