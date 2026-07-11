@@ -194,8 +194,8 @@
     "tags": [
       "Reasoning",
       "Code Generation",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -464,8 +464,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Programming Languages",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Programming Languages"
     ],
     "paper_type": "theory",
     "difficulty_level": "L1",
@@ -480,10 +480,10 @@
     "summary": "We present the first machine-checked correctness proof of the OpenZeppelin reentrancy-guard pattern against a Lean 4 state-machine model of production-deployed Solidity source. All thirteen theorems are machine-checked with zero sorry, zero user-introduced axioms, and an axiom footprint bounded by [propext] (a standard mathlib4 axiom), gated under continuous integration.",
     "key_contribution": "We present the first machine-checked correctness proof of the OpenZeppelin reentrancy-guard pattern against a Lean 4 state-machine model of production-deployed Solidity source.",
     "why_it_matters": "Tridirectional Discriminating-Power Formal Verification of Smart Contract Reentrancy Defense Against Production-Deployed Solidity Source represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Programming Languages.",
+    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
     "one_line_takeaway": "We present the first machine-checked correctness proof of the OpenZeppelin reentrancy-guard pattern against a Lean 4…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a beginner and want to understand recent progress in Programming Languages.",
+    "read_this_if": "Read this if you are a beginner and want to understand recent progress in Cryptography & Security.",
     "url": "https://arxiv.org/abs/2606.01794",
     "difficulty": "beginner"
   },
@@ -815,8 +815,8 @@
     "topics": [],
     "tags": [
       "Robotics",
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -880,8 +880,8 @@
       "RL",
       "Evaluation",
       "Machine Learning",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -975,8 +975,8 @@
     "topics": [],
     "tags": [
       "Continual Learning",
-      "Neural Networks",
-      "Machine Learning"
+      "Machine Learning",
+      "Neural Networks"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -1070,9 +1070,9 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Artificial Intelligence",
       "Machine Learning",
-      "Transformer Architectures"
+      "Transformer Architectures",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -1889,8 +1889,8 @@
       "LLMs",
       "Reasoning",
       "AI Agents",
-      "Artificial Intelligence",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -1936,8 +1936,8 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Cryptography & Security",
-      "Machine Learning"
+      "Machine Learning",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -2334,9 +2334,9 @@
     "tags": [
       "Fine-Tuning",
       "Model Compression",
-      "Model Compression & Efficiency",
+      "Fine-Tuning & PEFT",
       "Information Retrieval",
-      "Fine-Tuning & PEFT"
+      "Model Compression & Efficiency"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -2350,7 +2350,7 @@
     "evidence_strength": 0.0,
     "summary": "The increase in data volume, computational resources, and model parameters during training has led to the development of numerous large-scale industrial retrieval models for recommendation tasks. However, effectively and efficiently deploying these large-scale foundational retrieval models remains a critical challenge that has not been fully addressed.",
     "key_contribution": "To achieve this, we propose jointly learning a hierarchical index using cross-attention and residual quantization for large-scale retrieval models.",
-    "why_it_matters": "Efficient Retrieval Scaling with Hierarchical Indexing for Large Scale Recommendation makes powerful models practical on resource-constrained devices and reduces deployment costs.",
+    "why_it_matters": "Efficient Retrieval Scaling with Hierarchical Indexing for Large Scale Recommendation improves how systems find and rank relevant information at scale.",
     "content_hook": "A new paper that could change how we think about Fine-Tuning.",
     "one_line_takeaway": "To achieve this, we propose jointly learning a hierarchical index using cross-attention and residual quantization for…",
     "biggest_caveat": "However, effectively and efficiently deploying these large-scale foundational retrieval models remains a critical challenge that has not been fully addressed.",
@@ -2453,9 +2453,9 @@
     "tags": [
       "AI Agents",
       "Code Generation",
-      "Artificial Intelligence",
       "Multi-Agent Systems",
-      "Databases"
+      "Databases",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -2594,8 +2594,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Artificial Intelligence",
       "Software Engineering",
+      "Artificial Intelligence",
       "Large Language Models"
     ],
     "paper_type": "systems",
@@ -2891,8 +2891,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -2907,11 +2907,52 @@
     "summary": "Reward learning techniques enable machine learning systems to learn objectives from human feedback. A core limitation of these systems is their assumption that all feedback comes from a single human teacher, despite gathering feedback from large and heterogeneous populations.",
     "key_contribution": "We propose the Hidden Utility Bandit (HUB) framework to model differences in teacher rationality, expertise, and costliness, formalizing the problem of learning from multiple teachers.",
     "why_it_matters": "Active teacher selection for reward learning represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We propose the Hidden Utility Bandit (HUB) framework to model differences in teacher rationality, expertise, and…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2310.15288",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2607.07730",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "RetractorDB: A Deterministic Edge Signal Processing Engine Based on Rational Beatty Sequences and Fraenkel's Partition",
+    "abstract": "We present RetractorDB, an open-source edge signal processing engine (ESPE) for regular time series whose query semantics is grounded in the number theory of covering systems. RetractorDB is designed to support, not replace, time-series databases (TSDB) and data stream management systems (DSMS): deployed close to the signal source, it pre-processes and filters high-frequency measurements on the edge device through a declarative signal-processing query language, maintains a partial, correctable record of past and scheduled future events in inspectable artifacts, and transmits exact, deterministic results upstream, so that only reduced, already-processed streams reach the central architecture. The data model is differential (a stream is a pair $(s_n, Δ)$ with a constant rational inter-arrival interval), and the core rate-conversion operators, interleave and de-interleave, are proved to be rational Beatty sequences satisfying the conditions of Fraenkel's partition theorem. This yields an algebra in which resampling is an exact, deterministic, first-class operator: de-interleaving inverts interleaving bit-for-bit using rational arithmetic alone, and algebraic rewrite rules license query-plan optimization without changing results. We describe the end-to-end realization of this algebra in a working engine: declarative query language (RQL), compilation to a dependency DAG with rational interval resolution, slot-based runtime scheduling, and an inspectable artifact format with schema and null/gap metadata. We validate the semantics on deterministic query examples drawn from the engine's integration tests, including a complete Pan-Tompkins QRS-detection pipeline over MIT-BIH ECG data expressed entirely within the algebra. A performance evaluation under a real-time operating environment is in progress and deferred to a subsequent version.",
+    "authors": [
+      "Michal Widera"
+    ],
+    "year": 2026,
+    "published_date": "2026-07-06",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2607.07730",
+    "pdf_url": "https://arxiv.org/pdf/2607.07730",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Databases"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses theorem and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.5,
+    "read_first_score": 4.62,
+    "content_potential_score": 0.34,
+    "interestingness_score": 1.92,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We present RetractorDB, an open-source edge signal processing engine (ESPE) for regular time series whose query semantics is grounded in the number theory of covering systems. RetractorDB is designed to support, not replace, time-series databases (TSDB) and data stream management systems (DSMS): deployed close to the signal source, it pre-processes and filters high-frequency measurements on the edge device through a declarative signal-processing query language, maintains a partial, correctable record of past and scheduled future events in inspectable artifacts, and transmits exact, deterministic results upstream, so that only reduced, already-processed streams reach the central architecture.",
+    "key_contribution": "We present RetractorDB, an open-source edge signal processing engine (ESPE) for regular time series whose query semantics is grounded in the number theory of covering systems.",
+    "why_it_matters": "RetractorDB: A Deterministic Edge Signal Processing Engine Based on Rational Beatty Sequences and Fraenkel's Partition represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Databases.",
+    "one_line_takeaway": "We present RetractorDB, an open-source edge signal processing engine (ESPE) for regular time series whose query…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Databases.",
+    "url": "https://arxiv.org/abs/2607.07730",
     "difficulty": "frontier"
   },
   {
@@ -2958,47 +2999,6 @@
     "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in LLMs.",
     "url": "https://arxiv.org/abs/2607.06039",
     "difficulty": "advanced"
-  },
-  {
-    "id": "arxiv:2607.07730",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "RetractorDB: A Deterministic Edge Signal Processing Engine Based on Rational Beatty Sequences and Fraenkel's Partition",
-    "abstract": "We present RetractorDB, an open-source edge signal processing engine (ESPE) for regular time series whose query semantics is grounded in the number theory of covering systems. RetractorDB is designed to support, not replace, time-series databases (TSDB) and data stream management systems (DSMS): deployed close to the signal source, it pre-processes and filters high-frequency measurements on the edge device through a declarative signal-processing query language, maintains a partial, correctable record of past and scheduled future events in inspectable artifacts, and transmits exact, deterministic results upstream, so that only reduced, already-processed streams reach the central architecture. The data model is differential (a stream is a pair $(s_n, Δ)$ with a constant rational inter-arrival interval), and the core rate-conversion operators, interleave and de-interleave, are proved to be rational Beatty sequences satisfying the conditions of Fraenkel's partition theorem. This yields an algebra in which resampling is an exact, deterministic, first-class operator: de-interleaving inverts interleaving bit-for-bit using rational arithmetic alone, and algebraic rewrite rules license query-plan optimization without changing results. We describe the end-to-end realization of this algebra in a working engine: declarative query language (RQL), compilation to a dependency DAG with rational interval resolution, slot-based runtime scheduling, and an inspectable artifact format with schema and null/gap metadata. We validate the semantics on deterministic query examples drawn from the engine's integration tests, including a complete Pan-Tompkins QRS-detection pipeline over MIT-BIH ECG data expressed entirely within the algebra. A performance evaluation under a real-time operating environment is in progress and deferred to a subsequent version.",
-    "authors": [
-      "Michal Widera"
-    ],
-    "year": 2026,
-    "published_date": "2026-07-06",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2607.07730",
-    "pdf_url": "https://arxiv.org/pdf/2607.07730",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Databases"
-    ],
-    "paper_type": "theory",
-    "difficulty_level": "L4",
-    "difficulty_reason": "Requires deep theoretical background — uses theorem and related concepts.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.5,
-    "read_first_score": 4.62,
-    "content_potential_score": 0.34,
-    "interestingness_score": 1.92,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "We present RetractorDB, an open-source edge signal processing engine (ESPE) for regular time series whose query semantics is grounded in the number theory of covering systems. RetractorDB is designed to support, not replace, time-series databases (TSDB) and data stream management systems (DSMS): deployed close to the signal source, it pre-processes and filters high-frequency measurements on the edge device through a declarative signal-processing query language, maintains a partial, correctable record of past and scheduled future events in inspectable artifacts, and transmits exact, deterministic results upstream, so that only reduced, already-processed streams reach the central architecture.",
-    "key_contribution": "We present RetractorDB, an open-source edge signal processing engine (ESPE) for regular time series whose query semantics is grounded in the number theory of covering systems.",
-    "why_it_matters": "RetractorDB: A Deterministic Edge Signal Processing Engine Based on Rational Beatty Sequences and Fraenkel's Partition represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Databases.",
-    "one_line_takeaway": "We present RetractorDB, an open-source edge signal processing engine (ESPE) for regular time series whose query…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Databases.",
-    "url": "https://arxiv.org/abs/2607.07730",
-    "difficulty": "frontier"
   },
   {
     "id": "arxiv:2510.15686",
@@ -3173,8 +3173,8 @@
       "LLMs",
       "Reasoning",
       "AI Agents",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -3322,8 +3322,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Game Theory",
-      "Systems & Control"
+      "Systems & Control",
+      "Game Theory"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -3338,10 +3338,10 @@
     "summary": "We consider an intrusion detection task in which a defender must jointly optimize sensor placement locations and orientations to minimize the probability of missed detection of an intruder traversing a protected environment. We decompose this problem into a meta problem, termed SensorPlacement, and an embedded subproblem, termed OrientationScheduling.",
     "key_contribution": "We show that this game-value-based utility function is weakly submodular over the set of sensor placements and propose a greedy placement algorithm with near-optimality guarantees.",
     "why_it_matters": "A Unified Framework for Joint Sensor Placement and Scheduling for Intrusion Detection represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Game Theory.",
+    "content_hook": "A new paper that could change how we think about Systems & Control.",
     "one_line_takeaway": "We show that this game-value-based utility function is weakly submodular over the set of sensor placements and propose…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Game Theory.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Systems & Control.",
     "url": "https://arxiv.org/abs/2606.19695",
     "difficulty": "intermediate"
   },
@@ -3550,8 +3550,8 @@
     "topics": [],
     "tags": [
       "Adversarial",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -3838,8 +3838,8 @@
       "AI Agents",
       "Machine Learning",
       "Human-Computer Interaction",
-      "Artificial Intelligence",
-      "AI Agents & Tool Use"
+      "AI Agents & Tool Use",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -3883,9 +3883,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
+      "Machine Learning",
       "Programming Languages",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -3900,10 +3900,10 @@
     "summary": "Neural approaches to theorem proving require robust infrastructure for interfacing with interactive theorem provers (ITPs), extracting structured proof data, and executing proof search at scale. However, existing tooling is often assistant-specific and oriented toward file-level execution, making repository-scale analysis and parallel experimentation challenging.",
     "key_contribution": "We present ProofWala, a multilingual proof engineering framework built around \\texttt{itp-interface}, a reusable library for programmatic interaction with ITPs.",
     "why_it_matters": "ProofWala: A Framework for Multilingual Proof Data Synthesis and Theorem-Proving represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Programming Languages.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We present ProofWala, a multilingual proof engineering framework built around \\texttt{itp-interface}, a reusable…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Programming Languages.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2502.04671",
     "difficulty": "frontier"
   },
@@ -3984,8 +3984,8 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -4034,9 +4034,9 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Artificial Intelligence",
+      "Benchmarking & Evaluation",
       "NLP",
-      "Benchmarking & Evaluation"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -4078,8 +4078,8 @@
     "topics": [],
     "tags": [
       "Info Extraction",
-      "Software Engineering",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -4222,8 +4222,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -4238,10 +4238,10 @@
     "summary": "The April 2026 Claude Mythos sandbox escape exposed a critical weakness in frontier AI containment: the infrastructure surrounding advanced models remains susceptible to formally characterizable arithmetic vulnerabilities. Anthropic has not publicly characterized the escape vector; some secondary accounts hypothesize a CWE-190 arithmetic vulnerability in sandbox networking code.",
     "key_contribution": "We demonstrate this on four production case studies: NASA cFE, wolfSSL, Eclipse Mosquitto, and NASA F Prime, with reproducible encodings, verified solver output, and acknowledged security outcomes.",
     "why_it_matters": "Mythos and the Unverified Cage: Z3-Based Pre-Deployment Verification for Frontier-Model Sandbox Infrastructure represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
     "one_line_takeaway": "We demonstrate this on four production case studies: NASA cFE, wolfSSL, Eclipse Mosquitto, and NASA F Prime, with…",
     "biggest_caveat": "cannot depend on behavioral safeguards alone; the containment stack itself must be subjected to formal verification.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Cryptography & Security.",
     "url": "http://arxiv.org/abs/2604.20496v1",
     "difficulty": "intermediate"
   },
@@ -4459,8 +4459,8 @@
       "LLMs",
       "AI Agents",
       "Info Extraction",
-      "Game Theory",
-      "Machine Learning"
+      "Machine Learning",
+      "Game Theory"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -4506,9 +4506,9 @@
     "topics": [],
     "tags": [
       "AI Safety",
+      "Artificial Intelligence",
       "AI Safety & Alignment",
-      "Multi-Agent Systems",
-      "Artificial Intelligence"
+      "Multi-Agent Systems"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -4954,8 +4954,8 @@
     "topics": [],
     "tags": [
       "Artificial Intelligence",
-      "Multi-Agent Systems",
-      "Neural Networks"
+      "Neural Networks",
+      "Multi-Agent Systems"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -5143,8 +5143,8 @@
     "topics": [],
     "tags": [
       "Hallucination",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -5237,8 +5237,8 @@
     "tags": [
       "Prompting",
       "Self-Supervised",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -5446,8 +5446,8 @@
       "AI Safety",
       "AI Agents",
       "Evaluation",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -5589,8 +5589,8 @@
       "LLMs",
       "RL",
       "Evaluation",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -5744,8 +5744,8 @@
     "tags": [
       "AI Safety",
       "Machine Learning",
-      "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -6130,8 +6130,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Databases",
-      "Information Retrieval"
+      "Information Retrieval",
+      "Databases"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -6146,10 +6146,10 @@
     "summary": "In the last few decades, research techniques have improved lossless compression ratios by significantly increasing processing time. However, these techniques have not gained popularity in industry because production systems require high throughput and low resource utilization.",
     "key_contribution": "Application-specific compressor systems outperform even the best generic compressors, but these techniques have severe drawbacks -- they are inherently limited in applicability, are hard to develop, and are difficult to maintain and deploy.",
     "why_it_matters": "OpenZL: Using Graphs to Compress Smaller and Faster improves how systems find and rank relevant information at scale.",
-    "content_hook": "A new paper that could change how we think about Databases.",
+    "content_hook": "A new paper that could change how we think about Information Retrieval.",
     "one_line_takeaway": "Application-specific compressor systems outperform even the best generic compressors, but these techniques have severe…",
     "biggest_caveat": "However, these techniques have not gained popularity in industry because production systems require high throughput and low resource utilization.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Databases.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Information Retrieval.",
     "url": "https://arxiv.org/abs/2605.09928",
     "difficulty": "intermediate"
   },
@@ -6284,8 +6284,8 @@
     "tags": [
       "Fine-Tuning",
       "Evaluation",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -6510,8 +6510,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "Reasoning & Chain-of-Thought",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -6654,8 +6654,8 @@
     "tags": [
       "Info Extraction",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -6707,9 +6707,9 @@
     "tags": [
       "RAG",
       "Continual Learning",
+      "NLP",
       "Information Retrieval",
-      "Artificial Intelligence",
-      "NLP"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -7627,8 +7627,8 @@
     "tags": [
       "GNNs",
       "RL",
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -8069,8 +8069,8 @@
     "topics": [],
     "tags": [
       "Interpretability",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -8847,8 +8847,8 @@
       "Fine-Tuning",
       "VLMs",
       "Machine Learning",
-      "Computer Vision",
-      "Distributed Computing"
+      "Distributed Computing",
+      "Computer Vision"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -9578,8 +9578,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Artificial Intelligence",
       "Machine Learning",
+      "Artificial Intelligence",
       "Multi-Agent Systems"
     ],
     "paper_type": "methods",
@@ -9828,9 +9828,9 @@
     "topics": [],
     "tags": [
       "Classification",
-      "Artificial Intelligence",
+      "Machine Learning",
       "Cryptography & Security",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -9963,8 +9963,8 @@
     "tags": [
       "Interpretability",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -10021,8 +10021,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -10037,10 +10037,10 @@
     "summary": "Modern computational advertising platforms typically rely on recommendation systems to predict user responses, such as click-through rates, conversion rates, and other optimization events. To support a wide variety of product surfaces and advertiser goals, these platforms frequently maintain an extensive ecosystem of machine learning (ML) models.",
     "key_contribution": "We present a large-scale empirical study comparing model performance, efficiency, and ML technique propagation between a standardized model-building approach and independent per-model optimization in recommendation systems.",
     "why_it_matters": "Design Once, Deploy at Scale: Template-Driven ML Development for Large Model Ecosystems represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We present a large-scale empirical study comparing model performance, efficiency, and ML technique propagation between…",
     "biggest_caveat": "However, operating at this scale creates significant development and efficiency challenges.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2603.24963",
     "difficulty": "advanced"
   },
@@ -10305,9 +10305,9 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
+      "Machine Learning",
       "Artificial Intelligence",
-      "Machine Learning"
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -10396,8 +10396,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -10412,10 +10412,10 @@
     "summary": "Training large neural networks with data-parallel stochastic gradient descent allocates N GPU replicas to compute effectively identical updates -- a practice that leaves the rich space of learning rate configurations entirely unexplored during training. We propose Hyperparameter-Divergent Ensemble Training (HDET), a method that repurposes these replicas for simultaneous learning rate exploration at negligible communication overhead.",
     "key_contribution": "We propose Hyperparameter-Divergent Ensemble Training (HDET), a method that repurposes these replicas for simultaneous learning rate exploration at negligible communication overhead.",
     "why_it_matters": "Scalable Hyperparameter-Divergent Ensemble Training with Automatic Learning Rate Exploration for Large Models represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We propose Hyperparameter-Divergent Ensemble Training (HDET), a method that repurposes these replicas for simultaneous…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Machine Learning.",
     "url": "http://arxiv.org/abs/2604.24708v1",
     "difficulty": "frontier"
   },
@@ -10774,8 +10774,8 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Transformer Architectures",
-      "Computer Vision"
+      "Computer Vision",
+      "Transformer Architectures"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -10789,7 +10789,7 @@
     "evidence_strength": 0.0,
     "summary": "Visual intelligence requires anticipating the future behavior of agents, yet vision systems lack a general representation for motion and behavior. We propose dense point trajectories as visual tokens for behavior, a structured mid-level representation that disentangles motion from appearance and generalizes across diverse non-rigid agents, such as animals in-the-wild.",
     "key_contribution": "We propose dense point trajectories as visual tokens for behavior, a structured mid-level representation that disentangles motion from appearance and generalizes across diverse non-rigid agents, such as animals in-the-wild.",
-    "why_it_matters": "Forecasting Motion in the Wild extends Transformer capabilities — the architecture underpinning virtually every modern NLP and vision model.",
+    "why_it_matters": "Forecasting Motion in the Wild advances machine perception, enabling better visual understanding in real-world applications.",
     "content_hook": "A new paper that could change how we think about Transformers.",
     "one_line_takeaway": "We propose dense point trajectories as visual tokens for behavior, a structured mid-level representation that…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -11692,8 +11692,8 @@
     "topics": [],
     "tags": [
       "Info Extraction",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -12449,8 +12449,8 @@
     "tags": [
       "Reasoning",
       "Transformers",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -12696,9 +12696,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Artificial Intelligence",
       "Distributed Computing",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -13026,8 +13026,8 @@
       "Reasoning",
       "RAG",
       "Evaluation",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -13156,49 +13156,6 @@
     "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in AI Safety.",
     "url": "http://arxiv.org/abs/2604.24763v1",
     "difficulty": "advanced"
-  },
-  {
-    "id": "arxiv:2606.13566v1",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "A Three-Layer Framework for AI in Scientific Discovery",
-    "abstract": "Current discussions of AI in scientific discovery are often dominated by two visible capabilities: search over existing knowledge and execution through optimization, simulation, and automation. Both are important, but neither fully captures the central act of discovery: the formation and evolution of models. This paper proposes a three-layer view of AI in discovery. Layer 1 is search and retrieval by large language models. Layer 2, as the main innovation of this paper, is model formation through qualitative reasoning: the capacity to recognize when a current framework is structurally inadequate and to understand the problem within a broader representational space, not through trial and error, but through structural insight into what is missing and where it can be found. Layer 3 is execution, optimization, and refinement. The main claim is that Layer 2 is both the most important and the least developed. Search without model formation remains confined to inherited frameworks, while execution without conceptual revision only amplifies an existing formulation. We illustrate Layer 2 reasoning through three case studies: S. S. Chern's intrinsic proof of the Gauss-Bonnet theorem, the resolution of the Nesterov Accelerated Gradient convergence problem via Lyapunov functions, and the autonomous disproof of the Erdos unit distance conjecture by OpenAI in 2026. Each case exhibits the same structural signature: a framework that had become inadequate, a missing conceptual object, and a resolution found in an unexpected neighboring field.",
-    "authors": [
-      "Guojun Liao"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-11",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "http://arxiv.org/abs/2606.13566v1",
-    "pdf_url": "https://arxiv.org/pdf/2606.13566v1",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Reasoning",
-      "Artificial Intelligence"
-    ],
-    "paper_type": "theory",
-    "difficulty_level": "L4",
-    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.2,
-    "read_first_score": 4.58,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.6,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Current discussions of AI in scientific discovery are often dominated by two visible capabilities: search over existing knowledge and execution through optimization, simulation, and automation. Both are important, but neither fully captures the central act of discovery: the formation and evolution of models.",
-    "key_contribution": "Current discussions of AI in scientific discovery are often dominated by two visible capabilities: search over existing knowledge and execution through optimization, simulation, and automation.",
-    "why_it_matters": "A Three-Layer Framework for AI in Scientific Discovery represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "Current discussions of AI in scientific discovery are often dominated by two visible capabilities: search over existing…",
-    "biggest_caveat": "but neither fully captures the central act of discovery: the formation and evolution of models.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in LLMs.",
-    "url": "http://arxiv.org/abs/2606.13566v1",
-    "difficulty": "frontier"
   },
   {
     "id": "arxiv:2607.07723",
@@ -13378,6 +13335,49 @@
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Reasoning.",
     "url": "https://arxiv.org/abs/2607.08497",
     "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2606.13566v1",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "A Three-Layer Framework for AI in Scientific Discovery",
+    "abstract": "Current discussions of AI in scientific discovery are often dominated by two visible capabilities: search over existing knowledge and execution through optimization, simulation, and automation. Both are important, but neither fully captures the central act of discovery: the formation and evolution of models. This paper proposes a three-layer view of AI in discovery. Layer 1 is search and retrieval by large language models. Layer 2, as the main innovation of this paper, is model formation through qualitative reasoning: the capacity to recognize when a current framework is structurally inadequate and to understand the problem within a broader representational space, not through trial and error, but through structural insight into what is missing and where it can be found. Layer 3 is execution, optimization, and refinement. The main claim is that Layer 2 is both the most important and the least developed. Search without model formation remains confined to inherited frameworks, while execution without conceptual revision only amplifies an existing formulation. We illustrate Layer 2 reasoning through three case studies: S. S. Chern's intrinsic proof of the Gauss-Bonnet theorem, the resolution of the Nesterov Accelerated Gradient convergence problem via Lyapunov functions, and the autonomous disproof of the Erdos unit distance conjecture by OpenAI in 2026. Each case exhibits the same structural signature: a framework that had become inadequate, a missing conceptual object, and a resolution found in an unexpected neighboring field.",
+    "authors": [
+      "Guojun Liao"
+    ],
+    "year": 2026,
+    "published_date": "2026-06-11",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "http://arxiv.org/abs/2606.13566v1",
+    "pdf_url": "https://arxiv.org/pdf/2606.13566v1",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Reasoning",
+      "Artificial Intelligence"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.2,
+    "read_first_score": 4.58,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.6,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Current discussions of AI in scientific discovery are often dominated by two visible capabilities: search over existing knowledge and execution through optimization, simulation, and automation. Both are important, but neither fully captures the central act of discovery: the formation and evolution of models.",
+    "key_contribution": "Current discussions of AI in scientific discovery are often dominated by two visible capabilities: search over existing knowledge and execution through optimization, simulation, and automation.",
+    "why_it_matters": "A Three-Layer Framework for AI in Scientific Discovery represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "Current discussions of AI in scientific discovery are often dominated by two visible capabilities: search over existing…",
+    "biggest_caveat": "but neither fully captures the central act of discovery: the formation and evolution of models.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in LLMs.",
+    "url": "http://arxiv.org/abs/2606.13566v1",
+    "difficulty": "frontier"
   },
   {
     "id": "arxiv:2512.20677",
@@ -13750,8 +13750,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Artificial Intelligence",
-      "Software Engineering"
+      "Software Engineering",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -13981,8 +13981,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -14025,8 +14025,8 @@
     "tags": [
       "Dialogue",
       "Code Generation",
-      "Software Engineering",
       "Human-Computer Interaction",
+      "Software Engineering",
       "Artificial Intelligence"
     ],
     "paper_type": "systems",
@@ -14070,9 +14070,9 @@
     "tags": [
       "LLMs",
       "Hallucination",
+      "Distributed Computing",
       "Software Engineering",
-      "Artificial Intelligence",
-      "Distributed Computing"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -14299,9 +14299,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
+      "NLP",
       "Reasoning & Chain-of-Thought",
-      "Artificial Intelligence",
-      "NLP"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -15006,9 +15006,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
+      "NLP",
       "Software Engineering",
-      "Artificial Intelligence",
-      "NLP"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -15236,8 +15236,8 @@
     "topics": [],
     "tags": [
       "Interpretability",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -15368,8 +15368,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -15416,8 +15416,8 @@
     "tags": [
       "LLMs",
       "MoE",
-      "Distributed Computing",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -15600,9 +15600,9 @@
     "tags": [
       "LLMs",
       "Dialogue",
+      "NLP",
       "Information Retrieval",
-      "Cryptography & Security",
-      "NLP"
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -15649,8 +15649,8 @@
     "tags": [
       "LLMs",
       "Model Compression",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -15737,9 +15737,9 @@
     "tags": [
       "Reasoning",
       "Biomedical AI",
+      "Biomedical & Clinical AI",
       "Reasoning & Chain-of-Thought",
-      "Artificial Intelligence",
-      "Biomedical & Clinical AI"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -15784,9 +15784,9 @@
     "tags": [
       "Dialogue",
       "Biomedical AI",
-      "Dialogue Systems",
       "Human-Computer Interaction",
-      "Biomedical & Clinical AI"
+      "Biomedical & Clinical AI",
+      "Dialogue Systems"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -15873,9 +15873,9 @@
     "tags": [
       "LLMs",
       "AI Agents",
+      "AI Agents & Tool Use",
       "Software Engineering",
-      "Large Language Models",
-      "AI Agents & Tool Use"
+      "Large Language Models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -15889,7 +15889,7 @@
     "evidence_strength": 0.0,
     "summary": "The rapid adoption of AI coding agents and AI assistant web services is fundamentally changing how developers discover, consume, and interact with technical documentation. This paper studies that transformation across three interconnected dimensions: documentation accessibility, content analytics, and feedback systems.",
     "key_contribution": "We present an empirical study of HTTP request fingerprints from nine AI coding agents (Aider, Antigravity, Claude Code, Cline, Cursor, Junie, OpenCode, VS Code, and Windsurf) and six AI assistant services (ChatGPT, Claude, Google Gemini, Google NotebookLM, MistralAI, and Perplexity) accessing a live developer documentation endpoint, revealing identifiable behavioral signatures in HTTP runtime environments, pre-fetch strategies, User-Agent strings, and header patterns.",
-    "why_it_matters": "Developer Experience with AI Coding Agents: HTTP Behavioral Signatures in Documentation Portals advances our understanding of large language models, which are reshaping how we build AI systems and interact with knowledge.",
+    "why_it_matters": "Developer Experience with AI Coding Agents: HTTP Behavioral Signatures in Documentation Portals moves AI from passive text generators to active problem-solvers that use tools and reason over time.",
     "content_hook": "A new paper that could change how we think about LLMs.",
     "one_line_takeaway": "We present an empirical study of HTTP request fingerprints from nine AI coding agents (Aider, Antigravity, Claude Code,…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -16303,9 +16303,9 @@
     "topics": [],
     "tags": [
       "AI Safety",
-      "AI Safety & Alignment",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "AI Safety & Alignment"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -16823,8 +16823,8 @@
       "LLMs",
       "Adversarial",
       "Machine Learning",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -17116,8 +17116,8 @@
     "tags": [
       "Object Detection",
       "RL",
-      "Neural Networks",
-      "Machine Learning"
+      "Machine Learning",
+      "Neural Networks"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -17464,8 +17464,8 @@
     "tags": [
       "Prompting",
       "Self-Supervised",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -17562,8 +17562,8 @@
       "LLMs",
       "RL",
       "Reinforcement Learning",
-      "Artificial Intelligence",
-      "Transformer Architectures"
+      "Transformer Architectures",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -17744,8 +17744,8 @@
       "LLMs",
       "AI Safety",
       "AI Agents",
-      "Artificial Intelligence",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -17835,8 +17835,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Distributed Computing",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Distributed Computing"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -17878,8 +17878,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -17894,10 +17894,10 @@
     "summary": "As AI systems move into operating systems, privacy no longer turns only on whether a model runs locally. A local assistant may assemble email, calendar entries, files, screenshots, notifications, and app intents; retain embeddings or summaries; invoke tools; emit telemetry; or route difficult requests to cloud infrastructure.",
     "key_contribution": "We demonstrate the rubric through a documentation-bounded comparison of Apple Intelligence/Foundation Models, Android AICore/Gemini Nano, and Microsoft Recall.",
     "why_it_matters": "Local Is Not a Sufficient Privacy Boundary: Governing OS-Integrated On-Device AI represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
     "one_line_takeaway": "We demonstrate the rubric through a documentation-bounded comparison of Apple Intelligence/Foundation Models, Android…",
     "biggest_caveat": "but it answers only one question: where computation occurs.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Cryptography & Security.",
     "url": "http://arxiv.org/abs/2606.10173v1",
     "difficulty": "intermediate"
   },
@@ -18018,8 +18018,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Artificial Intelligence",
       "Machine Learning",
+      "Artificial Intelligence",
       "NLP"
     ],
     "paper_type": "benchmark",
@@ -18158,8 +18158,8 @@
     "tags": [
       "Info Extraction",
       "Robotics",
-      "Artificial Intelligence",
-      "Information Extraction"
+      "Information Extraction",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -18251,8 +18251,8 @@
     "tags": [
       "Robotics",
       "Adversarial",
-      "Software Engineering",
-      "Systems & Control"
+      "Systems & Control",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -18365,6 +18365,46 @@
     "difficulty": "intermediate"
   },
   {
+    "id": "arxiv:2605.12844",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Walk on spheres and Array-RQMC",
+    "abstract": "We use Array-RQMC sampling in a walk on spheres (WoS) algorithm for Dirichlet boundary value problems. On a collection of problems, we find that Array-RQMC-WoS reduces the Monte Carlo MSE or variance by factors ranging from $71$-fold to $3087$-fold at $n=2^{17}$ trajectories. The variance is known to be $o(1/n)$ but attains empirical rates between $n^{-1.4}$ and $n^{-1.8}$ in our examples. A simpler RQMC-WoS algorithm studied in Ho and Owen (2026) has more theoretical support but only reduced variance by 1.8 to 10.7-fold on the same set of examples. In order to explain this improvement, we introduce a column-wise mean dimension of the RQMC error based on Sobol' indices. It matches the usual mean dimension for Monte Carlo and the mean dimension of a dual lattice error for randomized lattices. We find for a gasket example from Crane et al. (2025) that the mean dimension of Array-RQMC-WoS errors is much higher than an analogous Array-MC-WoS algorithm has.   v2 replaced v1's QMCPy lattice with Korobov lattices from LatNet Builder, but left the old abstract in the meta-data v3 corrects the v2 abstract in this meta data",
+    "authors": [
+      "Valerie N. P. Ho",
+      "Art B. Owen"
+    ],
+    "year": 2026,
+    "published_date": "2026-07-08",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2605.12844",
+    "pdf_url": "https://arxiv.org/pdf/2605.12844",
+    "citations": 0,
+    "topics": [],
+    "tags": [],
+    "paper_type": "dataset",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.13,
+    "read_first_score": 4.95,
+    "content_potential_score": 1.5,
+    "interestingness_score": 2.31,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We use Array-RQMC sampling in a walk on spheres (WoS) algorithm for Dirichlet boundary value problems. On a collection of problems, we find that Array-RQMC-WoS reduces the Monte Carlo MSE or variance by factors ranging from $71$-fold to $3087$-fold at $n=2^{17}$ trajectories.",
+    "key_contribution": "In order to explain this improvement, we introduce a column-wise mean dimension of the RQMC error based on Sobol' indices.",
+    "why_it_matters": "Walk on spheres and Array-RQMC represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about _default.",
+    "one_line_takeaway": "In order to explain this improvement, we introduce a column-wise mean dimension of the RQMC error based on Sobol'…",
+    "biggest_caveat": "but attains empirical rates between $n^{-1.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in this area.",
+    "url": "https://arxiv.org/abs/2605.12844",
+    "difficulty": "intermediate"
+  },
+  {
     "id": "arxiv:2502.18447",
     "source": "arxiv",
     "source_type": "preprint",
@@ -18410,46 +18450,6 @@
     "read_this_if": "Read this if you are a beginner and want to understand recent progress in Robotics.",
     "url": "https://arxiv.org/abs/2502.18447",
     "difficulty": "beginner"
-  },
-  {
-    "id": "arxiv:2605.12844",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Walk on spheres and Array-RQMC",
-    "abstract": "We use Array-RQMC sampling in a walk on spheres (WoS) algorithm for Dirichlet boundary value problems. On a collection of problems, we find that Array-RQMC-WoS reduces the Monte Carlo MSE or variance by factors ranging from $71$-fold to $3087$-fold at $n=2^{17}$ trajectories. The variance is known to be $o(1/n)$ but attains empirical rates between $n^{-1.4}$ and $n^{-1.8}$ in our examples. A simpler RQMC-WoS algorithm studied in Ho and Owen (2026) has more theoretical support but only reduced variance by 1.8 to 10.7-fold on the same set of examples. In order to explain this improvement, we introduce a column-wise mean dimension of the RQMC error based on Sobol' indices. It matches the usual mean dimension for Monte Carlo and the mean dimension of a dual lattice error for randomized lattices. We find for a gasket example from Crane et al. (2025) that the mean dimension of Array-RQMC-WoS errors is much higher than an analogous Array-MC-WoS algorithm has.   v2 replaced v1's QMCPy lattice with Korobov lattices from LatNet Builder, but left the old abstract in the meta-data v3 corrects the v2 abstract in this meta data",
-    "authors": [
-      "Valerie N. P. Ho",
-      "Art B. Owen"
-    ],
-    "year": 2026,
-    "published_date": "2026-07-08",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.12844",
-    "pdf_url": "https://arxiv.org/pdf/2605.12844",
-    "citations": 0,
-    "topics": [],
-    "tags": [],
-    "paper_type": "dataset",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.13,
-    "read_first_score": 4.95,
-    "content_potential_score": 1.5,
-    "interestingness_score": 2.31,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "We use Array-RQMC sampling in a walk on spheres (WoS) algorithm for Dirichlet boundary value problems. On a collection of problems, we find that Array-RQMC-WoS reduces the Monte Carlo MSE or variance by factors ranging from $71$-fold to $3087$-fold at $n=2^{17}$ trajectories.",
-    "key_contribution": "In order to explain this improvement, we introduce a column-wise mean dimension of the RQMC error based on Sobol' indices.",
-    "why_it_matters": "Walk on spheres and Array-RQMC represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about _default.",
-    "one_line_takeaway": "In order to explain this improvement, we introduce a column-wise mean dimension of the RQMC error based on Sobol'…",
-    "biggest_caveat": "but attains empirical rates between $n^{-1.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in this area.",
-    "url": "https://arxiv.org/abs/2605.12844",
-    "difficulty": "intermediate"
   },
   {
     "id": "arxiv:2606.20693",
@@ -18763,8 +18763,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -18779,10 +18779,10 @@
     "summary": "Deploying learned decision-making systems often requires transferring to new sites where the sensing pipeline differs. In such cases, observations can change in semantics and dimensionality even when action primitives and objectives remain comparable.",
     "key_contribution": "We propose Adaptive Modularized Model (AMM), a modular planning architecture that separates a domain-specific observation adapter from a shared internal dynamics model defined in a common planning state space.",
     "why_it_matters": "Planning Under Observation Mismatch for Traffic Signal Control via Adaptive Modular World Models represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We propose Adaptive Modularized Model (AMM), a modular planning architecture that separates a domain-specific…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2501.02548",
     "difficulty": "intermediate"
   },
@@ -18964,8 +18964,8 @@
       "Fine-Tuning",
       "Fairness & Ethics",
       "Evaluation",
-      "Artificial Intelligence",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -19060,8 +19060,8 @@
       "Info Extraction",
       "Interpretability",
       "Machine Learning",
-      "Information Extraction",
-      "Interpretability & Explainability"
+      "Interpretability & Explainability",
+      "Information Extraction"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -19753,9 +19753,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
+      "Machine Learning",
       "Cryptography & Security",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -19770,10 +19770,10 @@
     "summary": "File-type classification underlies many workflows like malware triage, forensic carving, packet inspection, and storage indexing. Learned systems such as Google's Magika assume whole-file access at a known offset, so they break on the inputs many of these tasks actually produce, like a single packet payload, a header-less carved fragment, a random disk block, or a chunked upload.",
     "key_contribution": "We introduce MimeLens, a family of small BERT-style encoders pretrained on binary content from windows sampled at a uniformly random offset within each file, with no privileged head-of-file position, in standard- and short-context variants.",
     "why_it_matters": "MimeLens: Position-Agnostic Content-Type Detection for Binary Fragments represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We introduce MimeLens, a family of small BERT-style encoders pretrained on binary content from windows sampled at a…",
     "biggest_caveat": "cannot: from a single mid-stream UDP packet, and more than twice as accurately as libmagic and Magika on random mid-file disk blocks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2606.04171",
     "difficulty": "intermediate"
   },
@@ -20142,8 +20142,8 @@
     "tags": [
       "Info Extraction",
       "Robotics",
-      "Information Extraction",
-      "Robotics & Embodied AI"
+      "Robotics & Embodied AI",
+      "Information Extraction"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -20332,8 +20332,8 @@
       "Transformers",
       "Interpretability",
       "Evaluation",
-      "Transformer Architectures",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Transformer Architectures"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -20518,8 +20518,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Software Engineering",
-      "Machine Learning"
+      "Machine Learning",
+      "Software Engineering"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -20700,8 +20700,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Artificial Intelligence",
       "Cryptography & Security",
+      "Artificial Intelligence",
       "Multi-Agent Systems"
     ],
     "paper_type": "methods",
@@ -21364,8 +21364,8 @@
     "topics": [],
     "tags": [
       "Biomedical AI",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -21549,9 +21549,9 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Cryptography & Security",
-      "NLP",
       "Natural Language Generation",
+      "NLP",
+      "Cryptography & Security",
       "Large Language Models"
     ],
     "paper_type": "methods",
@@ -21743,8 +21743,8 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -21979,8 +21979,8 @@
       "AI Agents",
       "Code Generation",
       "Code Generation & Synthesis",
-      "Artificial Intelligence",
-      "AI Agents & Tool Use"
+      "AI Agents & Tool Use",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -22768,9 +22768,9 @@
     "tags": [
       "Fine-Tuning",
       "Code Generation",
+      "Code Generation & Synthesis",
       "Fine-Tuning & PEFT",
-      "Cryptography & Security",
-      "Code Generation & Synthesis"
+      "Cryptography & Security"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -23147,8 +23147,8 @@
     "tags": [
       "GNNs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -23382,8 +23382,8 @@
       "LLMs",
       "Info Extraction",
       "Machine Learning",
-      "Information Retrieval",
-      "NLP"
+      "NLP",
+      "Information Retrieval"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -23571,8 +23571,8 @@
     "topics": [],
     "tags": [
       "Reasoning",
-      "Artificial Intelligence",
       "Machine Learning",
+      "Artificial Intelligence",
       "NLP"
     ],
     "paper_type": "methods",
@@ -24192,8 +24192,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -24279,8 +24279,8 @@
       "LLMs",
       "Reasoning",
       "Fine-Tuning",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -25697,8 +25697,8 @@
       "Biomedical AI",
       "Machine Learning",
       "Human-Computer Interaction",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -25795,8 +25795,8 @@
     "tags": [
       "LLMs",
       "Model Compression",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -25838,8 +25838,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
       "Computer Vision",
+      "Artificial Intelligence",
       "Neural Networks"
     ],
     "paper_type": "methods",
@@ -25855,10 +25855,10 @@
     "summary": "Spiking neural networks (SNNs) hold promise for demonstrating superior learning and representation capabilities in deep models. Given the tremendous success of ResNet in deep learning, it would naturally follow to train deep SNNs with residual learning.",
     "key_contribution": "However, existing residual structures for constructing deep SNNs still present challenges of spike redundancy or information loss, as well as redundant learning.",
     "why_it_matters": "XOResNet: Exclusive-OR Meta-Residuals Facilitate Deep Spiking Neural Networks Learning advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Computer Vision.",
     "one_line_takeaway": "However, existing residual structures for constructing deep SNNs still present challenges of spike redundancy or…",
     "biggest_caveat": "limitations of residual learning in SNNs, providing new architectural insights for building high-performance neuromorphic systems.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Computer Vision.",
     "url": "https://arxiv.org/abs/2605.30362",
     "difficulty": "advanced"
   },
@@ -26116,8 +26116,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distributed Computing",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -26132,10 +26132,10 @@
     "summary": "Confidential high-performance computing orchestrates workloads across federated domains, yet existing frameworks rely on high-overhead user-space library operating systems or assume single-host execution. We propose \\codename, an architecture federating Trusted Execution Environments via a split Trusted Computing Base (TCB) design.",
     "key_contribution": "We propose \\codename, an architecture federating Trusted Execution Environments via a split Trusted Computing Base (TCB) design.",
     "why_it_matters": "Enforcing Attestable Workflows across Untrusted Networks represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distributed Computing.",
+    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
     "one_line_takeaway": "We propose \\codename, an architecture federating Trusted Execution Environments via a split Trusted Computing Base…",
     "biggest_caveat": "buted pipelines, \\codename\\ incurs just a $6.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Distributed Computing.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Cryptography & Security.",
     "url": "https://arxiv.org/abs/2605.09297",
     "difficulty": "intermediate"
   },
@@ -26280,6 +26280,52 @@
     "difficulty": "beginner"
   },
   {
+    "id": "arxiv:2607.08756",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "MulTTiPop: A Multitrack Transcription Dataset for Pop Music",
+    "abstract": "We present MulTTiPop, a dataset of pop music segments and their associated multitrack MIDI recordings for the evaluation of automatic music transcription models. MulTTiPop contains 572 segments of popular music totaling 3.5 hours of audio, and contains songs from diverse genres and decades from the 1930s to 2000s. To collect this dataset, we perform metadata-based matching on song segments from the Lakh MIDI and TheoryTab datasets, manually identify an anchor beat between the audio and MIDI, then use beat tracking on the audio and warp the MIDI to match its tempo and timing. We evaluate state-of-the-art automatic music transcription models on MulTTiPop and find substantial room for improvement, with the best model achieving 38% Onset F1. More details and sound examples of MulTTiPop are available at https://gclef-cmu.org/multtipop.",
+    "authors": [
+      "Nathan Pruyne",
+      "Benjamin Stoler",
+      "William Chen",
+      "Chien-yu Huang",
+      "Shinji Watanabe",
+      "Chris Donahue"
+    ],
+    "year": 2026,
+    "published_date": "2026-07-09",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2607.08756",
+    "pdf_url": "https://arxiv.org/pdf/2607.08756",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Machine Learning"
+    ],
+    "paper_type": "dataset",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.0,
+    "read_first_score": 4.47,
+    "content_potential_score": 1.5,
+    "interestingness_score": 2.25,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We present MulTTiPop, a dataset of pop music segments and their associated multitrack MIDI recordings for the evaluation of automatic music transcription models. MulTTiPop contains 572 segments of popular music totaling 3.5 hours of audio, and contains songs from diverse genres and decades from the 1930s to 2000s.",
+    "key_contribution": "We present MulTTiPop, a dataset of pop music segments and their associated multitrack MIDI recordings for the evaluation of automatic music transcription models.",
+    "why_it_matters": "MulTTiPop: A Multitrack Transcription Dataset for Pop Music represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
+    "one_line_takeaway": "We present MulTTiPop, a dataset of pop music segments and their associated multitrack MIDI recordings for the…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
+    "url": "https://arxiv.org/abs/2607.08756",
+    "difficulty": "intermediate"
+  },
+  {
     "id": "arxiv:2311.10090",
     "source": "arxiv",
     "source_type": "preprint",
@@ -26321,8 +26367,8 @@
       "RL",
       "Evaluation",
       "Machine Learning",
-      "Artificial Intelligence",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -26597,8 +26643,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Computer Graphics",
-      "Computer Vision"
+      "Computer Vision",
+      "Computer Graphics"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -26613,10 +26659,10 @@
     "summary": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and expensive. We study how to select a small set of BRDF measurements that is most informative for reconstructing material appearance under a learned BRDF prior.",
     "key_contribution": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and expensive.",
     "why_it_matters": "Rendering-Aware Sparse Sampling for BRDF Acquisition advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Computer Graphics.",
+    "content_hook": "A new paper that could change how we think about Computer Vision.",
     "one_line_takeaway": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and…",
     "biggest_caveat": "but dense gonioreflectometer measurements are slow and expensive.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Graphics.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Vision.",
     "url": "https://arxiv.org/abs/2604.26740",
     "difficulty": "intermediate"
   },
@@ -26689,8 +26735,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Artificial Intelligence",
       "Machine Learning",
+      "Artificial Intelligence",
       "Information Retrieval"
     ],
     "paper_type": "benchmark",
@@ -26782,8 +26828,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Multi-Agent Systems",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Multi-Agent Systems"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -27352,8 +27398,8 @@
     "tags": [
       "Robotics",
       "Evaluation",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -27636,8 +27682,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Artificial Intelligence",
       "Software Engineering",
+      "Artificial Intelligence",
       "Large Language Models"
     ],
     "paper_type": "methods",
@@ -28498,10 +28544,10 @@
     "topics": [],
     "tags": [
       "Evaluation",
+      "Benchmarking & Evaluation",
       "Software Engineering",
       "Cryptography & Security",
-      "Artificial Intelligence",
-      "Benchmarking & Evaluation"
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -28814,8 +28860,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Cryptography & Security",
-      "Machine Learning"
+      "Machine Learning",
+      "Cryptography & Security"
     ],
     "paper_type": "empirical",
     "difficulty_level": "L2",
@@ -28952,8 +28998,8 @@
       "Reasoning",
       "AI Safety",
       "Machine Learning",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -29045,8 +29091,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -29464,8 +29510,8 @@
       "LLMs",
       "Federated Learning",
       "Evaluation",
-      "Software Engineering",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -30068,8 +30114,8 @@
     "tags": [
       "Fine-Tuning",
       "Robotics",
-      "Artificial Intelligence",
-      "Human-Computer Interaction"
+      "Human-Computer Interaction",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -30114,9 +30160,9 @@
     "tags": [
       "Reasoning",
       "Interpretability",
+      "Interpretability & Explainability",
       "Reasoning & Chain-of-Thought",
-      "Artificial Intelligence",
-      "Interpretability & Explainability"
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -30260,8 +30306,8 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
-      "Game Theory",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Game Theory"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -30307,8 +30353,8 @@
     "tags": [
       "LLMs",
       "AI Agents",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -30358,8 +30404,8 @@
     "tags": [
       "Transformers",
       "Evaluation",
-      "Systems & Control",
       "Computer Vision",
+      "Systems & Control",
       "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
@@ -30503,8 +30549,8 @@
     "tags": [
       "Dialogue",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -30646,9 +30692,9 @@
     "tags": [
       "LLMs",
       "RAG",
+      "Retrieval-Augmented Generation",
       "Software Engineering",
-      "Artificial Intelligence",
-      "Retrieval-Augmented Generation"
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -30693,8 +30739,8 @@
       "LLMs",
       "AI Agents",
       "Evaluation",
-      "Artificial Intelligence",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -30918,8 +30964,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Data Structures & Algorithms",
-      "NLP"
+      "NLP",
+      "Data Structures & Algorithms"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -30965,9 +31011,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Databases",
+      "Machine Learning",
       "Artificial Intelligence",
-      "Machine Learning"
+      "Databases"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -30982,10 +31028,10 @@
     "summary": "Unsupervised outlier detection is attractive because it eliminates the need for labeled data. Moreover, forming multi-model ensembles can improve detection robustness.",
     "key_contribution": "We propose MetaEns, an automatic unsupervised framework for selecting ensembles of outlier detection models.",
     "why_it_matters": "Automatic Unsupervised Ensemble Outlier Model Selection--Extended Version represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Databases.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We propose MetaEns, an automatic unsupervised framework for selecting ensembles of outlier detection models.",
     "biggest_caveat": "However, composing an ensemble without labeled data is challenging.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Databases.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2605.16567",
     "difficulty": "intermediate"
   },
@@ -31014,8 +31060,8 @@
     "tags": [
       "GNNs",
       "GNN",
-      "Graph Neural Networks",
-      "NLP"
+      "NLP",
+      "Graph Neural Networks"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -31064,8 +31110,8 @@
       "LLMs",
       "Reasoning",
       "Interpretability",
-      "Reasoning & Chain-of-Thought",
-      "Interpretability & Explainability"
+      "Interpretability & Explainability",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -31174,8 +31220,8 @@
     "tags": [
       "Fine-Tuning",
       "Fairness & Ethics",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -31475,8 +31521,8 @@
     "tags": [
       "Multimodal",
       "GNNs",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -31972,8 +32018,8 @@
       "LLMs",
       "AI Safety",
       "Fairness & Ethics",
-      "AI Safety & Alignment",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "AI Safety & Alignment"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -32342,8 +32388,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -32358,10 +32404,10 @@
     "summary": "Online Multiple Testing (OMT), a fundamental pillar of sequential statistical inference, traditionally evaluates the False Discovery Rate (FDR) and statistical power in isolation, obscuring the highly asymmetric costs of false positives and false negatives in modern automated pipelines. To unify this evaluation, we introduce $\\textit{Weighted Regret}$.",
     "key_contribution": "To unify this evaluation, we introduce $\\textit{Weighted Regret}$.",
     "why_it_matters": "A Regret Perspective on Online Multiple Testing represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "To unify this evaluation, we introduce $\\textit{Weighted Regret}$.",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2605.13916",
     "difficulty": "intermediate"
   },
@@ -32397,8 +32443,8 @@
       "3D Vision",
       "Self-Supervised",
       "Evaluation",
-      "Self-Supervised & Contrastive Learning",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -32771,9 +32817,9 @@
     "tags": [
       "Multimodal",
       "Model Compression",
-      "Model Compression & Efficiency",
       "Computer Vision",
-      "Multimodal Learning"
+      "Multimodal Learning",
+      "Model Compression & Efficiency"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -32787,7 +32833,7 @@
     "evidence_strength": 0.0,
     "summary": "Robust multimodal human sensing must overcome the critical challenge of missing modalities. Two principal barriers are the Representation Gap between heterogeneous data and the Contamination Effect from low-quality modalities.",
     "key_contribution": "In this paper, we propose PTA, a novel \"Purify-then-Align\" framework that solves this causal dependency through a synergistic integration of meta-learning and knowledge diffusion.",
-    "why_it_matters": "Purify-then-Align: Towards Robust Human Sensing under Modality Missing with Knowledge Distillation from Noisy Multimodal Teacher makes powerful models practical on resource-constrained devices and reduces deployment costs.",
+    "why_it_matters": "Purify-then-Align: Towards Robust Human Sensing under Modality Missing with Knowledge Distillation from Noisy Multimodal Teacher advances machine perception, enabling better visual understanding in real-world applications.",
     "content_hook": "A new paper that could change how we think about Multimodal.",
     "one_line_takeaway": "In this paper, we propose PTA, a novel \"Purify-then-Align\" framework that solves this causal dependency through a…",
     "biggest_caveat": "buting modalities.",
@@ -32820,8 +32866,8 @@
       "LLMs",
       "Fairness & Ethics",
       "Evaluation",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -33111,8 +33157,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Artificial Intelligence",
-      "Software Engineering"
+      "Software Engineering",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -33356,8 +33402,8 @@
     "tags": [
       "LLMs",
       "RL",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -33635,8 +33681,8 @@
     "tags": [
       "Transformers",
       "Adversarial",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -34418,8 +34464,8 @@
       "Reasoning",
       "RL",
       "Code Generation",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -34903,8 +34949,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -34919,10 +34965,10 @@
     "summary": "The best-arm identification (BAI) problem is one of the most fundamental problems in interactive machine learning, which has two flavors: the fixed-budget setting (FB) and the fixed-confidence setting (FC). For $K$-armed bandits with a unique best arm, the optimal sample complexities for both settings have been settled down, and they match up to logarithmic factors.",
     "key_contribution": "In this paper, we show that FB is no harder than FC up to logarithmic factors.",
     "why_it_matters": "Fixed Budget is No Harder Than Fixed Confidence in Best-Arm Identification up to Logarithmic Factors represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "In this paper, we show that FB is no harder than FC up to logarithmic factors.",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2602.03972",
     "difficulty": "intermediate"
   },
@@ -35327,6 +35373,92 @@
     "difficulty": "intermediate"
   },
   {
+    "id": "arxiv:2606.05403",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Trust, but Don't Verify: Epistemic Blind Spots in LLM Source Evaluation",
+    "abstract": "Language models increasingly act as epistemic proxies, synthesizing evidence from multiple sources to inform decisions. Whether they evaluate the quality of that evidence, or merely aggregate it based on surface presentation, remains poorly understood. We show that models possess the capability to detect fabricated statistics in isolation but do not recruit this capability during multi-source synthesis, producing similar numeric estimates whether the statistics are fabricated or valid. Specifically, source influence is governed by a methodology-register gate that responds to the distributional register of analytical text but not to numeric validity: for example, statistically impossible confidence intervals receive the same weight as valid ones. The behavioral dissociation replicates across six models from four families (Anthropic Claude, Qwen, OLMo, and OpenAI GPT-5.4) and three professional domains. Mechanistic analyses, including causal tracing, linear probes, and component-level attribution, converge on the same account: the model encodes and causally uses a methodology-register representation that transfers across domains, while numeric-validity signals, decodable in isolation, are suppressed to chance during multi-source synthesis. Prompting-based mitigations, even an oracle checklist naming the exact statistical checks, produce blanket skepticism rather than selective discernment, and the post-training pipelines we examine reinforce the shortcut without building numeric verification. Unlike sycophancy, which tracks user preference, this failure tracks whether a source presents as analytically credible, not whether its claims are consistent. We term this \\textit{epistemic alignment}: like preference and safety alignment, the question is not capability but deployment.",
+    "authors": [
+      "Rohan N. Pradhan",
+      "Steve Goley"
+    ],
+    "year": 2026,
+    "published_date": "2026-07-08",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2606.05403",
+    "pdf_url": "https://arxiv.org/pdf/2606.05403",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "AI Safety",
+      "Machine Learning",
+      "Artificial Intelligence"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L3",
+    "difficulty_reason": "Advanced topic (AI Safety) requiring graduate-level background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 4.6,
+    "content_potential_score": 1.55,
+    "interestingness_score": 2.23,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Language models increasingly act as epistemic proxies, synthesizing evidence from multiple sources to inform decisions. Whether they evaluate the quality of that evidence, or merely aggregate it based on surface presentation, remains poorly understood.",
+    "key_contribution": "We show that models possess the capability to detect fabricated statistics in isolation but do not recruit this capability during multi-source synthesis, producing similar numeric estimates whether the statistics are fabricated or valid.",
+    "why_it_matters": "Trust, but Don't Verify: Epistemic Blind Spots in LLM Source Evaluation represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "We show that models possess the capability to detect fabricated statistics in isolation but do not recruit this…",
+    "biggest_caveat": "but do not recruit this capability during multi-source synthesis, producing similar numeric estimates whether the statistics are fabricated or valid.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2606.05403",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "arxiv:2607.07207",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Memory Scarcity, Open Models, and the Restructuring of the AI Industry, 2026-2030 -- A quantitative scenario analysis of inference economics, training-cost divergence, and infrastructure solvency",
+    "abstract": "We analyze how four forces restructure the AI industry over 2026-2030: the DRAM/HBM price surge, frontier-capable open-weight models (GLM-5.2), rapid inference-efficiency gains (near-Shannon-limit KV-cache compression, lightweight local runtimes), and the entry of Meta and xAI into compute resale on fleets bought before the memory repricing. Formulating inference economics in dollars per petabyte of bandwidth delivered (\\$/PB) -- model-agnostic for bandwidth-bound decode -- we show the entrant-incumbent cost gap never closes: a depreciation conveyor delivers newly amortized fleets to incumbents faster than hardware prices normalize (3.2x in 2026, 1.9x in 2027, re-widening to 3-4x by 2029-30). Training bifurcates into a luxury tier (\\$18-38B per frontier run by 2030) and a mass tier (previous-frontier parity via RL/distillation falling toward \\$5M). Solvency of the announced buildout is confined to a corridor requiring roughly 2x annual token-demand growth for four years with sticky premium pricing; a measurement critique shows public token trackers overstate monetizable demand, and all pre-Q2-2026 projections predate the industry's shift from token maximization to token minimization. A vintage-breakeven analysis finds 2026 and 2028-29 capacity each fatally exposed to one pricing regime, with only the 2027 vintage robust. A greenfield custom-silicon entrant removes the merchant margin but not the memory premium (central outcome: 25% success/34% mediocre/41% loss, improvable via staged go/no-go gates). China's LineShine LX2 -- domestic HBM on a standard ISA -- decouples its cost curve from the memory crisis. Scenario probabilities: Rotating Landlord Oligopoly 25%, Commoditization Crash 25%, Jevons Absorption 20%, System-Layer Re-differentiation 18%, Geopolitical Bifurcation 12%. Solvency now depends on monetized bandwidth demand, premium stickiness, and vintage ownership.",
+    "authors": [
+      "Satoshi Matsuoka"
+    ],
+    "year": 2026,
+    "published_date": "2026-07-08",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2607.07207",
+    "pdf_url": "https://arxiv.org/pdf/2607.07207",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Artificial Intelligence"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 4.73,
+    "content_potential_score": 1.0,
+    "interestingness_score": 1.95,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We analyze how four forces restructure the AI industry over 2026-2030: the DRAM/HBM price surge, frontier-capable open-weight models (GLM-5.2), rapid inference-efficiency gains (near-Shannon-limit KV-cache compression, lightweight local runtimes), and the entry of Meta and xAI into compute resale on fleets bought before the memory repricing. Formulating inference economics in dollars per petabyte of bandwidth delivered (\\$/PB) -- model-agnostic for bandwidth-bound decode -- we show the entrant-incumbent cost gap never closes: a depreciation conveyor delivers newly amortized fleets to incumbents faster than hardware prices normalize (3.2x in 2026, 1.9x in 2027, re-widening to 3-4x by 2029-30).",
+    "key_contribution": "Formulating inference economics in dollars per petabyte of bandwidth delivered (\\$/PB) -- model-agnostic for bandwidth-bound decode -- we show the entrant-incumbent cost gap never closes: a depreciation conveyor delivers newly amortized fleets to incumbents faster than hardware prices normalize (3.2x in 2026, 1.9x in 2027, re-widening to 3-4x by 2029-30).",
+    "why_it_matters": "Memory Scarcity, Open Models, and the Restructuring of the AI Industry, 2026-2030 -- A quantitative scenario analysis of inference economics, training-cost divergence, and infrastructure solvency represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "one_line_takeaway": "Formulating inference economics in dollars per petabyte of bandwidth delivered (\\$/PB) -- model-agnostic for…",
+    "biggest_caveat": "but not the memory premium (central outcome: 25% success/34% mediocre/41% loss, improvable via staged go/no-go gates).",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
+    "url": "https://arxiv.org/abs/2607.07207",
+    "difficulty": "intermediate"
+  },
+  {
     "id": "arxiv:2607.05846",
     "source": "arxiv",
     "source_type": "preprint",
@@ -35353,8 +35485,8 @@
     "tags": [
       "Prompting",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -35417,92 +35549,6 @@
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Interpretability.",
     "url": "https://arxiv.org/abs/2607.06529",
-    "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2606.05403",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Trust, but Don't Verify: Epistemic Blind Spots in LLM Source Evaluation",
-    "abstract": "Language models increasingly act as epistemic proxies, synthesizing evidence from multiple sources to inform decisions. Whether they evaluate the quality of that evidence, or merely aggregate it based on surface presentation, remains poorly understood. We show that models possess the capability to detect fabricated statistics in isolation but do not recruit this capability during multi-source synthesis, producing similar numeric estimates whether the statistics are fabricated or valid. Specifically, source influence is governed by a methodology-register gate that responds to the distributional register of analytical text but not to numeric validity: for example, statistically impossible confidence intervals receive the same weight as valid ones. The behavioral dissociation replicates across six models from four families (Anthropic Claude, Qwen, OLMo, and OpenAI GPT-5.4) and three professional domains. Mechanistic analyses, including causal tracing, linear probes, and component-level attribution, converge on the same account: the model encodes and causally uses a methodology-register representation that transfers across domains, while numeric-validity signals, decodable in isolation, are suppressed to chance during multi-source synthesis. Prompting-based mitigations, even an oracle checklist naming the exact statistical checks, produce blanket skepticism rather than selective discernment, and the post-training pipelines we examine reinforce the shortcut without building numeric verification. Unlike sycophancy, which tracks user preference, this failure tracks whether a source presents as analytically credible, not whether its claims are consistent. We term this \\textit{epistemic alignment}: like preference and safety alignment, the question is not capability but deployment.",
-    "authors": [
-      "Rohan N. Pradhan",
-      "Steve Goley"
-    ],
-    "year": 2026,
-    "published_date": "2026-07-08",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2606.05403",
-    "pdf_url": "https://arxiv.org/pdf/2606.05403",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "AI Safety",
-      "Artificial Intelligence",
-      "Machine Learning"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Advanced topic (AI Safety) requiring graduate-level background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 4.6,
-    "content_potential_score": 1.55,
-    "interestingness_score": 2.23,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Language models increasingly act as epistemic proxies, synthesizing evidence from multiple sources to inform decisions. Whether they evaluate the quality of that evidence, or merely aggregate it based on surface presentation, remains poorly understood.",
-    "key_contribution": "We show that models possess the capability to detect fabricated statistics in isolation but do not recruit this capability during multi-source synthesis, producing similar numeric estimates whether the statistics are fabricated or valid.",
-    "why_it_matters": "Trust, but Don't Verify: Epistemic Blind Spots in LLM Source Evaluation represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "We show that models possess the capability to detect fabricated statistics in isolation but do not recruit this…",
-    "biggest_caveat": "but do not recruit this capability during multi-source synthesis, producing similar numeric estimates whether the statistics are fabricated or valid.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2606.05403",
-    "difficulty": "advanced"
-  },
-  {
-    "id": "arxiv:2607.07207",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Memory Scarcity, Open Models, and the Restructuring of the AI Industry, 2026-2030 -- A quantitative scenario analysis of inference economics, training-cost divergence, and infrastructure solvency",
-    "abstract": "We analyze how four forces restructure the AI industry over 2026-2030: the DRAM/HBM price surge, frontier-capable open-weight models (GLM-5.2), rapid inference-efficiency gains (near-Shannon-limit KV-cache compression, lightweight local runtimes), and the entry of Meta and xAI into compute resale on fleets bought before the memory repricing. Formulating inference economics in dollars per petabyte of bandwidth delivered (\\$/PB) -- model-agnostic for bandwidth-bound decode -- we show the entrant-incumbent cost gap never closes: a depreciation conveyor delivers newly amortized fleets to incumbents faster than hardware prices normalize (3.2x in 2026, 1.9x in 2027, re-widening to 3-4x by 2029-30). Training bifurcates into a luxury tier (\\$18-38B per frontier run by 2030) and a mass tier (previous-frontier parity via RL/distillation falling toward \\$5M). Solvency of the announced buildout is confined to a corridor requiring roughly 2x annual token-demand growth for four years with sticky premium pricing; a measurement critique shows public token trackers overstate monetizable demand, and all pre-Q2-2026 projections predate the industry's shift from token maximization to token minimization. A vintage-breakeven analysis finds 2026 and 2028-29 capacity each fatally exposed to one pricing regime, with only the 2027 vintage robust. A greenfield custom-silicon entrant removes the merchant margin but not the memory premium (central outcome: 25% success/34% mediocre/41% loss, improvable via staged go/no-go gates). China's LineShine LX2 -- domestic HBM on a standard ISA -- decouples its cost curve from the memory crisis. Scenario probabilities: Rotating Landlord Oligopoly 25%, Commoditization Crash 25%, Jevons Absorption 20%, System-Layer Re-differentiation 18%, Geopolitical Bifurcation 12%. Solvency now depends on monetized bandwidth demand, premium stickiness, and vintage ownership.",
-    "authors": [
-      "Satoshi Matsuoka"
-    ],
-    "year": 2026,
-    "published_date": "2026-07-08",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2607.07207",
-    "pdf_url": "https://arxiv.org/pdf/2607.07207",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Artificial Intelligence"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 4.73,
-    "content_potential_score": 1.0,
-    "interestingness_score": 1.95,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "We analyze how four forces restructure the AI industry over 2026-2030: the DRAM/HBM price surge, frontier-capable open-weight models (GLM-5.2), rapid inference-efficiency gains (near-Shannon-limit KV-cache compression, lightweight local runtimes), and the entry of Meta and xAI into compute resale on fleets bought before the memory repricing. Formulating inference economics in dollars per petabyte of bandwidth delivered (\\$/PB) -- model-agnostic for bandwidth-bound decode -- we show the entrant-incumbent cost gap never closes: a depreciation conveyor delivers newly amortized fleets to incumbents faster than hardware prices normalize (3.2x in 2026, 1.9x in 2027, re-widening to 3-4x by 2029-30).",
-    "key_contribution": "Formulating inference economics in dollars per petabyte of bandwidth delivered (\\$/PB) -- model-agnostic for bandwidth-bound decode -- we show the entrant-incumbent cost gap never closes: a depreciation conveyor delivers newly amortized fleets to incumbents faster than hardware prices normalize (3.2x in 2026, 1.9x in 2027, re-widening to 3-4x by 2029-30).",
-    "why_it_matters": "Memory Scarcity, Open Models, and the Restructuring of the AI Industry, 2026-2030 -- A quantitative scenario analysis of inference economics, training-cost divergence, and infrastructure solvency represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
-    "one_line_takeaway": "Formulating inference economics in dollars per petabyte of bandwidth delivered (\\$/PB) -- model-agnostic for…",
-    "biggest_caveat": "but not the memory premium (central outcome: 25% success/34% mediocre/41% loss, improvable via staged go/no-go gates).",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
-    "url": "https://arxiv.org/abs/2607.07207",
     "difficulty": "intermediate"
   },
   {
@@ -36140,8 +36186,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -36156,10 +36202,10 @@
     "summary": "If AI is a foundational general-purpose technology, we should anticipate that demand for AI compute -- and energy -- will continue to grow. The Sun is by far the largest energy source in our solar system, and thus it warrants consideration how future AI infrastructure could most efficiently tap into that power.",
     "key_contribution": "If AI is a foundational general-purpose technology, we should anticipate that demand for AI compute -- and energy -- will continue to grow.",
     "why_it_matters": "Towards a future space-based, highly scalable AI infrastructure system design represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distributed Computing.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "If AI is a foundational general-purpose technology, we should anticipate that demand for AI compute -- and energy --…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Distributed Computing.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2511.19468",
     "difficulty": "intermediate"
   },
@@ -36750,8 +36796,8 @@
       "MoE",
       "Model Compression",
       "Machine Learning",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -37120,8 +37166,8 @@
       "LLMs",
       "Reasoning",
       "AI Agents",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -37227,8 +37273,8 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -37320,8 +37366,8 @@
     "topics": [],
     "tags": [
       "AI Safety",
-      "AI Safety & Alignment",
-      "Computer Vision"
+      "Computer Vision",
+      "AI Safety & Alignment"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -37335,7 +37381,7 @@
     "evidence_strength": 0.0,
     "summary": "In medical image segmentation across multiple modalities (e.g., MRI, CT, etc.) and heterogeneous data sources (e.g., different hospitals and devices), Domain Generalization (DG) remains a critical challenge in AI-driven healthcare. This challenge primarily arises from domain shifts, imaging variations, and patient diversity, which often lead to degraded model performance in unseen domains.",
     "key_contribution": "We propose, for the first time, a cognitive-inspired Feynman-Guided Meta-Learning framework for medical image domain generalization segmentation (FGML-DG), which mimics human cognitive learning processes to enhance model learning and knowledge transfer.",
-    "why_it_matters": "FGML-DG: Feynman-Inspired Cognitive Science Paradigm for Cross-Domain Medical Image Segmentation advances the critical goal of making AI systems safer, more reliable, and aligned with human values.",
+    "why_it_matters": "FGML-DG: Feynman-Inspired Cognitive Science Paradigm for Cross-Domain Medical Image Segmentation advances machine perception, enabling better visual understanding in real-world applications.",
     "content_hook": "A new paper that could change how we think about AI Safety.",
     "one_line_takeaway": "We propose, for the first time, a cognitive-inspired Feynman-Guided Meta-Learning framework for medical image domain…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -37702,8 +37748,8 @@
     "topics": [],
     "tags": [
       "Info Extraction",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -37845,9 +37891,9 @@
     "topics": [],
     "tags": [
       "LLMs",
+      "Machine Learning",
       "Distributed Computing",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -38109,8 +38155,8 @@
     "topics": [],
     "tags": [
       "Interpretability",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -38154,8 +38200,8 @@
       "Fine-Tuning",
       "Fairness & Ethics",
       "Machine Learning",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -38580,9 +38626,9 @@
     "topics": [],
     "tags": [
       "Dialogue",
+      "Dialogue Systems",
       "Artificial Intelligence",
-      "Human-Computer Interaction",
-      "Dialogue Systems"
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -38673,9 +38719,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
       "Optimization",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -38690,10 +38736,10 @@
     "summary": "We analyze the last-iterate convergence of the Anchored Gradient Descent Ascent algorithm for smooth convex-concave min-max problems. While previous work established a last-iterate rate of $\\mathcal{O}(1/t^{2-2p})$ for the squared gradient norm, where $p \\in (1/2, 1)$, it remained an open problem whether the improved exact $\\mathcal{O}(1/t)$ rate is achievable.",
     "key_contribution": "We analyze the last-iterate convergence of the Anchored Gradient Descent Ascent algorithm for smooth convex-concave min-max problems.",
     "why_it_matters": "An Improved Last-Iterate Convergence Rate for Anchored Gradient Descent Ascent represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Optimization.",
     "one_line_takeaway": "We analyze the last-iterate convergence of the Anchored Gradient Descent Ascent algorithm for smooth convex-concave…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Optimization.",
     "url": "http://arxiv.org/abs/2604.03782v1",
     "difficulty": "frontier"
   },
@@ -39869,8 +39915,8 @@
       "Reasoning",
       "Hallucination",
       "Evaluation",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -40104,8 +40150,8 @@
     "tags": [
       "MoE",
       "Transformers",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -40511,8 +40557,8 @@
     "topics": [],
     "tags": [
       "Model Compression",
-      "Model Compression & Efficiency",
-      "Machine Learning"
+      "Machine Learning",
+      "Model Compression & Efficiency"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -40648,8 +40694,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Artificial Intelligence",
       "Benchmarking & Evaluation",
+      "Artificial Intelligence",
       "Neural Networks"
     ],
     "paper_type": "benchmark",
@@ -40863,6 +40909,49 @@
     "difficulty": "advanced"
   },
   {
+    "id": "arxiv:2603.29693",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Measuring the metacognition of AI",
+    "abstract": "A robust decision-making process must take into account uncertainty, especially when the choice involves inherent risks. Because artificial intelligence (AI) systems are increasingly integrated into decision-making workflows, managing uncertainty relies more and more on the metacognitive capabilities of these systems; i.e, their ability to assess the reliability of and regulate their own decisions. Hence, it is crucial to employ robust methods to measure the metacognitive abilities of AI. This paper is primarily a methodological contribution arguing for the adoption of the meta-d' framework as the gold standard for assessing the metacognitive sensitivity of AIs--the ability to generate confidence ratings that distinguish correct from incorrect responses. Moreover, we propose to leverage signal detection theory (SDT) to measure the ability of AIs to spontaneously regulate their decisions based on uncertainty and risk. To demonstrate the practical utility of these psychophysical frameworks, we conduct two series of experiments on three large language models (LLMs)--GPT-5, DeepSeek-V3.2-Exp, and Mistral-Medium-2508.",
+    "authors": [
+      "Richard Servajean",
+      "Philippe Servajean"
+    ],
+    "year": 2026,
+    "published_date": "2026-07-08",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2603.29693",
+    "pdf_url": "https://arxiv.org/pdf/2603.29693",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Artificial Intelligence"
+    ],
+    "paper_type": "methods",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.85,
+    "read_first_score": 4.79,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.43,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "A robust decision-making process must take into account uncertainty, especially when the choice involves inherent risks. Because artificial intelligence (AI) systems are increasingly integrated into decision-making workflows, managing uncertainty relies more and more on the metacognitive capabilities of these systems; i.e, their ability to assess the reliability of and regulate their own decisions.",
+    "key_contribution": "Moreover, we propose to leverage signal detection theory (SDT) to measure the ability of AIs to spontaneously regulate their decisions based on uncertainty and risk.",
+    "why_it_matters": "Measuring the metacognition of AI represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "Moreover, we propose to leverage signal detection theory (SDT) to measure the ability of AIs to spontaneously regulate…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2603.29693",
+    "difficulty": "intermediate"
+  },
+  {
     "id": "arxiv:2606.11032v1",
     "source": "arxiv",
     "source_type": "preprint",
@@ -40909,49 +40998,6 @@
     "biggest_caveat": "bution shifts, fundamentally restricting their robust clinical deployment.",
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Info Extraction.",
     "url": "http://arxiv.org/abs/2606.11032v1",
-    "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2603.29693",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Measuring the metacognition of AI",
-    "abstract": "A robust decision-making process must take into account uncertainty, especially when the choice involves inherent risks. Because artificial intelligence (AI) systems are increasingly integrated into decision-making workflows, managing uncertainty relies more and more on the metacognitive capabilities of these systems; i.e, their ability to assess the reliability of and regulate their own decisions. Hence, it is crucial to employ robust methods to measure the metacognitive abilities of AI. This paper is primarily a methodological contribution arguing for the adoption of the meta-d' framework as the gold standard for assessing the metacognitive sensitivity of AIs--the ability to generate confidence ratings that distinguish correct from incorrect responses. Moreover, we propose to leverage signal detection theory (SDT) to measure the ability of AIs to spontaneously regulate their decisions based on uncertainty and risk. To demonstrate the practical utility of these psychophysical frameworks, we conduct two series of experiments on three large language models (LLMs)--GPT-5, DeepSeek-V3.2-Exp, and Mistral-Medium-2508.",
-    "authors": [
-      "Richard Servajean",
-      "Philippe Servajean"
-    ],
-    "year": 2026,
-    "published_date": "2026-07-08",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2603.29693",
-    "pdf_url": "https://arxiv.org/pdf/2603.29693",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Artificial Intelligence"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.85,
-    "read_first_score": 4.79,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.43,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "A robust decision-making process must take into account uncertainty, especially when the choice involves inherent risks. Because artificial intelligence (AI) systems are increasingly integrated into decision-making workflows, managing uncertainty relies more and more on the metacognitive capabilities of these systems; i.e, their ability to assess the reliability of and regulate their own decisions.",
-    "key_contribution": "Moreover, we propose to leverage signal detection theory (SDT) to measure the ability of AIs to spontaneously regulate their decisions based on uncertainty and risk.",
-    "why_it_matters": "Measuring the metacognition of AI represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "Moreover, we propose to leverage signal detection theory (SDT) to measure the ability of AIs to spontaneously regulate…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2603.29693",
     "difficulty": "intermediate"
   },
   {
@@ -41069,9 +41115,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Computer Graphics",
       "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Graphics"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -41086,10 +41132,10 @@
     "summary": "Complex-valued Gaussian primitives have recently been explored for representing holographic radiance fields in 3D novel view synthesis. In this work, we extend this line of research to the hologram optimization domain and propose a structured representation based on complex-valued 2D Gaussian primitives.",
     "key_contribution": "Complex-valued Gaussian primitives have recently been explored for representing holographic radiance fields in 3D novel view synthesis.",
     "why_it_matters": "Complex-Valued 2D Gaussian Representation for Computer-Generated Holography advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Computer Graphics.",
+    "content_hook": "A new paper that could change how we think about Computer Vision.",
     "one_line_takeaway": "Complex-valued Gaussian primitives have recently been explored for representing holographic radiance fields in 3D novel…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Graphics.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Vision.",
     "url": "https://arxiv.org/abs/2511.15022",
     "difficulty": "intermediate"
   },
@@ -41208,8 +41254,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -41224,10 +41270,10 @@
     "summary": "Sample reweighting is a major approach to addressing distribution shifts, such as label noise and class imbalance. Meta-Weight-Net (MW-Net) is a promising sample reweighting network that computes weights based on classification loss.",
     "key_contribution": "In this study, we introduce neural architecture search to MW-Net to mitigate such performance degradation.",
     "why_it_matters": "Neural Architecture Search of Sample Reweighting Networks for Complex Distribution Shift represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "In this study, we introduce neural architecture search to MW-Net to mitigate such performance degradation.",
     "biggest_caveat": "bution shifts, such as label noise and class imbalance.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2606.22991",
     "difficulty": "frontier"
   },
@@ -41256,8 +41302,8 @@
       "Dialogue",
       "Federated Learning",
       "Machine Learning",
-      "Multimedia",
-      "NLP"
+      "NLP",
+      "Multimedia"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -41580,8 +41626,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -41596,10 +41642,10 @@
     "summary": "Joint Embedding Predictive Architectures (JEPAs) offer a compelling framework for learning world models in compact latent spaces, yet existing methods remain fragile, relying on complex multi-term losses, exponential moving averages, pre-trained encoders, or auxiliary supervision to avoid representation collapse. In this work, we introduce LeWorldModel (LeWM), the first JEPA that trains stably end-to-end from raw pixels using only two loss terms: a next-embedding prediction loss and a regularizer enforcing Gaussian-distributed latent embeddings.",
     "key_contribution": "In this work, we introduce LeWorldModel (LeWM), the first JEPA that trains stably end-to-end from raw pixels using only two loss terms: a next-embedding prediction loss and a regularizer enforcing Gaussian-distributed latent embeddings.",
     "why_it_matters": "LeWorldModel: Stable End-to-End Joint-Embedding Predictive Architecture from Pixels represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "In this work, we introduce LeWorldModel (LeWM), the first JEPA that trains stably end-to-end from raw pixels using only…",
     "biggest_caveat": "buted latent embeddings.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2603.19312",
     "difficulty": "advanced"
   },
@@ -41629,8 +41675,8 @@
     "topics": [],
     "tags": [
       "Reasoning",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -41677,8 +41723,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -41693,10 +41739,10 @@
     "summary": "Software upgrades are critical to maintaining server reliability in datacenters. While job duration prediction and scheduling have been extensively studied, the unique challenges posed by software upgrades remain largely under-explored.",
     "key_contribution": "To address this problem, we introduce Acela, a cost-aware duration prediction framework designed to improve upgrade scheduling efficiency and throughput while meeting service-level objectives (SLOs).",
     "why_it_matters": "Cost-aware Duration Prediction for Software Upgrades in Datacenters represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distributed Computing.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "To address this problem, we introduce Acela, a cost-aware duration prediction framework designed to improve upgrade…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Distributed Computing.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2212.05155",
     "difficulty": "intermediate"
   },
@@ -41872,8 +41918,8 @@
     "tags": [
       "Biomedical AI",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -42151,8 +42197,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -42167,10 +42213,10 @@
     "summary": "Networked AI systems increasingly rely on multiple agents that collaboratively learn and adapt models over communication networks. In such systems, bilevel formulations naturally arise in hyperparameter optimization, data cleaning, and meta-learning, but the repeated evaluation of gradients, Jacobians, and Hessians can impose a substantial computational burden on individual agents.",
     "key_contribution": "To address this challenge, we propose Snapshot-SLDBO (S$^3$LDBO), an efficient single-loop decentralized bilevel optimization algorithm that enables agents to intermittently skip expensive derivative evaluations through a snapshot mechanism.",
     "why_it_matters": "S$^3$LDBO: A Snapshot Single-Loop Algorithm for Decentralized Bilevel Optimization represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distributed Computing.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "To address this challenge, we propose Snapshot-SLDBO (S$^3$LDBO), an efficient single-loop decentralized bilevel…",
     "biggest_caveat": "but the repeated evaluation of gradients, Jacobians, and Hessians can impose a substantial computational burden on individual agents.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Distributed Computing.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2605.31311",
     "difficulty": "advanced"
   },
@@ -43059,8 +43105,8 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -43302,8 +43348,8 @@
     "topics": [],
     "tags": [
       "Info Extraction",
-      "Distributed Computing",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -43592,9 +43638,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Artificial Intelligence",
       "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -43739,8 +43785,8 @@
       "LLMs",
       "Multimodal",
       "Info Extraction",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -43841,8 +43887,8 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Transformer Architectures",
-      "Computer Vision"
+      "Computer Vision",
+      "Transformer Architectures"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -43856,7 +43902,7 @@
     "evidence_strength": 0.0,
     "summary": "We present Free-Range Gaussians, a multi-view reconstruction method that predicts non-pixel, non-voxel-aligned 3D Gaussians from as few as four images. This is done through flow matching over Gaussian parameters.",
     "key_contribution": "We present Free-Range Gaussians, a multi-view reconstruction method that predicts non-pixel, non-voxel-aligned 3D Gaussians from as few as four images.",
-    "why_it_matters": "Free-Range Gaussians: Non-Grid-Aligned Generative 3D Gaussian Reconstruction extends Transformer capabilities — the architecture underpinning virtually every modern NLP and vision model.",
+    "why_it_matters": "Free-Range Gaussians: Non-Grid-Aligned Generative 3D Gaussian Reconstruction advances machine perception, enabling better visual understanding in real-world applications.",
     "content_hook": "A new paper that could change how we think about Transformers.",
     "one_line_takeaway": "We present Free-Range Gaussians, a multi-view reconstruction method that predicts non-pixel, non-voxel-aligned 3D…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -44271,8 +44317,8 @@
     "tags": [
       "LLMs",
       "Info Extraction",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -44611,9 +44657,9 @@
     "tags": [
       "Hallucination",
       "Evaluation",
+      "Benchmarking & Evaluation",
       "Factuality & Hallucination",
-      "Cryptography & Security",
-      "Benchmarking & Evaluation"
+      "Cryptography & Security"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -44706,8 +44752,8 @@
     "tags": [
       "SSMs",
       "Multimodal",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -45031,8 +45077,8 @@
     "topics": [],
     "tags": [
       "Self-Supervised",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -45595,8 +45641,8 @@
     "topics": [],
     "tags": [
       "Prompting",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -46141,8 +46187,8 @@
     "tags": [
       "Federated Learning",
       "Self-Supervised",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -46345,9 +46391,9 @@
     "tags": [
       "Model Compression",
       "Evaluation",
-      "Model Compression & Efficiency",
+      "Benchmarking & Evaluation",
       "Information Retrieval",
-      "Benchmarking & Evaluation"
+      "Model Compression & Efficiency"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -46361,7 +46407,7 @@
     "evidence_strength": 0.0,
     "summary": "Generative Recommendation (GR) has gained traction for its merits of superior performance and cold-start capability. As the vital role in GR, Semantic Identifiers (SIDs) represent item semantics through discrete tokens.",
     "key_contribution": "To address these challenges, we propose Reference Vector-Guided Rating Residual Quantization VAE (R3-VAE).",
-    "why_it_matters": "R3-VAE: Reference Vector-Guided Rating Residual Quantization VAE for Generative Recommendation makes powerful models practical on resource-constrained devices and reduces deployment costs.",
+    "why_it_matters": "R3-VAE: Reference Vector-Guided Rating Residual Quantization VAE for Generative Recommendation improves how systems find and rank relevant information at scale.",
     "content_hook": "A new paper that could change how we think about Model Compression.",
     "one_line_takeaway": "To address these challenges, we propose Reference Vector-Guided Rating Residual Quantization VAE (R3-VAE).",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -46441,8 +46487,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "NLP",
-      "Software Engineering"
+      "Software Engineering",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -46485,9 +46531,9 @@
     "tags": [
       "LLMs",
       "AI Agents",
+      "AI Agents & Tool Use",
       "Software Engineering",
-      "Large Language Models",
-      "AI Agents & Tool Use"
+      "Large Language Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -46501,7 +46547,7 @@
     "evidence_strength": 0.0,
     "summary": "Existing LLM agent frameworks lack formal semantics: there is no principled way to determine whether an agent configuration is well-formed or will terminate. We present $λ_A$, a typed lambda calculus for agent composition that extends the simply-typed lambda calculus with oracle calls, bounded fixpoints (the ReAct loop), probabilistic choice, and mutable environments.",
     "key_contribution": "We present $λ_A$, a typed lambda calculus for agent composition that extends the simply-typed lambda calculus with oracle calls, bounded fixpoints (the ReAct loop), probabilistic choice, and mutable environments.",
-    "why_it_matters": "$λ_A$: A Typed Lambda Calculus for LLM Agent Composition advances our understanding of large language models, which are reshaping how we build AI systems and interact with knowledge.",
+    "why_it_matters": "$λ_A$: A Typed Lambda Calculus for LLM Agent Composition moves AI from passive text generators to active problem-solvers that use tools and reason over time.",
     "content_hook": "A new paper that could change how we think about LLMs.",
     "one_line_takeaway": "We present $λ_A$, a typed lambda calculus for agent composition that extends the simply-typed lambda calculus with…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -46588,8 +46634,8 @@
       "AI Safety",
       "Code Generation",
       "Code Generation & Synthesis",
-      "AI Safety & Alignment",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "AI Safety & Alignment"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -46631,8 +46677,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Machine Learning"
+      "Machine Learning",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -46775,8 +46821,8 @@
     "tags": [
       "Prompting",
       "Transformers",
-      "Systems & Control",
-      "Machine Learning"
+      "Machine Learning",
+      "Systems & Control"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -47017,8 +47063,8 @@
       "LLMs",
       "Evaluation",
       "Machine Learning",
-      "Artificial Intelligence",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -47247,9 +47293,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
       "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -47264,10 +47310,10 @@
     "summary": "Variable fonts enable continuous variation of glyph geometry along semantic design axes such as weight, width, slant, and optical size. However, constructing a variable font from a static font remains a labor-intensive process requiring expert typographic design and manual specification of glyph variation data.",
     "key_contribution": "We introduce NIV (Neural Axis Variations), a method that automatically converts a static font into a fully functional variable font.",
     "why_it_matters": "NIV: Neural Axis Variations for Variable Font Generation advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Computer Vision.",
     "one_line_takeaway": "We introduce NIV (Neural Axis Variations), a method that automatically converts a static font into a fully functional…",
     "biggest_caveat": "bution handwriting inputs.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Vision.",
     "url": "https://arxiv.org/abs/2606.05261",
     "difficulty": "intermediate"
   },
@@ -47777,9 +47823,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
+      "Machine Learning",
       "Cryptography & Security",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -47794,10 +47840,10 @@
     "summary": "Machine learning-based supervised classifiers are widely used for security tasks, and their improvement has been largely focused on algorithmic advancements. We argue that data challenges that negatively impact the performance of these classifiers have received limited attention.",
     "key_contribution": "We propose augmenting training datasets with synthetic data generated using GenAI techniques to improve classifier generalization.",
     "why_it_matters": "Taming Data Challenges in ML-based Security Tasks Using Generative AI represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We propose augmenting training datasets with synthetic data generated using GenAI techniques to improve classifier…",
     "biggest_caveat": "butions, and sparse feature vectors, which hinder performance boost using GenAI.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2507.06092",
     "difficulty": "intermediate"
   },
@@ -47874,8 +47920,8 @@
       "Info Extraction",
       "Code Generation",
       "Evaluation",
-      "Artificial Intelligence",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -48024,8 +48070,8 @@
       "Prompting",
       "Fine-Tuning",
       "Evaluation",
-      "Prompting & In-Context Learning",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -48542,8 +48588,8 @@
     "tags": [
       "LLMs",
       "NLP",
-      "Artificial Intelligence",
       "Transformer Architectures",
+      "Artificial Intelligence",
       "Large Language Models"
     ],
     "paper_type": "methods",
@@ -48707,46 +48753,5 @@
     "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Fine-Tuning.",
     "url": "https://arxiv.org/abs/2605.08786",
     "difficulty": "frontier"
-  },
-  {
-    "id": "arxiv:2605.29290",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "SWORD: Spectral Wasserstein Online Regime Detection in Dynamic Networks",
-    "abstract": "Online change point detection in dynamic graphs requires comparing graphs as they arrive, in time linear in the number of edges, without parametric assumptions. Recent spectral methods address scale via the Kernel Polynomial Method (KPM): SCPD computes Chebyshev moments of the normalized Laplacian, discretizes them into a density-of-states histogram, and scores the histogram with SVD plus cosine similarity. We introduce SWORD, which computes the same moments and instead compares their mean across two adjacent time windows by their $L_1$ distance. On three real-world benchmarks (MIT Reality, AskUbuntu, Enron), this lifts mean $F_1$ from SCPD's $0.27$ to $0.79$, with SCPD failing to detect any change on Enron. A controlled cascading ablation attributes the gap to two design choices: the two-window mean structure (dominant on MIT) and the $L_1$ metric on those mean vectors (dominant on Enron). A bin-width sweep rules out histogram discretization -- SCPD's most visible architectural choice -- as the driver. SWORD inherits SCPD's KPM core, so per-graph cost is $O(KRm)$ with no eigendecomposition, scaling to $86{,}000$-node networks. With per-dataset tuning it matches the offline TIRE autoencoder on mean $F_1$ and attains the highest precision among online methods ($0.91$, only $2$ false positives across the three benchmarks).",
-    "authors": [
-      "Izhar Ali"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-28",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.29290",
-    "pdf_url": "https://arxiv.org/pdf/2605.29290",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Evaluation"
-    ],
-    "paper_type": "dataset",
-    "difficulty_level": "L1",
-    "difficulty_reason": "Applied NLP/ML topic (Evaluation) with no advanced math.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.82,
-    "read_first_score": 5.62,
-    "content_potential_score": 1.5,
-    "interestingness_score": 2.16,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Online change point detection in dynamic graphs requires comparing graphs as they arrive, in time linear in the number of edges, without parametric assumptions. Recent spectral methods address scale via the Kernel Polynomial Method (KPM): SCPD computes Chebyshev moments of the normalized Laplacian, discretizes them into a density-of-states histogram, and scores the histogram with SVD plus cosine similarity.",
-    "key_contribution": "We introduce SWORD, which computes the same moments and instead compares their mean across two adjacent time windows by their $L_1$ distance.",
-    "why_it_matters": "SWORD: Spectral Wasserstein Online Regime Detection in Dynamic Networks represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Evaluation.",
-    "one_line_takeaway": "We introduce SWORD, which computes the same moments and instead compares their mean across two adjacent time windows by…",
-    "biggest_caveat": "butes the gap to two design choices: the two-window mean structure (dominant on MIT) and the $L_1$ metric on those mean vectors (dominant on Enron).",
-    "read_this_if": "Read this if you are a beginner and want to understand recent progress in Evaluation.",
-    "url": "https://arxiv.org/abs/2605.29290",
-    "difficulty": "beginner"
   }
 ]
