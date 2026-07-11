@@ -740,17 +740,18 @@
     svg.append(edgeLayer, nodeLayer);
 
     const nodeById = new Map(graph.nodes.map((node) => [node.id, node]));
+    const edgeById = new Map(graph.edges.map((edge) => [edge.id, edge]));
+    const connectedByNode = new Map(graph.nodes.map((node) => [node.id, new Set([node.id])]));
+    graph.edges.forEach((edge) => {
+      connectedByNode.get(edge.source)?.add(edge.target);
+      connectedByNode.get(edge.target)?.add(edge.source);
+    });
     const elementsByNode = new Map();
     const elementsByEdge = new Map();
     let selectedId = '';
 
     function connectedIds(id) {
-      const ids = new Set([id]);
-      graph.edges.forEach((edge) => {
-        if (edge.source === id) ids.add(edge.target);
-        if (edge.target === id) ids.add(edge.source);
-      });
-      return ids;
+      return connectedByNode.get(id) || new Set([id]);
     }
 
     function applyHighlight(id) {
@@ -761,7 +762,7 @@
         el.classList.toggle('is-neighbor', Boolean(connected && connected.has(nodeId) && selectedId !== nodeId));
       });
       elementsByEdge.forEach((el, edgeId) => {
-        const edge = graph.edges.find((item) => item.id === edgeId);
+        const edge = edgeById.get(edgeId);
         const active = connected && edge && connected.has(edge.source) && connected.has(edge.target);
         el.classList.toggle('is-dimmed', Boolean(connected && !active));
         el.classList.toggle('is-selected', selectedId === edgeId);

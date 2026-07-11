@@ -74,6 +74,11 @@ body > .rs-field-shader {
   opacity: 0.36;
 }
 
+html[data-rs-theme="field-notes"] .topic-accordion {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 5rem;
+}
+
 .rs-rail { display: none; }
 
 ::selection { background: var(--rs-yellow); color: var(--rs-ink); }

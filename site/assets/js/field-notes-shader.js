@@ -60,7 +60,15 @@ async function mountShader() {
       u_worldHeight: 0,
     };
 
-    shaderState.mount = new ShaderMount(container, meshGradientFragmentShader, uniforms, undefined, 0.06, 0, 1, 1920 * 1080 * 1.25);
+    const contextAttributes = {
+      alpha: true,
+      antialias: false,
+      depth: false,
+      stencil: false,
+      premultipliedAlpha: true,
+      preserveDrawingBuffer: false,
+    };
+    shaderState.mount = new ShaderMount(container, meshGradientFragmentShader, uniforms, contextAttributes, 0.06, 0, 1, 1920 * 1080 * 1.25);
   } catch (error) {
     container.dataset.shaderFallback = 'true';
     console.warn('Field Notes shader fallback:', error.message);
