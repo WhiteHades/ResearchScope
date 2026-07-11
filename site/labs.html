@@ -6,7 +6,7 @@
   <title>Labs & Universities – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-1"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-5"/>
 </head>
 <body>
 <nav class="rs-nav">
@@ -71,24 +71,24 @@
   <p class="text-sm mb-6" style="color:var(--rs-muted)">Research organizations ranked by output, momentum, and A* venue count.</p>
 
   <!-- Tab buttons -->
-  <div class="flex gap-2 mb-6">
-    <button id="tab-labs" class="pager-btn active" onclick="switchTab('labs')"> Labs &amp; Industry</button>
-    <button id="tab-unis" class="pager-btn" onclick="switchTab('unis')"> Universities</button>
+  <div class="flex gap-2 mb-6" role="tablist" aria-label="Organization type">
+    <button id="tab-labs" class="pager-btn active" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-content-labs" onclick="switchTab('labs')"> Labs &amp; Industry</button>
+    <button id="tab-unis" class="pager-btn" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-content-unis" onclick="switchTab('unis')"> Universities</button>
   </div>
 
-  <div id="tab-content-labs">
+  <div id="tab-content-labs" role="tabpanel" aria-labelledby="tab-labs">
     <div class="rs-card p-4 mb-4">
       <input id="search-labs" class="rs-input" type="text" placeholder="Search labs…"/>
     </div>
-    <p id="lab-count" class="text-xs mb-4" style="color:var(--rs-muted)"></p>
+    <p id="lab-count" class="text-xs mb-4" style="color:var(--rs-muted)" role="status" aria-live="polite"></p>
     <div id="labs-grid"><div class="spinner"></div></div>
   </div>
 
-  <div id="tab-content-unis" style="display:none">
+  <div id="tab-content-unis" role="tabpanel" aria-labelledby="tab-unis" hidden>
     <div class="rs-card p-4 mb-4">
       <input id="search-unis" class="rs-input" type="text" placeholder="Search universities…"/>
     </div>
-    <p id="uni-count" class="text-xs mb-4" style="color:var(--rs-muted)"></p>
+    <p id="uni-count" class="text-xs mb-4" style="color:var(--rs-muted)" role="status" aria-live="polite"></p>
     <div id="unis-grid"><div class="spinner"></div></div>
   </div>
 </div>
@@ -108,17 +108,30 @@
     &middot; MIT License &copy; 2026 Md Kishor Morol
   </p>
 </footer>
-<script src="assets/js/app.js?v=ui-integrity-1"></script>
+<script src="assets/js/app.js?v=ui-integrity-5"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
 let allLabs = [], allUnis = [];
 
 function switchTab(which) {
-  document.getElementById('tab-content-labs').style.display = which==='labs' ? '' : 'none';
-  document.getElementById('tab-content-unis').style.display = which==='unis' ? '' : 'none';
-  document.getElementById('tab-labs').classList.toggle('active', which==='labs');
-  document.getElementById('tab-unis').classList.toggle('active', which==='unis');
+  const labsActive = which === 'labs';
+  document.getElementById('tab-content-labs').hidden = !labsActive;
+  document.getElementById('tab-content-unis').hidden = labsActive;
+  document.getElementById('tab-labs').classList.toggle('active', labsActive);
+  document.getElementById('tab-unis').classList.toggle('active', !labsActive);
+  document.getElementById('tab-labs').setAttribute('aria-selected', String(labsActive));
+  document.getElementById('tab-unis').setAttribute('aria-selected', String(!labsActive));
+  document.getElementById('tab-labs').tabIndex = labsActive ? 0 : -1;
+  document.getElementById('tab-unis').tabIndex = labsActive ? -1 : 0;
 }
+
+document.querySelector('[role="tablist"]').addEventListener('keydown', event => {
+  if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+  event.preventDefault();
+  const next = event.key === 'ArrowLeft' || event.key === 'Home' ? document.getElementById('tab-labs') : document.getElementById('tab-unis');
+  switchTab(next.id === 'tab-labs' ? 'labs' : 'unis');
+  next.focus();
+});
 
 function labCard(l) {
   const momentum = +l.momentum_score || 0;
@@ -177,7 +190,7 @@ function filterAndRender(items, query, gridId, countId, cardFn) {
   const filtered = items.filter(x => !q || (x.name||'').toLowerCase().includes(q));
   document.getElementById(countId).textContent = `${filtered.length} entries`;
   document.getElementById(gridId).innerHTML = filtered.length
-    ? `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">${filtered.slice(0,30).map(cardFn).join('')}</div>`
+    ? `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">${filtered.map(cardFn).join('')}</div>`
     : '<div class="empty-state"><p>No results.</p></div>';
 }
 

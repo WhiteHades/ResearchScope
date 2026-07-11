@@ -6,7 +6,7 @@
   <title>Upcoming Conferences – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-1"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-5"/>
   <style>
     .deadline-card { border-radius:10px; border:1px solid var(--rs-border); background:var(--rs-bone); transition:box-shadow .15s, border-color .15s; }
     .deadline-card:hover { box-shadow:var(--rs-shadow); border-color:var(--rs-coral); }
@@ -105,17 +105,17 @@
   </div>
 
   <!-- Filters -->
-  <div class="flex flex-wrap gap-2 mb-4" id="area-filters">
-    <button class="area-chip active" data-area="all">All</button>
-    <button class="area-chip" data-area="NLP">NLP</button>
-    <button class="area-chip" data-area="ML">ML</button>
-    <button class="area-chip" data-area="CV">CV</button>
-    <button class="area-chip" data-area="AI">AI</button>
-    <button class="area-chip" data-area="HCI">HCI</button>
-    <button class="area-chip" data-area="SE">SE</button>
-    <button class="area-chip" data-area="DM">Data Mining</button>
-    <button class="area-chip" data-area="IR">IR</button>
-    <button class="area-chip" data-area="DB">DB</button>
+  <div class="flex flex-wrap gap-2 mb-4" id="area-filters" role="group" aria-label="Filter deadlines by research area">
+    <button class="area-chip active" data-area="all" aria-pressed="true">All</button>
+    <button class="area-chip" data-area="NLP" aria-pressed="false">NLP</button>
+    <button class="area-chip" data-area="ML" aria-pressed="false">ML</button>
+    <button class="area-chip" data-area="CV" aria-pressed="false">CV</button>
+    <button class="area-chip" data-area="AI" aria-pressed="false">AI</button>
+    <button class="area-chip" data-area="HCI" aria-pressed="false">HCI</button>
+    <button class="area-chip" data-area="SE" aria-pressed="false">SE</button>
+    <button class="area-chip" data-area="DM" aria-pressed="false">Data Mining</button>
+    <button class="area-chip" data-area="IR" aria-pressed="false">IR</button>
+    <button class="area-chip" data-area="DB" aria-pressed="false">DB</button>
   </div>
   <div class="flex items-center gap-3 mb-6">
     <label class="flex items-center gap-2 text-sm cursor-pointer">
@@ -144,7 +144,7 @@
   </p>
 </footer>
 
-<script src="assets/js/app.js?v=ui-integrity-1"></script>
+<script src="assets/js/app.js?v=ui-integrity-5"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
 // ── Deadline data ─────────────────────────────────────────────────────────────
@@ -399,6 +399,7 @@ function fmtConfDates(start, end) {
 // ── Render ────────────────────────────────────────────────────────────────────
 let activeArea    = 'all';
 let showPassed    = false;
+let countdownTimer = null;
 
 function enriched(d) {
   const paperDate    = parseDate(d.paper_deadline);
@@ -485,7 +486,8 @@ function render() {
   const enriched_all = DEADLINES.map(enriched);
 
   // Next upcoming deadline (any paper or abstract, in the future)
-  const upcoming = enriched_all
+  const areaDeadlines = activeArea === 'all' ? enriched_all : enriched_all.filter(d => d.area === activeArea);
+  const upcoming = areaDeadlines
     .filter(d => d.primaryDays !== null && d.primaryDays >= 0)
     .sort((a,b) => a.primaryDays - b.primaryDays);
 
@@ -500,8 +502,11 @@ function render() {
     );
     // Live countdown
     updateBannerCountdown(next);
-    setInterval(() => updateBannerCountdown(next), 60000);
+    clearInterval(countdownTimer);
+    countdownTimer = setInterval(() => updateBannerCountdown(next), 60000);
   } else {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
     banner.classList.add('hidden');
   }
 
@@ -545,8 +550,9 @@ function updateBannerCountdown(d) {
 document.getElementById('area-filters').addEventListener('click', e => {
   const btn = e.target.closest('.area-chip');
   if (!btn) return;
-  document.querySelectorAll('.area-chip').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.area-chip').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
   btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
   activeArea = btn.dataset.area;
   render();
 });

@@ -6,7 +6,7 @@
   <title>My Favourites – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-1"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-5"/>
   <style>
     .note-area {
       width: 100%; min-height: 4rem; resize: vertical;
@@ -141,7 +141,7 @@
   <p> ResearchScope &middot; <a href="./" style="color:var(--rs-primary)">Home</a></p>
 </footer>
 
-<script src="assets/js/app.js?v=ui-integrity-1"></script>
+<script src="assets/js/app.js?v=ui-integrity-5"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
 let _favData = [];
@@ -167,7 +167,8 @@ function renderFavs(favs) {
       `<span class="badge badge-tag" style="font-size:.62rem">${escHtml(t)}</span>`).join(' ');
     const scoreHtml = p.paper_score
       ? `<span class="badge badge-score" style="font-size:.62rem">${(+p.paper_score).toFixed(1)}</span>` : '';
-    const hasNote = fav.notes && fav.notes.trim();
+    const hasNote = Boolean(fav.notes?.trim());
+    _noteQueuedValues[fav.paper_id] = fav.notes || '';
 
     return `
     <div class="rs-card p-4" id="fav-${escHtml(fav.paper_id)}">
@@ -185,12 +186,13 @@ function renderFavs(favs) {
         <div class="flex flex-col items-end gap-1.5 shrink-0">
           <button onclick="removeFav('${escHtml(fav.paper_id)}')" title="Remove from favourites"
             class="text-xs px-2 py-1 rounded border transition-colors hover:bg-red-50 hover:border-red-300 hover:text-red-600"
-            style="border-color:var(--rs-border);color:var(--rs-muted)"></button>
+            style="border-color:var(--rs-border);color:var(--rs-muted)">Remove</button>
           <button onclick="toggleNote('${escHtml(fav.paper_id)}')"
             class="text-xs px-2 py-1 rounded border transition-colors"
             style="border-color:var(--rs-border);color:${hasNote ? 'var(--rs-primary)' : 'var(--rs-muted)'}"
-            title="${hasNote ? 'Edit note' : 'Add note'}" id="note-btn-${escHtml(fav.paper_id)}">
-            ${hasNote ? '' : '+ note'}
+            title="${hasNote ? 'Edit note' : 'Add note'}" id="note-btn-${escHtml(fav.paper_id)}"
+            aria-expanded="${String(hasNote)}" aria-controls="note-wrap-${escHtml(fav.paper_id)}">
+            ${hasNote ? 'Edit note' : 'Add note'}
           </button>
         </div>
       </div>
@@ -200,12 +202,13 @@ function renderFavs(favs) {
         <textarea
           class="note-area"
           id="note-${escHtml(fav.paper_id)}"
-          placeholder="Your private notes about this paper…"
-          oninput="scheduleNoteSave('${escHtml(fav.paper_id)}')"
-        >${escHtml(fav.notes || '')}</textarea>
+           placeholder="Your private notes about this paper…"
+           oninput="scheduleNoteSave('${escHtml(fav.paper_id)}')"
+           onblur="saveNote('${escHtml(fav.paper_id)}')"
+         >${escHtml(fav.notes || '')}</textarea>
         <div class="flex items-center justify-between mt-1">
           <span class="text-xs" style="color:var(--rs-muted)">Private · only visible to you</span>
-          <span class="note-saved hidden" id="note-saved-${escHtml(fav.paper_id)}"> Saved</span>
+          <span class="note-saved hidden" id="note-saved-${escHtml(fav.paper_id)}" role="status" aria-live="polite">Saved</span>
         </div>
       </div>
     </div>`;
@@ -215,6 +218,8 @@ function renderFavs(favs) {
 // ── Note editing ──────────────────────────────────────────────────────────────
 
 const _noteTimers = {};
+const _noteSaveQueues = {};
+const _noteQueuedValues = {};
 
 function toggleNote(paperId) {
   const wrap = document.getElementById(`note-wrap-${paperId}`);
@@ -222,6 +227,7 @@ function toggleNote(paperId) {
   if (!wrap) return;
   const isHidden = wrap.classList.contains('hidden');
   wrap.classList.toggle('hidden', !isHidden);
+  btn?.setAttribute('aria-expanded', String(isHidden));
   if (isHidden) document.getElementById(`note-${paperId}`)?.focus();
 }
 
@@ -230,25 +236,32 @@ function scheduleNoteSave(paperId) {
   _noteTimers[paperId] = setTimeout(() => saveNote(paperId), 900);
 }
 
-async function saveNote(paperId) {
+function saveNote(paperId) {
+  clearTimeout(_noteTimers[paperId]);
+  delete _noteTimers[paperId];
   const ta = document.getElementById(`note-${paperId}`);
   if (!ta) return;
   const notes = ta.value;
-  try {
-    await window._rs_api.favourites.updateNotes(paperId, notes || null);
-    const savedEl = document.getElementById(`note-saved-${paperId}`);
-    const btn = document.getElementById(`note-btn-${paperId}`);
-    if (savedEl) {
-      savedEl.classList.remove('hidden');
-      setTimeout(() => savedEl.classList.add('hidden'), 2000);
+  if (_noteQueuedValues[paperId] === notes) return _noteSaveQueues[paperId];
+  _noteQueuedValues[paperId] = notes;
+  _noteSaveQueues[paperId] = (_noteSaveQueues[paperId] || Promise.resolve()).then(async () => {
+    try {
+      await window._rs_api.favourites.updateNotes(paperId, notes || null);
+      const savedEl = document.getElementById(`note-saved-${paperId}`);
+      const btn = document.getElementById(`note-btn-${paperId}`);
+      if (_noteQueuedValues[paperId] === notes && savedEl) {
+        savedEl.classList.remove('hidden');
+        setTimeout(() => savedEl.classList.add('hidden'), 2000);
+      }
+      if (btn) btn.textContent = notes.trim() ? 'Edit note' : 'Add note';
+      const fav = _favData.find(f => f.paper_id === paperId);
+      if (fav) fav.notes = notes;
+    } catch (e) {
+      if (_noteQueuedValues[paperId] === notes) delete _noteQueuedValues[paperId];
+      console.warn('Note save failed:', e.message);
     }
-    if (btn) btn.textContent = notes.trim() ? '' : '+ note';
-    // Update local cache
-    const fav = _favData.find(f => f.paper_id === paperId);
-    if (fav) fav.notes = notes;
-  } catch (e) {
-    console.warn('Note save failed:', e.message);
-  }
+  });
+  return _noteSaveQueues[paperId];
 }
 
 // ── Remove favourite ──────────────────────────────────────────────────────────

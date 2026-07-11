@@ -6,7 +6,7 @@
   <title>Search – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-1"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-5"/>
 </head>
 <body>
 
@@ -90,7 +90,7 @@
       placeholder="Search papers, authors, topics…"/>
   </div>
 
-  <div id="search-status" class="text-sm mb-4" style="color:var(--rs-muted)"></div>
+  <div id="search-status" class="text-sm mb-4" style="color:var(--rs-muted)" role="status" aria-live="polite"></div>
 
   <!-- Results sections -->
   <div id="results-papers" class="mb-8 hidden">
@@ -140,7 +140,7 @@
   </p>
 </footer>
 
-<script src="assets/js/app.js?v=ui-integrity-1"></script>
+<script src="assets/js/app.js?v=ui-integrity-5"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
 (async () => {
@@ -186,7 +186,7 @@
           <span class="font-medium">${escHtml(t.name)}</span>
           <span class="text-xs ml-2" style="color:var(--rs-muted)">${t.paper_ids?.length || 0} papers</span>
         </div>
-        <a href="topics.html#${escHtml(t.id)}" class="text-xs font-medium hover:underline" style="color:var(--rs-primary)">View →</a>
+        <a href="topics.html#topic-${escHtml(t.id)}" class="text-xs font-medium hover:underline" style="color:var(--rs-primary)">View →</a>
       </div>`).join('');
 
     status.textContent = total
@@ -194,19 +194,12 @@
       : '';
   }
 
-  // Pre-fill from URL param
-  const params = new URLSearchParams(window.location.search);
-  const q = params.get('q') || '';
-  if (q) {
-    input.value = q;
-    const data = await loadSearchData();
-    renderResults(await runSearch(q, data, 20), q);
-  }
-
   // Live search on the page
   let debounce;
+  let requestId = 0;
   input.addEventListener('input', () => {
     clearTimeout(debounce);
+    const currentRequest = ++requestId;
     const query = input.value.trim();
     if (!query) {
       show('results-idle', true);
@@ -219,11 +212,24 @@
     }
     debounce = setTimeout(async () => {
       const data = await loadSearchData();
-      renderResults(await runSearch(query, data, 20), query);
+      const results = await runSearch(query, data, 20);
+      if (currentRequest !== requestId || input.value.trim() !== query) return;
+      renderResults(results, query);
       // Update URL without navigation
       history.replaceState(null, '', `?q=${encodeURIComponent(query)}`);
     }, 200);
   });
+
+  // Pre-fill from URL param without overwriting edits made while data loads.
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q') || '';
+  if (q) {
+    input.value = q;
+    const initialRequest = ++requestId;
+    const data = await loadSearchData();
+    const results = await runSearch(q, data, 20);
+    if (initialRequest === requestId && input.value.trim() === q) renderResults(results, q);
+  }
 
   input.focus();
 })();

@@ -50,6 +50,14 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+function toggleDisclosure(button, targetId) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  const opening = target.classList.contains('hidden');
+  target.classList.toggle('hidden', !opening);
+  button?.setAttribute('aria-expanded', String(opening));
+}
+
 function truncate(str, max = 120) {
   if (!str) return '';
   return str.length > max ? str.slice(0, max) + '…' : str;
@@ -639,10 +647,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // drive the open/close animation.
     mobileMenu.classList.add('t-panel');
     if (iconOpen && iconClose) {
+      mobileBtn.classList.add('t-icon-swap');
       iconClose.classList.remove('hidden');
       iconClose.classList.add('is-leaving');
-      iconOpen.classList.add('t-icon-swap-svg');
-      iconClose.classList.add('t-icon-swap-svg');
     }
 
     let menuClosingTimer = null;
@@ -654,7 +661,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const into = showingClose ? iconClose : iconOpen;
       out.classList.add('is-leaving');
       into.classList.remove('is-leaving');
-      setTimeout(() => out.classList.remove('is-leaving'), 220);
     };
 
     mobileBtn.setAttribute('aria-controls', mobileMenu.id);
@@ -910,7 +916,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('rs-theme-switcher-script')) return;
   const script = document.createElement('script');
   script.id = 'rs-theme-switcher-script';
-  script.src = 'assets/js/theme-switcher.js?v=ui-integrity-1';
+  script.src = 'assets/js/theme-switcher.js?v=ui-integrity-5';
   script.defer = true;
   document.head.appendChild(script);
 })();

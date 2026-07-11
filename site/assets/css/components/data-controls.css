@@ -64,6 +64,10 @@
   background: var(--rs-paper-warm);
   cursor: pointer;
 }
+.rs-table-detail-btn:focus-visible {
+  outline: 3px solid var(--rs-coral);
+  outline-offset: 2px;
+}
 .rs-table-title-link {
   color: var(--rs-ink);
   transition: color 0.18s ease;

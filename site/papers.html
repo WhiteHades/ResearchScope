@@ -6,8 +6,8 @@
   <title>Papers – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-1"/>
-  <link rel="stylesheet" href="assets/css/library.css?v=ui-integrity-1"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-5"/>
+  <link rel="stylesheet" href="assets/css/library.css?v=ui-integrity-5"/>
 </head>
 <body>
 
@@ -80,7 +80,7 @@
         <a href="journals.html"    style="color:var(--rs-muted)" class="ml-2 hover:underline"> Q1 Journals</a>
       </p>
       <p class="text-sm mb-4" style="color:var(--rs-muted)">Top 1,000 preprints from arXiv — scored by contribution depth, novelty, and citation velocity. Click any row to expand.
-        <button onclick="document.getElementById('scoring-explainer').classList.toggle('hidden')"
+        <button onclick="toggleDisclosure(this,'scoring-explainer')" aria-expanded="false" aria-controls="scoring-explainer"
           class="ml-2 text-xs font-semibold underline" style="color:var(--rs-primary)">How scoring works ↓</button>
       </p>
     </div>
@@ -140,7 +140,7 @@
     </div>
   </div>
 
-  <p id="result-count" class="text-xs mb-3" style="color:var(--rs-muted)"></p>
+  <p id="result-count" class="text-xs mb-3" style="color:var(--rs-muted)" role="status" aria-live="polite"></p>
 
   <!-- Table -->
   <div class="rs-card overflow-hidden">
@@ -181,7 +181,7 @@
   </p>
 </footer>
 
-<script src="assets/js/app.js?v=ui-integrity-1"></script>
+<script src="assets/js/app.js?v=ui-integrity-5"></script>
 <script src="assets/js/library.js"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
@@ -255,12 +255,13 @@ function renderRows(papers, startIdx = 0) {
     const libBtn    = paperId ? libraryApi.renderLibraryButton(paperId, { inLibrary }) : '';
     const tags      = normalizeTags(p.tags);
     return `
-    <tr class="cursor-pointer" onclick="toggleDetail(${idx})">
+    <tr class="cursor-pointer" onclick="if(!event.target.closest('a,button'))toggleDetail(${idx})">
       <td>
         <a href="${escHtml(url)}" target="_blank" rel="noopener"
            class="font-medium rs-table-title-link"
            onclick="event.stopPropagation()">${escHtml(p.title)}</a>
-        <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${escHtml(authors)}${escHtml(more)}</div>
+         <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${escHtml(authors)}${escHtml(more)}</div>
+         <button id="paper-detail-btn-${idx}" type="button" class="rs-table-detail-btn text-xs mt-1 underline" style="color:var(--rs-primary)" aria-expanded="false" aria-controls="detail-${idx}" onclick="event.stopPropagation();toggleDetail(${idx})">Details</button>
       </td>
       <td class="hidden md:table-cell text-xs" style="color:var(--rs-muted)">
         ${escHtml(p.venue||'')} ${p.year||''}
@@ -277,7 +278,7 @@ function renderRows(papers, startIdx = 0) {
       </td>
       <td class="library-cell">${libBtn}</td>
     </tr>
-    <tr class="detail-row" id="detail-${idx}">
+    <tr class="detail-row" id="detail-${idx}" aria-labelledby="paper-detail-btn-${idx}">
       <td colspan="7">
         <div class="grid md:grid-cols-2 gap-6">
           <div>
@@ -316,7 +317,10 @@ function renderRows(papers, startIdx = 0) {
 
 function toggleDetail(i) {
   const row = document.getElementById(`detail-${i}`);
-  if (row) row.classList.toggle('open');
+  if (row) {
+    const open = row.classList.toggle('open');
+    document.getElementById(`paper-detail-btn-${i}`)?.setAttribute('aria-expanded', String(open));
+  }
 }
 
 // ── Load from Railway API ─────────────────────────────────────────────────────
@@ -405,8 +409,8 @@ const debouncedFilter = debounce(applyFilters, 300);
     if (inp) inp.value = urlQ;
   }
 
-  // Initial load
-  await loadAndRender();
+  // Initial load uses the visible control state, including a global-search query.
+  applyFilters();
 })();
 
 window.addEventListener('storage', event => {

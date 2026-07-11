@@ -14,7 +14,7 @@
   <meta name="twitter:description" content="Top CS/AI papers of the week, grouped by topic. Curated automatically from 50,000+ papers."/>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-1"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-5"/>
 </head>
 <body>
 
@@ -132,7 +132,7 @@
   </p>
 </footer>
 
-<script src="assets/js/app.js?v=ui-integrity-1"></script>
+<script src="assets/js/app.js?v=ui-integrity-5"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
 // Topic group icons
@@ -298,9 +298,11 @@ function weekRange(anchor) {
 function toggleDigestSection(id) {
   const body = document.getElementById('digest-body-' + id);
   const arrow = document.getElementById('digest-arrow-' + id);
+  const trigger = document.getElementById('digest-trigger-' + id);
   if (!body) return;
-  const open = body.classList.toggle('hidden');
-  arrow.textContent = open ? '▶' : '▼';
+  const hidden = body.classList.toggle('hidden');
+  arrow.textContent = hidden ? '▶' : '▼';
+  trigger?.setAttribute('aria-expanded', String(!hidden));
 }
 
 function render(papers, topics, filter) {
@@ -320,14 +322,14 @@ function render(papers, topics, filter) {
 
     html += `
     <div class="digest-section" data-topic="${escHtml(topicName)}">
-      <div class="digest-section-title" onclick="toggleDigestSection(${id})" style="cursor:pointer;user-select:none">
+      <button id="digest-trigger-${id}" type="button" class="digest-section-title" aria-expanded="${String(!collapsed)}" aria-controls="digest-body-${id}" onclick="toggleDigestSection(${id})" style="user-select:none">
         <span>${digestTopicLabel(topicName)}</span>
         <span class="flex items-center gap-2">
           <span class="text-xs font-normal" style="color:var(--rs-muted)">${topicPapers.length} paper${topicPapers.length !== 1 ? 's' : ''}</span>
           <span id="digest-arrow-${id}" class="text-xs" style="color:var(--rs-muted)">${collapsed ? '▶' : '▼'}</span>
         </span>
-      </div>
-      <div id="digest-body-${id}" class="flex flex-col gap-3${collapsed ? ' hidden' : ''}">
+      </button>
+      <div id="digest-body-${id}" class="flex flex-col gap-3${collapsed ? ' hidden' : ''}" role="region" aria-labelledby="digest-trigger-${id}">
         ${topicPapers.map(renderDigestPaperCard).join('')}
       </div>
     </div>`;
@@ -346,16 +348,19 @@ function buildFilters(topics) {
   const available = digestTopics;
 
   const el = document.getElementById('digest-filters');
-  el.innerHTML = `<button class="area-chip active" data-f="all"><span class="digest-topic-token digest-topic-token--all"><span class="digest-topic-token__mark" aria-hidden="true"></span><span>All</span></span></button>` +
+  el.setAttribute('role', 'group');
+  el.setAttribute('aria-label', 'Filter digest by topic');
+  el.innerHTML = `<button class="area-chip active" data-f="all" aria-pressed="true"><span class="digest-topic-token digest-topic-token--all"><span class="digest-topic-token__mark" aria-hidden="true"></span><span>All</span></span></button>` +
     available.slice(0, 12).map(name =>
-      `<button class="area-chip" data-f="${escHtml(name)}">${digestTopicLabel(name, true)}</button>`
+      `<button class="area-chip" data-f="${escHtml(name)}" aria-pressed="false">${digestTopicLabel(name, true)}</button>`
     ).join('');
 
   el.addEventListener('click', e => {
     const btn = e.target.closest('[data-f]');
     if (!btn) return;
-    el.querySelectorAll('[data-f]').forEach(b => b.classList.remove('active'));
+    el.querySelectorAll('[data-f]').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
     btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
     activeFilter = btn.dataset.f;
     render(allPapers, allTopics, activeFilter);
   });

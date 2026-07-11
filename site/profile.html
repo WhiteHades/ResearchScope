@@ -6,7 +6,7 @@
   <title>Profile – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-1"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-5"/>
 </head>
 <body>
 <nav class="rs-nav">
@@ -117,13 +117,13 @@
     <!-- Edit name -->
     <div class="rs-card p-5">
       <h2 class="font-bold text-sm mb-3">Display name</h2>
-      <div class="flex gap-2">
+      <form class="flex gap-2" onsubmit="event.preventDefault();saveName()">
         <input id="name-input" class="rs-input" type="text" placeholder="Your name (optional)" autocomplete="name"/>
-        <button id="name-save-btn" onclick="saveName()"
+        <button id="name-save-btn" type="submit"
           class="px-4 py-2 rounded-lg text-sm font-semibold text-white shrink-0"
           style="background:var(--rs-primary)">Save</button>
-      </div>
-      <p id="name-status" class="text-xs mt-2 hidden"></p>
+      </form>
+      <p id="name-status" class="text-xs mt-2 hidden" role="status" aria-live="polite"></p>
     </div>
 
     <!-- Quick links -->
@@ -161,7 +161,7 @@
   </div>
 </main>
 
-<script src="assets/js/app.js?v=ui-integrity-1"></script>
+<script src="assets/js/app.js?v=ui-integrity-5"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
 (async () => {

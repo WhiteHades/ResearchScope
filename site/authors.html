@@ -6,7 +6,7 @@
   <title>Authors – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-1"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-5"/>
 </head>
 <body>
 <nav class="rs-nav">
@@ -82,7 +82,7 @@
     </div>
   </div>
 
-  <p id="author-count" class="text-xs mb-4" style="color:var(--rs-muted)"></p>
+  <p id="author-count" class="text-xs mb-4" style="color:var(--rs-muted)" role="status" aria-live="polite"></p>
   <div id="authors-grid"><div class="spinner"></div></div>
   <div id="paginator"></div>
 </div>
@@ -102,7 +102,7 @@
     &middot; MIT License &copy; 2026 Md Kishor Morol
   </p>
 </footer>
-<script src="assets/js/app.js?v=ui-integrity-1"></script>
+<script src="assets/js/app.js?v=ui-integrity-5"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
 let allAuthors = [];
@@ -175,6 +175,8 @@ function applyFilters() {
 }
 
 (async () => {
+  const urlQuery = new URLSearchParams(window.location.search).get('q');
+  if (urlQuery) document.getElementById('search-authors').value = urlQuery;
   const authors = await window._rs_data.fetchAllAuthors();
   if (!authors || !authors.length) { showEmpty('authors-grid','No authors yet. Run the pipeline.'); return; }
   allAuthors = authors;

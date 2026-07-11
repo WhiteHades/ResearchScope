@@ -6,8 +6,8 @@
   <title>Conference Recommender - ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-1"/>
-  <link rel="stylesheet" href="assets/css/conference-recommender.css?v=ui-integrity-1"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-5"/>
+  <link rel="stylesheet" href="assets/css/conference-recommender.css?v=ui-integrity-5"/>
 </head>
 <body>
 <nav class="rs-nav">
@@ -86,7 +86,7 @@
 
   <div class="recommender-shell">
     <section class="recommender-panel recommender-column">
-      <div class="recommender-form">
+      <form class="recommender-form" onsubmit="event.preventDefault()">
         <div>
           <label for="paper-title" class="block text-sm font-semibold mb-1">Paper title</label>
           <input id="paper-title" class="rs-input" type="text" placeholder="Enter your title here"/>
@@ -107,18 +107,18 @@
             <select id="paper-maturity" class="rs-select"></select>
           </div>
         </div>
-        <button id="recommend-btn" class="w-full font-semibold px-4 py-2.5 rounded-lg text-white" style="background:var(--rs-primary)">
+        <button id="recommend-btn" type="submit" class="w-full font-semibold px-4 py-2.5 rounded-lg text-white" style="background:var(--rs-primary)">
           Recommend conferences
         </button>
         <div class="flex items-center justify-between gap-2">
           <button id="rec-sample-btn" type="button" class="text-xs font-medium hover:underline" style="color:var(--rs-primary)"> Try a sample abstract</button>
           <span class="text-xs" style="color:var(--rs-muted)">Tip: ⌘/Ctrl + Enter to run</span>
         </div>
-      </div>
+      </form>
     </section>
 
     <section class="recommender-column">
-      <div id="recommender-status" class="recommender-panel text-sm" style="color:var(--rs-muted)">Loading recommender data...</div>
+      <div id="recommender-status" class="recommender-panel text-sm" style="color:var(--rs-muted)" role="status" aria-live="polite">Loading recommender data...</div>
       <div id="recommender-results" class="space-y-4 mt-4"></div>
     </section>
   </div>
@@ -141,9 +141,9 @@
   </p>
 </footer>
 
-<script src="assets/js/app.js?v=ui-integrity-1"></script>
+<script src="assets/js/app.js?v=ui-integrity-5"></script>
 <script src="assets/js/railway-api.js"></script>
-<script src="assets/js/recommender-core.js"></script>
+<script src="assets/js/recommender-core.js?v=ui-integrity-5"></script>
 <script>
 const { tokenize, extractBigrams, inferField, draftQuality, analyzeAbstract,
         renderAnalysisPanel, weightedKeywordScore, fitLabel, fitLegend, generateRationale,

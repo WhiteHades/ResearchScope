@@ -147,8 +147,10 @@ a.github-star-btn:hover {
   display: flex; align-items: center; gap: 0.75rem;
   font-family: var(--rs-font-display);
   font-size: 1rem; font-weight: 700; margin: 2rem 0 0.75rem;
-  padding-bottom: 0.5rem; border-bottom: 1px solid var(--rs-rule);
+  padding: 0 0 0.5rem; border: 0; border-bottom: 1px solid var(--rs-rule);
   letter-spacing: -0.005em;
+  background: transparent; color: inherit; cursor: pointer;
+  justify-content: space-between; text-align: left; width: 100%;
 }
 .digest-topic-token {
   align-items: center;

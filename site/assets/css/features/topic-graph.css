@@ -371,14 +371,6 @@
 
 /* ── Responsive ──────────────────────────────────── */
 @media (max-width: 640px) {
-  .rs-table thead { display: none; }
-  .rs-table td {
-    display: block;
-    border-bottom: none;
-    padding: 0.35rem 0.75rem;
-  }
-  .rs-table tr { border-bottom: 1px solid var(--rs-rule); }
-
   .topic-view-switch { display: flex; width: 100%; }
   .topic-view-btn { flex: 1; }
 

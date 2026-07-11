@@ -422,7 +422,9 @@
     [titleEl, absEl].forEach((el) => el.addEventListener('keydown', (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); submit(); }
     }));
-    if (btn) btn.addEventListener('click', submit);
+    const form = btn?.closest('form');
+    if (form) form.addEventListener('submit', (event) => { event.preventDefault(); submit(); });
+    else if (btn) btn.addEventListener('click', submit);
 
     const sampleBtn = byId('rec-sample-btn');
     if (sampleBtn && sample) sampleBtn.addEventListener('click', () => {
