@@ -17,6 +17,7 @@ const CONFIG = {
     '/conference-recommender.html',
     '/journal-recommender.html',
     '/favourites.html',
+    '/library.html',
     '/profile.html',
     '/search.html',
     '/authors.html',
