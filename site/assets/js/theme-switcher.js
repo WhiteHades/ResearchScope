@@ -33,7 +33,7 @@
       this.themes = themes;
       this.storageKey = 'researchscope-theme';
       this.linkId = 'rs-theme-css';
-      this.cacheKey = 'theme-readability-1';
+      this.cacheKey = 'theme-readability-3';
       this.current = this.resolveInitialTheme();
       this.setPageDataset();
       this.apply(this.current, false);

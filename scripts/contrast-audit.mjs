@@ -16,10 +16,16 @@ const CONFIG = {
     '/deadlines.html',
     '/conference-recommender.html',
     '/journal-recommender.html',
+    '/favourites.html',
+    '/profile.html',
+    '/search.html',
+    '/authors.html',
+    '/labs.html',
+    '/gaps.html',
     '/signin.html',
     '/register.html',
   ],
-  quickRoutes: ['/', '/digest.html', '/papers.html', '/conference-recommender.html', '/signin.html'],
+  quickRoutes: ['/', '/digest.html', '/papers.html', '/conference-recommender.html', '/favourites.html', '/signin.html'],
   themes: ['atelier', 'brutalist', 'field-notes'],
   media: ['light', 'dark'],
   viewports: [
@@ -34,6 +40,11 @@ class Args {
     this.keepServer = argv.includes('--keep-server');
     this.outDir = this.value(argv, '--out') || CONFIG.outDir;
     this.port = Number(this.value(argv, '--port') || CONFIG.port);
+    this.route = this.value(argv, '--route');
+    this.theme = this.value(argv, '--theme');
+    this.media = this.value(argv, '--media');
+    this.viewport = this.value(argv, '--viewport');
+    this.session = this.value(argv, '--session') || 'rs-contrast-audit';
   }
 
   value(argv, flag) {
@@ -177,6 +188,7 @@ const sampler = String.raw`
     if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
     if (SKIP_TAGS.has(el.tagName)) return false;
     if (el.closest('[hidden], .hidden, [aria-hidden="true"]')) return false;
+    if (el.closest(':disabled, [aria-disabled="true"]')) return false;
     const style = getComputedStyle(el);
     if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) return false;
     const rect = el.getBoundingClientRect();
@@ -220,15 +232,23 @@ const sampler = String.raw`
     const style = getComputedStyle(el);
     const fg = parseColor(style.color);
     const bg = background(el);
+    let opacity = 1;
+    let node = el;
+    while (node && node.nodeType === Node.ELEMENT_NODE) {
+      opacity *= Number(getComputedStyle(node).opacity) || 0;
+      node = node.parentElement;
+    }
+    const renderedFg = composite([fg[0], fg[1], fg[2], fg[3] * opacity], bg.color);
     const fontSize = Number.parseFloat(style.fontSize) || 16;
     const fontWeight = Number.parseInt(style.fontWeight, 10) || 400;
     const large = fontSize >= 24 || (fontSize >= 18.66 && fontWeight >= 700);
     const threshold = large ? 3 : 4.5;
-    const ratio = contrast(fg, bg.color);
+    const ratio = contrast(renderedFg, bg.color);
     return {
       text: text.slice(0, 120),
       selector: path(el),
       color: style.color,
+      opacity: Number(opacity.toFixed(3)),
       background: 'rgb(' + bg.color.slice(0, 3).join(', ') + ')',
       backgroundRisk: bg.imageRisk,
       fontSize,
@@ -271,23 +291,31 @@ const sampler = String.raw`
 class ContrastAudit {
   constructor(args) {
     this.args = args;
-    this.browser = new AgentBrowser('rs-contrast-audit');
+    this.browser = new AgentBrowser(args.session);
     this.base = `http://127.0.0.1:${args.port}`;
     this.results = [];
   }
 
   async run() {
     mkdirSync(this.args.outDir, { recursive: true });
-    const routes = this.args.quick ? CONFIG.quickRoutes : CONFIG.routes;
-    for (const viewport of CONFIG.viewports) {
+    const routes = this.args.route ? [this.args.route] : (this.args.quick ? CONFIG.quickRoutes : CONFIG.routes);
+    const viewports = this.args.viewport ? CONFIG.viewports.filter(viewport => viewport.name === this.args.viewport) : CONFIG.viewports;
+    const mediaModes = this.args.media ? [this.args.media] : CONFIG.media;
+    const themes = this.args.theme ? [this.args.theme] : CONFIG.themes;
+    if (!viewports.length) throw new Error(`Unknown viewport: ${this.args.viewport}`);
+    if (themes.some(theme => !CONFIG.themes.includes(theme))) throw new Error(`Unknown theme: ${this.args.theme}`);
+    if (mediaModes.some(media => !CONFIG.media.includes(media))) throw new Error(`Unknown media mode: ${this.args.media}`);
+    for (const viewport of viewports) {
       this.browser.run(['set', 'viewport', String(viewport.width), String(viewport.height)]);
-      for (const media of CONFIG.media) {
+      for (const media of mediaModes) {
         this.browser.run(['set', 'media', media]);
-        for (const theme of CONFIG.themes) {
+        for (const theme of themes) {
           for (const route of routes) {
             const url = `${this.base}${route}?theme=${theme}`;
             this.browser.run(['open', url]);
-            this.browser.run(['wait', '--load', 'networkidle']);
+            const themeFile = theme === 'brutalist' ? 'brutalist.css' : 'field-notes.css';
+            const ready = `document.documentElement.dataset.rsTheme === ${JSON.stringify(theme)} && (${theme === 'atelier'} || Array.from(document.styleSheets).some(sheet => sheet.href && sheet.href.includes(${JSON.stringify(themeFile)})))`;
+            this.browser.run(['wait', '--fn', ready]);
             const raw = this.browser.run(['eval', '--stdin'], sampler);
             const result = JSON.parse(raw);
             this.results.push({ route, theme, media, viewport: viewport.name, ...result });
@@ -310,9 +338,9 @@ class ContrastAudit {
       `ResearchScope contrast audit`,
       ``,
       `Routes: ${new Set(this.results.map(result => result.route)).size}`,
-      `Themes: ${CONFIG.themes.join(', ')}`,
-      `Media: ${CONFIG.media.join(', ')}`,
-      `Viewports: ${CONFIG.viewports.map(viewport => viewport.name).join(', ')}`,
+      `Themes: ${Array.from(new Set(this.results.map(result => result.theme))).join(', ')}`,
+      `Media: ${Array.from(new Set(this.results.map(result => result.media))).join(', ')}`,
+      `Viewports: ${Array.from(new Set(this.results.map(result => result.viewport))).join(', ')}`,
       `Failures: ${failures.length}`,
       ``,
       ...failures.slice(0, 80).map(failure => `- ${failure.theme} ${failure.media} ${failure.viewport} ${failure.route}: ${failure.ratio}:1 < ${failure.threshold}:1, ${failure.text} (${failure.selector})`),

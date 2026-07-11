@@ -5,16 +5,18 @@
 :root {
   --rs-readable-text: var(--rs-ink);
   --rs-readable-soft: var(--rs-ink-mute);
-  --rs-readable-faint: var(--rs-ink-faint);
-  --rs-readable-link: var(--rs-link, var(--rs-ink));
-  --rs-readable-link-hover: var(--rs-link-hover, var(--rs-coral-deep));
+  --rs-readable-faint: var(--rs-ink-mute);
   --rs-readable-inverse-text: var(--rs-inverse-text, var(--rs-paper));
   --rs-readable-inverse-soft: var(--rs-inverse-muted, var(--rs-paper));
   --rs-readable-inverse-link: var(--rs-inverse-accent, var(--rs-paper));
+  --rs-readable-accent-text: var(--rs-bone);
+  --rs-context-text: var(--rs-readable-text);
+  --rs-context-muted: var(--rs-readable-soft);
+  --rs-context-faint: var(--rs-readable-faint);
 }
 
 :where(body, main, section, footer, .hero-gradient) {
-  color: var(--rs-readable-text);
+  color: var(--rs-context-text);
 }
 
 :where(
@@ -47,31 +49,10 @@
   #rs-user-menu,
   .rs-theme-menu
 ) {
-  color: var(--rs-readable-text) !important;
-}
-
-:where(
-  .hero-gradient,
-  main,
-  section,
-  .rs-card,
-  .rs-panel,
-  .editorial-card,
-  .gap-card,
-  .digest-paper-card,
-  .stat-card,
-  .deadline-card,
-  .empty-state,
-  .topic-accordion,
-  .topic-graph-shell,
-  .topic-graph-panel,
-  .library-card,
-  .recommender-panel,
-  .recommender-result,
-  .recommender-paper,
-  .auth-panel
-) :where(p, li, td, th, label, small, figcaption, summary, dd, dt) {
-  color: inherit;
+  --rs-context-text: var(--rs-readable-text);
+  --rs-context-muted: var(--rs-readable-soft);
+  --rs-context-faint: var(--rs-readable-faint);
+  color: var(--rs-context-text) !important;
 }
 
 :where(
@@ -121,7 +102,7 @@
   .search-section-label,
   .search-empty
 ) {
-  color: var(--rs-readable-soft) !important;
+  color: var(--rs-context-muted) !important;
 }
 
 :where(
@@ -163,64 +144,16 @@
   .text-indigo-200,
   .text-indigo-300,
   .text-purple-200,
-  .text-purple-300,
-  .text-white
+  .text-purple-300
 ) {
-  color: var(--rs-readable-soft) !important;
-}
-
-:where(
-  .rs-card,
-  .rs-panel,
-  .editorial-card,
-  .gap-card,
-  .digest-paper-card,
-  .stat-card,
-  .deadline-card,
-  .empty-state,
-  .topic-accordion,
-  .topic-graph-shell,
-  .topic-graph-panel,
-  .library-card,
-  .recommender-panel,
-  .recommender-result,
-  .recommender-paper,
-  .auth-panel
-) :where(a:not(.rs-btn):not(.potd-btn):not(.github-star-btn):not(.star-cta-btn):not(.library-link):not(.mobile-nav-link)) {
-  color: var(--rs-readable-link) !important;
-}
-
-:where(
-  .rs-card,
-  .rs-panel,
-  .editorial-card,
-  .gap-card,
-  .digest-paper-card,
-  .stat-card,
-  .deadline-card,
-  .empty-state,
-  .topic-accordion,
-  .topic-graph-shell,
-  .topic-graph-panel,
-  .library-card,
-  .recommender-panel,
-  .recommender-result,
-  .recommender-paper,
-  .auth-panel
-) :where(a:not(.rs-btn):not(.potd-btn):not(.github-star-btn):not(.star-cta-btn):not(.library-link):not(.mobile-nav-link):hover) {
-  color: var(--rs-readable-link-hover) !important;
+  color: var(--rs-context-muted) !important;
 }
 
 html:not([data-rs-theme="field-notes"]) :where(.potd-wrap, .rs-slab, .digest-header, .star-cta, .next-banner) {
-  color: var(--rs-readable-inverse-text) !important;
-}
-
-html:not([data-rs-theme="field-notes"]) :where(.potd-wrap, .rs-slab, .digest-header, .star-cta, .next-banner) :where(p, li, span, div, small, label, [style*="--rs-muted"], [style*="--rs-ink-mute"], [style*="--rs-ink-faint"]) {
-  color: var(--rs-readable-inverse-soft) !important;
-}
-
-html:not([data-rs-theme="field-notes"]) :where(.potd-wrap, .rs-slab, .digest-header, .star-cta, .next-banner) :where(a:not(.rs-btn):not(.potd-btn):not(.star-cta-btn), strong, h1, h2, h3, h4, h5, h6, .rs-display-1, .rs-display-2, .rs-display-3) {
-  color: var(--rs-readable-inverse-text) !important;
+  --rs-context-text: var(--rs-readable-inverse-text);
+  --rs-context-muted: var(--rs-readable-inverse-soft);
+  --rs-context-faint: var(--rs-readable-inverse-soft);
+  color: var(--rs-context-text) !important;
 }
 
 html:not([data-rs-theme="field-notes"]) :where(.potd-wrap, .rs-slab, .digest-header, .star-cta, .next-banner) :where(.rs-dot, .rs-em, .rs-mark, .rs-eyebrow, .potd-label) {
@@ -228,15 +161,10 @@ html:not([data-rs-theme="field-notes"]) :where(.potd-wrap, .rs-slab, .digest-hea
 }
 
 html[data-rs-theme="field-notes"] :where(.potd-wrap, .rs-slab, .digest-header, .star-cta, .next-banner) {
-  color: var(--rs-readable-text) !important;
-}
-
-html[data-rs-theme="field-notes"] :where(.potd-wrap, .rs-slab, .digest-header, .star-cta, .next-banner) :where(p, li, span, div, small, label, [style*="--rs-muted"], [style*="--rs-ink-mute"], [style*="--rs-ink-faint"]) {
-  color: var(--rs-readable-soft) !important;
-}
-
-html[data-rs-theme="field-notes"] :where(.potd-wrap, .rs-slab, .digest-header, .star-cta, .next-banner) :where(a:not(.rs-btn):not(.potd-btn):not(.star-cta-btn), strong, h1, h2, h3, h4, h5, h6, .rs-display-1, .rs-display-2, .rs-display-3) {
-  color: var(--rs-readable-text) !important;
+  --rs-context-text: var(--rs-readable-text);
+  --rs-context-muted: var(--rs-readable-soft);
+  --rs-context-faint: var(--rs-readable-faint);
+  color: var(--rs-context-text) !important;
 }
 
 .rs-theme-option__swatch,
@@ -249,8 +177,20 @@ html[data-rs-theme="field-notes"] :where(.potd-wrap, .rs-slab, .digest-header, .
 input::placeholder,
 textarea::placeholder,
 .search-input::placeholder {
-  color: var(--rs-readable-faint) !important;
+  color: var(--rs-context-faint) !important;
   opacity: 1;
+}
+
+:where(a, button)[style*="background:var(--rs-primary)"],
+:where(a, button)[style*="background: var(--rs-primary)"],
+:where(a, button)[style*="background:var(--rs-coral)"],
+:where(a, button)[style*="background: var(--rs-coral)"] {
+  color: var(--rs-readable-accent-text) !important;
+}
+
+.auth-optional {
+  color: var(--rs-context-muted) !important;
+  opacity: 1 !important;
 }
 
 :where(.auth-error, .text-red-500, .text-red-600, .dl-urgent, .chip-urgent) {

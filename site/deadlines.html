@@ -6,7 +6,7 @@
   <title>Upcoming Conferences – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css?v=theme-readability-1"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=theme-readability-3"/>
   <style>
     .deadline-card { border-radius:10px; border:1px solid var(--rs-border); background:var(--rs-bone); transition:box-shadow .15s, border-color .15s; }
     .deadline-card:hover { box-shadow:var(--rs-shadow); border-color:var(--rs-coral); }
@@ -144,7 +144,7 @@
   </p>
 </footer>
 
-<script src="assets/js/app.js?v=theme-readability-1"></script>
+<script src="assets/js/app.js?v=theme-readability-3"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
 // ── Deadline data ─────────────────────────────────────────────────────────────
@@ -462,7 +462,7 @@ function renderCard(d) {
         <div class="flex flex-wrap items-center gap-2 mb-1">
           <h3 class="font-bold text-base">${escHtml(d.name)}</h3>
           ${estBadge}
-          ${urgent ? '<span class="text-xs font-bold text-red-500 animate-pulse"> URGENT</span>' : ''}
+          ${urgent ? '<span class="text-xs font-bold text-red-500"> URGENT</span>' : ''}
         </div>
         <div class="flex flex-wrap gap-1">
           <span class="badge badge-tag">${escHtml(d.area)}</span>

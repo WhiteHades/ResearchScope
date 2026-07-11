@@ -114,7 +114,7 @@ function citelensBtn(paper) {
   const href = `https://kishormorol.github.io/CiteLens/?q=${encodeURIComponent(arxivId)}`;
   return `<a href="${escHtml(href)}" target="_blank" rel="noopener"
     class="mt-3 inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md border"
-    style="color:var(--rs-primary);border-color:var(--rs-primary);opacity:0.85"
+    style="color:var(--rs-primary);border-color:var(--rs-primary)"
     title="See who cited this paper — powered by CiteLens">
     Analyze citations
   </a>`;
@@ -462,7 +462,7 @@ function renderPotdCard(paper) {
   <div class="potd-wrap">
     <div class="potd-label">
       Paper of the Day
-      <span style="font-size:0.65rem;opacity:0.6;font-weight:400">${new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>
+      <span style="font-size:0.65rem;font-weight:400">${new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>
     </div>
     <div class="potd-title">
       <a href="${escHtml(url)}" target="_blank" rel="noopener">${escHtml(paper.title)}</a>
@@ -802,7 +802,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('rs-theme-switcher-script')) return;
   const script = document.createElement('script');
   script.id = 'rs-theme-switcher-script';
-  script.src = 'assets/js/theme-switcher.js?v=theme-readability-1';
+  script.src = 'assets/js/theme-switcher.js?v=theme-readability-3';
   script.defer = true;
   document.head.appendChild(script);
 })();
