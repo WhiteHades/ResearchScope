@@ -262,42 +262,8 @@ const _favsApi = {
 
 // ── Nav auth button + dropdown ────────────────────────────────────────────────
 
-function _injectNavStyles() {
-  const s = document.createElement('style');
-  s.textContent = `
-  #rs-auth-btn{
-    display:flex;align-items:center;gap:.4rem;
-    padding:.35rem .8rem;border-radius:.5rem;
-    border:1.5px solid var(--rs-border,#aa9970);
-    background:var(--rs-surface,#fff6df);cursor:pointer;
-    font-size:.8rem;font-weight:600;color:var(--rs-text,#14120d);white-space:nowrap;
-    transition:border-color .15s,box-shadow .15s;
-  }
-  #rs-auth-btn:hover{border-color:var(--rs-primary,#a63b2d);box-shadow:0 0 0 3px var(--rs-focus-ring,rgba(125,44,34,.30))}
-  #rs-user-menu{
-    position:absolute;right:0;top:calc(100% + 8px);
-    background:var(--rs-surface,#fff6df);
-    border:1px solid var(--rs-border,#aa9970);
-    border-radius:.75rem;
-    box-shadow:0 8px 24px rgba(0,0,0,.12);
-    min-width:180px;z-index:999;overflow:hidden;
-  }
-  @keyframes rs-slide-up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  #rs-user-menu{animation:rs-slide-up .15s ease}
-  #rs-user-menu a,#rs-user-menu button{
-    display:flex;align-items:center;gap:.5rem;
-    width:100%;text-align:left;padding:.6rem 1rem;
-    font-size:.85rem;background:none;border:none;cursor:pointer;
-    color:var(--rs-text,#14120d);text-decoration:none;transition:background-color .12s;
-  }
-  #rs-user-menu a:hover,#rs-user-menu button:hover{background:var(--rs-bg,#eee4c9)}
-  #rs-auth-wrap{position:relative}
-  `;
-  document.head.appendChild(s);
-}
-
 function _injectAuthButton() {
-  const anchor = document.querySelector('.rs-nav .flex.items-center.gap-2.justify-end');
+  const anchor = document.getElementById('rs-nav-actions');
   if (!anchor) return;
 
   const wrap = document.createElement('div');
@@ -310,37 +276,48 @@ function _injectAuthButton() {
   wrap.appendChild(btn);
 
   _updateAuthNav();
-
-  wrap.addEventListener('click', (e) => {
-    const menu = document.getElementById('rs-user-menu');
-    if (!menu) { if (!_auth.isLoggedIn()) rsOpenModal(); return; }
-    menu.remove();
-  });
 }
 
 function _updateAuthNav() {
   const btn = document.getElementById('rs-auth-btn');
-  if (!btn) return;
-
   const user = _auth.user();
-  if (_auth.isLoggedIn() && user) {
+  const loggedIn = Boolean(_auth.isLoggedIn() && user);
+  if (btn && loggedIn) {
     const initial = (user.name || user.email || '?')[0].toUpperCase();
     btn.innerHTML = `<span style="width:22px;height:22px;border-radius:50%;background:var(--rs-primary,#a63b2d);color:var(--rs-paper,#eee4c9);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700">${escHtml(initial)}</span>${escHtml(user.name || user.email)}`;
+    btn.setAttribute('aria-haspopup', 'menu');
+    btn.setAttribute('aria-expanded', 'false');
     btn.onclick = (e) => { e.stopPropagation(); _showUserMenu(); };
-  } else {
+  } else if (btn) {
     btn.innerHTML = `<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>Sign in`;
+    btn.removeAttribute('aria-haspopup');
+    btn.removeAttribute('aria-expanded');
     btn.onclick = (e) => { e.stopPropagation(); rsOpenModal(); };
+  }
+
+  const mobile = document.getElementById('rs-mobile-auth');
+  if (mobile) {
+    mobile.innerHTML = loggedIn
+      ? `<a href="profile.html" class="mobile-nav-link">Profile &amp; Settings</a><button type="button" class="mobile-nav-link" onclick="rsLogout()">Sign out</button>`
+      : '<a href="signin.html" class="mobile-nav-link">Sign in</a><a href="register.html" class="mobile-nav-link">Create account</a>';
   }
 }
 
 function _showUserMenu() {
-  document.getElementById('rs-user-menu')?.remove();
+  const existing = document.getElementById('rs-user-menu');
+  const btn = document.getElementById('rs-auth-btn');
+  if (existing) {
+    existing.remove();
+    btn?.setAttribute('aria-expanded', 'false');
+    return;
+  }
   const user = _auth.user();
   const wrap = document.getElementById('rs-auth-wrap');
   if (!wrap) return;
 
   const menu = document.createElement('div');
   menu.id = 'rs-user-menu';
+  menu.setAttribute('role', 'menu');
   menu.innerHTML = `
     <div style="padding:.65rem 1rem;border-bottom:1px solid var(--rs-border,#aa9970)">
       <div style="font-size:.82rem;font-weight:700;color:var(--rs-text,#14120d)">${escHtml(user?.name || user?.email || '')}</div>
@@ -351,9 +328,14 @@ function _showUserMenu() {
     <div style="height:1px;background:var(--rs-border,#aa9970);margin:.25rem 0"></div>
     <button onclick="rsLogout()" style="color:var(--rs-danger,#7f2d23)">Sign out</button>`;
   wrap.appendChild(menu);
+  btn?.setAttribute('aria-expanded', 'true');
 
   setTimeout(() => document.addEventListener('click', function close(e) {
-    if (!wrap.contains(e.target)) { menu.remove(); document.removeEventListener('click', close); }
+    if (!wrap.contains(e.target)) {
+      menu.remove();
+      btn?.setAttribute('aria-expanded', 'false');
+      document.removeEventListener('click', close);
+    }
   }), 0);
 }
 
@@ -413,6 +395,5 @@ window._rs_api = {
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
-  _injectNavStyles();
   _injectAuthButton();
 });

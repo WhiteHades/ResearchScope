@@ -41,7 +41,7 @@ body::after {
 }
 
 /* Lift everything above the noise overlays. */
-body > * { position: relative; z-index: 1; }
+body > * { position: relative; z-index: var(--rs-z-content); }
 
 ::selection { background: var(--rs-coral); color: var(--rs-paper); }
 

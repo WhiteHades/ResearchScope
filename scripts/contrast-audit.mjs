@@ -45,6 +45,7 @@ class Args {
     this.media = this.value(argv, '--media');
     this.viewport = this.value(argv, '--viewport');
     this.session = this.value(argv, '--session') || 'rs-contrast-audit';
+    this.shell = argv.includes('--shell');
   }
 
   value(argv, flag) {
@@ -277,6 +278,42 @@ const sampler = String.raw`
     const el = Array.from(elements).find(candidate => path(candidate) === item.selector);
     if (el) el.setAttribute('data-contrast-fail', 'true');
   }
+  const uiFailures = [];
+  if (document.documentElement.scrollWidth > window.innerWidth + 1) {
+    uiFailures.push({ type: 'horizontal-overflow', detail: document.documentElement.scrollWidth + 'px document at ' + window.innerWidth + 'px viewport' });
+  }
+  const footer = document.querySelector('footer');
+  if (footer && footer.parentElement !== document.body) {
+    uiFailures.push({ type: 'footer-containment', detail: path(footer.parentElement) });
+  }
+  document.querySelectorAll('button, input, select, textarea').forEach(control => {
+    if (!visible(control)) return;
+    const label = control.getAttribute('aria-label') || control.getAttribute('title') || control.getAttribute('placeholder') || control.textContent.trim() || control.closest('label')?.textContent.trim() || (control.id && document.querySelector('label[for="' + CSS.escape(control.id) + '"]')?.textContent.trim());
+    if (!label) uiFailures.push({ type: 'unlabelled-control', detail: path(control) });
+  });
+
+  const integrityLink = document.getElementById('rs-ui-integrity-css');
+  const expectedVersion = integrityLink ? new URL(integrityLink.href).searchParams.get('v') : null;
+  if (!expectedVersion) uiFailures.push({ type: 'missing-integrity-stylesheet', detail: 'rs-ui-integrity-css' });
+  const localStyles = new Set();
+  const visitedSheets = new Set();
+  function collectStyles(sheet) {
+    if (!sheet || visitedSheets.has(sheet)) return;
+    visitedSheets.add(sheet);
+    if (sheet.href && new URL(sheet.href).origin === location.origin && new URL(sheet.href).pathname.includes('/assets/css/')) localStyles.add(sheet.href);
+    try {
+      Array.from(sheet.cssRules || []).forEach(rule => { if (rule.styleSheet) collectStyles(rule.styleSheet); });
+    } catch (_) {}
+  }
+  Array.from(document.styleSheets).forEach(collectStyles);
+  if (expectedVersion) {
+    Array.from(localStyles).forEach(href => {
+      if (new URL(href).searchParams.get('v') !== expectedVersion) uiFailures.push({ type: 'stale-css-import', detail: href });
+    });
+  }
+  const localLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).filter(link => link.href.startsWith(location.origin) && link.href.includes('/assets/css/'));
+  if (integrityLink && localLinks.at(-1) !== integrityLink) uiFailures.push({ type: 'integrity-cascade-order', detail: localLinks.map(link => link.id || link.href).join(' -> ') });
+
   return {
     url: location.href,
     title: document.title,
@@ -284,7 +321,52 @@ const sampler = String.raw`
     sampleCount: samples.length,
     failures,
     warnings,
+    uiFailures,
   };
+})()
+`;
+
+const shellSampler = String.raw`
+(() => {
+  const failures = [];
+  const hitTest = (element, type) => {
+    const rect = element?.getBoundingClientRect();
+    if (!rect || rect.width <= 0 || rect.height <= 0) {
+      failures.push({ type, detail: 'zero-sized overlay' });
+      return;
+    }
+    const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + Math.min(rect.height / 2, 30));
+    if (!hit || !element.contains(hit)) failures.push({ type, detail: hit ? hit.tagName.toLowerCase() + '.' + String(hit.className) : 'no hit target' });
+  };
+
+  if (window.innerWidth >= 1024) {
+    const dropdown = document.querySelectorAll('.rs-nav-dd')[2];
+    const dropdownButton = dropdown?.querySelector('.rs-nav-dd-btn');
+    const dropdownMenu = dropdown?.querySelector('.rs-nav-dd-menu');
+    dropdownButton?.click();
+    if (!dropdown?.classList.contains('is-open') || dropdownButton?.getAttribute('aria-expanded') !== 'true') failures.push({ type: 'dropdown-open-state', detail: 'People menu did not open' });
+    hitTest(dropdownMenu, 'dropdown-stacking');
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    if (dropdownButton?.getAttribute('aria-expanded') !== 'false') failures.push({ type: 'dropdown-close-state', detail: 'Escape did not close People menu' });
+
+    const themeButton = document.querySelector('.rs-theme-button');
+    const themeMenu = document.querySelector('.rs-theme-menu');
+    themeButton?.click();
+    if (themeButton?.getAttribute('aria-expanded') !== 'true') failures.push({ type: 'theme-menu-open-state', detail: 'Theme menu did not open' });
+    hitTest(themeMenu, 'theme-menu-stacking');
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    if (themeButton?.getAttribute('aria-expanded') !== 'false' || document.activeElement !== themeButton) failures.push({ type: 'theme-menu-close-state', detail: 'Escape did not close and restore focus' });
+  } else {
+    const mobileButton = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileButton?.click();
+    if (!mobileMenu?.classList.contains('is-open') || mobileButton?.getAttribute('aria-expanded') !== 'true') failures.push({ type: 'mobile-menu-open-state', detail: 'Mobile menu did not open' });
+    hitTest(mobileMenu, 'mobile-menu-stacking');
+    if (!document.getElementById('rs-mobile-auth') || !mobileMenu?.querySelector('a[href="search.html"]')) failures.push({ type: 'mobile-menu-content', detail: 'Search or account controls missing' });
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    if (mobileButton?.getAttribute('aria-expanded') !== 'false') failures.push({ type: 'mobile-menu-close-state', detail: 'Escape did not close mobile menu' });
+  }
+  return failures;
 })()
 `;
 
@@ -318,6 +400,7 @@ class ContrastAudit {
             this.browser.run(['wait', '--fn', ready]);
             const raw = this.browser.run(['eval', '--stdin'], sampler);
             const result = JSON.parse(raw);
+            if (this.args.shell) result.uiFailures.push(...JSON.parse(this.browser.run(['eval', '--stdin'], shellSampler)));
             this.results.push({ route, theme, media, viewport: viewport.name, ...result });
           }
         }
@@ -334,6 +417,13 @@ class ContrastAudit {
       viewport: result.viewport,
       ...failure,
     })));
+    const uiFailures = this.results.flatMap(result => result.uiFailures.map(failure => ({
+      route: result.route,
+      theme: result.theme,
+      media: result.media,
+      viewport: result.viewport,
+      ...failure,
+    })));
     const summary = [
       `ResearchScope contrast audit`,
       ``,
@@ -342,14 +432,17 @@ class ContrastAudit {
       `Media: ${Array.from(new Set(this.results.map(result => result.media))).join(', ')}`,
       `Viewports: ${Array.from(new Set(this.results.map(result => result.viewport))).join(', ')}`,
       `Failures: ${failures.length}`,
+      `UI failures: ${uiFailures.length}`,
       ``,
       ...failures.slice(0, 80).map(failure => `- ${failure.theme} ${failure.media} ${failure.viewport} ${failure.route}: ${failure.ratio}:1 < ${failure.threshold}:1, ${failure.text} (${failure.selector})`),
+      ...uiFailures.slice(0, 80).map(failure => `- ${failure.theme} ${failure.media} ${failure.viewport} ${failure.route}: ${failure.type}, ${failure.detail}`),
     ].join('\n');
     writeFileSync(join(this.args.outDir, 'results.json'), JSON.stringify(this.results, null, 2));
     writeFileSync(join(this.args.outDir, 'summary.txt'), summary);
-    if (failures.length) {
+    writeFileSync(join(this.args.outDir, 'ui-failures.json'), JSON.stringify(uiFailures, null, 2));
+    if (failures.length || uiFailures.length) {
       writeFileSync(join(this.args.outDir, 'failures.json'), JSON.stringify(failures, null, 2));
-      throw new Error(`Contrast audit failed with ${failures.length} failures. See ${this.args.outDir}`);
+      throw new Error(`UI audit failed with ${failures.length} contrast and ${uiFailures.length} interface failures. See ${this.args.outDir}`);
     }
     console.log(`Contrast audit passed. Report: ${this.args.outDir}`);
   }

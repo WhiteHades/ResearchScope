@@ -207,19 +207,22 @@ async function loadStats() {
 // ── Paginator ──────────────────────────────────────────────────────────
 function renderPaginator(containerId, current, total, onChange) {
   const el = document.getElementById(containerId);
-  if (!el || total <= 1) return;
-  let html = `<div class="flex gap-1 flex-wrap justify-center mt-4">`;
-  html += `<button class="pager-btn" onclick="(${onChange})(${current - 1})" ${current <= 1 ? 'disabled' : ''}>← Prev</button>`;
+  if (!el) return;
+  if (total <= 1) { el.replaceChildren(); return; }
+  const restoreFocus = el.contains(document.activeElement);
+  let html = `<nav class="flex gap-1 flex-wrap justify-center mt-4" aria-label="Results pages">`;
+  html += `<button class="pager-btn" aria-label="Previous page" onclick="(${onChange})(${current - 1})" ${current <= 1 ? 'disabled' : ''}>← Prev</button>`;
   const pages = Math.min(total, 7);
   let start = Math.max(1, current - 3);
   let end   = Math.min(total, start + pages - 1);
   start = Math.max(1, end - pages + 1);
   for (let p = start; p <= end; p++) {
-    html += `<button class="pager-btn ${p === current ? 'active' : ''}" onclick="(${onChange})(${p})">${p}</button>`;
+    html += `<button class="pager-btn ${p === current ? 'active' : ''}" aria-label="Page ${p}"${p === current ? ' aria-current="page"' : ''} onclick="(${onChange})(${p})">${p}</button>`;
   }
-  html += `<button class="pager-btn" onclick="(${onChange})(${current + 1})" ${current >= total ? 'disabled' : ''}>Next →</button>`;
-  html += `</div>`;
+  html += `<button class="pager-btn" aria-label="Next page" onclick="(${onChange})(${current + 1})" ${current >= total ? 'disabled' : ''}>Next →</button>`;
+  html += `</nav>`;
   el.innerHTML = html;
+  if (restoreFocus) el.querySelector('[aria-current="page"]')?.focus();
 }
 
 // ── Search / filter ────────────────────────────────────────────────────
@@ -303,11 +306,12 @@ function renderDropdown(results, query, dropdown) {
   }
 
   let html = '';
+  let optionIndex = 0;
 
   if (papers.length) {
     html += `<div class="search-section-label">Papers</div>`;
     papers.forEach(p => {
-      html += `<a class="search-result-item" href="papers.html?q=${encodeURIComponent(p.title)}">
+      html += `<a id="rs-search-option-${optionIndex++}" class="search-result-item" role="option" href="papers.html?q=${encodeURIComponent(p.title)}">
         <div class="sr-title">${escHtml(p.title)}</div>
         <div class="sr-meta">${escHtml(p.venue || 'arXiv')} · ${p.year || ''}</div>
       </a>`;
@@ -317,7 +321,7 @@ function renderDropdown(results, query, dropdown) {
   if (authors.length) {
     html += `<div class="search-section-label">Authors</div>`;
     authors.forEach(a => {
-      html += `<a class="search-result-item" href="authors.html?q=${encodeURIComponent(a.name)}">
+      html += `<a id="rs-search-option-${optionIndex++}" class="search-result-item" role="option" href="authors.html?q=${encodeURIComponent(a.name)}">
         <div class="sr-title">${escHtml(a.name)}</div>
         <div class="sr-meta">${a.paper_ids?.length || 0} papers</div>
       </a>`;
@@ -327,14 +331,14 @@ function renderDropdown(results, query, dropdown) {
   if (topics.length) {
     html += `<div class="search-section-label">Topics</div>`;
     topics.forEach(t => {
-      html += `<a class="search-result-item" href="topics.html#${escHtml(t.id)}">
+      html += `<a id="rs-search-option-${optionIndex++}" class="search-result-item" role="option" href="topics.html#topic-${escHtml(t.id)}">
         <div class="sr-title">${escHtml(t.name)}</div>
         <div class="sr-meta">${t.paper_ids?.length || 0} papers</div>
       </a>`;
     });
   }
 
-  html += `<a class="search-see-all" href="search.html?q=${encodeURIComponent(query)}">See all results →</a>`;
+  html += `<a id="rs-search-option-${optionIndex}" class="search-see-all" role="option" href="search.html?q=${encodeURIComponent(query)}">See all results →</a>`;
   dropdown.innerHTML = html;
 }
 
@@ -344,35 +348,75 @@ function initSearch() {
   if (!input || !dropdown) return;
 
   let debounce;
+  let requestId = 0;
+
+  input.setAttribute('role', 'combobox');
+  input.setAttribute('aria-autocomplete', 'list');
+  input.setAttribute('aria-controls', dropdown.id);
+  input.setAttribute('aria-expanded', 'false');
+  dropdown.setAttribute('role', 'listbox');
 
   input.addEventListener('focus', () => loadSearchData());
 
   input.addEventListener('input', () => {
     clearTimeout(debounce);
+    const currentRequest = ++requestId;
     const q = input.value.trim();
-    if (!q) { dropdown.classList.add('hidden'); return; }
+    if (!q) {
+      dropdown.classList.add('hidden');
+      input.setAttribute('aria-expanded', 'false');
+      input.removeAttribute('aria-activedescendant');
+      return;
+    }
 
     debounce = setTimeout(async () => {
       const data    = await loadSearchData();
       const results = await runSearch(q, data, 4);
+      if (currentRequest !== requestId || input.value.trim() !== q) return;
       renderDropdown(results, q, dropdown);
       dropdown.classList.remove('hidden');
+      input.setAttribute('aria-expanded', 'true');
     }, 180);
   });
 
   input.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' && !dropdown.classList.contains('hidden')) {
+      e.preventDefault();
+      dropdown.querySelector('[role="option"]')?.focus();
+      return;
+    }
     if (e.key === 'Enter' && input.value.trim()) {
       window.location.href = `search.html?q=${encodeURIComponent(input.value.trim())}`;
     }
     if (e.key === 'Escape') {
       dropdown.classList.add('hidden');
+      input.setAttribute('aria-expanded', 'false');
       input.blur();
+    }
+  });
+
+  dropdown.addEventListener('keydown', event => {
+    const items = Array.from(dropdown.querySelectorAll('[role="option"]'));
+    const current = items.indexOf(document.activeElement);
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      const direction = event.key === 'ArrowDown' ? 1 : -1;
+      items[(current + direction + items.length) % items.length]?.focus();
+    } else if (event.key === 'Home' || event.key === 'End') {
+      event.preventDefault();
+      items[event.key === 'Home' ? 0 : items.length - 1]?.focus();
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      dropdown.classList.add('hidden');
+      input.setAttribute('aria-expanded', 'false');
+      input.focus();
     }
   });
 
   document.addEventListener('click', e => {
     if (!input.closest('.search-wrap').contains(e.target)) {
       dropdown.classList.add('hidden');
+      input.setAttribute('aria-expanded', 'false');
     }
   });
 }
@@ -509,13 +553,14 @@ function buildDropdownNav() {
 
   function dropdown(label, items) {
     const hasActive = items.some(([href]) => href && href === page);
+    const menuId = `rs-nav-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-menu`;
     const rows = items.map(([href, lbl, divider]) => {
       if (divider) return `<div class="rs-nav-dd-divider"></div>`;
-      return `<a href="${href}"${href === page ? ' class="active"' : ''}>${lbl}</a>`;
+      return `<a href="${href}" role="menuitem"${href === page ? ' class="active"' : ''}>${lbl}</a>`;
     }).join('');
     return `<div class="rs-nav-dd">
-      <button class="rs-nav-dd-btn${hasActive ? ' active' : ''}">${label}<span class="rs-nav-dd-arrow">▾</span></button>
-      <div class="rs-nav-dd-menu">${rows}</div>
+      <button class="rs-nav-dd-btn${hasActive ? ' active' : ''}" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="${menuId}">${label}<span class="rs-nav-dd-arrow" aria-hidden="true">▾</span></button>
+      <div id="${menuId}" class="rs-nav-dd-menu" role="menu" aria-label="${label}">${rows}</div>
     </div>`;
   }
 
@@ -561,7 +606,10 @@ function buildDropdownNav() {
       ml('authors.html',    'Authors') +
       ml('labs.html',       'Labs & Unis') +
       ml('deadlines.html',  'Deadlines') +
-      ml('favourites.html', 'My Favourites');
+      ml('favourites.html', 'My Favourites') +
+      sec('Account') +
+      ml('search.html', 'Search') +
+      '<div id="rs-mobile-auth" class="rs-mobile-auth"></div>';
   }
 }
 
@@ -591,6 +639,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // drive the open/close animation.
     mobileMenu.classList.add('t-panel');
     if (iconOpen && iconClose) {
+      iconClose.classList.remove('hidden');
+      iconClose.classList.add('is-leaving');
       iconOpen.classList.add('t-icon-swap-svg');
       iconClose.classList.add('t-icon-swap-svg');
     }
@@ -607,46 +657,52 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => out.classList.remove('is-leaving'), 220);
     };
 
-    mobileBtn.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.contains('is-open');
+    mobileBtn.setAttribute('aria-controls', mobileMenu.id);
+
+    const closeMobileMenu = (returnFocus = false) => {
       if (menuClosingTimer) { clearTimeout(menuClosingTimer); menuClosingTimer = null; }
-      if (isOpen) {
-        // closing
-        mobileMenu.classList.remove('is-open');
-        mobileMenu.classList.add('is-closing');
-        mobileBtn.setAttribute('aria-expanded', 'false');
-        setIcon(false);
-        menuClosingTimer = setTimeout(() => {
-          mobileMenu.classList.add('hidden');
-          mobileMenu.classList.remove('is-closing');
-          menuClosingTimer = null;
-        }, dur());
-      } else {
-        // opening
-        mobileMenu.classList.remove('hidden');
-        // force reflow so animation replays after a prior close
-        void mobileMenu.offsetWidth;
+      mobileMenu.classList.remove('is-open');
+      mobileMenu.classList.add('is-closing');
+      mobileBtn.setAttribute('aria-expanded', 'false');
+      mobileBtn.setAttribute('aria-label', 'Open menu');
+      setIcon(false);
+      menuClosingTimer = setTimeout(() => {
+        mobileMenu.classList.add('hidden');
         mobileMenu.classList.remove('is-closing');
-        mobileMenu.classList.add('is-open');
-        mobileBtn.setAttribute('aria-expanded', 'true');
-        setIcon(true);
-      }
+        menuClosingTimer = null;
+        if (returnFocus) mobileBtn.focus();
+      }, dur());
+    };
+
+    const openMobileMenu = () => {
+      if (menuClosingTimer) { clearTimeout(menuClosingTimer); menuClosingTimer = null; }
+      mobileMenu.classList.remove('hidden');
+      void mobileMenu.offsetWidth;
+      mobileMenu.classList.remove('is-closing');
+      mobileMenu.classList.add('is-open');
+      mobileBtn.setAttribute('aria-expanded', 'true');
+      mobileBtn.setAttribute('aria-label', 'Close menu');
+      setIcon(true);
+    };
+
+    mobileBtn.addEventListener('click', () => {
+      if (mobileMenu.classList.contains('is-open')) closeMobileMenu();
+      else openMobileMenu();
     });
 
     // Close menu when a link is tapped
     mobileMenu.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
-        if (menuClosingTimer) { clearTimeout(menuClosingTimer); menuClosingTimer = null; }
-        mobileMenu.classList.remove('is-open');
-        mobileMenu.classList.add('is-closing');
-        setIcon(false);
-        mobileBtn.setAttribute('aria-expanded', 'false');
-        menuClosingTimer = setTimeout(() => {
-          mobileMenu.classList.add('hidden');
-          mobileMenu.classList.remove('is-closing');
-          menuClosingTimer = null;
-        }, dur());
+        closeMobileMenu();
       });
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && mobileMenu.classList.contains('is-open')) closeMobileMenu(true);
+    });
+    document.addEventListener('click', event => {
+      if (!mobileMenu.classList.contains('is-open')) return;
+      if (!mobileMenu.contains(event.target) && !mobileBtn.contains(event.target)) closeMobileMenu();
     });
   }
 });
@@ -655,25 +711,35 @@ document.addEventListener('DOMContentLoaded', () => {
 function initNavDropdowns() {
   document.querySelectorAll('.rs-nav-dd').forEach(dd => {
     const menu = dd.querySelector('.rs-nav-dd-menu');
-    if (!menu) return;
+    const button = dd.querySelector('.rs-nav-dd-btn');
+    if (!menu || !button) return;
     menu.classList.add('t-dropdown-menu');
     let closeTimer = null;
 
     const open = () => {
       if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+      document.querySelectorAll('.rs-nav-dd.is-open').forEach(other => {
+        if (other !== dd && typeof other._rsClose === 'function') other._rsClose();
+      });
+      dd.classList.add('is-open');
       menu.classList.remove('is-closing');
       menu.classList.add('is-open');
+      button.setAttribute('aria-expanded', 'true');
     };
-    const close = () => {
+    const close = (returnFocus = false) => {
       if (!menu.classList.contains('is-open')) return;
+      dd.classList.remove('is-open');
       menu.classList.remove('is-open');
       menu.classList.add('is-closing');
+      button.setAttribute('aria-expanded', 'false');
       const dur = parseInt(getComputedStyle(menu).getPropertyValue('--dropdown-close-dur')) || 120;
       closeTimer = setTimeout(() => {
         menu.classList.remove('is-closing');
         closeTimer = null;
+        if (returnFocus) button.focus();
       }, dur);
     };
+    dd._rsClose = close;
     /* Hover bridge: extend the open state to BOTH the parent and the menu
        itself. Moving the mouse from button → menu now keeps `is-open`
        active even when the cursor briefly crosses the visual gap. */
@@ -694,6 +760,48 @@ function initNavDropdowns() {
       if (!dd.contains(e.relatedTarget) && !menu.contains(e.relatedTarget)) close();
     });
     menu.addEventListener('focusin', enterMenu);
+
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      if (dd.classList.contains('is-open')) close();
+      else open();
+    });
+    button.addEventListener('keydown', event => {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        open();
+        menu.querySelector('a')?.focus();
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        close(true);
+      }
+    });
+    menu.addEventListener('keydown', event => {
+      const items = Array.from(menu.querySelectorAll('a'));
+      const current = items.indexOf(document.activeElement);
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        close(true);
+      } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        const direction = event.key === 'ArrowDown' ? 1 : -1;
+        items[(current + direction + items.length) % items.length]?.focus();
+      } else if (event.key === 'Home' || event.key === 'End') {
+        event.preventDefault();
+        items[event.key === 'Home' ? 0 : items.length - 1]?.focus();
+      }
+    });
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    const open = document.querySelector('.rs-nav-dd.is-open');
+    if (open && typeof open._rsClose === 'function') open._rsClose(true);
+  });
+  document.addEventListener('click', event => {
+    document.querySelectorAll('.rs-nav-dd.is-open').forEach(dd => {
+      if (!dd.contains(event.target) && typeof dd._rsClose === 'function') dd._rsClose();
+    });
   });
 }
 
@@ -802,7 +910,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('rs-theme-switcher-script')) return;
   const script = document.createElement('script');
   script.id = 'rs-theme-switcher-script';
-  script.src = 'assets/js/theme-switcher.js?v=theme-readability-3';
+  script.src = 'assets/js/theme-switcher.js?v=ui-integrity-1';
   script.defer = true;
   document.head.appendChild(script);
 })();

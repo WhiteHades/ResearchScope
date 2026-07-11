@@ -86,11 +86,12 @@ body > .rs-field-shader {
 
 main,
 section,
-footer,
-.rs-nav {
+footer {
   position: relative;
-  z-index: 1;
+  z-index: var(--rs-z-content);
 }
+
+.rs-nav { z-index: var(--rs-z-sticky); }
 
 body > main:not(.auth-page),
 body > .rs-container,

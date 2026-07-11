@@ -26,9 +26,7 @@
 }
 
 /* ── transitions-dev: Menu dropdown (Venues / Discover / People) ── */
-/* Layer on top of the existing .rs-nav-dd-menu display:none / :hover display:block.
-   Drives the animation via opacity / transform / visibility. The base display
-   stays under .rs-nav-dd-menu's control. */
+/* Drives the single dropdown state model via opacity, transform, and visibility. */
 .t-dropdown-menu {
   transform-origin: top center;
   opacity: 0;

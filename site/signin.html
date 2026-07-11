@@ -6,7 +6,7 @@
   <title>Sign In – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css?v=theme-readability-3"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-1"/>
   <style>
     .auth-page {
       min-height: calc(100vh - 56px);
@@ -155,7 +155,7 @@
         <a href="gaps.html">Research Gaps</a>
         <a href="deadlines.html">Upcoming</a>
       </div>
-      <div class="flex items-center gap-2 justify-end" style="flex:1">
+      <div id="rs-nav-actions" class="flex items-center gap-2 justify-end" style="flex:1">
         <div class="search-wrap hidden lg:block">
           <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
@@ -231,7 +231,7 @@
         </a>
       </p>
 
-      <div id="auth-error" class="auth-error hidden">
+      <div id="auth-error" class="auth-error hidden" role="alert" aria-live="assertive">
         <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px">
           <circle cx="12" cy="12" r="10" stroke-width="2"/>
           <line x1="12" y1="8" x2="12" y2="12" stroke-width="2"/>
@@ -263,8 +263,8 @@
             <input id="password" class="auth-input" type="password"
               placeholder="••••••••" required autocomplete="current-password"
               style="padding-right:2.75rem"/>
-            <button type="button" class="auth-pwd-toggle" onclick="togglePwd('password',this)" tabindex="-1">
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button type="button" class="auth-pwd-toggle" onclick="togglePwd('password',this)" aria-label="Show password" aria-pressed="false">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                   d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                 <circle cx="12" cy="12" r="3" stroke-width="1.8"/>
@@ -283,7 +283,7 @@
   </div>
 </main>
 
-<script src="assets/js/app.js?v=theme-readability-3"></script>
+<script src="assets/js/app.js?v=ui-integrity-1"></script>
 <script src="assets/js/railway-api.js"></script>
 <script>
 (function () {
@@ -306,6 +306,8 @@
     const hide = input.type === 'password';
     input.type = hide ? 'text' : 'password';
     btn.style.color = hide ? 'var(--rs-coral)' : '';
+    btn.setAttribute('aria-label', hide ? 'Hide password' : 'Show password');
+    btn.setAttribute('aria-pressed', String(hide));
   }
   window.togglePwd = togglePwd;
 

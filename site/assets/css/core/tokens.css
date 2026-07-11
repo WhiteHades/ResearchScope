@@ -84,6 +84,12 @@
   --rs-pad:          64px;
   --rs-section-y:    130px;
 
+  /* ── Layers ── */
+  --rs-z-content:    1;
+  --rs-z-sticky:     100;
+  --rs-z-dropdown:   200;
+  --rs-z-popover:    300;
+
   /* ── transitions.dev (5 selected, scoped to existing UI) ── */
   /* Icon swap (hamburger ↔ close) */
   --icon-swap-dur:          200ms;

@@ -33,7 +33,8 @@
       this.themes = themes;
       this.storageKey = 'researchscope-theme';
       this.linkId = 'rs-theme-css';
-      this.cacheKey = 'theme-readability-3';
+      this.integrityLinkId = 'rs-ui-integrity-css';
+      this.cacheKey = 'ui-integrity-1';
       this.current = this.resolveInitialTheme();
       this.setPageDataset();
       this.apply(this.current, false);
@@ -86,10 +87,22 @@
         }
         link.href = `${theme.css}?v=${this.cacheKey}`;
       }
+      this.ensureIntegrityStyles();
 
       if (persist) window.localStorage?.setItem(this.storageKey, theme.id);
       this.updateControls();
       window.dispatchEvent(new CustomEvent('researchscope:themechange', { detail: { theme: theme.id } }));
+    }
+
+    ensureIntegrityStyles() {
+      let link = document.getElementById(this.integrityLinkId);
+      if (!link) {
+        link = document.createElement('link');
+        link.id = this.integrityLinkId;
+        link.rel = 'stylesheet';
+      }
+      link.href = `assets/css/ui-integrity.css?v=${this.cacheKey}`;
+      document.head.appendChild(link);
     }
 
     cycle() {
@@ -103,25 +116,24 @@
       this.updateControls();
       document.addEventListener('click', event => this.handleOutsideClick(event));
       document.addEventListener('keydown', event => {
-        if (event.key === 'Escape') this.closeMenu();
+        if (event.key === 'Escape') this.closeMenu(true);
       });
     }
 
     mountDesktop() {
-      const mobileButton = document.getElementById('mobile-menu-btn');
-      const navActions = mobileButton?.parentElement;
+      const navActions = document.getElementById('rs-nav-actions');
       if (!navActions || document.getElementById('rs-theme-switcher')) return;
 
       const root = document.createElement('div');
       root.id = 'rs-theme-switcher';
       root.className = 'rs-theme-switcher hidden lg:block';
       root.innerHTML = `
-        <button class="rs-theme-button" type="button" aria-haspopup="menu" aria-expanded="false">
+        <button class="rs-theme-button" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="rs-theme-menu">
           <span class="rs-theme-dot" aria-hidden="true"></span>
           <span>Theme</span>
           <span class="rs-theme-label"></span>
         </button>
-        <div class="rs-theme-menu" role="menu" aria-label="ResearchScope themes">
+        <div id="rs-theme-menu" class="rs-theme-menu" role="menu" aria-label="ResearchScope themes">
           ${this.themes.map(theme => this.optionMarkup(theme)).join('')}
         </div>
       `;
@@ -134,7 +146,7 @@
       root.querySelectorAll('[data-rs-theme-option]').forEach(button => {
         button.addEventListener('click', () => {
           this.apply(button.dataset.rsThemeOption);
-          this.closeMenu();
+          this.closeMenu(true);
         });
       });
     }
@@ -148,7 +160,7 @@
       root.className = 'rs-theme-mobile';
       root.innerHTML = `
         <span class="rs-theme-mobile__title">Theme</span>
-        <div class="rs-theme-mobile__options">
+        <div class="rs-theme-mobile__options" role="menu" aria-label="ResearchScope themes">
           ${this.themes.map(theme => this.optionMarkup(theme, true)).join('')}
         </div>
       `;
@@ -182,11 +194,13 @@
       if (root && !root.contains(event.target)) this.closeMenu();
     }
 
-    closeMenu() {
+    closeMenu(returnFocus = false) {
       const root = document.getElementById('rs-theme-switcher');
       if (!root) return;
+      const button = root.querySelector('.rs-theme-button');
       root.classList.remove('is-open');
-      root.querySelector('.rs-theme-button')?.setAttribute('aria-expanded', 'false');
+      button?.setAttribute('aria-expanded', 'false');
+      if (returnFocus) button?.focus();
     }
 
     loadFieldShader() {
