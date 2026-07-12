@@ -2,7 +2,7 @@
   'use strict';
 
   const root = document.documentElement;
-  const cacheKey = 'ui-integrity-16';
+  const cacheKey = 'ui-integrity-18';
   const stylesheets = {
     brutalist: 'assets/css/themes/brutalist.css',
     'field-notes': 'assets/css/themes/field-notes.css',

@@ -34,7 +34,7 @@
       this.storageKey = 'researchscope-theme';
       this.linkId = 'rs-theme-css';
       this.integrityLinkId = 'rs-ui-integrity-css';
-      this.cacheKey = 'ui-integrity-16';
+      this.cacheKey = 'ui-integrity-18';
       this.current = this.resolveInitialTheme();
       this.setPageDataset();
       this.apply(this.current, false);

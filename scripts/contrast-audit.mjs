@@ -291,6 +291,9 @@ const sampler = String.raw`
     if (Number.parseFloat(heroStyle.lineHeight) < Number.parseFloat(heroStyle.fontSize) * 0.96) {
       uiFailures.push({ type: 'hero-line-collision', detail: heroStyle.lineHeight + ' line height at ' + heroStyle.fontSize + ' font size' });
     }
+    if (Number.parseFloat(heroStyle.letterSpacing) < Number.parseFloat(heroStyle.fontSize) * -0.04) {
+      uiFailures.push({ type: 'hero-letter-collision', detail: heroStyle.letterSpacing + ' tracking at ' + heroStyle.fontSize + ' font size' });
+    }
   }
   const footer = document.querySelector('footer');
   if (footer && footer.parentElement !== document.body) {

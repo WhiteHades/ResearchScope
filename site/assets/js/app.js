@@ -916,7 +916,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('rs-theme-switcher-script')) return;
   const script = document.createElement('script');
   script.id = 'rs-theme-switcher-script';
-  script.src = 'assets/js/theme-switcher.js?v=ui-integrity-16';
+  script.src = 'assets/js/theme-switcher.js?v=ui-integrity-18';
   script.defer = true;
   document.head.appendChild(script);
 })();
