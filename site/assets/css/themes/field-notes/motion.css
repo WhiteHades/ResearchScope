@@ -1,17 +1,13 @@
 /* Field Notes motion: tactile paper lift, soft entrance, reduced-motion safe. */
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero-gradient::after {
-    animation: rs-field-drift 16s ease-in-out infinite alternate;
-  }
-
   .rs-card,
   .digest-paper-card,
   .gap-card,
   .deadline-card,
   .library-card,
   .recommender-paper {
-    transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms cubic-bezier(0.22, 1, 0.36, 1), background-color 180ms ease;
+    transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, opacity 180ms ease;
   }
 
   .rs-btn,
@@ -23,13 +19,20 @@
   .library-toggle,
   .auth-submit,
   button {
-    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, opacity 160ms ease;
   }
 }
 
-@keyframes rs-field-drift {
-  from { transform: rotate(-5deg) translate3d(-0.5rem, 0, 0); }
-  to { transform: rotate(-3deg) translate3d(0.8rem, 0.5rem, 0); }
+html[data-rs-theme="field-notes"] * {
+  will-change: auto !important;
+}
+
+html[data-rs-theme="field-notes"] :is(a, button) {
+  transition-property: background-color, border-color, color, opacity !important;
+}
+
+html[data-rs-theme="field-notes"] .rs-live::before {
+  animation: none;
 }
 
 .rs-btn:active,

@@ -34,11 +34,10 @@
       this.storageKey = 'researchscope-theme';
       this.linkId = 'rs-theme-css';
       this.integrityLinkId = 'rs-ui-integrity-css';
-      this.cacheKey = 'ui-integrity-14';
+      this.cacheKey = 'ui-integrity-15';
       this.current = this.resolveInitialTheme();
       this.setPageDataset();
       this.apply(this.current, false);
-      this.loadFieldShader();
       this.ready(() => this.mount());
     }
 
@@ -203,14 +202,6 @@
       if (returnFocus) button?.focus();
     }
 
-    loadFieldShader() {
-      if (document.getElementById('rs-field-notes-shader-script')) return;
-      const script = document.createElement('script');
-      script.id = 'rs-field-notes-shader-script';
-      script.type = 'module';
-      script.src = `assets/js/field-notes-shader.js?v=${this.cacheKey}`;
-      document.head.appendChild(script);
-    }
   }
 
   window.ResearchScopeThemes = THEMES;
