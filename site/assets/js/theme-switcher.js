@@ -34,7 +34,7 @@
       this.storageKey = 'researchscope-theme';
       this.linkId = 'rs-theme-css';
       this.integrityLinkId = 'rs-ui-integrity-css';
-      this.cacheKey = 'ui-integrity-15';
+      this.cacheKey = 'ui-integrity-16';
       this.current = this.resolveInitialTheme();
       this.setPageDataset();
       this.apply(this.current, false);
@@ -50,6 +50,8 @@
     }
 
     resolveInitialTheme() {
+      const bootstrapped = document.documentElement.dataset.rsTheme;
+      if (this.hasTheme(bootstrapped)) return bootstrapped;
       const params = new URLSearchParams(window.location.search);
       const requested = params.get('theme');
       const saved = window.localStorage?.getItem(this.storageKey);

@@ -62,7 +62,7 @@ const sampler = String.raw`
 
 try {
   await waitForServer();
-  try { execFileSync('agent-browser', ['close', '--all'], { stdio: 'ignore' }); } catch (_) {}
+  try { browser(['close']); } catch (_) {}
   browser(['set', 'viewport', '1280', '800']);
   const results = [];
   for (const route of routes) {

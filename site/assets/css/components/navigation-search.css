@@ -12,6 +12,25 @@
   z-index: var(--rs-z-sticky);
 }
 
+html[data-rs-theme="atelier"] .rs-nav {
+  border-bottom-color: transparent;
+}
+
+html[data-rs-theme="atelier"] .rs-nav::after {
+  -webkit-backdrop-filter: blur(12px) saturate(125%);
+  -webkit-mask-image: linear-gradient(to bottom, #000, rgba(0, 0, 0, 0.55) 42%, transparent);
+  backdrop-filter: blur(12px) saturate(125%);
+  background: linear-gradient(to bottom, rgba(239, 231, 210, 0.34), rgba(239, 231, 210, 0));
+  content: '';
+  height: 1.5rem;
+  left: 0;
+  mask-image: linear-gradient(to bottom, #000, rgba(0, 0, 0, 0.55) 42%, transparent);
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% - 1px);
+}
+
 #rs-nav-actions { min-width: 0; }
 #rs-nav-actions > #rs-theme-switcher { order: 10; }
 #rs-nav-actions > #rs-auth-wrap { order: 20; }

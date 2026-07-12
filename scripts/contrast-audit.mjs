@@ -48,6 +48,7 @@ class Args {
     this.viewport = this.value(argv, '--viewport');
     this.session = this.value(argv, '--session') || 'rs-contrast-audit';
     this.shell = argv.includes('--shell');
+    this.persistedTheme = argv.includes('--persisted-theme');
   }
 
   value(argv, flag) {
@@ -284,6 +285,13 @@ const sampler = String.raw`
   if (document.documentElement.scrollWidth > window.innerWidth + 1) {
     uiFailures.push({ type: 'horizontal-overflow', detail: document.documentElement.scrollWidth + 'px document at ' + window.innerWidth + 'px viewport' });
   }
+  const heroHeading = document.querySelector('.hero-gradient .rs-display-1');
+  if (document.documentElement.dataset.rsTheme === 'field-notes' && heroHeading) {
+    const heroStyle = getComputedStyle(heroHeading);
+    if (Number.parseFloat(heroStyle.lineHeight) < Number.parseFloat(heroStyle.fontSize) * 0.96) {
+      uiFailures.push({ type: 'hero-line-collision', detail: heroStyle.lineHeight + ' line height at ' + heroStyle.fontSize + ' font size' });
+    }
+  }
   const footer = document.querySelector('footer');
   if (footer && footer.parentElement !== document.body) {
     uiFailures.push({ type: 'footer-containment', detail: path(footer.parentElement) });
@@ -295,8 +303,13 @@ const sampler = String.raw`
   });
 
   const integrityLink = document.getElementById('rs-ui-integrity-css');
+  const bootstrapScript = document.querySelector('head script[src*="/theme-bootstrap.js"]');
+  if (!bootstrapScript) uiFailures.push({ type: 'missing-theme-bootstrap', detail: 'theme-bootstrap.js must load from head' });
+  if (document.documentElement.classList.contains('rs-theme-loading')) uiFailures.push({ type: 'theme-bootstrap-pending', detail: document.documentElement.dataset.rsTheme || 'unknown theme' });
+  if (window.ResearchScopeInitialTheme !== document.documentElement.dataset.rsTheme) uiFailures.push({ type: 'theme-bootstrap-mismatch', detail: String(window.ResearchScopeInitialTheme) + ' -> ' + String(document.documentElement.dataset.rsTheme) });
   const expectedVersion = integrityLink ? new URL(integrityLink.href).searchParams.get('v') : null;
   if (!expectedVersion) uiFailures.push({ type: 'missing-integrity-stylesheet', detail: 'rs-ui-integrity-css' });
+  if (bootstrapScript && expectedVersion && new URL(bootstrapScript.src).searchParams.get('v') !== expectedVersion) uiFailures.push({ type: 'stale-theme-bootstrap', detail: bootstrapScript.src });
   const localStyles = new Set();
   const visitedSheets = new Set();
   function collectStyles(sheet) {
@@ -422,13 +435,17 @@ class ContrastAudit {
     if (!viewports.length) throw new Error(`Unknown viewport: ${this.args.viewport}`);
     if (themes.some(theme => !CONFIG.themes.includes(theme))) throw new Error(`Unknown theme: ${this.args.theme}`);
     if (mediaModes.some(media => !CONFIG.media.includes(media))) throw new Error(`Unknown media mode: ${this.args.media}`);
+    if (this.args.persistedTheme) this.browser.run(['open', `${this.base}/?theme=atelier`]);
     for (const viewport of viewports) {
       this.browser.run(['set', 'viewport', String(viewport.width), String(viewport.height)]);
       for (const media of mediaModes) {
         this.browser.run(['set', 'media', media]);
         for (const theme of themes) {
+          if (this.args.persistedTheme) this.browser.run(['eval', `localStorage.setItem('researchscope-theme', ${JSON.stringify(theme)}); true`]);
           for (const route of routes) {
-            const url = `${this.base}${route}?theme=${theme}`;
+            const url = this.args.persistedTheme
+              ? `${this.base}${route}?audit=persisted-${theme}`
+              : `${this.base}${route}?theme=${theme}`;
             this.browser.run(['open', url]);
             const themeFile = theme === 'brutalist' ? 'brutalist.css' : 'field-notes.css';
             const ready = `document.documentElement.dataset.rsTheme === ${JSON.stringify(theme)} && (${theme === 'atelier'} || Array.from(document.styleSheets).some(sheet => sheet.href && sheet.href.includes(${JSON.stringify(themeFile)})))`;
