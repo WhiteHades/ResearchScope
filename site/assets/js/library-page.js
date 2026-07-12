@@ -4,7 +4,7 @@
   }
 
   function renderLibraryCard(paper, index, libraryApi) {
-    const url = paper.paper_url || paper.url || '#';
+    const url = paperWorkspaceUrl(paper);
     const authors = (paper.authors || []).slice(0, 3).join(', ');
     const extra = (paper.authors || []).length > 3
       ? ` +${paper.authors.length - 3}`
@@ -24,7 +24,7 @@
         <div class="library-card__header">
           <div class="min-w-0 flex-1">
             <div class="library-card__eyebrow">Saved #${index + 1}</div>
-            <a href="${escHtml(url)}" target="_blank" rel="noopener" class="text-base font-semibold hover:text-indigo-600 transition-colors">
+            <a href="${escHtml(url)}" class="text-base font-semibold hover:text-indigo-600 transition-colors">
               ${escHtml(paper.title)}
             </a>
             <p class="text-xs mt-1" style="color:var(--rs-muted)">

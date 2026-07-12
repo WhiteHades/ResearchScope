@@ -186,7 +186,7 @@
 
 <script src="assets/js/app.js"></script>
 <script src="assets/js/library.js"></script>
-<script src="assets/js/railway-api.js"></script>
+<script src="assets/js/railway-api.js?v=20260712-local-api"></script>
 <script>
 // ── State ─────────────────────────────────────────────────────────────────────
 let currentPage  = 1;
@@ -248,7 +248,7 @@ function renderRows(papers, startIdx = 0) {
   }
   tbody.innerHTML = papers.map((p, i) => {
     const idx = startIdx + i;
-    const url = p.paper_url || p.url || '#';
+    const url = p.paper_url || p.url || p.pdf_url || '#';
     const paperId   = libraryApi ? libraryApi.getPaperLibraryId(p) : '';
     const inLibrary = paperId ? libraryLookup.has(paperId) : false;
     const authors   = (p.authors || []).slice(0, 2).join(', ');

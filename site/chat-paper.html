@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat with Paper – ResearchScope</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/chat-paper.css"/>
+</head>
+<body>
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center h-14 gap-2">
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">🔭 ResearchScope</a>
+      <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1"></div>
+      <div class="flex items-center gap-2 justify-end" style="flex:1">
+        <div class="search-wrap hidden lg:block">
+          <input id="global-search" class="search-input" type="search" placeholder="Search papers, authors…" autocomplete="off"/>
+          <div id="search-dropdown" class="search-dropdown hidden"></div>
+        </div>
+        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
+        <button id="mobile-menu-btn" class="lg:hidden p-1 rounded" aria-label="Open menu" aria-expanded="false">
+          <svg id="hamburger-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg id="close-icon" class="hidden" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-border);background:var(--rs-surface)">
+    <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium"></div>
+  </div>
+</nav>
+
+<div class="mobile-pane-tabs" role="tablist" aria-label="Workspace panes">
+  <button class="mobile-pane-tab active" data-pane="paper" role="tab">Paper</button>
+  <button class="mobile-pane-tab" data-pane="assistant" role="tab">Assistant</button>
+</div>
+
+<main class="chat-workspace">
+  <section id="paper-pane" class="paper-pane" aria-label="Paper viewer">
+    <div class="paper-toolbar">
+      <div class="paper-heading">
+        <h1 id="paper-title">Select a paper</h1>
+        <p id="paper-meta">Open a paper from ResearchScope to begin.</p>
+      </div>
+      <span id="document-state" class="document-state">Not prepared</span>
+      <button id="retry-prepare" class="chat-action hidden">Retry</button>
+      <a id="external-pdf" class="chat-action hidden" target="_blank" rel="noopener">Open PDF</a>
+    </div>
+    <div class="paper-frame-wrap">
+      <iframe id="paper-frame" title="Paper PDF"></iframe>
+      <div id="paper-placeholder" class="paper-placeholder"><div><h2 class="font-bold mb-2">Paper viewer</h2><p>Choose a paper to open its PDF and chat history.</p></div></div>
+    </div>
+  </section>
+
+  <aside id="assistant-pane" class="assistant-pane mobile-hidden" aria-label="Paper assistant">
+    <div class="assistant-toolbar">
+      <div class="assistant-tabs" role="tablist">
+        <button class="assistant-tab active" data-view="assistant" role="tab">Assistant</button>
+        <button class="assistant-tab" data-view="history" role="tab">History</button>
+      </div>
+      <button id="new-chat" class="chat-action">＋ New chat</button>
+    </div>
+
+    <section id="assistant-view" class="assistant-view">
+      <div id="messages" class="messages" aria-live="polite">
+        <div id="chat-empty" class="chat-empty">
+          <div>
+            <div class="text-3xl mb-2">✦</div>
+            <h2>Chat with this paper</h2>
+            <p id="empty-copy">Open a prepared paper and ask a grounded question.</p>
+            <div class="suggestions">
+              <button class="suggestion">Summarize this paper in plain language.</button>
+              <button class="suggestion">What is the main contribution?</button>
+              <button class="suggestion">Explain the methodology step by step.</button>
+              <button class="suggestion">What limitations do the authors mention?</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="composer-wrap">
+        <div class="composer">
+          <textarea id="chat-input" rows="1" maxlength="4000" placeholder="Ask anything about this paper…" disabled></textarea>
+          <button id="send-message" class="send-btn" aria-label="Send message" disabled>↑</button>
+        </div>
+        <div id="composer-note" class="composer-note"></div>
+      </div>
+    </section>
+
+    <section id="history-view" class="assistant-view hidden-view">
+      <div id="history-list" class="history-list"></div>
+      <div class="history-footer"><button id="delete-all-chats" class="chat-action history-danger">Delete all chats</button></div>
+    </section>
+  </aside>
+</main>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/railway-api.js?v=20260712-local-api"></script>
+<script src="assets/js/chat-paper-core.js"></script>
+<script src="assets/js/chat-paper.js"></script>
+</body>
+</html>

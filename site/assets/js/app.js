@@ -71,6 +71,11 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+function paperWorkspaceUrl(paper) {
+  return paper?.paper_url || paper?.url || paper?.pdf_url || '#';
+}
+window.paperWorkspaceUrl = paperWorkspaceUrl;
+
 function truncate(str, max = 120) {
   if (!str) return '';
   return str.length > max ? str.slice(0, max) + '…' : str;
@@ -143,7 +148,7 @@ function citelensBtn(paper) {
 
 // ── Paper card (used in homepage & topics) ─────────────────────────────
 function renderPaperCard(paper, opts = {}) {
-  const url = paper.paper_url || paper.url || '#';
+  const url = paperWorkspaceUrl(paper);
   const authors = (paper.authors || []).slice(0, 3).join(', ');
   const extra   = (paper.authors || []).length > 3 ? ` +${paper.authors.length - 3}` : '';
   const typeStr = paper.paper_type ? `<span class="badge badge-type">${escHtml(paper.paper_type)}</span>` : '';
@@ -154,7 +159,7 @@ function renderPaperCard(paper, opts = {}) {
   <div class="rs-card p-5 mb-4">
     <div class="flex items-start justify-between gap-4 flex-wrap">
       <div class="flex-1 min-w-0">
-        <a href="${escHtml(url)}" target="_blank" rel="noopener"
+        <a href="${escHtml(url)}"
            class="text-base font-semibold hover:text-indigo-600 transition-colors">
           ${escHtml(paper.title)}
         </a>
@@ -466,7 +471,8 @@ function tweetPaperUrl(paper) {
 
 function renderPotdCard(paper) {
   if (!paper) return '';
-  const url     = paper.paper_url || paper.url || '#';
+  const url     = paperWorkspaceUrl(paper);
+  const externalUrl = paper.paper_url || paper.url || '#';
   const venue   = [paper.venue, paper.year].filter(Boolean).join(' · ');
   const authors = (paper.authors || []).slice(0, 3).join(', ');
   const extra   = (paper.authors || []).length > 3 ? ` +${paper.authors.length - 3}` : '';
@@ -486,7 +492,7 @@ function renderPotdCard(paper) {
       <span style="font-size:0.65rem;opacity:0.6;font-weight:400">${new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>
     </div>
     <div class="potd-title">
-      <a href="${escHtml(url)}" target="_blank" rel="noopener">${escHtml(paper.title)}</a>
+      <a href="${escHtml(url)}">${escHtml(paper.title)}</a>
     </div>
     <div class="potd-meta">
       ${venue ? escHtml(venue) + (authors ? ' · ' : '') : ''}${escHtml(authors)}${escHtml(extra)}
@@ -495,13 +501,14 @@ function renderPotdCard(paper) {
     <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.75rem">${tags}</div>
     <p class="potd-abstract">${escHtml((paper.abstract || paper.summary || '').slice(0, 300))}</p>
     <div class="potd-actions">
-      <a href="${escHtml(url)}" target="_blank" rel="noopener" class="potd-btn potd-btn-primary">Read Paper →</a>
-      ${(() => { const aid = extractArxivId(url); return aid ? `<a href="https://kishormorol.github.io/CiteLens/?q=${encodeURIComponent(aid)}" target="_blank" rel="noopener" class="potd-btn potd-btn-ghost" title="See who cited this paper">🔍 Analyze citations</a>` : ''; })()}
+      <a href="${escHtml(url)}" class="potd-btn potd-btn-primary">Chat with Paper →</a>
+      <a href="${escHtml(externalUrl)}" target="_blank" rel="noopener" class="potd-btn potd-btn-ghost">Open source</a>
+      ${(() => { const aid = extractArxivId(externalUrl); return aid ? `<a href="https://kishormorol.github.io/CiteLens/?q=${encodeURIComponent(aid)}" target="_blank" rel="noopener" class="potd-btn potd-btn-ghost" title="See who cited this paper">🔍 Analyze citations</a>` : ''; })()}
       <a href="${escHtml(tweetPaperUrl(paper))}" target="_blank" rel="noopener" class="potd-btn potd-btn-ghost">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.738-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         Share
       </a>
-      <button onclick="copyPotdLink('${escHtml(url)}',this)" class="potd-btn potd-btn-ghost">📋 Copy Link</button>
+      <button onclick="copyPotdLink('${escHtml(externalUrl)}',this)" class="potd-btn potd-btn-ghost">📋 Copy Link</button>
       <span class="potd-next">${nextLabel}</span>
     </div>
   </div>`;
@@ -523,8 +530,9 @@ function buildDropdownNav() {
 
   const page = window.location.pathname.split('/').pop() || './';
 
-  function navLink(href, label) {
-    const cls = 'rs-nav-top-link' + (href === page ? ' active' : '');
+  function navLink(href, label, aliases = []) {
+    const isActive = href === page || aliases.includes(page);
+    const cls = 'rs-nav-top-link' + (isActive ? ' active' : '');
     return `<a href="${href}" class="${cls}">${label}</a>`;
   }
 
@@ -543,6 +551,7 @@ function buildDropdownNav() {
   if (linksDiv) {
     linksDiv.innerHTML =
       navLink('papers', 'Papers') +
+      navLink('chat-arxiv', '✦ Chat arXiv', ['chat-paper']) +
       dropdown('Venues', [
         ['conferences', '🎓 Conferences'],
         ['journals',    '📖 Journals'],
@@ -563,12 +572,13 @@ function buildDropdownNav() {
   }
 
   if (mobLinks) {
-    const ml = (href, lbl) =>
-      `<a href="${href}" class="mobile-nav-link${href === page ? ' active' : ''}">${lbl}</a>`;
+    const ml = (href, lbl, aliases = []) =>
+      `<a href="${href}" class="mobile-nav-link${href === page || aliases.includes(page) ? ' active' : ''}">${lbl}</a>`;
     const sec = t => `<p class="mobile-nav-section">${t}</p>`;
     mobLinks.innerHTML =
       ml('./',  'Home') +
       ml('papers', 'Papers') +
+      ml('chat-arxiv', '✦ Chat with arXiv', ['chat-paper']) +
       sec('Venues') +
       ml('conferences',           '🎓 Conferences') +
       ml('journals',              '📖 Journals') +

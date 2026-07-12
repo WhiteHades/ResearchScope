@@ -572,7 +572,7 @@
 </footer>
 
 <script src="assets/js/app.js"></script>
-<script src="assets/js/railway-api.js"></script>
+<script src="assets/js/railway-api.js?v=20260712-local-api"></script>
 <script>
 const GAP_TYPE_LABELS = { explicit: '📌 Explicit', pattern: '📊 Pattern', starter: '💡 Starter' };
 const GAP_TYPE_COLOR  = { explicit: 'gap-card-explicit', pattern: 'gap-card-pattern', starter: 'gap-card-starter' };
@@ -591,7 +591,7 @@ function renderEditorial(ed) {
   if (p) {
     html += `<div class="editorial-card col-span-full lg:col-span-1">
       <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--rs-primary)">📄 Paper of the Day</p>
-      <a href="${escHtml(p.paper_url || '#')}" target="_blank" class="font-bold text-base hover:underline">${escHtml(p.title)}</a>
+      <a href="${escHtml(paperWorkspaceUrl(p))}" class="font-bold text-base hover:underline">${escHtml(p.title)}</a>
       <div class="flex gap-1 flex-wrap mt-1 mb-2">
         ${(p.tags || []).slice(0,3).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
         ${difficultyBadge(p)}
@@ -640,7 +640,7 @@ function renderEditorial(ed) {
   if (u) {
     html += `<div class="editorial-card">
       <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--rs-primary)">💎 Underrated Paper</p>
-      <a href="${escHtml(u.paper_url||'#')}" target="_blank" class="font-semibold hover:underline text-sm">${escHtml(u.title)}</a>
+      <a href="${escHtml(paperWorkspaceUrl(u))}" class="font-semibold hover:underline text-sm">${escHtml(u.title)}</a>
       <p class="text-xs mt-1" style="color:var(--rs-muted)">${escHtml(u.reason||'')}</p>
     </div>`;
   }
@@ -656,7 +656,7 @@ function renderEditorial(ed) {
       html += `<div class="rs-card p-3 flex items-center gap-3">
         <span class="text-2xl font-black" style="color:var(--rs-primary);min-width:2rem">${i+1}</span>
         <div class="flex-1 min-w-0">
-          <a href="${escHtml(p.paper_url||'#')}" target="_blank" class="font-semibold text-sm hover:underline">${escHtml(p.title)}</a>
+          <a href="${escHtml(paperWorkspaceUrl(p))}" class="font-semibold text-sm hover:underline">${escHtml(p.title)}</a>
           <div class="flex gap-1 flex-wrap mt-0.5">
             ${(p.tags||[]).slice(0,2).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
             <span class="badge badge-score">⭐ ${(+p.paper_score||0).toFixed(1)}</span>

@@ -137,7 +137,7 @@
 </footer>
 
 <script src="assets/js/app.js"></script>
-<script src="assets/js/railway-api.js"></script>
+<script src="assets/js/railway-api.js?v=20260712-local-api"></script>
 <script>
 (async () => {
   const input   = document.getElementById('search-page-input');
@@ -158,7 +158,7 @@
     show('results-papers', papers.length > 0);
     document.getElementById('results-papers-list').innerHTML = papers.map(p => `
       <div class="rs-card p-4">
-        <a href="${escHtml(p.paper_url || '#')}" target="_blank" class="font-semibold hover:underline" style="color:var(--rs-primary)">${escHtml(p.title)}</a>
+        <a href="${escHtml(paperWorkspaceUrl(p))}" class="font-semibold hover:underline" style="color:var(--rs-primary)">${escHtml(p.title)}</a>
         <div class="text-xs mt-1" style="color:var(--rs-muted)">${escHtml(p.venue || 'arXiv')} · ${p.year || ''} · Score ${p.paper_score?.toFixed(1) || '—'}</div>
         ${p.abstract ? `<p class="text-sm mt-2" style="color:var(--rs-muted)">${escHtml(p.abstract.slice(0, 180))}…</p>` : ''}
       </div>`).join('');

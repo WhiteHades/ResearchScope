@@ -90,6 +90,23 @@ async def init_db() -> None:
             await conn.execute(text(
                 "ALTER TABLE favourites ADD COLUMN IF NOT EXISTS notes TEXT"
             ))
+            await conn.execute(text("""
+                CREATE OR REPLACE FUNCTION paper_chunks_search_vector_update()
+                RETURNS trigger AS $$
+                BEGIN
+                    NEW.search_vector := to_tsvector('english', coalesce(NEW.content, ''));
+                    RETURN NEW;
+                END;
+                $$ LANGUAGE plpgsql
+            """))
+            await conn.execute(text("""
+                DROP TRIGGER IF EXISTS paper_chunks_search_vector_trigger ON paper_chunks
+            """))
+            await conn.execute(text("""
+                CREATE TRIGGER paper_chunks_search_vector_trigger
+                BEFORE INSERT OR UPDATE OF content ON paper_chunks
+                FOR EACH ROW EXECUTE FUNCTION paper_chunks_search_vector_update()
+            """))
         log.info("Database tables initialised.")
     except Exception as exc:
         log.error("Database init failed: %s", exc)

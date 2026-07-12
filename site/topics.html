@@ -189,7 +189,7 @@
   </p>
 </footer>
 <script src="assets/js/app.js"></script>
-<script src="assets/js/railway-api.js"></script>
+<script src="assets/js/railway-api.js?v=20260712-local-api"></script>
 <script src="assets/js/topic-graph.js"></script>
 <style>
 .topic-filter-btn {
@@ -218,11 +218,11 @@ const DIFF_CLS = {L1:'badge-l1',L2:'badge-l2',L3:'badge-l3',L4:'badge-l4',
   beginner:'badge-l1',intermediate:'badge-l2',advanced:'badge-l3',frontier:'badge-l4'};
 
 function paperStub(p, icon='⭐') {
-  const url = p.paper_url || p.url || '#';
+  const url = paperWorkspaceUrl(p);
   return `<div class="reading-path-step">
     <div class="path-number">${icon}</div>
     <div class="flex-1 min-w-0">
-      <a href="${escHtml(url)}" target="_blank" class="text-sm font-medium hover:underline">${escHtml(p.title)}</a>
+      <a href="${escHtml(url)}" class="text-sm font-medium hover:underline">${escHtml(p.title)}</a>
       <div class="flex gap-1 flex-wrap mt-0.5">
         ${difficultyBadge(p)}
         <span class="badge badge-score">${(+p.read_first_score||0).toFixed(1)}</span>

@@ -1,12 +1,17 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import select, func
+from urllib.parse import quote
+
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_db
 from app.models import Paper
-from app.schemas import PaperOut, PaperList
+from app.schemas import PaperList, PaperOut, PaperViewerOut
+from app.services.document_service import DocumentPreparationError, download_pdf
+from app.services.paper_catalog_service import PaperCatalogError, get_or_import_paper
+from app.services.paper_viewer_service import resolve_paper_viewer_url
 
 router = APIRouter(prefix="/papers", tags=["papers"])
 
@@ -92,7 +97,57 @@ async def list_journal_papers(
 
 @router.get("/{paper_id}", response_model=PaperOut)
 async def get_paper(paper_id: str, db: AsyncSession = Depends(get_db)):
-    paper = await db.get(Paper, paper_id)
+    try:
+        paper = await get_or_import_paper(db, paper_id)
+    except PaperCatalogError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.code) from exc
     if not paper:
         raise HTTPException(status_code=404, detail="Paper not found")
     return paper
+
+
+@router.get("/{paper_id}/viewer-url", response_model=PaperViewerOut)
+async def get_paper_viewer_url(
+    paper_id: str,
+    db: AsyncSession = Depends(get_db),
+):
+    try:
+        paper = await get_or_import_paper(db, paper_id)
+    except PaperCatalogError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.code) from exc
+    if not paper:
+        raise HTTPException(status_code=404, detail="Paper not found")
+    resolved = await resolve_paper_viewer_url(paper)
+    return PaperViewerOut(
+        viewer_url=(
+            f"/papers/{quote(paper_id, safe='')}/pdf"
+            if resolved
+            else None
+        ),
+        external_url=paper.pdf_url or paper.paper_url,
+    )
+
+
+@router.get("/{paper_id}/pdf", name="get_paper_pdf")
+async def get_paper_pdf(paper_id: str, db: AsyncSession = Depends(get_db)):
+    try:
+        paper = await get_or_import_paper(db, paper_id)
+    except PaperCatalogError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.code) from exc
+    if not paper:
+        raise HTTPException(status_code=404, detail="Paper not found")
+    resolved = await resolve_paper_viewer_url(paper)
+    if not resolved:
+        raise HTTPException(status_code=404, detail="pdf_unavailable")
+    try:
+        pdf_bytes = await download_pdf(resolved)
+    except DocumentPreparationError as exc:
+        raise HTTPException(status_code=422, detail=exc.code) from exc
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": 'inline; filename="paper.pdf"',
+            "Cache-Control": "no-store",
+        },
+    )
