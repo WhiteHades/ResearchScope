@@ -66,6 +66,7 @@ class Chrome:
     def __init__(self, binary, profile):
         self.proc = subprocess.Popen(
             [binary, "--headless=new", "--disable-gpu",
+             "--no-sandbox", "--disable-dev-shm-usage",
              f"--remote-debugging-port={DEVTOOLS_PORT}",
              f"--user-data-dir={profile}", "--no-first-run",
              "--no-default-browser-check", "--remote-allow-origins=*",
