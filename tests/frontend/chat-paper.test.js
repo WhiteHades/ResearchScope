@@ -16,6 +16,14 @@ assert.equal(first.rest, 'partial');
 assert.equal(core.citationPage(first.events[1].data.citations[0]), 4);
 assert.equal(core.citationPage({ page_start: 0 }), 1);
 assert.equal(
+  core.displayCitationLabels('Method [S1], results [S2][S3].'),
+  'Method [1], results [2][3].'
+);
+assert.equal(
+  core.displayAnswerText(String.raw`At \(10^{-4}\), S_5 used 6 \times 10^{-4}; **supported** [S1].`),
+  'At 10⁻⁴, S₅ used 6 × 10⁻⁴; supported [1].'
+);
+assert.equal(
   core.safeViewerUrl('https://export.arxiv.org/pdf/2501.1'),
   'https://export.arxiv.org/pdf/2501.1'
 );

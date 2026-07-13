@@ -86,7 +86,7 @@ These are the recommended defaults. A different answer changes scope and should 
 | Should PDFs be permanently stored? | No. Discard PDF bytes after extraction; retain page-aware text chunks only under an approved retention policy. | Reduces storage and licensing risk. |
 | What if a paper has no usable PDF? | Offer abstract-only chat with a visible “Abstract only” badge, or disable chat if even the abstract is missing. | A large multi-source corpus will never have 100% retrievable PDFs. |
 | Is “Highlight & Ask” part of MVP? | No; add it after the split workspace and cited chat are stable. | Native cross-origin PDF viewers do not expose selection to the parent page. It requires PDF.js/proxy work. |
-| Which model/provider? | Use a server-side OpenAI-compatible provider adapter via `httpx`; the repo's prior preference is Groq, but the model remains environment-configured. | Avoids an SDK and vendor lock-in while keeping keys server-side. |
+| Which model/provider? | Use the OpenAI Responses API server-side via `httpx`, with `gpt-5.6-terra` and low reasoning effort as cost-conscious defaults. | Keeps the key server-side and gives paper chat useful reasoning without selecting a premium model. |
 | Do we need embeddings immediately? | No. Start with page-aware chunks and PostgreSQL full-text ranking; evaluate retrieval before pgvector. | Keeps the MVP inside existing infrastructure. |
 | How long is history retained? | Recommend user-controlled deletion plus a documented 90-day inactive-session retention policy. | This is a privacy and cost decision, not an implementation detail. |
 | Can ResearchScope retain extracted text? | Treat as a launch-blocking legal/data-policy decision. | The current public promise says metadata only. |
@@ -463,9 +463,9 @@ The backend maps `[S1]` labels to validated chunk/page citation objects. Unknown
 
 ### Provider integration
 
-- Implement one small service using existing `httpx` against an OpenAI-compatible chat-completions endpoint.
-- Keep provider URL and model in environment variables.
-- Keep the provider key server-side.
+- Implement one small service using existing `httpx` against the OpenAI Responses API.
+- Keep the OpenAI URL, model, and reasoning effort configurable through environment variables.
+- Keep the OpenAI key server-side.
 - Support streaming and provider timeouts.
 - Validate response shape before persistence.
 - Do not add a large provider SDK unless the chosen API cannot be handled reliably with `httpx`.
@@ -474,9 +474,10 @@ Recommended environment names:
 
 ```text
 CHAT_ENABLED=true
-CHAT_API_BASE_URL=https://api.groq.com/openai/v1
-CHAT_API_KEY=
-CHAT_MODEL=
+OPENAI_API_KEY=
+OPENAI_API_BASE_URL=https://api.openai.com/v1
+OPENAI_CHAT_MODEL=gpt-5.6-terra
+OPENAI_REASONING_EFFORT=low
 CHAT_REQUEST_TIMEOUT_SECONDS=90
 CHAT_DAILY_MESSAGE_LIMIT=50
 CHAT_MAX_INPUT_CHARS=4000
@@ -485,7 +486,7 @@ CHAT_MAX_PDF_MB=15
 CHAT_DOCUMENT_RETENTION_DAYS=90
 ```
 
-The exact model must not be hardcoded into the plan; select it during implementation based on the provider account, context window, latency, and cost available at that time.
+The model remains overridable for deployments, while the default favors OpenAI's lower-cost conversational model with low reasoning effort.
 
 ---
 

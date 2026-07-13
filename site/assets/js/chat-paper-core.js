@@ -33,6 +33,32 @@
     return Number.isFinite(page) && page > 0 ? page : 1;
   }
 
+  function displayCitationLabels(value) {
+    return String(value || '').replace(/\[S(\d+)\]/g, '[$1]');
+  }
+
+  function displayAnswerText(value) {
+    const superscript = {
+      0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹',
+      '+': '⁺', '-': '⁻', '=': '⁼', '(': '⁽', ')': '⁾',
+    };
+    const subscript = {
+      0: '₀', 1: '₁', 2: '₂', 3: '₃', 4: '₄', 5: '₅', 6: '₆', 7: '₇', 8: '₈', 9: '₉',
+      '+': '₊', '-': '₋', '=': '₌', '(': '₍', ')': '₎',
+    };
+    const translate = (text, characters) => [...text].map((item) => characters[item] || item).join('');
+    let text = String(value || '');
+    text = text.replace(/\\(?:text|mathrm|mathbf)\{([^{}]*)\}/g, '$1');
+    text = text.replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '$1/$2');
+    text = text.replace(/\^\{([0-9+\-=()]+)\}/g, (_, part) => translate(part, superscript));
+    text = text.replace(/_\{([0-9+\-=()]+)\}/g, (_, part) => translate(part, subscript));
+    text = text.replace(/_([0-9+\-=()])/g, (_, part) => translate(part, subscript));
+    text = text.replace(/\\times/g, '×').replace(/\\cdot/g, '·').replace(/\\pm/g, '±');
+    text = text.replace(/\\leq/g, '≤').replace(/\\geq/g, '≥').replace(/\\neq/g, '≠');
+    text = text.replace(/\\%/g, '%').replace(/\\[()[\]]/g, '').replace(/\*\*/g, '');
+    return displayCitationLabels(text).trim();
+  }
+
   function safeViewerUrl(value, baseUrl, apiBaseUrl) {
     if (!value) return '';
     try {
@@ -61,5 +87,7 @@
     }
   }
 
-  return { citationPage, consumeSse, safeViewerUrl, workspaceUrl };
+  return {
+    citationPage, consumeSse, displayAnswerText, displayCitationLabels, safeViewerUrl, workspaceUrl,
+  };
 });

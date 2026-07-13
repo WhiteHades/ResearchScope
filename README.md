@@ -258,8 +258,11 @@ python scripts/serve_site.py --port 8080
 # Run the API locally
 cd backend
 pip install -r requirements.txt
-DATABASE_URL=postgresql://... uvicorn app.main:app --reload
+uvicorn app.main:app --reload
 ```
+
+The local API loads the repository-root `.env` without overriding variables
+already supplied by the shell or deployment environment.
 
 ### Environment variables
 
@@ -276,8 +279,9 @@ DATABASE_URL=postgresql://... uvicorn app.main:app --reload
 | `PIPELINE_SECRET` | Both | Shared secret for `/pipeline/trigger` endpoint |
 | `GITHUB_TOKEN` | Railway Env | Fine-grained PAT for triggering workflows |
 | `CHAT_ENABLED` | Railway Env | Feature flag; defaults to `false` |
-| `CHAT_PROVIDER` | Railway Env | Active provider: `groq`, `openai`, or `anthropic` |
-| `*_API_KEY`, `*_CHAT_MODEL` | Railway Env | Credentials/model for the selected chat provider |
+| `OPENAI_API_KEY` | Railway Env | Server-side key for Chat with arXiv; never expose it to the browser |
+| `OPENAI_CHAT_MODEL` | Railway Env | Optional model override; defaults to `gpt-5.6-terra` |
+| `OPENAI_REASONING_EFFORT` | Railway Env | Optional reasoning level; defaults to `low` for lower cost and latency |
 
 ---
 

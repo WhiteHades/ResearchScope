@@ -70,19 +70,28 @@
     article.dataset.messageId = message.id || '';
     const bubble = document.createElement('div');
     bubble.className = 'message-bubble';
-    bubble.textContent = message.content || (message.status === 'pending' ? 'Thinking…' : '');
+    bubble.textContent = core.displayAnswerText(
+      message.content || (message.status === 'pending' ? 'Thinking…' : ''),
+    );
     article.appendChild(bubble);
 
     if (message.citations && message.citations.length) {
       const row = document.createElement('div');
       row.className = 'citation-row';
+      const label = document.createElement('span');
+      label.className = 'citation-row-label';
+      label.textContent = 'Sources';
+      row.appendChild(label);
       message.citations.forEach((citation) => {
         const button = document.createElement('button');
         button.className = 'citation-chip';
         const start = core.citationPage(citation);
         const end = Number(citation.page_end || start);
-        button.textContent = start === end ? `p. ${start}` : `pp. ${start}–${end}`;
+        const sourceNumber = Number(String(citation.label || '').replace(/^S/, '')) || 1;
+        const pageText = start === end ? `p. ${start}` : `pp. ${start}–${end}`;
+        button.textContent = `[${sourceNumber}] ${pageText}`;
         button.title = citation.excerpt || 'Open cited page';
+        button.setAttribute('aria-label', `Source ${sourceNumber}, ${pageText}`);
         button.addEventListener('click', () => {
           showPdf(state.viewerUrl || state.document?.viewer_url || state.paper?.pdf_url, start);
           activateMobilePane('paper');

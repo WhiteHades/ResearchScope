@@ -43,7 +43,8 @@ html, body { height: 100%; overflow: hidden; }
 .message.user .message-bubble { background: var(--rs-primary); color: #fff; }
 .message.assistant .message-bubble { background: var(--rs-bg); color: var(--rs-text); border: 1px solid var(--rs-border); }
 .message.failed .message-bubble { border-color: #ef4444; }
-.citation-row { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .45rem; }
+.citation-row { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; margin-top: .45rem; }
+.citation-row-label { color: var(--rs-muted); font-size: .68rem; font-weight: 700; letter-spacing: .02em; }
 .citation-chip { border: 1px solid var(--rs-border); background: var(--rs-surface); color: var(--rs-primary); border-radius: 999px; padding: .18rem .48rem; font-size: .68rem; font-weight: 650; }
 .composer-wrap { padding: .75rem; border-top: 1px solid var(--rs-border); background: var(--rs-surface); }
 .composer { border: 1.5px solid var(--rs-border); border-radius: .85rem; padding: .65rem; display: flex; gap: .6rem; align-items: flex-end; }
