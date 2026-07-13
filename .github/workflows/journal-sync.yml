@@ -1,8 +1,5 @@
 name: Journal Sync
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 # Fetch ONLY journal papers (OpenAlex by source id, +S2 supplement) and persist
 # them. Conference/arXiv rows are preserved — the Railway sync is an upsert and
 # the pipeline reloads existing DBs before writing. Manual trigger only; the

@@ -5,9 +5,6 @@ name: Register sections config in HF card
 # run; this manual workflow patches an already-uploaded file's card without a
 # full rebuild.
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 on:
   workflow_dispatch:
 

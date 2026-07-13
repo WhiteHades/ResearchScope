@@ -6,9 +6,6 @@ name: Conference Backfill
 # (AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE).
 # Takes ~30-60 min.  Run manually after adding new venue years.
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 on:
   workflow_dispatch:
     inputs:

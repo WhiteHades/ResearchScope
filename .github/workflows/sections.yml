@@ -1,8 +1,5 @@
 name: Build Section Fine-tuning Dataset
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 # Extracts real per-section body text (intro / related_work / method / …) from
 # A* conference-paper PDFs via a GROBID service container, then pushes the
 # `sections` split to the HuggingFace dataset. Runs off-laptop on the 16 GB
