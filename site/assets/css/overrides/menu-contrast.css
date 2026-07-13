@@ -1,0 +1,20 @@
+/* Dropdown and user-menu foreground/background hardening.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+.rs-nav-dd-menu a,
+.search-result-item,
+#rs-user-menu a,
+#rs-user-menu button {
+  background: transparent !important;
+  color: var(--rs-ink) !important;
+}
+
+.rs-nav-dd-menu a:hover,
+.rs-nav-dd-menu a.active,
+.search-result-item:hover,
+.search-result-item.focused,
+#rs-user-menu a:hover,
+#rs-user-menu button:hover {
+  background: var(--rs-paper-warm) !important;
+  color: var(--rs-ink) !important;
+}

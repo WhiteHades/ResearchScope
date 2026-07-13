@@ -1,0 +1,31 @@
+name: Theme UI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - 'scripts/theme-persistence-test.py'
+      - '.github/workflows/theme-ui.yml'
+
+jobs:
+  theme-persistence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install websocket-client
+
+      - name: Verify Chrome is available
+        run: google-chrome --version
+
+      - name: Run theme switch + persistence test
+        run: python scripts/theme-persistence-test.py

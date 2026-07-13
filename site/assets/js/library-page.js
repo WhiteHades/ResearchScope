@@ -12,10 +12,10 @@
     const tags = uniqueTags(paper.tags).slice(0, 4);
     const links = [
       paper.paper_url
-        ? `<a href="${escHtml(paper.paper_url)}" target="_blank" rel="noopener" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)">Paper</a>`
+        ? `<a href="${escHtml(paper.paper_url)}" target="_blank" rel="noopener" class="rs-action-link">Paper</a>`
         : '',
       paper.pdf_url
-        ? `<a href="${escHtml(paper.pdf_url)}" target="_blank" rel="noopener" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)">PDF</a>`
+        ? `<a href="${escHtml(paper.pdf_url)}" target="_blank" rel="noopener" class="rs-action-link">PDF</a>`
         : '',
     ].filter(Boolean).join('');
 
@@ -24,7 +24,7 @@
         <div class="library-card__header">
           <div class="min-w-0 flex-1">
             <div class="library-card__eyebrow">Saved #${index + 1}</div>
-            <a href="${escHtml(url)}" class="text-base font-semibold hover:text-indigo-600 transition-colors">
+            <a href="${escHtml(url)}" target="_blank" rel="noopener" class="text-base font-semibold rs-table-title-link">
               ${escHtml(paper.title)}
             </a>
             <p class="text-xs mt-1" style="color:var(--rs-muted)">

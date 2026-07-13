@@ -1,8 +1,5 @@
 name: Build Section Fine-tuning Dataset
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 # Extracts real per-section body text (intro / related_work / method / …) from
 # A* conference-paper PDFs via a GROBID service container, then pushes the
 # `sections` split to the HuggingFace dataset. Runs off-laptop on the 16 GB
@@ -46,10 +43,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
@@ -89,7 +86,7 @@ jobs:
           python -c "from src.storage.hf_dataset import push_sections; push_sections('data/sections.jsonl')"
 
       - name: Upload dataset artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sections-jsonl
           path: data/sections.jsonl

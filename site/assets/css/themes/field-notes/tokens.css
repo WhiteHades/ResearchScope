@@ -1,0 +1,87 @@
+/* Field Notes tokens: lab notebook paper, sticker ink, tabs, tape, and stamps. */
+
+:root {
+  --rs-coral:        #a92f2a;
+  --rs-coral-soft:   #ff876f;
+  --rs-coral-deep:   #8a2d25;
+  --rs-mustard:      #ffd84d;
+  --rs-olive:        #287557;
+  --rs-violet:       #7b61ff;
+  --rs-cobalt:       #0d6efd;
+  --rs-pencil:       #2d2a24;
+  --rs-tape:         rgba(255, 216, 77, 0.58);
+
+  --rs-primary:      var(--rs-coral);
+  --rs-primary-dark: var(--rs-coral-deep);
+  --rs-primary-50:   #ffe9e3;
+  --rs-primary-100:  #ffd0c6;
+  --rs-accent:       var(--rs-mustard);
+
+  --rs-sky:          #aee8ff;
+  --rs-sky-deep:     #52bfe9;
+  --rs-yellow:       #ffdd4a;
+  --rs-mint:         #c8f1d8;
+  --rs-pink:         #ffd2e1;
+  --rs-blue-note:    #d7e9ff;
+  --rs-lilac-note:   #e8ddff;
+  --rs-peach-note:   #ffd8bf;
+  --rs-green-note:   #d9f7c7;
+  --rs-manila:       #f4d996;
+
+  --rs-paper:        #fff8dc;
+  --rs-paper-warm:   #fff0a8;
+  --rs-paper-dark:   #e5c878;
+  --rs-bone:         #fffdf2;
+  --rs-card-paper:   #fffaf0;
+  --rs-bg:           var(--rs-paper);
+  --rs-surface:      var(--rs-bone);
+  --rs-surface-2:    var(--rs-paper-warm);
+  --rs-surface-3:    var(--rs-paper-dark);
+
+  --rs-ink:          #17130f;
+  --rs-ink-soft:     #2d251d;
+  --rs-ink-mute:     #54493b;
+  --rs-ink-faint:    #6d604f;
+  --rs-text:         var(--rs-ink);
+  --rs-muted:        var(--rs-ink-mute);
+  --rs-faint:        var(--rs-ink-faint);
+
+  --rs-link:         #111111;
+  --rs-link-hover:   #075f8f;
+  --rs-link-line:    rgba(7, 95, 143, 0.38);
+  --rs-border:       rgba(23, 19, 15, 0.30);
+  --rs-border-soft:  rgba(23, 19, 15, 0.14);
+  --rs-rule:         rgba(23, 19, 15, 0.20);
+
+  --rs-success:      #19764c;
+  --rs-success-bg:   #e2f8e8;
+  --rs-success-line: #9ad8b1;
+  --rs-warning:      #74590d;
+  --rs-warning-bg:   #fff3bf;
+  --rs-warning-line: #e4c84e;
+  --rs-danger:       #8f241f;
+  --rs-danger-bg:    #ffe3df;
+  --rs-danger-line:  #ffaaa1;
+  --rs-info:         #0f6c8f;
+  --rs-info-bg:      #dff5ff;
+  --rs-info-line:    #8cd7ef;
+  --rs-focus-ring:   rgba(7, 95, 143, 0.28);
+
+  --rs-shadow-sm:    0 3px 0 rgba(23, 19, 15, 0.14), 0 12px 22px rgba(117, 93, 43, 0.12);
+  --rs-shadow:       0 6px 0 rgba(23, 19, 15, 0.14), 0 22px 46px rgba(117, 93, 43, 0.16);
+  --rs-shadow-lg:    0 9px 0 rgba(23, 19, 15, 0.13), 0 32px 70px rgba(117, 93, 43, 0.20);
+
+  --rs-radius:       18px;
+  --rs-radius-lg:    30px;
+  --rs-radius-pill:  999px;
+
+  --rs-font-display: 'Bricolage Grotesque', 'Atkinson Hyperlegible', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --rs-font-body:    'Atkinson Hyperlegible', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --rs-font-italic:  'Bricolage Grotesque', 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --rs-font-hand:    'Caveat', 'Comic Sans MS', cursive;
+  --rs-font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --rs-container:    1440px;
+  --rs-pad:          56px;
+  --rs-section-y:    118px;
+}

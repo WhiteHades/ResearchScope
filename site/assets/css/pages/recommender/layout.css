@@ -1,0 +1,137 @@
+/* Recommender shell layout, form grid, cards, fit states, and responsive rules.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+.recommender-shell {
+  display: grid;
+  grid-template-columns: minmax(20rem, 0.95fr) minmax(0, 1.05fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.recommender-column {
+  min-width: 0;
+  width: 100%;
+}
+
+.recommender-panel,
+.recommender-result {
+  background: var(--rs-surface);
+  border: 1px solid var(--rs-border);
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  padding: 1.25rem;
+  width: 100%;
+}
+
+.recommender-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.recommender-control-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem;
+}
+
+.recommender-panel label {
+  line-height: 1.25;
+}
+
+.recommender-panel .rs-input,
+.recommender-panel .rs-select {
+  box-sizing: border-box;
+  display: block;
+  min-width: 0;
+  width: 100%;
+}
+
+.recommender-panel .rs-select {
+  height: 2.625rem;
+}
+
+.recommender-textarea {
+  min-height: 14rem;
+  resize: vertical;
+}
+
+.recommender-fit-excellent {
+  background: var(--rs-success-bg);
+  color: var(--rs-success);
+  border: 1px solid var(--rs-success-line);
+}
+.recommender-fit-strong {
+  background: var(--rs-success-bg);
+  color: var(--rs-success);
+}
+.recommender-fit-moderate {
+  background: var(--rs-warning-bg);
+  color: var(--rs-warning);
+}
+.recommender-fit-stretch {
+  background: var(--rs-danger-bg);
+  color: var(--rs-danger);
+}
+.recommender-fit-unlikely {
+  background: var(--rs-paper-warm);
+  color: var(--rs-muted);
+}
+
+.recommender-meter {
+  height: 0.4rem;
+  border-radius: 999px;
+  background: var(--rs-border);
+  overflow: hidden;
+}
+
+.recommender-meter-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--rs-coral);
+}
+
+.recommender-paper {
+  border: 1px solid var(--rs-rule);
+  border-radius: 0.65rem;
+  background: var(--rs-paper-warm);
+  padding: 0.75rem;
+}
+
+.recommender-result-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
+}
+
+.recommender-result-title {
+  min-width: 0;
+}
+
+.recommender-score {
+  min-width: 7.5rem;
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .recommender-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .recommender-control-grid,
+  .recommender-result-head {
+    grid-template-columns: 1fr;
+  }
+
+  .recommender-score {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .recommender-panel,
+  .recommender-result {
+    padding: 1rem;
+  }
+}

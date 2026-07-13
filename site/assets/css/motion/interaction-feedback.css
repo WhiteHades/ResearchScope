@@ -1,0 +1,40 @@
+/* Press feedback, hover gating, and reduced-motion interaction polish.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* Motion craft pass: keep frequent UI feedback crisp, interruptible, and GPU-safe. */
+:root {
+  --rs-motion-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --rs-press-scale: 0.97;
+}
+
+:is(.rs-btn, .pager-btn, .library-link, .library-toggle, .potd-btn, .tweet-btn, .copy-link-btn, .star-cta-btn, .topic-graph-actions button, .topic-graph-action, .topic-view-btn, .topic-filter-btn, .topic-chip, .area-chip, .auth-submit, .auth-pwd-toggle, #name-save-btn, #profile-gate a, .rs-danger-btn, .rs-chip, #recommend-btn, #rec-sample-btn, #copy-shortlist-btn, main a[href$="recommender.html"], .github-star-btn, .rs-nav-top-link, .rs-nav-dd-btn, .mobile-nav-link, #mobile-menu-btn) {
+  transition: transform 150ms var(--rs-motion-out), border-color 150ms var(--rs-motion-out), background-color 150ms var(--rs-motion-out), color 150ms var(--rs-motion-out), opacity 150ms var(--rs-motion-out) !important;
+  will-change: transform;
+}
+
+:is(.rs-btn, .pager-btn, .library-link, .library-toggle, .potd-btn, .tweet-btn, .copy-link-btn, .star-cta-btn, .topic-graph-actions button, .topic-graph-action, .topic-view-btn, .topic-filter-btn, .topic-chip, .area-chip, .auth-submit, .auth-pwd-toggle, #name-save-btn, #profile-gate a, .rs-danger-btn, .rs-chip, #recommend-btn, #rec-sample-btn, #copy-shortlist-btn, main a[href$="recommender.html"], .github-star-btn, .rs-nav-top-link, .rs-nav-dd-btn, .mobile-nav-link, #mobile-menu-btn):active {
+  transform: scale(var(--rs-press-scale)) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .rs-card:hover,
+  .gap-card:hover,
+  .digest-paper-card:hover,
+  .stat-card:hover,
+  .deadline-card:hover,
+  .library-link:hover,
+  .library-toggle:hover {
+    transform: translateY(-1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(.rs-btn, .pager-btn, .library-link, .library-toggle, .potd-btn, .tweet-btn, .copy-link-btn, .star-cta-btn, .topic-graph-actions button, .topic-graph-action, .topic-view-btn, .topic-filter-btn, .topic-chip, .area-chip, .auth-submit, .auth-pwd-toggle, #name-save-btn, #profile-gate a, .rs-danger-btn, .rs-chip, #recommend-btn, #rec-sample-btn, #copy-shortlist-btn, main a[href$="recommender.html"], .github-star-btn, .rs-nav-top-link, .rs-nav-dd-btn, .mobile-nav-link, #mobile-menu-btn) {
+    transition-property: border-color, background-color, color, opacity !important;
+    will-change: auto;
+  }
+
+  :is(.rs-btn, .pager-btn, .library-link, .library-toggle, .potd-btn, .tweet-btn, .copy-link-btn, .star-cta-btn, .topic-graph-actions button, .topic-graph-action, .topic-view-btn, .topic-filter-btn, .topic-chip, .area-chip, .auth-submit, .auth-pwd-toggle, #name-save-btn, #profile-gate a, .rs-danger-btn, .rs-chip, #recommend-btn, #rec-sample-btn, #copy-shortlist-btn, main a[href$="recommender.html"], .github-star-btn, .rs-nav-top-link, .rs-nav-dd-btn, .mobile-nav-link, #mobile-menu-btn):active {
+    transform: none !important;
+  }
+}

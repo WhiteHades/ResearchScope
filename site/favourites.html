@@ -6,7 +6,7 @@
   <title>My Favourites – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-18"/>
   <style>
     .note-area {
       width: 100%; min-height: 4rem; resize: vertical;
@@ -16,9 +16,9 @@
       font-family: inherit; outline: none;
       transition: border-color .15s, box-shadow .15s;
     }
-    .note-area:focus { border-color: var(--rs-primary); box-shadow: 0 0 0 3px rgba(79,70,229,.1); }
+    .note-area:focus { border-color: var(--rs-primary); box-shadow: 0 0 0 3px var(--rs-focus-ring); }
     .note-area::placeholder { color: var(--rs-muted); }
-    .note-saved { color: #16a34a; font-size: .7rem; font-weight: 600; }
+    .note-saved { color: var(--rs-success); font-size: .7rem; font-weight: 600; }
     .export-btn {
       display: inline-flex; align-items: center; gap: .35rem;
       padding: .35rem .8rem; border-radius: .5rem; font-size: .8rem; font-weight: 600;
@@ -26,26 +26,30 @@
       color: var(--rs-text); cursor: pointer;
       transition: border-color .15s, background .15s;
     }
-    .export-btn:hover { border-color: var(--rs-primary); background: var(--rs-primary-50, #eef2ff); color: var(--rs-primary); }
+    .export-btn:hover { border-color: var(--rs-primary); background: var(--rs-primary-50); color: var(--rs-primary); }
   </style>
+  <script src="assets/js/theme-bootstrap.js?v=ui-integrity-18"></script>
 </head>
 <body>
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-2">
-      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">🔭 ResearchScope</a>
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-ink);font-family:var(--rs-font-display);letter-spacing:-0.02em">
+        <span style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral)">Ø</span>
+        <span>ResearchScope<span class="rs-dot">.</span></span>
+      </a>
       <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1">
-        <a href="papers">Papers</a>
-        <a href="topics">Topics</a>
-        <a href="digest">📬 Digest</a>
-        <a href="conferences">Conferences</a>
-        <a href="journals">Journals</a>
-        <a href="authors">Authors</a>
-        <a href="labs">Labs &amp; Unis</a>
-        <a href="gaps">Research Gaps</a>
-        <a href="deadlines">📅 Upcoming</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">Upcoming</a>
       </div>
-      <div class="flex items-center gap-2 justify-end" style="flex:1">
+      <div id="rs-nav-actions" class="flex items-center gap-2 justify-end" style="flex:1">
         <div class="search-wrap hidden lg:block">
           <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
@@ -53,18 +57,45 @@
           <input id="global-search" class="search-input" type="search" placeholder="Search papers, authors…" autocomplete="off"/>
           <div id="search-dropdown" class="search-dropdown hidden"></div>
         </div>
-        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
+        <a href="https://github.com/kishormorol/ResearchScope" target="_blank" rel="noopener" class="github-star-btn hidden lg:inline-flex" aria-label="Star on GitHub">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+          Star
+          <span class="github-star-count">–</span>
+        </a>
+        <button id="mobile-menu-btn" class="lg:hidden p-1 rounded" aria-label="Open menu" aria-expanded="false">
+          <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
+  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-rule);background:var(--rs-bone)">
+    <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
+      <a href="./" class="mobile-nav-link">Home</a>
+      <a href="papers.html" class="mobile-nav-link">Papers</a>
+      <a href="topics.html" class="mobile-nav-link">Topics</a>
+      <a href="digest.html" class="mobile-nav-link">Weekly Digest</a>
+      <a href="conferences.html" class="mobile-nav-link">Conferences</a>
+      <a href="journals.html" class="mobile-nav-link">Journals</a>
+      <a href="authors.html" class="mobile-nav-link">Authors</a>
+      <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines.html" class="mobile-nav-link">Upcoming Conferences</a>
+    </div>
+  </div>
 </nav>
+
 
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
   <!-- Header -->
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
     <div>
-      <h1 class="text-2xl font-bold">⭐ My Favourites</h1>
+      <h1 class="text-2xl font-bold">My Favourites</h1>
       <p class="text-sm mt-0.5" style="color:var(--rs-muted)" id="fav-subtitle">Papers you've saved, with private notes.</p>
     </div>
     <div class="flex items-center gap-2" id="export-bar" style="display:none!important">
@@ -76,18 +107,18 @@
         <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
         CSV
       </button>
-      <a href="profile" class="export-btn">👤 Profile</a>
+      <a href="profile.html" class="export-btn"> Profile</a>
     </div>
   </div>
 
   <!-- Not logged in -->
   <div id="fav-gate" class="hidden rs-card p-8 text-center">
-    <div class="text-4xl mb-3">⭐</div>
+    <div class="rs-icon-mark mx-auto mb-3" aria-hidden="true">F</div>
     <p class="text-lg font-semibold mb-1">Sign in to see your favourites</p>
     <p class="text-sm mb-5" style="color:var(--rs-muted)">Save papers and add private notes — synced across devices.</p>
     <div class="flex gap-2 justify-center">
-      <a href="signin?returnTo=favourites" class="inline-block px-5 py-2 rounded-lg text-white font-semibold text-sm" style="background:var(--rs-primary)">Sign in</a>
-      <a href="register?returnTo=favourites" class="inline-block px-5 py-2 rounded-lg font-semibold text-sm" style="border:1.5px solid var(--rs-border);color:var(--rs-text)">Create account</a>
+      <a href="signin.html?returnTo=favourites" class="inline-block px-5 py-2 rounded-lg text-white font-semibold text-sm" style="background:var(--rs-primary)">Sign in</a>
+      <a href="register.html?returnTo=favourites" class="inline-block px-5 py-2 rounded-lg font-semibold text-sm" style="border:1.5px solid var(--rs-border);color:var(--rs-text)">Create account</a>
     </div>
   </div>
 
@@ -99,20 +130,20 @@
 
   <!-- Empty -->
   <div id="fav-empty" class="hidden rs-card p-8 text-center">
-    <div class="text-4xl mb-3">📄</div>
+    <div class="text-4xl mb-3"></div>
     <p class="text-lg font-semibold mb-1">No favourites yet</p>
     <p class="text-sm mb-4" style="color:var(--rs-muted)">Star papers while browsing to save them here.</p>
-    <a href="papers" class="inline-block px-5 py-2 rounded-lg text-white font-semibold text-sm" style="background:var(--rs-primary)">Browse Papers</a>
+    <a href="papers.html" class="inline-block px-5 py-2 rounded-lg text-white font-semibold text-sm" style="background:var(--rs-primary)">Browse Papers</a>
   </div>
 
 </div>
 
 <footer class="border-t py-6 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  <p>🔭 ResearchScope &middot; <a href="./" style="color:var(--rs-primary)">Home</a></p>
+  <p> ResearchScope &middot; <a href="./" style="color:var(--rs-primary)">Home</a></p>
 </footer>
 
-<script src="assets/js/app.js"></script>
-<script src="assets/js/railway-api.js?v=20260712-local-api"></script>
+<script src="assets/js/app.js?v=ui-integrity-18"></script>
+<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
 <script>
 let _favData = [];
 
@@ -136,8 +167,9 @@ function renderFavs(favs) {
     const tags = (p.tags || []).slice(0, 3).map(t =>
       `<span class="badge badge-tag" style="font-size:.62rem">${escHtml(t)}</span>`).join(' ');
     const scoreHtml = p.paper_score
-      ? `<span class="badge badge-score" style="font-size:.62rem">⭐ ${(+p.paper_score).toFixed(1)}</span>` : '';
-    const hasNote = fav.notes && fav.notes.trim();
+      ? `<span class="badge badge-score" style="font-size:.62rem">${(+p.paper_score).toFixed(1)}</span>` : '';
+    const hasNote = Boolean(fav.notes?.trim());
+    _noteQueuedValues[fav.paper_id] = fav.notes || '';
 
     return `
     <div class="rs-card p-4" id="fav-${escHtml(fav.paper_id)}">
@@ -155,12 +187,13 @@ function renderFavs(favs) {
         <div class="flex flex-col items-end gap-1.5 shrink-0">
           <button onclick="removeFav('${escHtml(fav.paper_id)}')" title="Remove from favourites"
             class="text-xs px-2 py-1 rounded border transition-colors hover:bg-red-50 hover:border-red-300 hover:text-red-600"
-            style="border-color:var(--rs-border);color:var(--rs-muted)">✕</button>
+            style="border-color:var(--rs-border);color:var(--rs-muted)">Remove</button>
           <button onclick="toggleNote('${escHtml(fav.paper_id)}')"
             class="text-xs px-2 py-1 rounded border transition-colors"
             style="border-color:var(--rs-border);color:${hasNote ? 'var(--rs-primary)' : 'var(--rs-muted)'}"
-            title="${hasNote ? 'Edit note' : 'Add note'}" id="note-btn-${escHtml(fav.paper_id)}">
-            ${hasNote ? '📝' : '+ note'}
+            title="${hasNote ? 'Edit note' : 'Add note'}" id="note-btn-${escHtml(fav.paper_id)}"
+            aria-expanded="${String(hasNote)}" aria-controls="note-wrap-${escHtml(fav.paper_id)}">
+            ${hasNote ? 'Edit note' : 'Add note'}
           </button>
         </div>
       </div>
@@ -170,12 +203,13 @@ function renderFavs(favs) {
         <textarea
           class="note-area"
           id="note-${escHtml(fav.paper_id)}"
-          placeholder="Your private notes about this paper…"
-          oninput="scheduleNoteSave('${escHtml(fav.paper_id)}')"
-        >${escHtml(fav.notes || '')}</textarea>
+           placeholder="Your private notes about this paper…"
+           oninput="scheduleNoteSave('${escHtml(fav.paper_id)}')"
+           onblur="saveNote('${escHtml(fav.paper_id)}')"
+         >${escHtml(fav.notes || '')}</textarea>
         <div class="flex items-center justify-between mt-1">
           <span class="text-xs" style="color:var(--rs-muted)">Private · only visible to you</span>
-          <span class="note-saved hidden" id="note-saved-${escHtml(fav.paper_id)}">✓ Saved</span>
+          <span class="note-saved hidden" id="note-saved-${escHtml(fav.paper_id)}" role="status" aria-live="polite">Saved</span>
         </div>
       </div>
     </div>`;
@@ -185,6 +219,8 @@ function renderFavs(favs) {
 // ── Note editing ──────────────────────────────────────────────────────────────
 
 const _noteTimers = {};
+const _noteSaveQueues = {};
+const _noteQueuedValues = {};
 
 function toggleNote(paperId) {
   const wrap = document.getElementById(`note-wrap-${paperId}`);
@@ -192,6 +228,7 @@ function toggleNote(paperId) {
   if (!wrap) return;
   const isHidden = wrap.classList.contains('hidden');
   wrap.classList.toggle('hidden', !isHidden);
+  btn?.setAttribute('aria-expanded', String(isHidden));
   if (isHidden) document.getElementById(`note-${paperId}`)?.focus();
 }
 
@@ -200,25 +237,32 @@ function scheduleNoteSave(paperId) {
   _noteTimers[paperId] = setTimeout(() => saveNote(paperId), 900);
 }
 
-async function saveNote(paperId) {
+function saveNote(paperId) {
+  clearTimeout(_noteTimers[paperId]);
+  delete _noteTimers[paperId];
   const ta = document.getElementById(`note-${paperId}`);
   if (!ta) return;
   const notes = ta.value;
-  try {
-    await window._rs_api.favourites.updateNotes(paperId, notes || null);
-    const savedEl = document.getElementById(`note-saved-${paperId}`);
-    const btn = document.getElementById(`note-btn-${paperId}`);
-    if (savedEl) {
-      savedEl.classList.remove('hidden');
-      setTimeout(() => savedEl.classList.add('hidden'), 2000);
+  if (_noteQueuedValues[paperId] === notes) return _noteSaveQueues[paperId];
+  _noteQueuedValues[paperId] = notes;
+  _noteSaveQueues[paperId] = (_noteSaveQueues[paperId] || Promise.resolve()).then(async () => {
+    try {
+      await window._rs_api.favourites.updateNotes(paperId, notes || null);
+      const savedEl = document.getElementById(`note-saved-${paperId}`);
+      const btn = document.getElementById(`note-btn-${paperId}`);
+      if (_noteQueuedValues[paperId] === notes && savedEl) {
+        savedEl.classList.remove('hidden');
+        setTimeout(() => savedEl.classList.add('hidden'), 2000);
+      }
+      if (btn) btn.textContent = notes.trim() ? 'Edit note' : 'Add note';
+      const fav = _favData.find(f => f.paper_id === paperId);
+      if (fav) fav.notes = notes;
+    } catch (e) {
+      if (_noteQueuedValues[paperId] === notes) delete _noteQueuedValues[paperId];
+      console.warn('Note save failed:', e.message);
     }
-    if (btn) btn.textContent = notes.trim() ? '📝' : '+ note';
-    // Update local cache
-    const fav = _favData.find(f => f.paper_id === paperId);
-    if (fav) fav.notes = notes;
-  } catch (e) {
-    console.warn('Note save failed:', e.message);
-  }
+  });
+  return _noteSaveQueues[paperId];
 }
 
 // ── Remove favourite ──────────────────────────────────────────────────────────

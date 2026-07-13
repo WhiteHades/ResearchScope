@@ -86,6 +86,17 @@
     return overlap / (left.size + right.size - overlap);
   }
 
+  function jaccardSets(left, right) {
+    if (!left.size && !right.size) return 0;
+    const smaller = left.size < right.size ? left : right;
+    const larger = left.size < right.size ? right : left;
+    let overlap = 0;
+    smaller.forEach((value) => {
+      if (larger.has(value)) overlap += 1;
+    });
+    return overlap / (left.size + right.size - overlap);
+  }
+
   function buildPaperIndex(papers) {
     const index = new Map();
     for (const paper of asArray(papers)) {
@@ -280,6 +291,54 @@
     };
   }
 
+  function buildTopicRelationContext(topics, topicIndex) {
+    const paperIds = new Map();
+    const keywords = new Map();
+    const relatedTopicIds = new Map();
+    const prerequisiteTopicIds = new Map();
+
+    for (const topic of topics) {
+      const topicId = String(topic.id || slug(topic.name));
+      paperIds.set(topicId, new Set(asArray(topic.paper_ids).map(String).filter(Boolean)));
+      keywords.set(topicId, new Set(asArray(topic.keywords).map(toKey).filter(Boolean)));
+      relatedTopicIds.set(topicId, new Set(asArray(topic.related_topics)
+        .map((ref) => resolveTopicRef(ref, topicIndex))
+        .filter(Boolean)));
+      prerequisiteTopicIds.set(topicId, new Set(asArray(topic.prerequisites)
+        .map((ref) => resolveTopicRef(ref, topicIndex))
+        .filter(Boolean)));
+    }
+
+    return { paperIds, keywords, relatedTopicIds, prerequisiteTopicIds };
+  }
+
+  function scorePreparedTopicTopicEdge(topicA, topicB, context) {
+    const aId = String(topicA.id || slug(topicA.name));
+    const bId = String(topicB.id || slug(topicB.name));
+    const aRelated = context.relatedTopicIds.get(aId)?.has(bId);
+    const bRelated = context.relatedTopicIds.get(bId)?.has(aId);
+    const aPrereq = context.prerequisiteTopicIds.get(aId)?.has(bId);
+    const bPrereq = context.prerequisiteTopicIds.get(bId)?.has(aId);
+    const paperOverlap = jaccardSets(context.paperIds.get(aId) || new Set(), context.paperIds.get(bId) || new Set());
+    const keywordOverlap = jaccardSets(context.keywords.get(aId) || new Set(), context.keywords.get(bId) || new Set());
+    const weight = (aRelated || bRelated ? 3 : 0)
+      + (aPrereq || bPrereq ? 2 : 0)
+      + paperOverlap * 4
+      + keywordOverlap * 2;
+
+    const evidence = [];
+    if (aRelated || bRelated) evidence.push('listed as related topics');
+    if (aPrereq || bPrereq) evidence.push('prerequisite relationship');
+    if (paperOverlap > 0) evidence.push('overlapping papers');
+    if (keywordOverlap > 0) evidence.push('overlapping keywords');
+
+    return {
+      weight,
+      evidence,
+      type: aPrereq || bPrereq ? 'prerequisite' : 'topic-topic',
+    };
+  }
+
   function scorePaperPaperEdge(paperA, paperB, context) {
     const topicA = asArray(context.membership.get(paperA.id));
     const topicB = asArray(context.membership.get(paperB.id));
@@ -432,15 +491,16 @@
     const settings = options || {};
     const filtered = filterGraphInputs(topics, papers, settings);
     const topicIndex = buildTopicIndex(filtered.topics);
-    const fullMembership = derivePaperTopicMembership(topics);
+    const topicRelationContext = buildTopicRelationContext(filtered.topics, topicIndex);
     const visiblePaperIds = new Set(filtered.papers.map((paper) => paper.id));
     const visibleTopicIds = new Set(filtered.topics.map((topic) => String(topic.id || slug(topic.name))));
+    const visibleMembership = derivePaperTopicMembership(filtered.topics);
     const nodes = [];
     const edges = [];
 
     filtered.topics.forEach((topic) => nodes.push(makeTopicNode(topic)));
     filtered.papers.forEach((paper) => {
-      const topicIds = asArray(fullMembership.get(paper.id)).filter((topicId) => visibleTopicIds.has(topicId));
+      const topicIds = asArray(visibleMembership.get(paper.id)).filter((topicId) => visibleTopicIds.has(topicId));
       nodes.push(makePaperNode(paper, topicIds));
     });
 
@@ -475,7 +535,7 @@
           const b = filtered.topics[j];
           const aId = String(a.id || slug(a.name));
           const bId = String(b.id || slug(b.name));
-          const scored = scoreTopicTopicEdge(a, b, { topics: filtered.topics, topicIndex });
+          const scored = scorePreparedTopicTopicEdge(a, b, topicRelationContext);
           if (scored.weight < 0.7) continue;
           if (scored.type === 'prerequisite' && !enabledRelation(settings, 'prerequisite')) continue;
           edges.push({
@@ -494,7 +554,7 @@
     }
 
     if (enabledRelation(settings, 'paperPaper') && filtered.papers.length > 1) {
-      edges.push(...buildPaperPaperEdges(filtered.papers, fullMembership, settings));
+      edges.push(...buildPaperPaperEdges(filtered.papers, visibleMembership, settings));
     }
 
     const limitedEdges = limitEdges(edges, settings);
@@ -680,17 +740,18 @@
     svg.append(edgeLayer, nodeLayer);
 
     const nodeById = new Map(graph.nodes.map((node) => [node.id, node]));
+    const edgeById = new Map(graph.edges.map((edge) => [edge.id, edge]));
+    const connectedByNode = new Map(graph.nodes.map((node) => [node.id, new Set([node.id])]));
+    graph.edges.forEach((edge) => {
+      connectedByNode.get(edge.source)?.add(edge.target);
+      connectedByNode.get(edge.target)?.add(edge.source);
+    });
     const elementsByNode = new Map();
     const elementsByEdge = new Map();
     let selectedId = '';
 
     function connectedIds(id) {
-      const ids = new Set([id]);
-      graph.edges.forEach((edge) => {
-        if (edge.source === id) ids.add(edge.target);
-        if (edge.target === id) ids.add(edge.source);
-      });
-      return ids;
+      return connectedByNode.get(id) || new Set([id]);
     }
 
     function applyHighlight(id) {
@@ -701,7 +762,7 @@
         el.classList.toggle('is-neighbor', Boolean(connected && connected.has(nodeId) && selectedId !== nodeId));
       });
       elementsByEdge.forEach((el, edgeId) => {
-        const edge = graph.edges.find((item) => item.id === edgeId);
+        const edge = edgeById.get(edgeId);
         const active = connected && edge && connected.has(edge.source) && connected.has(edge.target);
         el.classList.toggle('is-dimmed', Boolean(connected && !active));
         el.classList.toggle('is-selected', selectedId === edgeId);

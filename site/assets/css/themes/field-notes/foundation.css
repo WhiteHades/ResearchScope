@@ -1,0 +1,288 @@
+/* Field Notes canvas: graph paper, loose scraps, tape, and ambient color wash. */
+
+html { background: var(--rs-paper); }
+
+:root {
+  --rs-field-img-home: url('../../../img/field-notes/home-pinboard.webp');
+  --rs-field-img-paper: url('../../../img/field-notes/paper-dossier.webp');
+  --rs-field-img-topic: url('../../../img/field-notes/topic-map.webp');
+  --rs-field-img-digest: url('../../../img/field-notes/digest-clippings.webp');
+  --rs-field-img-recommender: url('../../../img/field-notes/recommender-workbench.webp');
+  --rs-field-img-deadline: url('../../../img/field-notes/deadline-calendar.webp');
+  --rs-field-img-auth: url('../../../img/field-notes/auth-notebook.webp');
+  --rs-field-img-empty: url('../../../img/field-notes/empty-library.webp');
+}
+
+body {
+  background:
+    radial-gradient(38rem 26rem at 8% 8%, rgba(174, 232, 255, 0.70), transparent 70%),
+    radial-gradient(28rem 22rem at 94% 12%, rgba(255, 210, 225, 0.54), transparent 72%),
+    radial-gradient(30rem 18rem at 72% 88%, rgba(200, 241, 216, 0.46), transparent 74%),
+    linear-gradient(rgba(28, 100, 132, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 100, 132, 0.045) 1px, transparent 1px),
+    linear-gradient(180deg, #fffcf0 0%, var(--rs-paper) 46%, #fff4c5 100%);
+  background-attachment: scroll;
+  background-position: center, center, center, 0 0, 0 0, center;
+  background-size: auto, auto, auto, 32px 32px, 32px 32px, auto;
+  color: var(--rs-ink);
+  overflow-x: clip;
+}
+
+body::before {
+  opacity: 0.12;
+  mix-blend-mode: normal;
+  position: absolute;
+  background-image:
+    radial-gradient(rgba(23, 19, 15, 0.30) 0.75px, transparent 0.75px),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08 0 0 0 0 0.065 0 0 0 0 0.045 0 0 0 0.45 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-position: 0 0, 0 0;
+  background-size: 13px 13px, 220px 220px;
+}
+
+body::after {
+  position: absolute;
+  background:
+    radial-gradient(48rem 30rem at 10% 4%, rgba(191, 238, 255, 0.28), transparent 72%),
+    radial-gradient(44rem 28rem at 90% 18%, rgba(223, 246, 228, 0.28), transparent 72%),
+    radial-gradient(36rem 24rem at 56% 12%, rgba(255, 225, 92, 0.16), transparent 70%),
+    linear-gradient(112deg, transparent 0 44%, rgba(255, 216, 77, 0.32) 45% 52%, transparent 53% 100%),
+    radial-gradient(18rem 12rem at 2% 22%, rgba(174, 232, 255, 0.58), transparent 72%),
+    radial-gradient(22rem 14rem at 92% 18%, rgba(200, 241, 216, 0.70), transparent 70%),
+    radial-gradient(16rem 12rem at 80% 86%, rgba(255, 210, 225, 0.54), transparent 70%);
+}
+
+.rs-rail { display: none; }
+
+::selection { background: var(--rs-yellow); color: var(--rs-ink); }
+
+.rs-container {
+  max-width: var(--rs-container);
+  padding-left: max(1.15rem, env(safe-area-inset-left));
+  padding-right: max(1.15rem, env(safe-area-inset-right));
+}
+
+main,
+section,
+footer {
+  position: relative;
+  z-index: var(--rs-z-content);
+}
+
+.rs-nav { z-index: var(--rs-z-sticky); }
+
+body > main:not(.auth-page),
+body > .rs-container,
+.rs-container {
+  position: relative;
+}
+
+body > main:not(.auth-page)::before,
+.rs-container::before {
+  background: var(--rs-tape);
+  border: 1px solid rgba(23, 19, 15, 0.06);
+  box-shadow: 0 4px 0 rgba(23, 19, 15, 0.05);
+  content: '';
+  height: 1.1rem;
+  left: clamp(1rem, 7vw, 7rem);
+  opacity: 0.58;
+  pointer-events: none;
+  position: absolute;
+  top: -0.65rem;
+  transform: rotate(-1.8deg);
+  width: clamp(5rem, 11vw, 9rem);
+  z-index: 3;
+}
+
+body > main:not(.auth-page)::after,
+.rs-container::after {
+  border: 1.5px dashed rgba(23, 19, 15, 0.14);
+  border-radius: 999px;
+  color: rgba(23, 19, 15, 0.42);
+  content: 'field note';
+  font-family: var(--rs-font-hand);
+  font-size: 1.1rem;
+  line-height: 1;
+  opacity: 0.62;
+  padding: 0.12rem 0.78rem 0.22rem;
+  pointer-events: none;
+  position: absolute;
+  right: clamp(1rem, 5vw, 4rem);
+  top: 1.1rem;
+  transform: rotate(5deg);
+  z-index: 3;
+}
+
+html[data-rs-page="index"] body > main::before,
+html[data-rs-page="index"] body > main::after,
+html[data-rs-page="signin"] body > main::before,
+html[data-rs-page="signin"] body > main::after,
+html[data-rs-page="register"] body > main::before,
+html[data-rs-page="register"] body > main::after { display: none; }
+
+.hero-gradient {
+  background:
+    linear-gradient(90deg, rgba(255, 253, 242, 0.96) 0 42%, rgba(255, 253, 242, 0.58) 56%, rgba(255, 253, 242, 0.34) 100%),
+    var(--rs-field-img-home) right 7% center / min(48vw, 42rem) auto no-repeat,
+    radial-gradient(26rem 20rem at 80% 14%, rgba(255, 216, 77, 0.52), transparent 72%),
+    radial-gradient(38rem 26rem at 14% 12%, rgba(82, 191, 233, 0.52), transparent 72%),
+    linear-gradient(110deg, rgba(255, 253, 242, 0.96) 0 58%, rgba(215, 233, 255, 0.92) 58% 100%);
+  border: 2px solid rgba(23, 19, 15, 0.15);
+  border-radius: 0 0 54px 22px;
+  box-shadow: var(--rs-shadow-lg);
+  isolation: isolate;
+  margin: 0 0.8rem 2.2rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-gradient::before,
+.hero-gradient::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.hero-gradient::before {
+  background:
+    linear-gradient(90deg, rgba(28, 100, 132, 0.11) 1px, transparent 1px),
+    linear-gradient(rgba(28, 100, 132, 0.10) 1px, transparent 1px),
+    radial-gradient(circle at 90% 20%, rgba(255, 210, 225, 0.70) 0 7rem, transparent 7.2rem);
+  background-size: 42px 42px, 42px 42px, auto;
+  inset: 0;
+  opacity: 0.52;
+}
+
+.hero-gradient::after {
+  background:
+    linear-gradient(90deg, transparent 0 9%, rgba(23, 19, 15, 0.08) 9% 10%, transparent 10% 100%),
+    radial-gradient(circle at 24% 28%, var(--rs-blue-note) 0 21%, transparent 22%),
+    radial-gradient(circle at 70% 58%, var(--rs-yellow) 0 20%, transparent 21%),
+    radial-gradient(circle at 54% 22%, var(--rs-mint) 0 18%, transparent 19%),
+    radial-gradient(circle at 88% 36%, var(--rs-pink) 0 14%, transparent 15%);
+  filter: drop-shadow(0 18px 20px rgba(23, 19, 15, 0.10));
+  height: 25rem;
+  left: 2vw;
+  opacity: 0.72;
+  top: 14rem;
+  transform: rotate(-4deg);
+  width: 96vw;
+}
+
+.hero-gradient > * {
+  position: relative;
+  z-index: 1;
+}
+
+html[data-rs-page="index"] .hero-gradient::before {
+  mask-image: linear-gradient(180deg, #000 0 72%, transparent 100%);
+}
+
+html[data-rs-page="index"] .hero-gradient .rs-display-1 {
+  max-width: 11ch;
+}
+
+html[data-rs-page="index"] .hero-gradient .rs-display-1::after {
+  color: var(--rs-coral);
+  content: 'research map';
+  display: block;
+  font-family: var(--rs-font-hand);
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 0.9;
+  margin-left: clamp(3rem, 12vw, 9rem);
+  margin-top: 0.4rem;
+  transform: rotate(-4deg);
+}
+
+html[data-rs-page="papers"] body,
+html[data-rs-page="conferences"] body,
+html[data-rs-page="journals"] body {
+  background:
+    linear-gradient(rgba(255, 248, 220, 0.88), rgba(255, 248, 220, 0.92)),
+    var(--rs-field-img-paper) right -8rem top 8rem / min(42vw, 36rem) auto no-repeat,
+    radial-gradient(38rem 26rem at 8% 8%, rgba(174, 232, 255, 0.55), transparent 70%),
+    linear-gradient(rgba(28, 100, 132, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 100, 132, 0.045) 1px, transparent 1px),
+    #fff6cf;
+  background-size: auto, auto, auto, 28px 28px, 28px 28px, auto;
+}
+
+html[data-rs-page="digest"] body {
+  background:
+    linear-gradient(rgba(255, 248, 220, 0.86), rgba(255, 242, 189, 0.94)),
+    var(--rs-field-img-digest) right -8rem top 7rem / min(46vw, 40rem) auto no-repeat,
+    radial-gradient(30rem 20rem at 18% 16%, rgba(255, 210, 225, 0.58), transparent 72%),
+    radial-gradient(32rem 24rem at 92% 18%, rgba(255, 216, 77, 0.42), transparent 70%),
+    linear-gradient(90deg, rgba(217, 79, 56, 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, #fff8dc, #fff2bd);
+  background-size: auto, auto, auto, auto, 38px 38px, auto;
+}
+
+html[data-rs-page="topics"] body {
+  background:
+    linear-gradient(rgba(255, 248, 220, 0.86), rgba(255, 248, 220, 0.92)),
+    var(--rs-field-img-topic) right -9rem top 7rem / min(45vw, 39rem) auto no-repeat,
+    radial-gradient(30rem 22rem at 12% 16%, rgba(123, 97, 255, 0.16), transparent 72%),
+    radial-gradient(36rem 28rem at 88% 10%, rgba(82, 191, 233, 0.44), transparent 74%),
+    linear-gradient(rgba(28, 100, 132, 0.065) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 100, 132, 0.055) 1px, transparent 1px),
+    var(--rs-paper);
+  background-size: auto, auto, auto, auto, 24px 24px, 24px 24px, auto;
+}
+
+html[data-rs-page="deadlines"] body {
+  background:
+    linear-gradient(rgba(255, 248, 220, 0.85), rgba(255, 248, 220, 0.92)),
+    var(--rs-field-img-deadline) right -7rem top 6rem / min(45vw, 38rem) auto no-repeat,
+    linear-gradient(90deg, rgba(217, 79, 56, 0.13) 1px, transparent 1px),
+    linear-gradient(rgba(82, 191, 233, 0.13) 1px, transparent 1px),
+    radial-gradient(34rem 20rem at 85% 9%, rgba(255, 216, 77, 0.46), transparent 70%),
+    var(--rs-paper);
+  background-size: auto, auto, 96px 96px, 96px 96px, auto, auto;
+}
+
+html[data-rs-page="conference-recommender"] body,
+html[data-rs-page="journal-recommender"] body {
+  background:
+    linear-gradient(rgba(255, 248, 220, 0.84), rgba(255, 248, 220, 0.94)),
+    var(--rs-field-img-recommender) right -8rem top 6rem / min(45vw, 38rem) auto no-repeat,
+    radial-gradient(38rem 24rem at 12% 10%, rgba(174, 232, 255, 0.54), transparent 70%),
+    linear-gradient(rgba(28, 100, 132, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 100, 132, 0.045) 1px, transparent 1px),
+    var(--rs-paper);
+  background-size: auto, auto, auto, 32px 32px, 32px 32px, auto;
+}
+
+html[data-rs-page="signin"] body,
+html[data-rs-page="register"] body {
+  background:
+    linear-gradient(rgba(255, 248, 220, 0.82), rgba(255, 248, 220, 0.92)),
+    var(--rs-field-img-auth) left 3vw center / min(34vw, 25rem) auto no-repeat,
+    radial-gradient(32rem 22rem at 78% 12%, rgba(174, 232, 255, 0.56), transparent 70%),
+    linear-gradient(rgba(28, 100, 132, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 100, 132, 0.045) 1px, transparent 1px),
+    var(--rs-paper);
+  background-size: auto, auto, auto, 30px 30px, 30px 30px, auto;
+}
+
+@media (max-width: 767px) {
+  body > main:not(.auth-page)::before,
+  .rs-container::before,
+  body > main:not(.auth-page)::after,
+  .rs-container::after { display: none; }
+  .hero-gradient { border-radius: 0 0 30px 18px; margin-inline: 0.4rem; }
+  .hero-gradient {
+    background:
+      linear-gradient(rgba(255, 253, 242, 0.84), rgba(255, 253, 242, 0.90)),
+      var(--rs-field-img-home) center bottom 1rem / min(92vw, 30rem) auto no-repeat,
+      radial-gradient(26rem 20rem at 80% 14%, rgba(255, 216, 77, 0.42), transparent 72%),
+      linear-gradient(110deg, rgba(255, 253, 242, 0.96) 0 58%, rgba(215, 233, 255, 0.92) 58% 100%);
+  }
+  .hero-gradient::after { top: 23rem; }
+  html[data-rs-page="index"] .hero-gradient .rs-display-1::after {
+    font-size: 2.15rem;
+    margin-left: 2rem;
+  }
+}

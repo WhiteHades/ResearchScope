@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 768" width="768" height="768" role="img" aria-label="Labs · IV">
+  
+  <defs>
+    <filter id="paper-noise" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3"/>
+      <feColorMatrix values="0 0 0 0 0.082  0 0 0 0 0.078  0 0 0 0 0.059  0 0 0 0.06 0"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+    <pattern id="atelier-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#15140f" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <!-- paper base -->
+  <rect width="768" height="768" fill="#efe7d2"/>
+  <rect width="768" height="768" fill="url(#atelier-grid)"/>
+  <rect width="768" height="768" filter="url(#paper-noise)" opacity="0.6"/>
+  <!-- corner brackets -->
+  <g stroke="#8b8676" stroke-width="1.4" fill="none">
+    <path d="M35 77 L35 35 L77 35"/>
+    <path d="M691 35 L733 35 L733 77"/>
+    <path d="M35 691 L35 733 L77 733"/>
+    <path d="M691 733 L733 733 L733 691"/>
+  </g>
+  <!-- motif -->
+  <g transform="translate(384 373.2)">
+         <line x1="-138.24" y1="0" x2="138.24" y2="0" stroke="#15140f" stroke-opacity="0.4"/>
+         <circle r="10.799999999999999" cx="0" cy="0" fill="#ed6f5c"/>
+       </g>
+  <!-- title -->
+  <text x="384" y="476.15999999999997" text-anchor="middle"
+        font-family="Playfair Display, Georgia, serif" font-style="italic"
+        font-weight="500" font-size="54" fill="#15140f" letter-spacing="-0.5">
+    Labs · IV<tspan fill="#ed6f5c">.</tspan>
+  </text>
+  <!-- meta: slot id -->
+  <text x="384" y="552.96" text-anchor="middle"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="19" fill="#8b8676" letter-spacing="2">
+    LAB-4 · 768×768
+  </text>
+  <!-- hint: research prompt -->
+  <text x="384" y="599.04" text-anchor="middle"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="17" fill="#8b8676" letter-spacing="0.6">
+    group · lead · output
+  </text>
+</svg>

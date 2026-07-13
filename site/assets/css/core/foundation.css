@@ -1,0 +1,84 @@
+/* Document canvas, global links, paper texture, and side rails.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* ── Body: warm paper canvas, paper-noise overlay, side rails ── */
+html { background: var(--rs-paper); }
+
+body {
+  background-color: var(--rs-paper);
+  color: var(--rs-ink);
+  font-family: var(--rs-font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  min-height: 100vh;
+}
+
+body::before {
+  /* Faint paper-noise overlay — multiply-blend SVG turbulence. */
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.07 0 0 0 0 0.06 0 0 0 0 0.04 0 0 0 0.9 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+body::after {
+  /* Two soft radial warm-wells for hand-pressed paper warmth. */
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(60% 50% at 20% 0%, rgba(233, 185, 74, 0.10) 0%, transparent 60%),
+    radial-gradient(50% 40% at 95% 100%, rgba(106, 92, 56, 0.10) 0%, transparent 60%);
+}
+
+/* Lift everything above the noise overlays. */
+body > * { position: relative; z-index: var(--rs-z-content); }
+
+::selection { background: var(--rs-coral); color: var(--rs-paper); }
+
+a {
+  color: var(--rs-link);
+  text-decoration-color: var(--rs-link-line);
+  text-underline-offset: 0.16em;
+}
+a:hover {
+  color: var(--rs-link-hover);
+  text-decoration-color: currentColor;
+}
+
+/* ── Side rails (visible ≥ 1280px) ── */
+.rs-rail {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 36px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.rs-rail--left  { left: 0; border-right: 1px solid var(--rs-rule); }
+.rs-rail--right { right: 0; border-left: 1px solid var(--rs-rule); }
+.rs-rail__label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--rs-font-display);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--rs-ink-faint);
+}
+@media (max-width: 1279px) {
+  .rs-rail { display: none; }
+}
