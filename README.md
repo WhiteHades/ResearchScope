@@ -38,6 +38,7 @@ The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** o
 
 | Date | Highlight |
 |---|---|
+| **Jul 2026** | **Three-theme interface** — pick **Atelier Zero** (warm editorial), **Industrial Brutalist** (high-contrast), or **Field Notes** (tactile) from the nav; selection persists across pages and reloads with no flash. Rebuilt responsive navigation + modular CSS architecture |
 | **Jun 2026** | **OpenReview Acceptance Tiers** — oral/spotlight/poster signals captured for ICLR, NeurIPS, ICML & COLM; oral/spotlight boost paper scores and show as badges. Coverage extended through ICLR 2026, NeurIPS 2025, ICML 2025 |
 | **Jun 2026** | **Journal Recommender** — paste title + abstract to match against 20 Q1 journals (JMLR, TPAMI, Nature MI, CSUR…) with impact factor, review timeline, and open access info |
 | **Jun 2026** | **FastAPI Backend on Railway** — full REST API with JWT auth, favourites, PostgreSQL full-text search (100K+ papers). User accounts synced across devices |
@@ -65,6 +66,7 @@ The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** o
 | 👩‍🔬 **Author intelligence** | 5,000+ researchers ranked by momentum score |
 | 🤗 **LLM training data** | `papers.jsonl` + `instruct.jsonl` on HuggingFace Hub |
 | 🔗 **CiteLens** | One-click handoff to citation analysis for arXiv papers |
+| 🎨 **Three themes** | Atelier Zero, Industrial Brutalist, and Field Notes — switch from the nav, persists with no flash |
 
 ### ⏰ Conference Deadline Tracker
 
@@ -327,6 +329,7 @@ ResearchScope stores only bibliographic metadata — no full text or PDFs.
 | Contributor | GitHub | Role |
 |---|---|---|
 | Md Kishor Morol | [@kishormorol](https://github.com/kishormorol) | Project lead · architecture · pipeline |
+| Mohammed Efaz | [@WhiteHades](https://github.com/WhiteHades) | Multi-theme UI · frontend architecture |
 | Shadril Hassan | [@shadril238](https://github.com/shadril238) | Topic network graph |
 | Saad Chowdhury | [@0Sa-ad0](https://github.com/0Sa-ad0) | Contributor |
 
