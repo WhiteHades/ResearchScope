@@ -1,5 +1,16 @@
 # Chat with Paper — Implementation Plan
 
+## Railway-bounded hybrid v2
+
+The implemented upgrade keeps the existing FastAPI service and standard Railway
+PostgreSQL database. It uses PyMuPDF structured extraction, token-aware
+parent/child chunks, reduced-dimension OpenAI embeddings stored as `REAL[]`,
+per-paper exact cosine search, PostgreSQL lexical search, Reciprocal Rank Fusion,
+adaptive full-context/visual routing, and server-side citation coverage checks.
+It does not require pgvector, Redis, a local ML model, persistent PDF bytes, or an
+additional Railway service. The lexical-only recommendations below describe the
+original MVP baseline; this section supersedes them for the current implementation.
+
 ## 1. Outcome
 
 Add an authenticated **Chat with Paper** workspace to ResearchScope. When a user selects a paper, ResearchScope opens one responsive workspace containing:
@@ -382,7 +393,8 @@ Recommended starting defaults, all environment-configurable:
 
 ### Extraction
 
-- Add `pypdf` to the backend for page-aware pure-Python extraction.
+- Use PyMuPDF for page-aware block extraction, reading-order preservation,
+  page coordinates, and on-demand rendering of relevant visual pages.
 - Extract page-by-page so every chunk has a reliable page range.
 - Normalize repeated whitespace and remove clearly repeated header/footer lines where deterministic rules are safe.
 - If extraction yields too little usable text, fall back to abstract-only mode.
@@ -916,7 +928,7 @@ The smallest useful vertical slice is:
 
 1. one `chat-paper` workspace entered from `papers.html`;
 2. authenticated session/message persistence;
-3. one fixture or real arXiv PDF prepared on demand with `pypdf`;
+3. one fixture or real arXiv PDF prepared on demand with PyMuPDF;
 4. PostgreSQL lexical retrieval over page chunks;
 5. one OpenAI-compatible streamed provider call through `httpx`;
 6. page citations and native viewer navigation;

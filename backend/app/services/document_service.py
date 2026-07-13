@@ -1,24 +1,33 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 import hashlib
 import ipaddress
 import os
+import re
 import socket
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from io import BytesIO
 from urllib.parse import parse_qs, urljoin, urlparse
 
+import fitz
 import httpx
-from pypdf import PdfReader
+import tiktoken
 from sqlalchemy import delete, func, select, update
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 
 from app.database import get_session_factory
 from app.models import Paper, PaperChunk, PaperDocument
+from app.services.provider_service import (
+    ProviderConfigurationError,
+    ProviderRequestError,
+    create_embeddings,
+    embeddings_enabled,
+    get_embedding_config,
+)
 
-EXTRACTOR_VERSION = "pypdf-v1"
+EXTRACTOR_VERSION = "pymupdf-hybrid-v2"
 _PREPARE_SEMAPHORE = asyncio.Semaphore(2)
 _STALE_AFTER = timedelta(minutes=15)
 
@@ -43,6 +52,19 @@ class ExtractedChunk:
     page_start: int
     page_end: int
     content: str
+    section: str | None = None
+    parent_chunk_index: int | None = None
+    content_type: str = "paragraph"
+    token_count: int = 0
+    bounding_box: dict[str, float] | None = None
+
+
+@dataclass(frozen=True)
+class PageBlock:
+    page_number: int
+    content: str
+    content_type: str
+    bounding_box: dict[str, float]
 
 
 class DocumentPreparationError(RuntimeError):
@@ -58,6 +80,25 @@ def _allowed_hosts() -> set[str]:
         if item.strip()
     }
     return _DEFAULT_HOSTS | extra
+
+
+def document_is_current(document: PaperDocument) -> bool:
+    if document.extractor_version != EXTRACTOR_VERSION:
+        return False
+    if not embeddings_enabled():
+        return True
+    expected_model = (
+        os.environ.get("OPENAI_EMBEDDING_MODEL", "text-embedding-3-large").strip()
+        or "text-embedding-3-large"
+    )
+    try:
+        expected_dimensions = int(os.environ.get("OPENAI_EMBEDDING_DIMENSIONS", "256"))
+    except ValueError:
+        return False
+    return (
+        document.embedding_model == expected_model
+        and document.embedding_dimensions == expected_dimensions
+    )
 
 
 def _host_allowed(host: str, allowed: set[str] | None = None) -> bool:
@@ -189,16 +230,243 @@ def chunk_pages(
     return chunks
 
 
+_HEADING_RE = re.compile(
+    r"^(?:\d+(?:\.\d+)*\s+)?(?:abstract|introduction|background|related work|"
+    r"method(?:ology)?|approach|model|experiments?|evaluation|results?|discussion|"
+    r"limitations?|conclusion|references|appendix)\b",
+    re.IGNORECASE,
+)
+_CAPTION_RE = re.compile(r"^(fig(?:ure)?\.?|table)\s*\d+", re.IGNORECASE)
+
+
+def count_tokens(text: str) -> int:
+    return len(tiktoken.get_encoding("cl100k_base").encode(text))
+
+
+def _split_by_tokens(text: str, target: int, overlap: int) -> list[str]:
+    encoding = tiktoken.get_encoding("cl100k_base")
+    tokens = encoding.encode(text)
+    if not tokens:
+        return []
+    chunks: list[str] = []
+    start = 0
+    while start < len(tokens):
+        end = min(len(tokens), start + target)
+        decoded = encoding.decode(tokens[start:end]).strip()
+        if decoded:
+            chunks.append(decoded)
+        if end >= len(tokens):
+            break
+        start = max(start + 1, end - overlap)
+    return chunks
+
+
+def _content_type(text: str) -> str:
+    normalized = " ".join(text.split())
+    if _HEADING_RE.match(normalized) and len(normalized) <= 160:
+        return "section_heading"
+    match = _CAPTION_RE.match(normalized)
+    if match:
+        return (
+            "table_caption" if match.group(1).lower() == "table" else "figure_caption"
+        )
+    return "paragraph"
+
+
+def _extract_page_blocks(document: fitz.Document) -> list[list[PageBlock]]:
+    pages: list[list[PageBlock]] = []
+    for page_number, page in enumerate(document, start=1):
+        blocks: list[PageBlock] = []
+        for raw in page.get_text("blocks", sort=True):
+            x0, y0, x1, y1, raw_text = raw[:5]
+            text = "\n".join(
+                " ".join(line.split())
+                for line in str(raw_text).splitlines()
+                if line.strip()
+            ).strip()
+            if not text:
+                continue
+            blocks.append(
+                PageBlock(
+                    page_number=page_number,
+                    content=text,
+                    content_type=_content_type(text),
+                    bounding_box={
+                        "x0": round(float(x0), 2),
+                        "y0": round(float(y0), 2),
+                        "x1": round(float(x1), 2),
+                        "y1": round(float(y1), 2),
+                    },
+                )
+            )
+        pages.append(blocks)
+    return pages
+
+
+def _merged_box(blocks: list[PageBlock]) -> dict[str, float] | None:
+    if not blocks:
+        return None
+    return {
+        "x0": min(block.bounding_box["x0"] for block in blocks),
+        "y0": min(block.bounding_box["y0"] for block in blocks),
+        "x1": max(block.bounding_box["x1"] for block in blocks),
+        "y1": max(block.bounding_box["y1"] for block in blocks),
+    }
+
+
+def chunk_structured_pages(
+    pages: list[list[PageBlock]],
+    *,
+    child_tokens: int = 600,
+    parent_tokens: int = 1500,
+    overlap_tokens: int = 100,
+) -> list[ExtractedChunk]:
+    chunks: list[ExtractedChunk] = []
+    index = 0
+    current_section: str | None = None
+
+    for blocks in pages:
+        groups: list[tuple[str | None, list[PageBlock]]] = []
+        active: list[PageBlock] = []
+        active_section = current_section
+        for block in blocks:
+            if block.content_type == "section_heading":
+                if active:
+                    groups.append((active_section, active))
+                    active = []
+                current_section = " ".join(block.content.split())[:160]
+                active_section = current_section
+            active.append(block)
+        if active:
+            groups.append((active_section, active))
+
+        for section, group in groups:
+            text = "\n\n".join(block.content for block in group).strip()
+            if not text:
+                continue
+            page_number = group[0].page_number
+            box = _merged_box(group)
+            has_table = any(block.content_type == "table_caption" for block in group)
+            has_figure = any(block.content_type == "figure_caption" for block in group)
+            child_type = (
+                "table" if has_table else "figure" if has_figure else "paragraph"
+            )
+            for parent_text in _split_by_tokens(text, parent_tokens, 0):
+                parent_index = index
+                chunks.append(
+                    ExtractedChunk(
+                        chunk_index=index,
+                        page_start=page_number,
+                        page_end=page_number,
+                        content=parent_text,
+                        section=section,
+                        content_type="parent",
+                        token_count=count_tokens(parent_text),
+                        bounding_box=box,
+                    )
+                )
+                index += 1
+                for child_text in _split_by_tokens(
+                    parent_text, child_tokens, overlap_tokens
+                ):
+                    chunks.append(
+                        ExtractedChunk(
+                            chunk_index=index,
+                            page_start=page_number,
+                            page_end=page_number,
+                            content=child_text,
+                            section=section,
+                            parent_chunk_index=parent_index,
+                            content_type=child_type,
+                            token_count=count_tokens(child_text),
+                            bounding_box=box,
+                        )
+                    )
+                    index += 1
+    return chunks
+
+
 def extract_pdf(pdf_bytes: bytes) -> tuple[int, list[ExtractedChunk]]:
     try:
-        reader = PdfReader(BytesIO(pdf_bytes))
-        pages = [(page.extract_text() or "") for page in reader.pages]
+        with fitz.open(stream=pdf_bytes, filetype="pdf") as document:
+            page_count = document.page_count
+            pages = _extract_page_blocks(document)
     except Exception as exc:
         raise DocumentPreparationError("pdf_extract_failed") from exc
-    chunks = chunk_pages(pages)
-    if not chunks or sum(len(chunk.content) for chunk in chunks) < 1000:
+
+    child_tokens = int(os.environ.get("CHAT_CHILD_CHUNK_TOKENS", "600"))
+    parent_tokens = int(os.environ.get("CHAT_PARENT_CHUNK_TOKENS", "1500"))
+    overlap_tokens = int(os.environ.get("CHAT_CHUNK_OVERLAP_TOKENS", "100"))
+    if (
+        child_tokens < 100
+        or parent_tokens < child_tokens
+        or overlap_tokens >= child_tokens
+    ):
+        raise DocumentPreparationError("chunk_configuration_invalid")
+    chunks = chunk_structured_pages(
+        pages,
+        child_tokens=child_tokens,
+        parent_tokens=parent_tokens,
+        overlap_tokens=overlap_tokens,
+    )
+    children = [chunk for chunk in chunks if chunk.content_type != "parent"]
+    if not children or sum(len(chunk.content) for chunk in children) < 1000:
         raise DocumentPreparationError("pdf_text_unavailable")
-    return len(pages), chunks
+    return page_count, chunks
+
+
+def render_pdf_pages(
+    pdf_bytes: bytes, page_numbers: list[int]
+) -> list[dict[str, object]]:
+    rendered: list[dict[str, object]] = []
+    scale = min(2.0, max(1.0, float(os.environ.get("CHAT_VISUAL_PAGE_SCALE", "1.5"))))
+    try:
+        with fitz.open(stream=pdf_bytes, filetype="pdf") as document:
+            for page_number in page_numbers:
+                if page_number < 1 or page_number > document.page_count:
+                    continue
+                pixmap = document[page_number - 1].get_pixmap(
+                    matrix=fitz.Matrix(scale, scale), alpha=False
+                )
+                encoded = base64.b64encode(pixmap.tobytes("png")).decode("ascii")
+                rendered.append(
+                    {
+                        "page_number": page_number,
+                        "data_url": f"data:image/png;base64,{encoded}",
+                    }
+                )
+    except Exception as exc:
+        raise DocumentPreparationError("pdf_render_failed") from exc
+    return rendered
+
+
+async def embed_extracted_chunks(
+    chunks: list[ExtractedChunk],
+) -> tuple[dict[int, list[float]], str | None]:
+    if not embeddings_enabled():
+        return {}, None
+    children = [chunk for chunk in chunks if chunk.content_type != "parent"]
+    try:
+        config = get_embedding_config()
+    except ProviderConfigurationError as exc:
+        raise DocumentPreparationError("embedding_configuration_invalid") from exc
+    batch_size = max(
+        1, min(128, int(os.environ.get("CHAT_EMBEDDING_BATCH_SIZE", "32")))
+    )
+    vectors: dict[int, list[float]] = {}
+    try:
+        for start in range(0, len(children), batch_size):
+            batch = children[start : start + batch_size]
+            embedded = await create_embeddings(
+                [chunk.content for chunk in batch], config
+            )
+            vectors.update(
+                (chunk.chunk_index, vector)
+                for chunk, vector in zip(batch, embedded, strict=True)
+            )
+    except ProviderRequestError as exc:
+        raise DocumentPreparationError("embedding_failed") from exc
+    return vectors, config.model
 
 
 async def queue_document(paper_id: str) -> str:
@@ -220,7 +488,7 @@ async def queue_document(paper_id: str) -> str:
             )
         ).scalar_one()
         now = datetime.now(timezone.utc)
-        if document.status == "ready":
+        if document.status == "ready" and document_is_current(document):
             document.last_accessed_at = now
             await db.commit()
             return "ready"
@@ -244,7 +512,7 @@ async def prepare_document(paper_id: str) -> None:
             document = await db.get(PaperDocument, paper_id)
             if not paper or not document:
                 return
-            if document.status == "ready":
+            if document.status == "ready" and document_is_current(document):
                 return
             document.status = "preparing"
             document.error_code = None
@@ -256,6 +524,7 @@ async def prepare_document(paper_id: str) -> None:
                     raise DocumentPreparationError("pdf_url_missing")
                 pdf_bytes = await download_pdf(url)
                 page_count, chunks = await asyncio.to_thread(extract_pdf, pdf_bytes)
+                embeddings, embedding_model = await embed_extracted_chunks(chunks)
                 digest = hashlib.sha256(pdf_bytes).hexdigest()
 
                 await db.execute(
@@ -268,8 +537,19 @@ async def prepare_document(paper_id: str) -> None:
                             chunk_index=chunk.chunk_index,
                             page_start=chunk.page_start,
                             page_end=chunk.page_end,
+                            section=chunk.section,
                             content=chunk.content,
                             char_count=len(chunk.content),
+                            token_count=chunk.token_count,
+                            parent_chunk_index=chunk.parent_chunk_index,
+                            content_type=chunk.content_type,
+                            embedding=embeddings.get(chunk.chunk_index),
+                            embedding_model=(
+                                embedding_model
+                                if chunk.chunk_index in embeddings
+                                else None
+                            ),
+                            bounding_box=chunk.bounding_box,
                         )
                     )
                 await db.flush()
@@ -283,8 +563,14 @@ async def prepare_document(paper_id: str) -> None:
                 document.source_url = url
                 document.content_hash = digest
                 document.page_count = page_count
-                document.chunk_count = len(chunks)
+                document.chunk_count = sum(
+                    chunk.content_type != "parent" for chunk in chunks
+                )
                 document.extractor_version = EXTRACTOR_VERSION
+                document.embedding_model = embedding_model
+                document.embedding_dimensions = (
+                    len(next(iter(embeddings.values()))) if embeddings else 0
+                )
                 document.status = "ready"
                 document.error_code = None
                 document.prepared_at = datetime.now(timezone.utc)

@@ -4,6 +4,7 @@ import asyncio
 import sys
 from pathlib import Path
 
+import fitz
 import httpx
 import pytest
 from fastapi.testclient import TestClient
@@ -12,8 +13,10 @@ BACKEND = Path(__file__).resolve().parents[1] / "backend"
 sys.path.insert(0, str(BACKEND))
 
 from app.main import app  # noqa: E402
-from app.models import Paper  # noqa: E402
+from app.models import Paper, PaperDocument  # noqa: E402
+from app.routers.paper_documents import _status  # noqa: E402
 from app.services.chat_service import (  # noqa: E402
+    answer_has_citation_coverage,
     build_system_prompt,
     build_user_prompt,
     citations_from_answer,
@@ -21,8 +24,13 @@ from app.services.chat_service import (  # noqa: E402
     sanitize_source_labels,
 )
 from app.services.document_service import (  # noqa: E402
+    EXTRACTOR_VERSION,
+    PageBlock,
     _host_allowed,
     chunk_pages,
+    chunk_structured_pages,
+    extract_pdf,
+    render_pdf_pages,
     resolve_pdf_url,
     safe_pdf_url,
 )
@@ -32,13 +40,21 @@ from app.services.paper_catalog_service import (  # noqa: E402
 )
 from app.services.paper_viewer_service import resolve_paper_viewer_url  # noqa: E402
 from app.services.provider_service import (  # noqa: E402
+    EmbeddingConfig,
     ProviderConfig,
     ProviderConfigurationError,
+    build_embeddings_request,
     build_openai_request,
+    create_embeddings,
     get_provider_config,
     parse_openai_responses_event,
 )
-from app.services.retrieval_service import RetrievedChunk  # noqa: E402
+from app.services.retrieval_service import (  # noqa: E402
+    RetrievedChunk,
+    classify_query,
+    cosine_similarity,
+    reciprocal_rank_fusion,
+)
 
 
 def test_pdf_host_allowlist_blocks_untrusted_hosts():
@@ -63,6 +79,28 @@ def test_resolve_pdf_url_uses_stored_then_source_fallbacks():
     assert safe_pdf_url(unsafe) is None
 
 
+def test_old_prepared_documents_are_reported_for_automatic_upgrade(monkeypatch):
+    paper = Paper(id="arxiv:2501.12345", source="arxiv", title="Paper")
+    old = PaperDocument(
+        paper_id=paper.id,
+        status="ready",
+        extractor_version="pypdf-v1",
+        page_count=10,
+        chunk_count=20,
+    )
+    status = _status(paper, old)
+    assert status.status == "not_prepared"
+    assert status.error_code == "document_upgrade_required"
+    assert status.page_count == 0
+
+    old.extractor_version = EXTRACTOR_VERSION
+    old.embedding_model = "text-embedding-3-large"
+    old.embedding_dimensions = 256
+    assert _status(paper, old).status == "ready"
+    monkeypatch.setenv("OPENAI_EMBEDDING_MODEL", "different-embedding-model")
+    assert _status(paper, old).status == "not_prepared"
+
+
 def test_chunk_pages_is_page_aware_and_deterministic():
     pages = ["First paragraph. " * 120, "Second page text. " * 100]
     first = chunk_pages(pages, target_chars=500, overlap_chars=50)
@@ -72,6 +110,78 @@ def test_chunk_pages_is_page_aware_and_deterministic():
     assert {chunk.page_start for chunk in first} == {1, 2}
     assert all(chunk.page_start == chunk.page_end for chunk in first)
     assert [chunk.chunk_index for chunk in first] == list(range(len(first)))
+
+
+def test_structured_chunking_creates_section_aware_parent_child_chunks():
+    blocks = [
+        PageBlock(
+            1,
+            "2 Methodology",
+            "section_heading",
+            {"x0": 10.0, "y0": 10.0, "x1": 100.0, "y1": 30.0},
+        ),
+        PageBlock(
+            1,
+            "The proposed method uses a bounded residual stream. " * 180,
+            "paragraph",
+            {"x0": 10.0, "y0": 40.0, "x1": 500.0, "y1": 700.0},
+        ),
+    ]
+    chunks = chunk_structured_pages(
+        [blocks], child_tokens=120, parent_tokens=300, overlap_tokens=20
+    )
+    parents = [chunk for chunk in chunks if chunk.content_type == "parent"]
+    children = [chunk for chunk in chunks if chunk.content_type != "parent"]
+    assert parents
+    assert len(children) > len(parents)
+    assert all(chunk.section == "2 Methodology" for chunk in chunks)
+    assert all(chunk.parent_chunk_index is not None for chunk in children)
+    assert all(chunk.token_count > 0 for chunk in chunks)
+    assert {chunk.parent_chunk_index for chunk in children}.issubset(
+        {chunk.chunk_index for chunk in parents}
+    )
+
+
+def test_adaptive_query_classifier_and_cosine_similarity():
+    assert classify_query("Summarize the entire paper") == "global"
+    assert classify_query("What does Figure 3 show?") == "visual"
+    assert classify_query("Which optimizer was used?") == "local"
+    assert cosine_similarity([1.0, 0.0], [1.0, 0.0]) == pytest.approx(1.0)
+    assert cosine_similarity([1.0, 0.0], [0.0, 1.0]) == pytest.approx(0.0)
+    fused = reciprocal_rank_fusion([[1, 2, 3], [2, 3, 4], [2, 5]])
+    assert max(fused, key=fused.get) == 2
+
+
+def test_pymupdf_extraction_and_visual_rendering_stay_page_aware():
+    document = fitz.open()
+    for page_index in range(2):
+        page = document.new_page()
+        heading = "2 Methodology" if page_index == 0 else "3 Results"
+        page.insert_text((72, 72), heading, fontsize=16)
+        y = 105
+        for line_index in range(32):
+            page.insert_text(
+                (72, y),
+                f"Line {line_index}: The paper reports grounded experimental "
+                "evidence for the proposed method.",
+                fontsize=9,
+            )
+            y += 18
+    pdf_bytes = document.tobytes()
+    document.close()
+
+    page_count, chunks = extract_pdf(pdf_bytes)
+    rendered = render_pdf_pages(pdf_bytes, [1, 2, 99])
+    assert page_count == 2
+    assert {chunk.page_start for chunk in chunks} == {1, 2}
+    assert {chunk.section for chunk in chunks if chunk.section} == {
+        "2 Methodology",
+        "3 Results",
+    }
+    assert [page["page_number"] for page in rendered] == [1, 2]
+    assert all(
+        str(page["data_url"]).startswith("data:image/png;base64,") for page in rendered
+    )
 
 
 def test_openai_responses_stream_parser_normalizes_deltas_and_usage():
@@ -85,9 +195,9 @@ def test_openai_responses_stream_parser_normalizes_deltas_and_usage():
     assert parse_openai_responses_event(completed) == [
         ("usage", {"input_tokens": 3, "output_tokens": 2})
     ]
-    assert parse_openai_responses_event(
-        'data: {"type":"response.failed"}'
-    ) == [("provider_error", "provider_error")]
+    assert parse_openai_responses_event('data: {"type":"response.failed"}') == [
+        ("provider_error", "provider_error")
+    ]
 
 
 def test_citations_only_accept_known_source_labels():
@@ -100,6 +210,14 @@ def test_citations_only_accept_known_source_labels():
     )
     assert [citation["chunk_id"] for citation in citations] == [10, 11]
     assert citations[1]["page_end"] == 6
+
+
+def test_every_substantive_answer_block_requires_a_valid_citation():
+    chunks = [RetrievedChunk(10, 0, 2, 2, "Method", "Supported text.")]
+    assert answer_has_citation_coverage("Supported statement [S1].", chunks)
+    assert not answer_has_citation_coverage(
+        "Supported statement [S1].\nUnsupported additional statement.", chunks
+    )
 
 
 def test_invalid_source_labels_are_removed_from_answers():
@@ -187,6 +305,38 @@ def test_openai_request_uses_responses_api_and_reasoning_effort():
     assert body["stream"] is True
 
 
+def test_embedding_request_uses_reduced_dimensions_and_preserves_order():
+    config = EmbeddingConfig(
+        api_key="test-key",
+        model="text-embedding-3-large",
+        base_url="https://api.openai.com/v1",
+        timeout_seconds=60,
+        dimensions=2,
+    )
+    url, headers, body = build_embeddings_request(["first", "second"], config)
+    assert url == "https://api.openai.com/v1/embeddings"
+    assert headers == {"Authorization": "Bearer test-key"}
+    assert body["dimensions"] == 2
+
+    async def handler(request: httpx.Request) -> httpx.Response:
+        assert request.url.path == "/v1/embeddings"
+        return httpx.Response(
+            200,
+            json={
+                "data": [
+                    {"index": 1, "embedding": [0.0, 1.0]},
+                    {"index": 0, "embedding": [1.0, 0.0]},
+                ]
+            },
+        )
+
+    async def run():
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+            return await create_embeddings(["first", "second"], config, client=client)
+
+    assert asyncio.run(run()) == [[1.0, 0.0], [0.0, 1.0]]
+
+
 def test_chat_and_document_routes_require_authentication():
     client = TestClient(app)
     assert client.post("/chat/sessions", json={"paper_id": "p1"}).status_code == 403
@@ -246,9 +396,7 @@ def test_catalog_fallback_validates_and_returns_paper(monkeypatch):
         )
 
     async def run():
-        async with httpx.AsyncClient(
-            transport=httpx.MockTransport(handler)
-        ) as client:
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
             return await fetch_catalog_paper("openalex:W123", client=client)
 
     paper = asyncio.run(run())
@@ -265,9 +413,7 @@ def test_catalog_fallback_rejects_wrong_paper_id(monkeypatch):
         return httpx.Response(200, json={"id": "wrong-id", "title": "Wrong"})
 
     async def run():
-        async with httpx.AsyncClient(
-            transport=httpx.MockTransport(handler)
-        ) as client:
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
             return await fetch_catalog_paper("openalex:W123", client=client)
 
     with pytest.raises(PaperCatalogError, match="paper_catalog_id_mismatch"):
@@ -294,9 +440,7 @@ def test_viewer_resolver_prefers_embeddable_openalex_location():
         )
 
     async def run():
-        async with httpx.AsyncClient(
-            transport=httpx.MockTransport(handler)
-        ) as client:
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
             return await resolve_paper_viewer_url(paper, client=client)
 
     assert asyncio.run(run()) == "https://arxiv.org/pdf/2501.12345"

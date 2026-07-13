@@ -9,6 +9,7 @@ from app.models import Paper, PaperDocument, User
 from app.schemas_chat import DocumentStatusOut
 from app.services.document_service import (
     DocumentPreparationError,
+    document_is_current,
     prepare_document,
     queue_document,
     safe_pdf_url,
@@ -20,13 +21,20 @@ router = APIRouter(prefix="/papers", tags=["paper-chat-documents"])
 
 
 def _status(paper: Paper, document: PaperDocument | None) -> DocumentStatusOut:
+    stale = bool(
+        document and document.status == "ready" and not document_is_current(document)
+    )
     return DocumentStatusOut(
         paper_id=paper.id,
-        status=document.status if document else "not_prepared",
-        page_count=document.page_count if document else 0,
-        chunk_count=document.chunk_count if document else 0,
+        status="not_prepared" if stale or not document else document.status,
+        page_count=0 if stale or not document else document.page_count,
+        chunk_count=0 if stale or not document else document.chunk_count,
         viewer_url=safe_pdf_url(paper),
-        error_code=document.error_code if document else None,
+        error_code="document_upgrade_required"
+        if stale
+        else document.error_code
+        if document
+        else None,
     )
 
 
