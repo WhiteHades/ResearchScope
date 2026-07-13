@@ -14,30 +14,38 @@
   <meta name="twitter:description" content="Top CS/AI papers of the week, grouped by topic. Curated automatically from 50,000+ papers."/>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-18"/>
+  <script src="assets/js/theme-bootstrap.js?v=ui-integrity-18"></script>
 </head>
 <body>
 
-<!-- ── Navigation ──────────────────────────────────────────────────── -->
+<!-- Atelier Zero: side rails + top metadata strip -->
+<aside class="rs-rail rs-rail--left" aria-hidden="true">
+  <span class="rs-rail__label">ResearchScope · Daily Index</span>
+</aside>
+<aside class="rs-rail rs-rail--right" aria-hidden="true">
+  <span class="rs-rail__label">CS Research · Filed Daily</span>
+</aside>
+
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-2">
-      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">
-        🔭 ResearchScope
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-ink);font-family:var(--rs-font-display);letter-spacing:-0.02em">
+        <span style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral)">Ø</span>
+        <span>ResearchScope<span class="rs-dot">.</span></span>
       </a>
       <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1">
-        <a href="papers">Papers</a>
-        <a href="topics">Topics</a>
-        <a href="digest">📬 Digest</a>
-        <a href="conferences">Conferences</a>
-        <a href="journals">Journals</a>
-        
-        <a href="authors">Authors</a>
-        <a href="labs">Labs &amp; Unis</a>
-        <a href="gaps">Research Gaps</a>
-        <a href="deadlines">📅 Upcoming</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">Upcoming</a>
       </div>
-      <div class="flex items-center gap-2 justify-end" style="flex:1">
+      <div id="rs-nav-actions" class="flex items-center gap-2 justify-end" style="flex:1">
         <div class="search-wrap hidden lg:block">
           <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
@@ -50,7 +58,6 @@
           Star
           <span class="github-star-count">–</span>
         </a>
-        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
         <button id="mobile-menu-btn" class="lg:hidden p-1 rounded" aria-label="Open menu" aria-expanded="false">
           <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -62,22 +69,22 @@
       </div>
     </div>
   </div>
-  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-border);background:var(--rs-surface)">
+  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-rule);background:var(--rs-bone)">
     <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
       <a href="./" class="mobile-nav-link">Home</a>
-      <a href="papers" class="mobile-nav-link">Papers</a>
-      <a href="topics" class="mobile-nav-link">Topics</a>
-      <a href="digest" class="mobile-nav-link">📬 Weekly Digest</a>
-      <a href="conferences" class="mobile-nav-link">Conferences</a>
-      <a href="journals" class="mobile-nav-link">Journals</a>
-      
-      <a href="authors" class="mobile-nav-link">Authors</a>
-      <a href="labs" class="mobile-nav-link">Labs &amp; Unis</a>
-      <a href="gaps" class="mobile-nav-link">Research Gaps</a>
-      <a href="deadlines" class="mobile-nav-link">📅 Upcoming Conferences</a>
+      <a href="papers.html" class="mobile-nav-link">Papers</a>
+      <a href="topics.html" class="mobile-nav-link">Topics</a>
+      <a href="digest.html" class="mobile-nav-link">Weekly Digest</a>
+      <a href="conferences.html" class="mobile-nav-link">Conferences</a>
+      <a href="journals.html" class="mobile-nav-link">Journals</a>
+      <a href="authors.html" class="mobile-nav-link">Authors</a>
+      <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines.html" class="mobile-nav-link">Upcoming Conferences</a>
     </div>
   </div>
 </nav>
+
 
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
@@ -85,7 +92,7 @@
   <div class="digest-header">
     <div class="flex flex-wrap items-start justify-between gap-4">
       <div>
-        <p class="text-xs font-bold uppercase tracking-widest opacity-80 mb-1">📬 Weekly Research Digest</p>
+        <p class="text-xs font-bold uppercase tracking-widest opacity-80 mb-1"> Weekly Research Digest</p>
         <h1 class="text-2xl font-extrabold mb-1" id="digest-week-label">Weekly Digest</h1>
         <p class="text-sm opacity-80">Top papers per topic, curated from <span id="digest-total">…</span> papers</p>
       </div>
@@ -95,7 +102,7 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.738-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           Share Digest
         </a>
-        <button onclick="copyDigestLink(this)" class="potd-btn potd-btn-ghost">📋 Copy Link</button>
+        <button onclick="copyDigestLink(this)" class="potd-btn potd-btn-ghost"> Copy Link</button>
       </div>
     </div>
   </div>
@@ -110,7 +117,7 @@
 
 <!-- ── Footer ──────────────────────────────────────────────────────── -->
 <footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  <p class="font-semibold mb-2">🔭 ResearchScope</p>
+  <p class="font-semibold mb-2"> ResearchScope</p>
   <p>Open-source CS research intelligence &middot; Updated daily via GitHub Actions &middot; Built for researchers and creators</p>
   <p class="mt-3 font-medium" style="color:var(--rs-text)">Data Sources</p>
   <p class="mt-1">
@@ -126,72 +133,77 @@
   </p>
 </footer>
 
-<script src="assets/js/app.js"></script>
-<script src="assets/js/railway-api.js"></script>
+<script src="assets/js/app.js?v=ui-integrity-18"></script>
+<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
 <script>
 // Topic group icons
 const TOPIC_ICONS = {
-  'Large Language Models': '🤖',
-  'Transformer Architectures': '⚡',
-  'Diffusion Models': '🎨',
-  'Reinforcement Learning': '🎮',
-  'Computer Vision': '👁️',
-  'Vision-Language Models': '🖼️',
-  'Graph Neural Networks': '🕸️',
-  'AI Agents & Tool Use': '🛠️',
-  'AI Safety & Alignment': '🛡️',
-  'Retrieval-Augmented Generation': '🔍',
-  'Code Generation & Synthesis': '💻',
-  'Fine-Tuning & PEFT': '🎯',
-  'Reasoning & Chain-of-Thought': '🧠',
-  'RLHF & Preference Alignment': '👍',
-  'Benchmarking & Evaluation': '📊',
-  'Text Summarization': '📝',
-  'Machine Translation': '🌐',
-  'Question Answering': '❓',
-  'Mixture of Experts': '🧩',
-  'State Space Models': '🌊',
-  'Federated & Privacy-Preserving Learning': '🔐',
-  'Continual Learning': '♻️',
-  'Long-Context Modeling': '📏',
-  'Multimodal Learning': '🎭',
+  'Large Language Models': '',
+  'Transformer Architectures': '',
+  'Diffusion Models': '',
+  'Reinforcement Learning': '',
+  'Computer Vision': '',
+  'Vision-Language Models': '',
+  'Graph Neural Networks': '',
+  'AI Agents & Tool Use': '',
+  'AI Safety & Alignment': '',
+  'Retrieval-Augmented Generation': '',
+  'Code Generation & Synthesis': '',
+  'Fine-Tuning & PEFT': '',
+  'Reasoning & Chain-of-Thought': '',
+  'RLHF & Preference Alignment': '',
+  'Benchmarking & Evaluation': '',
+  'Text Summarization': '',
+  'Machine Translation': '',
+  'Question Answering': '',
+  'Mixture of Experts': '',
+  'State Space Models': '',
+  'Federated & Privacy-Preserving Learning': '',
+  'Continual Learning': '',
+  'Long-Context Modeling': '',
+  'Multimodal Learning': '',
   // Short taxonomy names used in the live data
-  'LLMs': '🤖',
-  'VLMs': '🖼️',
-  'Reasoning': '🧠',
-  'AI Agents': '🛠️',
-  'AI Safety': '🛡️',
-  'RL': '🎮',
-  'Fine-Tuning': '🎯',
-  'GNNs': '🕸️',
-  'Transformers': '⚡',
-  'Diffusion': '🎨',
-  'Computer vision': '👁️',
-  'Multimodal': '🎭',
-  'Evaluation': '📊',
-  'NLP': '💬',
-  'Prompting': '✍️',
-  'Hallucination': '🌀',
-  'Robotics': '🦾',
-  'Object Detection': '🎯',
-  'Segmentation': '🧩',
-  '3D Vision': '🧊',
-  'Knowledge Graphs': '🔗',
-  'Text-to-Image': '🖌️',
-  'Self-Supervised': '🔄',
-  'Interpretability': '🔬',
-  'Model Compression': '🗜️',
-  'Adversarial': '⚔️',
-  'Dialogue': '🗨️',
-  'QA': '❓',
-  'Graph': '🕸️',
-  'Info Extraction': '📑',
-  'Fairness & Ethics': '⚖️',
-  'Cryptography & Security': '🔒',
+  'LLMs': '',
+  'VLMs': '',
+  'Reasoning': '',
+  'AI Agents': '',
+  'AI Safety': '',
+  'RL': '',
+  'Fine-Tuning': '',
+  'GNNs': '',
+  'Transformers': '',
+  'Diffusion': '',
+  'Computer vision': '',
+  'Multimodal': '',
+  'Evaluation': '',
+  'NLP': '',
+  'Prompting': '',
+  'Hallucination': '',
+  'Robotics': '',
+  'Object Detection': '',
+  'Segmentation': '',
+  '3D Vision': '',
+  'Knowledge Graphs': '',
+  'Text-to-Image': '',
+  'Self-Supervised': '',
+  'Interpretability': '',
+  'Model Compression': '',
+  'Adversarial': '',
+  'Dialogue': '',
+  'QA': '',
+  'Graph': '',
+  'Info Extraction': '',
+  'Fairness & Ethics': '',
+  'Cryptography & Security': '',
 };
 
 function topicIcon(name) {
-  return TOPIC_ICONS[name] || '🗂';
+  return TOPIC_ICONS[name] || '';
+}
+
+function digestTopicLabel(name, short = false) {
+  const label = short ? name.split(' ').slice(0, 2).join(' ') : name;
+  return `<span class="digest-topic-token"><span class="digest-topic-token__mark" aria-hidden="true"></span><span>${escHtml(label)}</span></span>`;
 }
 
 function renderDigestPaperCard(paper) {
@@ -212,7 +224,7 @@ function renderDigestPaperCard(paper) {
         </p>
       </div>
       <div class="flex gap-1 items-center flex-shrink-0">
-        <span class="badge badge-score">⭐ ${(+paper.paper_score||0).toFixed(1)}</span>
+        <span class="badge badge-score">${(+paper.paper_score||0).toFixed(1)}</span>
         ${difficultyBadge(paper)}
       </div>
     </div>
@@ -231,7 +243,7 @@ function renderDigestPaperCard(paper) {
 function copyDigestLink(btn) {
   navigator.clipboard.writeText(window.location.href).then(() => {
     const orig = btn.textContent;
-    btn.textContent = '✓ Copied!';
+    btn.textContent = ' Copied!';
     setTimeout(() => btn.textContent = orig, 2000);
   });
 }
@@ -287,9 +299,11 @@ function weekRange(anchor) {
 function toggleDigestSection(id) {
   const body = document.getElementById('digest-body-' + id);
   const arrow = document.getElementById('digest-arrow-' + id);
+  const trigger = document.getElementById('digest-trigger-' + id);
   if (!body) return;
-  const open = body.classList.toggle('hidden');
-  arrow.textContent = open ? '▶' : '▼';
+  const hidden = body.classList.toggle('hidden');
+  arrow.textContent = hidden ? '▶' : '▼';
+  trigger?.setAttribute('aria-expanded', String(!hidden));
 }
 
 function render(papers, topics, filter) {
@@ -309,14 +323,14 @@ function render(papers, topics, filter) {
 
     html += `
     <div class="digest-section" data-topic="${escHtml(topicName)}">
-      <div class="digest-section-title" onclick="toggleDigestSection(${id})" style="cursor:pointer;user-select:none">
-        <span>${topicIcon(topicName)} ${escHtml(topicName)}</span>
+      <button id="digest-trigger-${id}" type="button" class="digest-section-title" aria-expanded="${String(!collapsed)}" aria-controls="digest-body-${id}" onclick="toggleDigestSection(${id})" style="user-select:none">
+        <span>${digestTopicLabel(topicName)}</span>
         <span class="flex items-center gap-2">
           <span class="text-xs font-normal" style="color:var(--rs-muted)">${topicPapers.length} paper${topicPapers.length !== 1 ? 's' : ''}</span>
           <span id="digest-arrow-${id}" class="text-xs" style="color:var(--rs-muted)">${collapsed ? '▶' : '▼'}</span>
         </span>
-      </div>
-      <div id="digest-body-${id}" class="flex flex-col gap-3${collapsed ? ' hidden' : ''}">
+      </button>
+      <div id="digest-body-${id}" class="flex flex-col gap-3${collapsed ? ' hidden' : ''}" role="region" aria-labelledby="digest-trigger-${id}">
         ${topicPapers.map(renderDigestPaperCard).join('')}
       </div>
     </div>`;
@@ -335,16 +349,19 @@ function buildFilters(topics) {
   const available = digestTopics;
 
   const el = document.getElementById('digest-filters');
-  el.innerHTML = `<button class="area-chip active" data-f="all">All</button>` +
+  el.setAttribute('role', 'group');
+  el.setAttribute('aria-label', 'Filter digest by topic');
+  el.innerHTML = `<button class="area-chip active" data-f="all" aria-pressed="true"><span class="digest-topic-token digest-topic-token--all"><span class="digest-topic-token__mark" aria-hidden="true"></span><span>All</span></span></button>` +
     available.slice(0, 12).map(name =>
-      `<button class="area-chip" data-f="${escHtml(name)}">${topicIcon(name)} ${escHtml(name.split(' ').slice(0,2).join(' '))}</button>`
+      `<button class="area-chip" data-f="${escHtml(name)}" aria-pressed="false">${digestTopicLabel(name, true)}</button>`
     ).join('');
 
   el.addEventListener('click', e => {
     const btn = e.target.closest('[data-f]');
     if (!btn) return;
-    el.querySelectorAll('[data-f]').forEach(b => b.classList.remove('active'));
+    el.querySelectorAll('[data-f]').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
     btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
     activeFilter = btn.dataset.f;
     render(allPapers, allTopics, activeFilter);
   });
@@ -352,7 +369,7 @@ function buildFilters(topics) {
 
 function buildTweetBtn(weekLabel) {
   const url = 'https://kishormorol.github.io/ResearchScope/digest';
-  const text = `📬 Weekly Research Digest — ${weekLabel}\n\nTop AI & CS papers of the week, organized by topic.\n\n🔭 ResearchScope\n${url}\n\n#AIResearch #MachineLearning #ResearchScope`;
+  const text = ` Weekly Research Digest — ${weekLabel}\n\nTop AI & CS papers of the week, organized by topic.\n\n ResearchScope\n${url}\n\n#AIResearch #MachineLearning #ResearchScope`;
   document.getElementById('digest-tweet-btn').href =
     `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
 }
@@ -414,5 +431,3 @@ function buildTweetBtn(weekLabel) {
 </script>
 </body>
 </html>
-
-

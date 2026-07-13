@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 640" width="1024" height="640" role="img" aria-label="Quote">
+  
+  <defs>
+    <filter id="paper-noise" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3"/>
+      <feColorMatrix values="0 0 0 0 0.082  0 0 0 0 0.078  0 0 0 0 0.059  0 0 0 0.06 0"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+    <pattern id="atelier-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#15140f" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <!-- paper base -->
+  <rect width="1024" height="640" fill="#efe7d2"/>
+  <rect width="1024" height="640" fill="url(#atelier-grid)"/>
+  <rect width="1024" height="640" filter="url(#paper-noise)" opacity="0.6"/>
+  <!-- corner brackets -->
+  <g stroke="#8b8676" stroke-width="1.4" fill="none">
+    <path d="M29 64 L29 29 L64 29"/>
+    <path d="M960 29 L995 29 L995 64"/>
+    <path d="M29 576 L29 611 L64 611"/>
+    <path d="M960 611 L995 611 L995 576"/>
+  </g>
+  <!-- motif -->
+  <g transform="translate(512 311)">
+         <line x1="-115.19999999999999" y1="0" x2="115.19999999999999" y2="0" stroke="#15140f" stroke-opacity="0.4"/>
+         <circle r="9.6" cx="0" cy="0" fill="#ed6f5c"/>
+       </g>
+  <!-- title -->
+  <text x="512" y="396.8" text-anchor="middle"
+        font-family="Playfair Display, Georgia, serif" font-style="italic"
+        font-weight="500" font-size="45" fill="#15140f" letter-spacing="-0.5">
+    Quote<tspan fill="#ed6f5c">.</tspan>
+  </text>
+  <!-- meta: slot id -->
+  <text x="512" y="460.8" text-anchor="middle"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="16" fill="#8b8676" letter-spacing="2">
+    TESTIMONIAL · 1024×640
+  </text>
+  <!-- hint: research prompt -->
+  <text x="512" y="499.20000000000005" text-anchor="middle"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="14" fill="#8b8676" letter-spacing="0.6">
+    partner glyph · attribution
+  </text>
+</svg>

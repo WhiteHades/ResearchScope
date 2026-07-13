@@ -6,26 +6,30 @@
   <title>Journal Recommender – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css"/>
-  <link rel="stylesheet" href="assets/css/conference-recommender.css"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-18"/>
+  <link rel="stylesheet" href="assets/css/conference-recommender.css?v=ui-integrity-18"/>
+  <script src="assets/js/theme-bootstrap.js?v=ui-integrity-18"></script>
 </head>
 <body>
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-2">
-      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">🔭 ResearchScope</a>
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-ink);font-family:var(--rs-font-display);letter-spacing:-0.02em">
+        <span style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral)">Ø</span>
+        <span>ResearchScope<span class="rs-dot">.</span></span>
+      </a>
       <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1">
-        <a href="papers">Papers</a>
-        <a href="topics">Topics</a>
-        <a href="digest">📬 Digest</a>
-        <a href="conferences">Conferences</a>
-        <a href="journals">Journals</a>
-        <a href="authors">Authors</a>
-        <a href="labs">Labs &amp; Unis</a>
-        <a href="gaps">Research Gaps</a>
-        <a href="deadlines">📅 Upcoming</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">Upcoming</a>
       </div>
-      <div class="flex items-center gap-2 justify-end" style="flex:1">
+      <div id="rs-nav-actions" class="flex items-center gap-2 justify-end" style="flex:1">
         <div class="search-wrap hidden lg:block">
           <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
@@ -35,20 +39,43 @@
         </div>
         <a href="https://github.com/kishormorol/ResearchScope" target="_blank" rel="noopener" class="github-star-btn hidden lg:inline-flex" aria-label="Star on GitHub">
           <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
-          Star <span class="github-star-count">–</span>
+          Star
+          <span class="github-star-count">–</span>
         </a>
-        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
+        <button id="mobile-menu-btn" class="lg:hidden p-1 rounded" aria-label="Open menu" aria-expanded="false">
+          <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
+  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-rule);background:var(--rs-bone)">
+    <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
+      <a href="./" class="mobile-nav-link">Home</a>
+      <a href="papers.html" class="mobile-nav-link">Papers</a>
+      <a href="topics.html" class="mobile-nav-link">Topics</a>
+      <a href="digest.html" class="mobile-nav-link">Weekly Digest</a>
+      <a href="conferences.html" class="mobile-nav-link">Conferences</a>
+      <a href="journals.html" class="mobile-nav-link">Journals</a>
+      <a href="authors.html" class="mobile-nav-link">Authors</a>
+      <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines.html" class="mobile-nav-link">Upcoming Conferences</a>
+    </div>
+  </div>
 </nav>
+
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
   <!-- Header + cross-link -->
   <div class="mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
     <div>
-      <h1 class="text-3xl font-extrabold mb-2">📖 Journal Recommender</h1>
+      <h1 class="text-3xl font-extrabold mb-2"> Journal Recommender</h1>
       <p class="text-sm max-w-2xl" style="color:var(--rs-muted)">
         Paste your title and abstract to match your manuscript against ResearchScope journal profiles.
         Results show topic fit, scope, impact, acceptance rate, review timeline, and similar accepted papers.
@@ -56,17 +83,17 @@
         acceptance rates are approximate (most journals don't publish official figures).
       </p>
     </div>
-    <a href="conference-recommender"
+    <a href="conference-recommender.html"
        class="shrink-0 inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-lg border"
        style="border-color:var(--rs-border);color:var(--rs-primary)">
-      🎓 Switch to Conference Recommender →
+       Switch to Conference Recommender →
     </a>
   </div>
 
   <div class="recommender-shell">
     <!-- Input panel -->
     <section class="recommender-panel recommender-column">
-      <div class="recommender-form">
+      <form class="recommender-form" onsubmit="event.preventDefault()">
         <div>
           <label for="paper-title" class="block text-sm font-semibold mb-1">Paper title</label>
           <input id="paper-title" class="rs-input" type="text" placeholder="Enter your title here"/>
@@ -88,26 +115,26 @@
             <select id="contribution-type" class="rs-select"></select>
           </div>
         </div>
-        <button id="recommend-btn" class="w-full font-semibold px-4 py-2.5 rounded-lg text-white" style="background:var(--rs-primary)">
+        <button id="recommend-btn" type="submit" class="w-full font-semibold px-4 py-2.5 rounded-lg text-white" style="background:var(--rs-primary)">
           Recommend journals
         </button>
         <div class="flex items-center justify-between gap-2">
-          <button id="rec-sample-btn" type="button" class="text-xs font-medium hover:underline" style="color:var(--rs-primary)">✨ Try a sample abstract</button>
+          <button id="rec-sample-btn" type="button" class="text-xs font-medium hover:underline" style="color:var(--rs-primary)"> Try a sample abstract</button>
           <span class="text-xs" style="color:var(--rs-muted)">Tip: ⌘/Ctrl + Enter to run</span>
         </div>
-      </div>
+      </form>
     </section>
 
     <!-- Results panel -->
     <section class="recommender-column">
-      <div id="recommender-status" class="recommender-panel text-sm" style="color:var(--rs-muted)">Loading journal data…</div>
+      <div id="recommender-status" class="recommender-panel text-sm" style="color:var(--rs-muted)" role="status" aria-live="polite">Loading journal data…</div>
       <div id="recommender-results" class="space-y-4 mt-4"></div>
     </section>
   </div>
 </main>
 
 <footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  <p class="font-semibold mb-2">🔭 ResearchScope</p>
+  <p class="font-semibold mb-2"> ResearchScope</p>
   <p>Open-source CS research intelligence &middot; Updated daily via GitHub Actions</p>
   <p class="mt-2">
     <a href="https://github.com/kishormorol/ResearchScope" target="_blank" class="hover:underline" style="color:var(--rs-primary)">GitHub</a>
@@ -115,9 +142,9 @@
   </p>
 </footer>
 
-<script src="assets/js/app.js"></script>
-<script src="assets/js/railway-api.js"></script>
-<script src="assets/js/recommender-core.js"></script>
+<script src="assets/js/app.js?v=ui-integrity-18"></script>
+<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
+<script src="assets/js/recommender-core.js?v=ui-integrity-18"></script>
 <script>
 const { tokenize, extractBigrams, inferField, draftQuality, analyzeAbstract,
         renderAnalysisPanel, weightedKeywordScore, fitLabel, fitLegend, generateRationale,
@@ -128,8 +155,8 @@ let recommenderIndex = null;
 
 function qBadge(q) {
   if (!q) return '';
-  const cls = q === 'Q1' ? 'background:#dcfce7;color:#166534' : 'background:#fef9c3;color:#854d0e';
-  return `<span class="badge" style="${cls}">${escHtml(q)}</span>`;
+  const cls = q === 'Q1' ? 'rs-status--success' : 'rs-status--warning';
+  return `<span class="rs-status ${cls}">${escHtml(q)}</span>`;
 }
 
 function contribAdjust(venue, contribType) {
@@ -142,9 +169,9 @@ function contribAdjust(venue, contribType) {
 
 function ifContext(ifVal) {
   if (ifVal == null) return '';
-  if (ifVal >= 20)   return `<span class="text-xs" style="color:#16a34a;font-weight:600">Top 1% in CS</span>`;
-  if (ifVal >= 10)   return `<span class="text-xs" style="color:#2563eb;font-weight:600">Top 5% in CS</span>`;
-  if (ifVal >= 6)    return `<span class="text-xs" style="color:#7c3aed;font-weight:600">Q1 journal</span>`;
+  if (ifVal >= 20)   return `<span class="text-xs" style="color:var(--rs-success);font-weight:600">Top 1% in CS</span>`;
+  if (ifVal >= 10)   return `<span class="text-xs" style="color:var(--rs-info);font-weight:600">Top 5% in CS</span>`;
+  if (ifVal >= 6)    return `<span class="text-xs" style="color:var(--rs-coral);font-weight:600">Q1 journal</span>`;
   return '';
 }
 
@@ -207,7 +234,7 @@ function recommendJournals() {
         <div class="font-semibold" style="color:var(--rs-text)">Top ${ranked.length} journal recommendations${detectedNote}</div>
         <p class="mt-1">Ranked by topic overlap and field match. Fit labels are advisory — check each journal's scope before submitting.</p>
       </div>
-      <button id="copy-shortlist-btn" type="button" class="shrink-0 text-xs font-medium px-2.5 py-1 rounded-lg border" style="border-color:var(--rs-border);color:var(--rs-primary)">⧉ Copy shortlist</button>
+      <button id="copy-shortlist-btn" type="button" class="shrink-0 text-xs font-medium px-2.5 py-1 rounded-lg border" style="border-color:var(--rs-border);color:var(--rs-primary)">Copy shortlist</button>
     </div>
     ${fitLegend()}`;
   resultsEl.innerHTML = renderAnalysisPanel(analysis) + ranked.map(renderResult).join('');
@@ -217,7 +244,7 @@ function recommendJournals() {
 function renderResult(item, index) {
   const v  = item.venue;
   const mw = Math.min(100, Math.round(item.score * 2.8));
-  const oa = v.open_access ? '<span class="badge" style="background:#dcfce7;color:#166534">Open Access</span>' : '';
+  const oa = v.open_access ? '<span class="rs-status rs-status--success">Open Access</span>' : '';
   const ifBadge = v.impact_factor != null ? `<span class="badge badge-tag" title="OpenAlex 2-year mean citedness — an impact-factor-style metric">IF ${v.impact_factor}</span>` : '';
   const accBadge = v.acceptance_rate ? `<span class="badge badge-tag" title="Approximate — most journals do not publish official acceptance rates">Accept ${escHtml(v.acceptance_rate)}</span>` : '';
   const websiteLink = v.website

@@ -75,6 +75,7 @@ jobs:
 
   deploy:
     needs: backfill
+    if: github.repository == 'kishormorol/ResearchScope'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

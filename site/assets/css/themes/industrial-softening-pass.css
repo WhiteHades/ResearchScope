@@ -1,0 +1,869 @@
+/* Hallmark and impeccable pass: softened palette, readable controls, nav, hero, tables, auth, and contrast audit.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* Hallmark: macrostructure industrial workbench; theme softened print brutalist
+ * Impeccable pass: restrained red, readable hierarchy, consistent controls.
+ */
+:root {
+  --rs-coral:        oklch(51% 0.18 28);
+  --rs-coral-soft:   oklch(61% 0.14 32);
+  --rs-coral-deep:   oklch(37% 0.15 28);
+  --rs-primary:      var(--rs-coral);
+  --rs-primary-dark: var(--rs-coral-deep);
+  --rs-primary-50:   oklch(92% 0.028 42);
+  --rs-primary-100:  oklch(86% 0.048 38);
+  --rs-accent:       var(--rs-coral);
+
+  --rs-paper:        oklch(95% 0.014 82);
+  --rs-paper-warm:   oklch(91% 0.018 82);
+  --rs-paper-dark:   oklch(84% 0.02 78);
+  --rs-bone:         oklch(98% 0.01 84);
+  --rs-bg:           var(--rs-paper);
+  --rs-surface:      var(--rs-bone);
+  --rs-surface-2:    var(--rs-paper-warm);
+  --rs-surface-3:    var(--rs-paper-dark);
+
+  --rs-ink:          oklch(20% 0.012 78);
+  --rs-ink-soft:     oklch(27% 0.012 78);
+  --rs-ink-mute:     oklch(40% 0.014 78);
+  --rs-ink-faint:    oklch(53% 0.012 78);
+  --rs-text:         var(--rs-ink);
+  --rs-muted:        var(--rs-ink-mute);
+  --rs-faint:        var(--rs-ink-faint);
+
+  --rs-link:         var(--rs-ink-soft);
+  --rs-link-hover:   var(--rs-coral);
+  --rs-link-line:    oklch(51% 0.18 28 / 0.42);
+  --rs-border:       oklch(25% 0.012 78 / 0.72);
+  --rs-border-soft:  oklch(25% 0.012 78 / 0.22);
+  --rs-rule:         oklch(25% 0.012 78 / 0.64);
+
+  --rs-success:      oklch(33% 0.06 145);
+  --rs-success-bg:   oklch(92% 0.035 145);
+  --rs-success-line: oklch(58% 0.07 145 / 0.58);
+  --rs-warning:      oklch(38% 0.075 75);
+  --rs-warning-bg:   oklch(92% 0.045 80);
+  --rs-warning-line: oklch(64% 0.08 78 / 0.58);
+  --rs-danger:       var(--rs-coral);
+  --rs-danger-bg:    var(--rs-primary-50);
+  --rs-danger-line:  oklch(51% 0.18 28 / 0.5);
+  --rs-info:         oklch(35% 0.035 235);
+  --rs-info-bg:      oklch(93% 0.02 235);
+  --rs-info-line:    oklch(62% 0.045 235 / 0.5);
+
+  --rs-shadow-sm:    0 1px 0 oklch(25% 0.012 78 / 0.16);
+  --rs-shadow:       0 10px 24px oklch(25% 0.012 78 / 0.08);
+  --rs-shadow-lg:    0 18px 44px oklch(25% 0.012 78 / 0.1);
+  --rs-radius:       6px;
+  --rs-radius-lg:    10px;
+  --rs-radius-pill:  999px;
+  --rs-pad:          40px;
+  --rs-section-y:    84px;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  background-color: var(--rs-paper);
+  background-image:
+    linear-gradient(oklch(25% 0.012 78 / 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(25% 0.012 78 / 0.018) 1px, transparent 1px);
+  background-size: 36px 36px;
+  color: var(--rs-ink);
+}
+
+body::before {
+  opacity: 0.035;
+  background:
+    repeating-linear-gradient(0deg, oklch(25% 0.012 78 / 0.08) 0, oklch(25% 0.012 78 / 0.08) 1px, transparent 1px, transparent 6px),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.04 0 0 0 0 0.035 0 0 0 0 0.03 0 0 0 0.48 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+a {
+  color: var(--rs-link);
+  text-decoration-color: var(--rs-link-line);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--rs-link-hover);
+  text-decoration-color: currentColor;
+}
+
+.rs-nav a,
+.rs-nav-dd-menu a,
+.mobile-nav-link,
+.github-star-btn,
+.rs-btn,
+.pager-btn,
+.library-link,
+.library-toggle,
+.potd-btn,
+.tweet-btn,
+.copy-link-btn,
+.star-cta-btn,
+.topic-graph-actions button,
+.topic-graph-action,
+.topic-view-btn,
+.topic-filter-btn,
+.topic-chip,
+.area-chip,
+.auth-submit,
+.auth-pwd-toggle,
+#name-save-btn,
+#profile-gate a,
+.rs-danger-btn {
+  text-decoration: none !important;
+}
+
+.rs-card,
+.rs-panel,
+.editorial-card,
+.gap-card,
+.digest-paper-card,
+.stat-card,
+.topic-graph-shell,
+.topic-graph-panel,
+.topic-graph-toolbar,
+.topic-graph-stats,
+.rs-slab,
+.potd-wrap,
+.digest-header,
+.rs-alert,
+.empty-state,
+.deadline-card,
+.auth-card,
+.auth-panel,
+.auth-brand,
+.star-cta,
+.search-dropdown,
+.rs-nav-dd-menu,
+#rs-user-menu,
+.recommender-panel,
+.recommender-result,
+.recommender-paper {
+  border-color: var(--rs-border) !important;
+  border-radius: var(--rs-radius-lg) !important;
+  box-shadow: var(--rs-shadow-sm) !important;
+}
+
+.rs-btn,
+.pager-btn,
+.library-link,
+.library-toggle,
+.potd-btn,
+.tweet-btn,
+.copy-link-btn,
+.star-cta-btn,
+.github-star-btn,
+.rs-nav a.github-star-btn,
+a.github-star-btn,
+.topic-graph-actions button,
+.topic-graph-action,
+.topic-view-btn,
+.topic-filter-btn,
+.topic-chip,
+.area-chip,
+.auth-submit,
+.auth-pwd-toggle,
+#name-save-btn,
+#profile-gate a,
+.rs-danger-btn,
+.rs-chip,
+button {
+  border-color: var(--rs-border) !important;
+  border-radius: var(--rs-radius) !important;
+  box-shadow: var(--rs-shadow-sm) !important;
+  letter-spacing: 0.055em !important;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease, box-shadow 160ms ease !important;
+}
+
+.rs-btn:hover,
+.pager-btn:hover,
+.library-link:hover,
+.library-toggle:hover,
+.potd-btn:hover,
+.tweet-btn:hover,
+.copy-link-btn:hover,
+.star-cta-btn:hover,
+.github-star-btn:hover,
+.topic-graph-actions button:hover,
+.topic-graph-action:hover,
+.topic-view-btn:hover,
+.topic-filter-btn:hover,
+.topic-chip:hover,
+.area-chip:hover,
+.auth-submit:hover,
+.auth-pwd-toggle:hover,
+#name-save-btn:hover,
+#profile-gate a:hover,
+.rs-danger-btn:hover,
+.rs-chip:hover {
+  background: var(--rs-ink-soft) !important;
+  border-color: var(--rs-ink-soft) !important;
+  color: var(--rs-paper) !important;
+  transform: translateY(-1px) !important;
+}
+
+.rs-btn--primary,
+.potd-btn-primary,
+.pager-btn.active,
+.rs-chip.is-active,
+.rs-chip.active,
+.area-chip.active,
+.topic-view-btn.active,
+.topic-filter-btn.active,
+.auth-submit,
+#name-save-btn,
+#profile-gate a {
+  background: var(--rs-coral) !important;
+  border-color: var(--rs-coral) !important;
+  color: var(--rs-bone) !important;
+}
+
+.search-input,
+.rs-input,
+.rs-select,
+.auth-input,
+#search-page-input,
+.topic-graph-control input,
+.topic-graph-control select,
+textarea,
+select,
+input[type="search"],
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"] {
+  background: var(--rs-bone) !important;
+  border-color: var(--rs-border) !important;
+  border-radius: var(--rs-radius) !important;
+  box-shadow: var(--rs-shadow-sm) !important;
+  color: var(--rs-ink) !important;
+  text-transform: none !important;
+}
+
+.search-input:focus,
+.rs-input:focus,
+.rs-select:focus,
+.auth-input:focus,
+#search-page-input:focus,
+.topic-graph-control input:focus,
+.topic-graph-control select:focus,
+textarea:focus,
+select:focus,
+input:focus {
+  outline: 2px solid oklch(51% 0.18 28 / 0.42) !important;
+  outline-offset: 2px !important;
+  background: var(--rs-bone) !important;
+}
+
+.rs-rail {
+  width: 24px;
+  background: var(--rs-paper-warm);
+  color: var(--rs-muted);
+}
+
+.rs-rail--left,
+.rs-rail--right {
+  border-color: var(--rs-border-soft);
+}
+
+.rs-rail__label {
+  color: var(--rs-muted);
+  letter-spacing: 0.18em;
+}
+
+.rs-nav {
+  background: oklch(96% 0.012 84 / 0.94) !important;
+  border-color: var(--rs-border-soft) !important;
+  box-shadow: 0 1px 0 var(--rs-border-soft) !important;
+}
+
+.rs-nav::before {
+  content: 'ResearchScope / literature workspace / daily index';
+  background: var(--rs-paper-warm);
+  color: var(--rs-muted);
+  border-color: var(--rs-border-soft);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  padding-block: 5px;
+  padding-left: max(34px, calc((100vw - var(--rs-container)) / 2 + var(--rs-pad)));
+  padding-right: max(18px, calc((100vw - var(--rs-container)) / 2 + var(--rs-pad)));
+}
+
+.rs-nav a[href="./"].flex.items-center,
+.rs-nav a[href="./"].flex.items-center:hover,
+.rs-nav a[href="./"].flex.items-center.active {
+  background: transparent !important;
+  color: var(--rs-ink) !important;
+  box-shadow: none !important;
+}
+
+.rs-nav a[href="./"] span:last-child {
+  display: inline-block;
+  padding: 0.25rem 0;
+}
+
+.rs-nav a,
+.rs-nav-top-link,
+.rs-nav-dd-btn,
+.mobile-nav-link {
+  color: var(--rs-ink-soft);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.rs-nav a:hover,
+.rs-nav a.active,
+.rs-nav-top-link:hover,
+.rs-nav-top-link.active,
+.rs-nav-dd-btn:hover,
+.rs-nav-dd-btn.active,
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+  color: var(--rs-coral);
+  background: oklch(51% 0.18 28 / 0.08) !important;
+}
+
+.rs-nav-dd-menu,
+.search-dropdown,
+#rs-user-menu {
+  background: var(--rs-bone) !important;
+  border-color: var(--rs-border) !important;
+}
+
+.hero-gradient {
+  min-height: min(720px, calc(100vh - 96px));
+  background: linear-gradient(180deg, var(--rs-paper), var(--rs-bone));
+  border-color: var(--rs-border-soft);
+}
+
+.hero-gradient::before {
+  color: oklch(25% 0.012 78 / 0.045);
+  font-size: clamp(8rem, 25vw, 30rem);
+}
+
+.hero-gradient .rs-container::before {
+  content: 'Research index / recommender tools / local-first library';
+  border-color: var(--rs-border-soft);
+  color: var(--rs-coral);
+  letter-spacing: 0.09em;
+}
+
+.rs-display-1,
+.rs-display-2,
+.rs-display-3,
+.rs-section-title,
+.potd-title,
+.digest-section-title,
+.rs-card h2,
+.deadline-card h3,
+#profile-name-display,
+.next-banner #banner-name,
+.next-banner #banner-countdown {
+  color: var(--rs-ink);
+  font-style: normal !important;
+  letter-spacing: -0.035em !important;
+  text-transform: none !important;
+}
+
+.rs-display-1 {
+  font-size: clamp(3.1rem, 6.9vw, 7.4rem);
+  line-height: 0.98;
+}
+
+.rs-display-2 {
+  font-size: clamp(2.35rem, 4.8vw, 5.2rem);
+  line-height: 0.96;
+}
+
+.rs-display-3 {
+  font-size: clamp(1.15rem, 1.85vw, 1.65rem);
+  line-height: 1.05;
+}
+
+.rs-eyebrow,
+.rs-feature-eyebrow,
+.rs-stat-cap,
+.sec-rule,
+.rs-time-pill,
+.rs-pill,
+.rs-live,
+.library-card__eyebrow,
+.search-section-label,
+.topic-graph-kicker,
+.topic-graph-subhead,
+.topic-graph-control label,
+.dl-label,
+.deadline-card .badge,
+.next-banner .text-xs,
+.recommender-result .text-xs.font-bold.uppercase,
+.recommender-panel label {
+  color: var(--rs-muted) !important;
+  letter-spacing: 0.09em !important;
+}
+
+.rs-card,
+.rs-panel,
+.editorial-card,
+.gap-card,
+.digest-paper-card,
+.stat-card,
+.topic-graph-shell,
+.rs-slab,
+.potd-wrap,
+.digest-header,
+.rs-alert,
+.empty-state,
+.deadline-card,
+.search-dropdown,
+.star-cta {
+  background: var(--rs-bone) !important;
+  color: var(--rs-ink) !important;
+}
+
+.rs-card:hover,
+.gap-card:hover,
+.digest-paper-card:hover,
+.stat-card:hover,
+.deadline-card:hover {
+  background: var(--rs-paper-warm) !important;
+  border-color: oklch(51% 0.18 28 / 0.58) !important;
+  box-shadow: var(--rs-shadow) !important;
+}
+
+.grid.gap-5,
+.grid.gap-4,
+.rs-pipeline,
+.topic-graph-layout {
+  background: transparent !important;
+  gap: 16px !important;
+}
+
+.grid.gap-5 > *,
+.grid.gap-4 > *,
+.rs-pipeline > *,
+.topic-graph-layout > * {
+  background: var(--rs-bone) !important;
+}
+
+.rs-disc,
+.rs-icon-mark,
+.path-number,
+.rs-icon-btn,
+.badge,
+.rs-status,
+.topic-graph-stat,
+.topic-graph-mini-chip,
+.rs-time-pill,
+.rs-pill,
+.rs-live,
+.countdown-chip,
+.est-badge {
+  background: var(--rs-paper) !important;
+  border-color: var(--rs-border-soft) !important;
+  border-radius: var(--rs-radius-pill) !important;
+  color: var(--rs-ink-soft) !important;
+  letter-spacing: 0.065em !important;
+}
+
+.badge-score,
+.rank-astar,
+.badge-oral,
+.rs-danger-text,
+.chip-urgent,
+.chip-soon,
+.deadline-card .text-red-500,
+.est-badge,
+.rs-live::before {
+  color: var(--rs-coral) !important;
+}
+
+.rs-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.rs-table th {
+  background: var(--rs-paper-warm) !important;
+  color: var(--rs-ink-soft) !important;
+  border-color: var(--rs-border-soft) !important;
+  letter-spacing: 0.08em;
+}
+
+.rs-table td {
+  background: var(--rs-bone) !important;
+  border-color: var(--rs-border-soft) !important;
+}
+
+.rs-table tr:hover td,
+.detail-row td {
+  background: var(--rs-paper-warm) !important;
+}
+
+.rs-table td .badge,
+.rs-table td .badge-tag {
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 0.18rem 0.42rem !important;
+  font-size: 9px !important;
+  line-height: 1.25 !important;
+}
+
+.rs-table td .badge:not(.badge-tag) {
+  white-space: normal !important;
+}
+
+.score-bar-bg,
+.momentum-bar,
+.rs-meter,
+.breakdown-bar,
+.coverage-bar {
+  background: var(--rs-paper-dark) !important;
+  border-color: var(--rs-border-soft) !important;
+  border-radius: var(--rs-radius-pill) !important;
+}
+
+.score-bar-fill,
+.momentum-fill,
+.rs-meter__fill,
+.coverage-fill,
+.breakdown-fill-overlap,
+.breakdown-fill-field,
+.breakdown-fill-maturity,
+.breakdown-fill-rank {
+  background: var(--rs-coral) !important;
+  border-radius: inherit !important;
+}
+
+.topic-graph-toolbar,
+.topic-graph-stats,
+.topic-graph-panel {
+  background: var(--rs-bone) !important;
+}
+
+.topic-graph-canvas {
+  background-color: var(--rs-bone) !important;
+  background-image:
+    linear-gradient(oklch(25% 0.012 78 / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(25% 0.012 78 / 0.08) 1px, transparent 1px) !important;
+}
+
+.potd-wrap,
+.rs-slab,
+.digest-header,
+.star-cta,
+.next-banner {
+  background: var(--rs-ink-soft) !important;
+  color: var(--rs-paper) !important;
+}
+
+.potd-wrap a,
+.rs-slab a,
+.digest-header a,
+.star-cta a,
+.next-banner a {
+  color: var(--rs-paper) !important;
+  text-decoration-color: oklch(95% 0.014 82 / 0.42);
+}
+
+.potd-label,
+.potd-meta,
+.potd-abstract,
+.star-cta-text {
+  color: oklch(95% 0.014 82 / 0.78) !important;
+}
+
+footer {
+  background: var(--rs-paper) !important;
+  border-color: var(--rs-border-soft) !important;
+}
+
+footer::before {
+  content: 'ResearchScope / open research interface / static archive';
+  border-color: var(--rs-border-soft);
+  color: var(--rs-muted);
+  letter-spacing: 0.09em;
+}
+
+.auth-page {
+  background-color: var(--rs-paper) !important;
+  background-image:
+    linear-gradient(oklch(25% 0.012 78 / 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(25% 0.012 78 / 0.018) 1px, transparent 1px) !important;
+}
+
+.auth-card {
+  background: var(--rs-bone) !important;
+  border-color: var(--rs-border) !important;
+}
+
+.auth-brand {
+  background: var(--rs-paper-warm) !important;
+  border-color: var(--rs-border-soft) !important;
+  color: var(--rs-ink) !important;
+}
+
+.auth-panel {
+  background: var(--rs-bone) !important;
+}
+
+.auth-brand-mark,
+.auth-brand-title,
+.auth-panel h1 {
+  color: var(--rs-ink) !important;
+  letter-spacing: -0.035em !important;
+  text-transform: none !important;
+}
+
+.auth-brand-blurb,
+.auth-field label,
+.auth-optional {
+  color: var(--rs-muted) !important;
+  letter-spacing: 0.08em !important;
+}
+
+#profile-avatar {
+  background: var(--rs-paper-warm) !important;
+  border-color: var(--rs-border) !important;
+  border-radius: var(--rs-radius-lg) !important;
+  color: var(--rs-coral) !important;
+}
+
+.next-banner {
+  border-color: var(--rs-ink-soft) !important;
+  border-radius: var(--rs-radius-lg) !important;
+}
+
+@media (max-width: 879px) {
+  :root {
+    --rs-pad: 20px;
+    --rs-section-y: 64px;
+  }
+
+  .rs-display-1 {
+    font-size: clamp(2.45rem, 10.5vw, 3.8rem);
+    line-height: 1;
+  }
+
+  .rs-display-2 {
+    font-size: clamp(2.25rem, 10vw, 4rem);
+  }
+
+  .hero-gradient::before {
+    font-size: clamp(8rem, 48vw, 16rem);
+    opacity: 0.65;
+  }
+
+  .rs-nav::before {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .grid.gap-5,
+  .grid.gap-4,
+  .rs-pipeline,
+  .topic-graph-layout {
+    gap: 12px !important;
+  }
+
+  .auth-page main,
+  body:has(.auth-card) main {
+    padding-top: 4.5rem !important;
+  }
+}
+
+/* Control contrast audit: explicit normal and hover colors for every button-like control. */
+.rs-btn,
+.pager-btn,
+.library-link,
+.library-toggle,
+.potd-btn,
+.tweet-btn,
+.copy-link-btn,
+.star-cta-btn,
+.topic-graph-actions button,
+.topic-graph-action,
+.topic-view-btn,
+.topic-filter-btn,
+.topic-chip,
+.area-chip,
+.auth-submit,
+.auth-pwd-toggle,
+#name-save-btn,
+#profile-gate a,
+.rs-danger-btn,
+.rs-chip,
+#recommend-btn,
+#rec-sample-btn,
+#copy-shortlist-btn,
+main a[href$="recommender.html"] {
+  border-color: var(--rs-border) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink) !important;
+  text-decoration: none !important;
+}
+
+.rs-btn:hover,
+.pager-btn:hover,
+.library-link:hover,
+.library-toggle:hover,
+.potd-btn:hover,
+.tweet-btn:hover,
+.copy-link-btn:hover,
+.star-cta-btn:hover,
+.topic-graph-actions button:hover,
+.topic-graph-action:hover,
+.topic-view-btn:hover,
+.topic-filter-btn:hover,
+.topic-chip:hover,
+.area-chip:hover,
+.auth-submit:hover,
+.auth-pwd-toggle:hover,
+#name-save-btn:hover,
+#profile-gate a:hover,
+.rs-danger-btn:hover,
+.rs-chip:hover,
+#recommend-btn:hover,
+#rec-sample-btn:hover,
+#copy-shortlist-btn:hover,
+main a[href$="recommender.html"]:hover {
+  border-color: var(--rs-ink-soft) !important;
+  background: var(--rs-ink-soft) !important;
+  color: var(--rs-paper) !important;
+}
+
+.rs-btn--primary,
+.potd-btn-primary,
+.auth-submit,
+#name-save-btn,
+#profile-gate a,
+#recommend-btn,
+.pager-btn.active,
+.library-toggle.is-active,
+.rs-chip.is-active,
+.rs-chip.active,
+.area-chip.active,
+.topic-view-btn.active,
+.topic-filter-btn.active {
+  border-color: var(--rs-coral) !important;
+  background: var(--rs-coral) !important;
+  color: var(--rs-bone) !important;
+}
+
+.rs-btn--primary:hover,
+.potd-btn-primary:hover,
+.auth-submit:hover,
+#name-save-btn:hover,
+#profile-gate a:hover,
+#recommend-btn:hover,
+.pager-btn.active:hover,
+.library-toggle.is-active:hover,
+.rs-chip.is-active:hover,
+.rs-chip.active:hover,
+.area-chip.active:hover,
+.topic-view-btn.active:hover,
+.topic-filter-btn.active:hover {
+  border-color: var(--rs-coral-deep) !important;
+  background: var(--rs-coral-deep) !important;
+  color: var(--rs-bone) !important;
+}
+
+.github-star-btn,
+.rs-nav a.github-star-btn,
+a.github-star-btn {
+  border-color: var(--rs-ink) !important;
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+  text-decoration: none !important;
+}
+
+.github-star-btn:hover,
+.rs-nav a.github-star-btn:hover,
+a.github-star-btn:hover {
+  border-color: var(--rs-coral) !important;
+  background: var(--rs-coral) !important;
+  color: var(--rs-bone) !important;
+}
+
+.github-star-count,
+.github-star-btn .github-star-count,
+.rs-nav a.github-star-btn .github-star-count,
+a.github-star-btn .github-star-count {
+  border: 1px solid var(--rs-bone) !important;
+  background: var(--rs-bone) !important;
+  color: var(--rs-ink) !important;
+}
+
+.star-cta-btn {
+  border-color: var(--rs-coral) !important;
+  background: var(--rs-coral) !important;
+  color: var(--rs-bone) !important;
+}
+
+.star-cta-btn:hover {
+  border-color: var(--rs-paper) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink) !important;
+}
+
+.star-cta-btn .github-star-count {
+  border-color: var(--rs-bone) !important;
+  background: var(--rs-bone) !important;
+  color: var(--rs-coral-deep) !important;
+}
+
+.star-cta-btn:hover .github-star-count {
+  border-color: var(--rs-ink) !important;
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+}
+
+.potd-wrap a.rs-btn,
+.potd-wrap a.potd-btn,
+.rs-slab a.rs-btn,
+.digest-header a.rs-btn,
+.star-cta a.rs-btn {
+  color: var(--rs-ink) !important;
+}
+
+.potd-wrap a.rs-btn:hover,
+.potd-wrap a.potd-btn:hover,
+.rs-slab a.rs-btn:hover,
+.digest-header a.rs-btn:hover,
+.star-cta a.rs-btn:hover {
+  color: var(--rs-paper) !important;
+}
+
+.potd-wrap a.rs-btn--primary,
+.potd-wrap a.potd-btn-primary,
+.rs-slab a.rs-btn--primary,
+.digest-header a.rs-btn--primary,
+.star-cta a.rs-btn--primary {
+  color: var(--rs-bone) !important;
+}
+
+.rs-nav-dd-menu a,
+.search-result-item,
+#rs-user-menu a,
+#rs-user-menu button {
+  background: transparent !important;
+  color: var(--rs-ink) !important;
+}
+
+.rs-nav-dd-menu a:hover,
+.rs-nav-dd-menu a.active,
+.search-result-item:hover,
+.search-result-item.focused,
+#rs-user-menu a:hover,
+#rs-user-menu button:hover {
+  background: var(--rs-paper-warm) !important;
+  color: var(--rs-ink) !important;
+}

@@ -1,0 +1,128 @@
+/* Design tokens, semantic aliases, typography, layout, and shared motion variables.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+:root {
+  /* ── Brand (single-accent by Atelier Zero spec) ── */
+  --rs-coral:        #7d2c22;
+  --rs-coral-soft:   #d76552;
+  --rs-coral-deep:   #5f2119;
+  --rs-mustard:      #b07616;
+  --rs-olive:        #4f5a2f;
+
+  /* Legacy token aliases — old names still resolve to atelier values so
+     every existing class (`.rs-card`, `.rs-nav`, `.topic-graph-*`) picks
+     up the new palette without touching 18 HTML files. */
+  --rs-primary:      var(--rs-coral);
+  --rs-primary-dark: var(--rs-coral-deep);
+  --rs-primary-50:   #f7dfd7;
+  --rs-primary-100:  #efc4b9;
+  --rs-accent:       var(--rs-olive);
+
+  /* ── Paper ── */
+  --rs-paper:        #eee4c9;
+  --rs-paper-warm:   #e2d4b4;
+  --rs-paper-dark:   #cdbb91;
+  --rs-bone:         #fff6df;
+
+  --rs-bg:           var(--rs-paper);
+  --rs-surface:      var(--rs-bone);
+  --rs-surface-2:    var(--rs-paper-warm);
+  --rs-surface-3:    var(--rs-paper-dark);
+
+  /* ── Ink ── */
+  --rs-ink:          #14120d;
+  --rs-ink-soft:     #261f17;
+  --rs-ink-mute:     #3f382d;
+  --rs-ink-faint:    #5f5646;
+
+  --rs-text:         var(--rs-ink);
+  --rs-muted:        var(--rs-ink-mute);
+  --rs-faint:        var(--rs-ink-faint);
+
+  /* ── Lines ── */
+  --rs-link:         #7d2c22;
+  --rs-link-hover:   #4b1913;
+  --rs-link-line:    rgba(125, 44, 34, 0.38);
+
+  --rs-border:       #aa9970;
+  --rs-border-soft:  rgba(20, 18, 13, 0.14);
+  --rs-rule:         rgba(20, 18, 13, 0.26);
+
+  /* ── Semantic tints (Atelier-compatible, no default blues) ── */
+  --rs-success:      #3f4c20;
+  --rs-success-bg:   #e3e8cc;
+  --rs-success-line: #aeb879;
+  --rs-warning:      #684511;
+  --rs-warning-bg:   #f3e4b8;
+  --rs-warning-line: #caa954;
+  --rs-danger:       #7f2d23;
+  --rs-danger-bg:    #f3d1c8;
+  --rs-danger-line:  #d89383;
+  --rs-info:         #3f4d2a;
+  --rs-info-bg:      #dfe5c7;
+  --rs-info-line:    #a7b27b;
+  --rs-focus-ring:   rgba(125, 44, 34, 0.30);
+
+  /* ── Shadows (Atelier Zero: max 30px blur, warm ink-tint) ── */
+  --rs-shadow-sm:    0 1px 2px rgba(20, 18, 13, 0.10);
+  --rs-shadow:       0 10px 28px rgba(20, 18, 13, 0.12), 0 2px 8px rgba(20, 18, 13, 0.06);
+  --rs-shadow-lg:    0 24px 48px rgba(20, 18, 13, 0.14), 0 4px 14px rgba(20, 18, 13, 0.08);
+
+  /* ── Radii ── */
+  --rs-radius:       14px;
+  --rs-radius-lg:    18px;
+  --rs-radius-pill:  999px;
+
+  /* ── Typography ── */
+  --rs-font-display: 'Inter Tight', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --rs-font-body:    'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --rs-font-italic:  'Playfair Display', 'Iowan Old Style', Georgia, serif;
+  --rs-font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ── Layout ── */
+  --rs-container:    1360px;
+  --rs-pad:          64px;
+  --rs-section-y:    130px;
+
+  /* ── Layers ── */
+  --rs-z-content:    1;
+  --rs-z-sticky:     100;
+  --rs-z-dropdown:   200;
+  --rs-z-popover:    300;
+
+  /* ── transitions.dev (5 selected, scoped to existing UI) ── */
+  /* Icon swap (hamburger ↔ close) */
+  --icon-swap-dur:          200ms;
+  --icon-swap-blur:         2px;
+  --icon-swap-start-scale:  0.25;
+  --icon-swap-ease:         ease-in-out;
+  /* Menu dropdown (nav dropdowns) */
+  --dropdown-open-dur:      180ms;
+  --dropdown-close-dur:     120ms;
+  --dropdown-pre-scale:     0.97;
+  --dropdown-closing-scale: 0.99;
+  --dropdown-ease:          cubic-bezier(0.22, 1, 0.36, 1);
+  /* Panel reveal (mobile menu) */
+  --panel-open-dur:         240ms;
+  --panel-close-dur:        200ms;
+  --panel-translate-y:      -8px;
+  --panel-blur:             2px;
+  --panel-ease:             cubic-bezier(0.22, 1, 0.36, 1);
+  /* Notification badge (github star count) */
+  --badge-slide-dur:        220ms;
+  --badge-pop-dur:          480ms;
+  --badge-pop-close-dur:    160ms;
+  --badge-fade-dur:         380ms;
+  --badge-fade-close-dur:   160ms;
+  --badge-blur:             2px;
+  --badge-offset-x:         -8.2px;
+  --badge-offset-y:         12.4px;
+  --badge-slide-ease:       cubic-bezier(0.22, 1, 0.36, 1);
+  --badge-pop-ease:         cubic-bezier(0.34, 1.36, 0.64, 1);
+  --badge-close-ease:       cubic-bezier(0.4, 0, 0.2, 1);
+  /* Text states swap (counter updates) */
+  --text-swap-dur:          180ms;
+  --text-swap-translate-y:  6px;
+  --text-swap-blur:         2px;
+  --text-swap-ease:         ease-out;
+}

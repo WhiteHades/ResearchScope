@@ -1,0 +1,110 @@
+/* Scrollbars, loading states, score bars, semantic badges, editorial cards, and reading-path objects.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* ── Scrollbar (warm tint) ───────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--rs-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--rs-ink-faint); }
+
+/* ── Loading spinner ─────────────────────────────── */
+.spinner {
+  width: 2rem; height: 2rem;
+  border: 2.5px solid var(--rs-border);
+  border-top-color: var(--rs-coral);
+  border-radius: 50%;
+  animation: spin 0.65s cubic-bezier(.4,0,.6,1) infinite;
+  margin: 2.5rem auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Empty state ─────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--rs-ink-mute);
+}
+.empty-state svg { margin: 0 auto 1rem; opacity: 0.4; }
+.empty-state h3 {
+  font-family: var(--rs-font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--rs-ink);
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.01em;
+}
+.empty-state p { font-size: 0.875rem; }
+
+/* ── Score bar (flat coral) ──────────────────────── */
+.score-bar-wrap { display: flex; align-items: center; gap: 0.5rem; }
+.score-bar-bg {
+  flex: 1; height: 6px; border-radius: 3px;
+  background: var(--rs-paper-dark);
+  overflow: hidden;
+}
+.score-bar-fill {
+  height: 100%; border-radius: 3px;
+  background: var(--rs-coral);
+  transition: background-color 180ms var(--rs-motion-out);
+}
+.score-bar-label { font-size: 0.72rem; color: var(--rs-ink-mute); min-width: 2.5rem; text-align: right; }
+
+/* ── Difficulty levels (warm tints) ──────────────── */
+.badge-l1 { background: #e6ecd9; color: #4a5a2c; border-color: #c9d3a3; }
+.badge-l2 { background: #f3ebd3; color: #6b5320; border-color: #e2cf8a; }
+.badge-l3 { background: #fce4dd; color: #8a3a2c; border-color: #f4c0b3; }
+.badge-l4 { background: var(--rs-paper-warm); color: var(--rs-ink); border-color: var(--rs-rule); }
+
+/* ── Paper type badge ────────────────────────────── */
+.badge-type { background: #e6ecd9; color: #4a5a2c; border-color: #c9d3a3; }
+
+/* ── Source badge ────────────────────────────────── */
+.badge-arxiv { background: var(--rs-paper-dark); color: var(--rs-ink); border-color: var(--rs-rule); }
+.badge-acl   { background: var(--rs-paper-dark); color: var(--rs-ink); border-color: var(--rs-rule); }
+.badge-conf  { background: #e6ecd9; color: #4a5a2c; border-color: #c9d3a3; }
+
+/* ── Gap cards (atelier tints) ── */
+.gap-card-explicit  { }
+.gap-card-pattern   { }
+.gap-card-starter   { }
+
+/* ── Editorial card (warm bone, hairline border) ── */
+.editorial-card {
+  background: var(--rs-paper-warm);
+  border: 1px solid var(--rs-rule);
+  border-radius: 14px;
+  padding: 1.25rem;
+}
+
+/* ── Momentum bar (flat coral) ───────────────────── */
+.momentum-bar  { height: 4px; border-radius: 2px; background: var(--rs-paper-dark); }
+.momentum-fill { height: 100%; border-radius: 2px; background: var(--rs-coral); }
+
+/* ── Reading path (italic-serif numerals) ────────── */
+.reading-path-step {
+  display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem;
+}
+.path-number {
+  width: 1.85rem; height: 1.85rem;
+  background: var(--rs-paper);
+  color: var(--rs-coral);
+  border: 1px solid var(--rs-coral);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-family: var(--rs-font-italic);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* ── Conference rank badge ───────────────────────── */
+.rank-astar { background: var(--rs-warning-bg); color: var(--rs-warning); border: 1px solid var(--rs-warning-line); }
+.rank-a     { background: var(--rs-paper-warm); color: var(--rs-ink); border: 1px solid var(--rs-rule); }
+.rank-b     { background: #e6ecd9; color: #4a5a2c; border: 1px solid var(--rs-rule); }
+
+/* ── Acceptance-tier badge (oral / spotlight) ────── */
+.badge-oral      { background: #fce4dd; color: #8a3a2c; border: 1px solid #f4c0b3; }
+.badge-spotlight { background: var(--rs-paper-warm); color: var(--rs-ink); border: 1px solid var(--rs-rule); }

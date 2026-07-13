@@ -142,8 +142,8 @@
 
   function renderAnalysisPanel(analysis) {
     const check = (ok) => ok
-      ? `<svg width="11" height="11" fill="none" stroke="#16a34a" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>`
-      : `<svg width="11" height="11" fill="none" stroke="#dc2626" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>`;
+      ? `<svg width="11" height="11" fill="none" stroke="var(--rs-success)" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>`
+      : `<svg width="11" height="11" fill="none" stroke="var(--rs-danger)" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>`;
     const structRows = [
       ['Problem framing',    analysis.structure.problem],
       ['Method description', analysis.structure.method],
@@ -163,21 +163,21 @@
          <span style="color:var(--rs-muted);font-size:.68rem">${s}</span>
        </div>`).join('');
     const wc = analysis.wordCount;
-    const wcColor = wc < 80 ? '#dc2626' : wc < 120 ? '#d97706' : '#16a34a';
-    const wcLabel = wc < 80 ? 'too short' : wc < 120 ? 'borderline' : '✓ good';
+    const wcColor = wc < 80 ? 'var(--rs-danger)' : wc < 120 ? 'var(--rs-warning)' : 'var(--rs-success)';
+    const wcLabel = wc < 80 ? 'too short' : wc < 120 ? 'borderline' : 'good';
     const sc = analysis.structureScore;
     const quality = sc >= 4 ? 'Strong' : sc >= 3 ? 'Good' : sc >= 2 ? 'Fair' : 'Weak';
-    const qColor = sc >= 4 ? '#16a34a' : sc >= 3 ? '#2563eb' : sc >= 2 ? '#d97706' : '#dc2626';
+    const qClass = sc >= 4 ? 'rs-status--success' : sc >= 3 ? 'rs-status--info' : sc >= 2 ? 'rs-status--warning' : 'rs-status--danger';
     const tipsHtml = analysis.suggestions.length
-      ? `<div class="mt-3 p-2.5 rounded-lg space-y-1" style="background:var(--rs-primary-50,#eef2ff);border:1px solid rgba(79,70,229,.18)">
-          ${analysis.suggestions.map((s) => `<div class="text-xs" style="color:var(--rs-primary)">💡 ${escHtml(s)}</div>`).join('')}
+      ? `<div class="mt-3 p-2.5 rounded-lg space-y-1" style="background:var(--rs-primary-50);border:1px solid var(--rs-danger-line)">
+          ${analysis.suggestions.map((s) => `<div class="text-xs" style="color:var(--rs-primary)">${escHtml(s)}</div>`).join('')}
          </div>`
-      : `<div class="mt-3 p-2.5 rounded-lg text-xs" style="background:#f0fdf4;border:1px solid #bbf7d0;color:#166534">✓ Abstract looks well-structured — good basis for matching.</div>`;
+      : `<div class="mt-3 p-2.5 rounded-lg text-xs" style="background:var(--rs-success-bg);border:1px solid var(--rs-success-line);color:var(--rs-success)">Abstract looks well-structured — good basis for matching.</div>`;
     return `
-    <div class="recommender-panel mb-4" style="border-left:3px solid var(--rs-primary)">
+    <div class="recommender-panel mb-4">
       <div class="flex items-center justify-between mb-3">
         <p class="text-xs font-bold uppercase tracking-wider" style="color:var(--rs-muted)">Abstract Analysis</p>
-        <span class="text-xs font-semibold px-2 py-0.5 rounded-full" style="background:${qColor}18;color:${qColor}">${quality} structure (${sc}/5)</span>
+        <span class="rs-status ${qClass}">${quality} structure (${sc}/5)</span>
       </div>
       <div class="grid sm:grid-cols-3 gap-4">
         <div>
@@ -352,7 +352,7 @@
       try {
         await navigator.clipboard.writeText(buildShortlistMarkdown(ranked, kind));
         const prev = btn.textContent;
-        btn.textContent = '✓ Copied';
+        btn.textContent = 'Copied';
         setTimeout(() => { btn.textContent = prev; }, 1500);
       } catch {
         btn.textContent = 'Copy failed';
@@ -422,7 +422,9 @@
     [titleEl, absEl].forEach((el) => el.addEventListener('keydown', (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); submit(); }
     }));
-    if (btn) btn.addEventListener('click', submit);
+    const form = btn?.closest('form');
+    if (form) form.addEventListener('submit', (event) => { event.preventDefault(); submit(); });
+    else if (btn) btn.addEventListener('click', submit);
 
     const sampleBtn = byId('rec-sample-btn');
     if (sampleBtn && sample) sampleBtn.addEventListener('click', () => {

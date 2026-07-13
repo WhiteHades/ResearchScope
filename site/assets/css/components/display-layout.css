@@ -1,0 +1,415 @@
+/* Display typography, section rules, buttons, icon discs, slabs, containers, footer marks, and pills.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* ── Section heading ─────────────────────────────── */
+.rs-section-title {
+  font-family: var(--rs-font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--rs-ink);
+  letter-spacing: -0.025em;
+  margin-bottom: 0.25rem;
+  line-height: 1.15;
+}
+.rs-section-sub {
+  font-family: var(--rs-font-body);
+  font-size: 0.92rem;
+  color: var(--rs-ink-mute);
+  margin-bottom: 1.5rem;
+  line-height: 1.55;
+}
+
+/* ── Section rule (Atelier Zero: Roman + meta + counter) ── */
+.sec-rule {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0 14px;
+  border-top: 1px solid var(--rs-rule);
+  margin-top: var(--rs-section-y);
+  font-family: var(--rs-font-display);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--rs-ink-faint);
+  text-transform: uppercase;
+}
+.sec-rule:first-child { margin-top: 0; }
+.sec-rule__roman {
+  font-family: var(--rs-font-italic);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--rs-coral);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.sec-rule__meta { color: var(--rs-ink-faint); }
+.sec-rule__count { color: var(--rs-ink-faint); font-variant-numeric: tabular-nums; }
+
+/* ── Italic serif emphasis span ── */
+.rs-em {
+  font-family: var(--rs-font-italic);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* ── Coral terminating dot ── */
+.rs-dot {
+  color: var(--rs-coral);
+  font-weight: 800;
+  margin-left: 2px;
+}
+
+.potd-wrap .rs-dot,
+.rs-slab .rs-dot,
+.digest-header .rs-dot,
+.star-cta .rs-dot,
+.next-banner .rs-dot,
+.auth-brand-mark {
+  color: var(--rs-coral-soft) !important;
+}
+
+/* ── Atelier display scale ─────────────────────────── */
+.rs-display-1 {
+  font-family: var(--rs-font-display);
+  font-size: clamp(2.4rem, 6vw, 4.25rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+  color: var(--rs-ink);
+  text-wrap: balance;
+}
+.rs-display-2 {
+  font-family: var(--rs-font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.12;
+  color: var(--rs-ink);
+  text-wrap: balance;
+}
+.rs-display-3 {
+  font-family: var(--rs-font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--rs-ink);
+}
+
+/* Eyebrow / kicker — Atelier Zero spec */
+.rs-eyebrow {
+  font-family: var(--rs-font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rs-coral);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.rs-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  background: var(--rs-coral);
+}
+.rs-eyebrow--ink { color: var(--rs-ink); }
+.rs-eyebrow--ink::before { background: var(--rs-ink); }
+.rs-eyebrow--faint { color: var(--rs-ink-faint); }
+.rs-eyebrow--faint::before { background: var(--rs-ink-faint); }
+
+/* Roman-numeral mark inside headings */
+.rs-mark {
+  font-family: var(--rs-font-italic);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--rs-coral);
+  margin-right: 14px;
+  letter-spacing: 0;
+}
+
+/* Hero big stat number */
+.rs-stat-num {
+  font-family: var(--rs-font-display);
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--rs-ink);
+  font-variant-numeric: tabular-nums;
+}
+.rs-stat-cap {
+  font-family: var(--rs-font-display);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rs-ink-faint);
+  margin-top: 8px;
+}
+
+/* Coral / ghost buttons (Atelier Zero spec) */
+.rs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  font-family: var(--rs-font-display);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  line-height: 1;
+  border: 1px solid transparent;
+}
+.rs-btn--primary {
+  background: var(--rs-coral);
+  color: var(--rs-paper);
+  box-shadow: 0 1px 0 rgba(21, 20, 15, 0.04);
+}
+.rs-btn--primary:hover {
+  background: var(--rs-coral-deep);
+  color: var(--rs-paper);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(125, 44, 34, 0.30);
+}
+.rs-btn--ghost {
+  background: transparent;
+  color: var(--rs-ink);
+  border-color: rgba(21, 20, 15, 0.22);
+}
+.rs-btn--ghost:hover {
+  background: var(--rs-paper-warm);
+  border-color: var(--rs-ink);
+  transform: translateY(-1px);
+}
+.rs-btn--ink {
+  background: var(--rs-ink);
+  color: var(--rs-paper);
+}
+.rs-btn--ink:hover {
+  background: var(--rs-ink-soft);
+  color: var(--rs-paper);
+  transform: translateY(-1px);
+}
+
+/* Feature-card icon disc (replaces emoji squares) */
+.rs-disc {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--rs-paper);
+  border: 1px solid var(--rs-rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--rs-font-italic);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--rs-coral);
+  flex-shrink: 0;
+}
+
+/* Feature-card eyebrow row (italic Roman numeral + tag) */
+.rs-feature-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--rs-font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rs-ink-faint);
+  margin-bottom: 6px;
+}
+.rs-feature-eyebrow .rs-num {
+  font-family: var(--rs-font-italic);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--rs-coral);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Pipeline strip (4 stages: Collect → Score → Surface → Refresh) */
+.rs-pipeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--rs-rule);
+  border-bottom: 1px solid var(--rs-rule);
+  padding: 2rem 0;
+}
+.rs-pipeline > div {
+  padding: 0 1.5rem;
+  border-right: 1px solid var(--rs-rule);
+  position: relative;
+}
+.rs-pipeline > div:last-child {
+  border-right: 0;
+}
+@media (max-width: 879px) {
+  .rs-pipeline {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+  .rs-pipeline > div {
+    padding: 1.25rem 1.5rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--rs-rule);
+  }
+  .rs-pipeline > div:last-child {
+    border-bottom: 0;
+  }
+}
+
+/* Two-column dark slab (used for recommender / hero cta blocks) */
+.rs-slab {
+  background: var(--rs-ink);
+  color: var(--rs-paper);
+  border-radius: 18px;
+  padding: 2.25rem 2.5rem;
+  border: 1px solid var(--rs-ink);
+}
+.rs-slab--paper {
+  background: var(--rs-paper-warm);
+  color: var(--rs-ink);
+  border-color: var(--rs-rule);
+}
+
+/* Container helpers */
+.rs-container {
+  max-width: var(--rs-container);
+  margin: 0 auto;
+  padding: 0 var(--rs-pad);
+}
+@media (max-width: 1279px) {
+  .rs-container { padding: 0 44px; }
+}
+@media (max-width: 1079px) {
+  .rs-container { padding: 0 32px; }
+}
+@media (max-width: 879px) {
+  .rs-container { padding: 0 24px; }
+}
+@media (max-width: 360px) {
+  .rs-container { padding: 0 16px; }
+  .rs-slab { padding: 1.5rem 1rem; }
+  .rs-slab .grid,
+  .rs-slab .grid > * { min-width: 0; }
+  .rs-slab .p-7 { padding: 1.25rem; }
+  .potd-wrap { padding: 1.25rem; }
+  .potd-title,
+  .potd-meta,
+  .potd-abstract,
+  .gap-card { overflow-wrap: anywhere; }
+}
+
+/* Footer mega word (Atelier Zero closing kicker) */
+.rs-mega {
+  font-family: var(--rs-font-italic);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(48px, 12vw, 180px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: var(--rs-ink);
+  text-wrap: balance;
+  margin: 0;
+  padding: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.rs-mega .rs-em { color: var(--rs-coral); }
+
+/* Inline icon button (small round) */
+.rs-icon-btn {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--rs-rule);
+  background: var(--rs-paper);
+  color: var(--rs-ink-mute);
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  text-decoration: none;
+}
+.rs-icon-btn:hover {
+  background: var(--rs-paper-warm);
+  color: var(--rs-coral);
+  border-color: var(--rs-coral);
+}
+
+/* "What's New" timestamp pill — atelier pill */
+.rs-time-pill {
+  display: inline-block;
+  font-family: var(--rs-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--rs-ink-mute);
+  background: var(--rs-paper-warm);
+  border: 1px solid var(--rs-rule);
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* "Active" pill */
+.rs-pill {
+  display: inline-block;
+  font-family: var(--rs-font-display);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rs-coral);
+  background: var(--rs-paper);
+  border: 1px solid var(--rs-coral);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+/* Hero live status badge (Atelier: hairline border on paper) */
+.rs-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--rs-font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rs-ink-mute);
+  background: var(--rs-paper-warm);
+  border: 1px solid var(--rs-rule);
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+.rs-live::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rs-coral);
+  animation: rs-pulse 2.4s ease-in-out infinite;
+}
+@keyframes rs-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}

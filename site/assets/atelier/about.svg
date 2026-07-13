@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Practice">
+  
+  <defs>
+    <filter id="paper-noise" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3"/>
+      <feColorMatrix values="0 0 0 0 0.082  0 0 0 0 0.078  0 0 0 0 0.059  0 0 0 0.06 0"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+    <pattern id="atelier-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#15140f" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <!-- paper base -->
+  <rect width="1024" height="1024" fill="#efe7d2"/>
+  <rect width="1024" height="1024" fill="url(#atelier-grid)"/>
+  <rect width="1024" height="1024" filter="url(#paper-noise)" opacity="0.6"/>
+  <!-- corner brackets -->
+  <g stroke="#8b8676" stroke-width="1.4" fill="none">
+    <path d="M46 102 L46 46 L102 46"/>
+    <path d="M922 46 L978 46 L978 102"/>
+    <path d="M46 922 L46 978 L102 978"/>
+    <path d="M922 978 L978 978 L978 922"/>
+  </g>
+  <!-- motif -->
+  <g transform="translate(512 483.2)">
+         <circle r="122.88" fill="none" stroke="#15140f" stroke-opacity="0.22" stroke-width="1.2"/>
+         <circle r="61.44" fill="#ed6f5c" fill-opacity="0.55"/>
+         <path d="M -163.84 184.32 L 163.84 184.32" stroke="#15140f" stroke-opacity="0.5" stroke-width="1"/>
+       </g>
+  <!-- title -->
+  <text x="512" y="634.88" text-anchor="middle"
+        font-family="Playfair Display, Georgia, serif" font-style="italic"
+        font-weight="500" font-size="72" fill="#15140f" letter-spacing="-0.5">
+    Practice<tspan fill="#ed6f5c">.</tspan>
+  </text>
+  <!-- meta: slot id -->
+  <text x="512" y="737.28" text-anchor="middle"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="26" fill="#8b8676" letter-spacing="2">
+    ABOUT · 1024×1024
+  </text>
+  <!-- hint: research prompt -->
+  <text x="512" y="798.72" text-anchor="middle"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="23" fill="#8b8676" letter-spacing="0.6">
+    researcher · close-read · marginalia
+  </text>
+</svg>

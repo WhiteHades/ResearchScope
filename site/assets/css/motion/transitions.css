@@ -1,0 +1,159 @@
+/* State transitions for icon swaps, dropdowns, panels, notification pulse, and text swaps.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* ── transitions-dev: Icon swap (hamburger ↔ close in mobile menu) ── */
+.t-icon-swap {
+  position: relative;
+  display: inline-flex;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.t-icon-swap > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition:
+    opacity var(--icon-swap-dur) var(--icon-swap-ease),
+    transform var(--icon-swap-dur) var(--icon-swap-ease),
+    filter var(--icon-swap-dur) var(--icon-swap-ease);
+}
+.t-icon-swap > svg.is-leaving {
+  opacity: 0;
+  transform: scale(var(--icon-swap-start-scale));
+  filter: blur(var(--icon-swap-blur));
+  pointer-events: none;
+}
+
+/* ── transitions-dev: Menu dropdown (Venues / Discover / People) ── */
+/* Drives the single dropdown state model via opacity, transform, and visibility. */
+.t-dropdown-menu {
+  transform-origin: top center;
+  opacity: 0;
+  transform: translateX(-50%) scaleY(var(--dropdown-pre-scale));
+  transition:
+    opacity var(--dropdown-open-dur) var(--dropdown-ease),
+    transform var(--dropdown-open-dur) var(--dropdown-ease),
+    visibility 0s linear var(--dropdown-open-dur);
+  visibility: hidden;
+  pointer-events: none;
+}
+.t-dropdown-menu.is-open {
+  opacity: 1;
+  transform: translateX(-50%) scaleY(1);
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    opacity var(--dropdown-open-dur) var(--dropdown-ease),
+    transform var(--dropdown-open-dur) var(--dropdown-ease),
+    visibility 0s linear 0s;
+}
+.t-dropdown-menu.is-closing {
+  transform: translateX(-50%) scaleY(var(--dropdown-closing-scale));
+  transition:
+    opacity var(--dropdown-close-dur) var(--dropdown-ease),
+    transform var(--dropdown-close-dur) var(--dropdown-ease),
+    visibility 0s linear var(--dropdown-close-dur);
+}
+
+/* ── transitions-dev: Panel reveal (mobile menu drawer) ── */
+.t-panel {
+  transform-origin: top center;
+  opacity: 0;
+  transform: translateY(var(--panel-translate-y));
+  filter: blur(var(--panel-blur));
+  transition:
+    opacity var(--panel-open-dur) var(--panel-ease),
+    transform var(--panel-open-dur) var(--panel-ease),
+    filter var(--panel-open-dur) var(--panel-ease),
+    visibility 0s linear var(--panel-open-dur);
+  visibility: hidden;
+  pointer-events: none;
+}
+.t-panel.is-open {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    opacity var(--panel-open-dur) var(--panel-ease),
+    transform var(--panel-open-dur) var(--panel-ease),
+    filter var(--panel-open-dur) var(--panel-ease),
+    visibility 0s linear 0s;
+}
+.t-panel.is-closing {
+  transition:
+    opacity var(--panel-close-dur) var(--panel-ease),
+    transform var(--panel-close-dur) var(--panel-ease),
+    filter var(--panel-close-dur) var(--panel-ease),
+    visibility 0s linear var(--panel-close-dur);
+}
+
+/* ── transitions-dev: Notification badge (GitHub star count pulse) ── */
+.t-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.t-badge__pulse {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rs-coral);
+  transform: translate(var(--badge-offset-x), var(--badge-offset-y)) scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+.t-badge__pulse.is-entering {
+  animation: t-badge-pulse var(--badge-pop-dur) var(--badge-pop-ease) forwards;
+}
+
+@keyframes t-badge-pulse {
+  0%   { transform: translate(var(--badge-offset-x), var(--badge-offset-y)) scale(0);   opacity: 0; }
+  35%  { transform: translate(var(--badge-offset-x), var(--badge-offset-y)) scale(1.4); opacity: 1; }
+  70%  { transform: translate(var(--badge-offset-x), var(--badge-offset-y)) scale(0.9); opacity: 1; }
+  100% { transform: translate(var(--badge-offset-x), var(--badge-offset-y)) scale(0);   opacity: 0; }
+}
+
+/* ── transitions-dev: Text states swap (counter updates) ── */
+.t-text-swap {
+  display: inline-block;
+  transition:
+    opacity var(--text-swap-dur) var(--text-swap-ease),
+    transform var(--text-swap-dur) var(--text-swap-ease),
+    filter var(--text-swap-dur) var(--text-swap-ease);
+}
+.t-text-swap.is-leaving {
+  opacity: 0;
+  transform: translateY(calc(-1 * var(--text-swap-translate-y)));
+  filter: blur(var(--text-swap-blur));
+}
+.t-text-swap.is-entering {
+  opacity: 0;
+  transform: translateY(var(--text-swap-translate-y));
+  filter: blur(var(--text-swap-blur));
+}
+
+/* ── Reduced motion guard (per transitions-dev spec) ── */
+@media (prefers-reduced-motion: reduce) {
+  .t-icon-swap > svg,
+  .t-dropdown-menu,
+  .t-panel,
+  .t-badge__pulse,
+  .t-text-swap {
+    transition: none;
+    animation: none;
+  }
+  .t-badge__pulse,
+  .t-text-swap,
+  .t-dropdown-menu,
+  .t-panel {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}

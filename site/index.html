@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ResearchScope – CS Research Intelligence Platform</title>
+  <title>ResearchScope — CS Research Intelligence, Curated Daily.</title>
 
   <!-- Primary SEO -->
   <meta name="description" content="ResearchScope is a free, open-source research intelligence dashboard for CS/AI papers. Track top papers daily, explore research gaps, find conference deadlines, and discover prolific authors — updated automatically via GitHub Actions."/>
@@ -12,7 +12,7 @@
   <link rel="canonical" href="https://kishormorol.github.io/ResearchScope/"/>
 
   <!-- Open Graph -->
-  <meta property="og:title" content="ResearchScope – CS Research Intelligence Platform"/>
+  <meta property="og:title" content="ResearchScope — CS Research Intelligence, Curated Daily."/>
   <meta property="og:description" content="Track top CS/AI papers daily, explore research gaps, find conference deadlines. Free, open-source, updated every weekday via GitHub Actions."/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://kishormorol.github.io/ResearchScope/"/>
@@ -21,7 +21,7 @@
 
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="ResearchScope – CS Research Intelligence Platform"/>
+  <meta name="twitter:title" content="ResearchScope — CS Research Intelligence, Curated Daily."/>
   <meta name="twitter:description" content="Track top CS/AI papers daily, explore research gaps, find conference deadlines. Free and open-source."/>
   <meta name="twitter:image" content="https://kishormorol.github.io/ResearchScope/docs/screenshot.png"/>
 
@@ -54,31 +54,38 @@
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-18"/>
+  <script src="assets/js/theme-bootstrap.js?v=ui-integrity-18"></script>
 </head>
 <body>
 
-<!-- ── Navigation ──────────────────────────────────────────────────── -->
+<!-- ── Side rails (mandatory Atelier Zero ≥ 1280px) ────────────────── -->
+<aside class="rs-rail rs-rail--left" aria-hidden="true">
+  <span class="rs-rail__label">ResearchScope · Daily Index</span>
+</aside>
+<aside class="rs-rail rs-rail--right" aria-hidden="true">
+  <span class="rs-rail__label">CS Research · Filed Daily</span>
+</aside>
+
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-2">
-      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">
-        🔭 ResearchScope
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-ink);font-family:var(--rs-font-display);letter-spacing:-0.02em">
+        <span style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral)">Ø</span>
+        <span>ResearchScope<span class="rs-dot">.</span></span>
       </a>
       <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1">
-        <a href="papers">Papers</a>
-        <a href="topics">Topics</a>
-        <a href="digest">📬 Digest</a>
-        <a href="conferences">Conferences</a>
-        <a href="journals">Journals</a>
-        
-        <a href="authors">Authors</a>
-        <a href="labs">Labs &amp; Unis</a>
-        <a href="gaps">Research Gaps</a>
-        <a href="deadlines">📅 Upcoming</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">Upcoming</a>
       </div>
-      <div class="flex items-center gap-2 justify-end" style="flex:1">
-        <!-- Global search -->
+      <div id="rs-nav-actions" class="flex items-center gap-2 justify-end" style="flex:1">
         <div class="search-wrap hidden lg:block">
           <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
@@ -91,7 +98,6 @@
           Star
           <span class="github-star-count">–</span>
         </a>
-        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
         <button id="mobile-menu-btn" class="lg:hidden p-1 rounded" aria-label="Open menu" aria-expanded="false">
           <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -103,478 +109,639 @@
       </div>
     </div>
   </div>
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-border);background:var(--rs-surface)">
+  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-rule);background:var(--rs-bone)">
     <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
       <a href="./" class="mobile-nav-link">Home</a>
-      <a href="papers" class="mobile-nav-link">Papers</a>
-      <a href="topics" class="mobile-nav-link">Topics</a>
-      <a href="digest" class="mobile-nav-link">📬 Weekly Digest</a>
-      <a href="conferences" class="mobile-nav-link">Conferences</a>
-      <a href="journals" class="mobile-nav-link">Journals</a>
-      
-      <a href="authors" class="mobile-nav-link">Authors</a>
-      <a href="labs" class="mobile-nav-link">Labs &amp; Unis</a>
-      <a href="gaps" class="mobile-nav-link">Research Gaps</a>
-      <a href="deadlines" class="mobile-nav-link">📅 Upcoming Conferences</a>
+      <a href="papers.html" class="mobile-nav-link">Papers</a>
+      <a href="topics.html" class="mobile-nav-link">Topics</a>
+      <a href="digest.html" class="mobile-nav-link">Weekly Digest</a>
+      <a href="conferences.html" class="mobile-nav-link">Conferences</a>
+      <a href="journals.html" class="mobile-nav-link">Journals</a>
+      <a href="authors.html" class="mobile-nav-link">Authors</a>
+      <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines.html" class="mobile-nav-link">Upcoming Conferences</a>
     </div>
   </div>
 </nav>
 
 <!-- ── Hero ────────────────────────────────────────────────────────── -->
-<section class="hero-gradient text-white" style="padding:4.5rem 1rem 3.5rem">
-  <div class="max-w-4xl mx-auto text-center">
-    <!-- Live badge -->
-    <div class="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full mb-7"
-         style="background:rgba(255,255,255,.12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18)">
-      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block"></span>
-      Updated daily · Mon–Fri
+<section class="hero-gradient" style="padding:5rem 1rem 4rem">
+  <div class="rs-container">
+    <div style="max-width:980px">
+      <div style="margin-bottom:1.75rem">
+        <span class="rs-live">Updated daily · Mon–Fri</span>
+      </div>
+
+      <h1 class="rs-display-1">
+        CS Research Intelligence,<br/>
+        <span style="opacity:.82">Not Just Paper Lists.</span>
+      </h1>
+
+      <p style="font-size:1.05rem;line-height:1.65;color:var(--rs-ink-mute);max-width:42rem;margin:1.5rem 0 2.25rem">
+        <span id="hero-paper-count">160,000+</span> papers scored by impact · Conferences &amp; journals ranked ·
+        Research gaps surfaced · Find where to submit your next paper.
+      </p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-bottom:2.5rem">
+        <a href="papers.html" class="rs-btn rs-btn--primary">arXiv Preprints &nbsp;→</a>
+        <a href="conferences.html" class="rs-btn rs-btn--ghost">A* Conferences</a>
+        <a href="journals.html" class="rs-btn rs-btn--ghost">Q1 Journals</a>
+      </div>
+      <p style="font-family:var(--rs-font-mono);font-size:0.7rem;letter-spacing:0.08em;color:var(--rs-ink-faint);margin-bottom:2rem;text-transform:uppercase">
+        1,000 top papers per section · updated daily
+      </p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:2.25rem;padding-top:1.5rem;border-top:1px solid var(--rs-rule)">
+        <div>
+          <div class="rs-stat-num" id="stat-papers">–</div>
+          <div class="rs-stat-cap">Papers</div>
+        </div>
+        <div>
+          <div class="rs-stat-num" id="stat-authors">–</div>
+          <div class="rs-stat-cap">Authors</div>
+        </div>
+        <div>
+          <div class="rs-stat-num" id="stat-topics">–</div>
+          <div class="rs-stat-cap">Topics</div>
+        </div>
+        <div>
+          <div class="rs-stat-num" id="stat-gaps">–</div>
+          <div class="rs-stat-cap">Gaps</div>
+        </div>
+        <div>
+          <div class="rs-stat-num" id="stat-labs">–</div>
+          <div class="rs-stat-cap">Labs</div>
+        </div>
+      </div>
+      <p id="stat-generated" class="rs-time-pill" style="margin-top:1.5rem"></p>
     </div>
-
-    <h1 style="font-size:clamp(2rem,6vw,3.75rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;margin-bottom:1.25rem">
-      CS Research Intelligence,<br class="hidden sm:block"/>
-      <span style="opacity:.85">Not Just Paper Lists</span>
-    </h1>
-
-    <p style="font-size:clamp(.95rem,2vw,1.15rem);opacity:.82;max-width:38rem;margin:0 auto 2.25rem;line-height:1.65">
-      <span id="hero-paper-count">160,000+</span> papers scored by impact · Conferences &amp; journals ranked ·
-      Research gaps surfaced · Find where to submit your next paper
-    </p>
-
-    <!-- 3-section CTAs -->
-    <div class="flex flex-wrap gap-3 justify-center mb-4">
-      <a href="papers"
-         class="flex items-center gap-2 font-semibold px-5 py-2.5 rounded-xl transition"
-         style="background:#fff;color:#4338ca;box-shadow:0 4px 18px rgba(0,0,0,.2);font-size:.88rem">
-        📄 arXiv Preprints
-      </a>
-      <a href="conferences"
-         class="flex items-center gap-2 font-semibold px-5 py-2.5 rounded-xl transition"
-         style="background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.3);font-size:.88rem">
-        🎓 A* Conferences
-      </a>
-      <a href="journals"
-         class="flex items-center gap-2 font-semibold px-5 py-2.5 rounded-xl transition"
-         style="background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.3);font-size:.88rem">
-        📖 Q1 Journals
-      </a>
-    </div>
-    <p style="font-size:.78rem;opacity:.55;margin-bottom:1.75rem">1,000 top papers per section · updated daily</p>
-
-    <!-- Stats row -->
-    <div class="flex flex-wrap justify-center gap-8 sm:gap-12"
-         style="font-size:.85rem;opacity:.85">
-      <div class="text-center">
-        <div class="font-black text-2xl leading-none mb-0.5" id="stat-papers">–</div>
-        <div style="opacity:.7;font-size:.78rem;font-weight:500">Papers</div>
-      </div>
-      <div class="text-center">
-        <div class="font-black text-2xl leading-none mb-0.5" id="stat-authors">–</div>
-        <div style="opacity:.7;font-size:.78rem;font-weight:500">Authors</div>
-      </div>
-      <div class="text-center">
-        <div class="font-black text-2xl leading-none mb-0.5" id="stat-topics">–</div>
-        <div style="opacity:.7;font-size:.78rem;font-weight:500">Topics</div>
-      </div>
-      <div class="text-center">
-        <div class="font-black text-2xl leading-none mb-0.5" id="stat-gaps">–</div>
-        <div style="opacity:.7;font-size:.78rem;font-weight:500">Research Gaps</div>
-      </div>
-      <div class="text-center">
-        <div class="font-black text-2xl leading-none mb-0.5" id="stat-labs">–</div>
-        <div style="opacity:.7;font-size:.78rem;font-weight:500">Labs</div>
-      </div>
-    </div>
-    <p id="stat-generated" class="text-xs mt-4" style="opacity:.4"></p>
   </div>
 </section>
 
 <!-- ── GitHub Star CTA ───────────────────────────────────────────────── -->
 <div class="star-cta">
-  <span class="star-cta-text">⭐ If ResearchScope helps your research, a star goes a long way!</span>
+  <span class="star-cta-text">If ResearchScope helps your research, a star goes a long way<span class="rs-dot">.</span></span>
   <a href="https://github.com/kishormorol/ResearchScope" target="_blank" rel="noopener" class="star-cta-btn">
     <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
     Star on GitHub
-    <span class="github-star-count" style="background:rgba(26,26,46,0.3);color:#f0c040">–</span>
+    <span class="github-star-count" style="background:rgba(239,231,210,0.18);color:var(--rs-mustard)">–</span>
   </a>
 </div>
 
-<!-- ── Feature grid ──────────────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 mb-10">
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- ── Section II — Capabilities ─────────────────────────────────────── -->
+<section style="padding-top:6rem">
+  <div class="rs-container">
+    <div class="sec-rule">
+      <span class="sec-rule__roman">II.</span>
+      <span class="sec-rule__meta">Six surfaces · One catalog</span>
+      <span class="sec-rule__count">002 / 011</span>
+    </div>
 
-    <a href="papers" class="rs-card p-5 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
-      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl"
-           style="background:linear-gradient(135deg,rgba(79,70,229,.12),rgba(99,102,241,.08));border:1px solid rgba(79,70,229,.15)">📄</div>
-      <div>
-        <h3 class="font-bold text-sm mb-1" style="letter-spacing:-.01em">Paper Browser</h3>
-        <p class="text-xs leading-relaxed" style="color:var(--rs-muted)">Papers scored by impact, novelty, and venue rank. Filter by topic, year, difficulty, or source.</p>
-      </div>
-    </a>
+    <div style="margin:2rem 0 3rem;max-width:880px">
+      <span class="rs-eyebrow">Capabilities</span>
+      <h2 class="rs-display-2" style="margin-top:0.75rem">
+        Six ways to read the <span class="rs-em">literature</span><span class="rs-dot">.</span>
+      </h2>
+      <p style="font-size:1rem;color:var(--rs-ink-mute);margin-top:1rem;max-width:36rem;line-height:1.6">
+        Each surface leans on the same scoring engine — recency, novelty, citation quality, venue rank, author reputation, completeness.
+      </p>
+    </div>
 
-    <a href="conferences" class="rs-card p-5 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
-      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl"
-           style="background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(5,150,105,.08));border:1px solid rgba(16,185,129,.18)">🎓</div>
-      <div>
-        <h3 class="font-bold text-sm mb-1" style="letter-spacing:-.01em">Conferences &amp; Journals</h3>
-        <p class="text-xs leading-relaxed" style="color:var(--rs-muted)">A* venues (NeurIPS, ICML, ACL…) and Q1 journals with papers, deadlines, and rankings.</p>
-      </div>
-    </a>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
-    <a href="conference-recommender" class="rs-card p-5 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
-      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl"
-           style="background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(217,119,6,.08));border:1px solid rgba(245,158,11,.2)">🎯</div>
-      <div>
-        <h3 class="font-bold text-sm mb-1" style="letter-spacing:-.01em">Venue Recommender</h3>
-        <p class="text-xs leading-relaxed" style="color:var(--rs-muted)">Paste title + abstract — get ranked conference or journal matches with deadlines and reviewer expectations.</p>
-      </div>
-    </a>
+      <a href="papers.html" class="rs-card p-6 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
+        <div class="rs-disc">I</div>
+        <div>
+          <div class="rs-feature-eyebrow"><span class="rs-num">I.</span><span>Paper Browser</span></div>
+          <p style="font-size:0.85rem;line-height:1.55;color:var(--rs-ink-mute);margin-top:0.5rem">
+            Papers scored by impact, novelty, and venue rank. Filter by topic, year, difficulty, or source.
+          </p>
+        </div>
+      </a>
 
-    <a href="topics" class="rs-card p-5 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
-      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl"
-           style="background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(109,40,217,.08));border:1px solid rgba(139,92,246,.18)">🗂</div>
-      <div>
-        <h3 class="font-bold text-sm mb-1" style="letter-spacing:-.01em">Topic Explorer</h3>
-        <p class="text-xs leading-relaxed" style="color:var(--rs-muted)">80+ research topics clustered by theme with reading paths from Beginner to Frontier and trend scores.</p>
-      </div>
-    </a>
+      <a href="conferences.html" class="rs-card p-6 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
+        <div class="rs-disc">II</div>
+        <div>
+          <div class="rs-feature-eyebrow"><span class="rs-num">II.</span><span>Conferences &amp; Journals</span></div>
+          <p style="font-size:0.85rem;line-height:1.55;color:var(--rs-ink-mute);margin-top:0.5rem">
+            A* venues (NeurIPS, ICML, ACL…) and Q1 journals with papers, deadlines, and rankings.
+          </p>
+        </div>
+      </a>
 
-    <a href="gaps" class="rs-card p-5 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
-      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl"
-           style="background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(185,28,28,.08));border:1px solid rgba(239,68,68,.18)">🔍</div>
-      <div>
-        <h3 class="font-bold text-sm mb-1" style="letter-spacing:-.01em">Research Gaps</h3>
-        <p class="text-xs leading-relaxed" style="color:var(--rs-muted)">Gaps extracted from papers — explicit, pattern-based, and starter ideas. Find your next direction.</p>
-      </div>
-    </a>
+      <a href="conference-recommender.html" class="rs-card p-6 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
+        <div class="rs-disc">III</div>
+        <div>
+          <div class="rs-feature-eyebrow"><span class="rs-num">III.</span><span>Venue Recommender</span></div>
+          <p style="font-size:0.85rem;line-height:1.55;color:var(--rs-ink-mute);margin-top:0.5rem">
+            Paste title + abstract — get ranked conference or journal matches with deadlines and reviewer expectations.
+          </p>
+        </div>
+      </a>
 
-    <a href="authors" class="rs-card p-5 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
-      <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-xl"
-           style="background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(8,145,178,.08));border:1px solid rgba(6,182,212,.18)">👩‍🔬</div>
-      <div>
-        <h3 class="font-bold text-sm mb-1" style="letter-spacing:-.01em">Authors &amp; Labs</h3>
-        <p class="text-xs leading-relaxed" style="color:var(--rs-muted)">Researchers ranked by momentum — who's publishing the most impactful work right now.</p>
-      </div>
-    </a>
+      <a href="topics.html" class="rs-card p-6 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
+        <div class="rs-disc">IV</div>
+        <div>
+          <div class="rs-feature-eyebrow"><span class="rs-num">IV.</span><span>Topic Explorer</span></div>
+          <p style="font-size:0.85rem;line-height:1.55;color:var(--rs-ink-mute);margin-top:0.5rem">
+            80+ research topics clustered by theme with reading paths from Beginner to Frontier and trend scores.
+          </p>
+        </div>
+      </a>
 
+      <a href="gaps.html" class="rs-card p-6 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
+        <div class="rs-disc">V</div>
+        <div>
+          <div class="rs-feature-eyebrow"><span class="rs-num">V.</span><span>Research Gaps</span></div>
+          <p style="font-size:0.85rem;line-height:1.55;color:var(--rs-ink-mute);margin-top:0.5rem">
+            Gaps extracted from papers — explicit, pattern-based, and starter ideas. Find your next direction.
+          </p>
+        </div>
+      </a>
+
+      <a href="authors.html" class="rs-card p-6 flex gap-4 items-start group no-underline" style="text-decoration:none;color:inherit">
+        <div class="rs-disc">VI</div>
+        <div>
+          <div class="rs-feature-eyebrow"><span class="rs-num">VI.</span><span>Authors &amp; Labs</span></div>
+          <p style="font-size:0.85rem;line-height:1.55;color:var(--rs-ink-mute);margin-top:0.5rem">
+            Researchers ranked by momentum — who is publishing the most impactful work right now.
+          </p>
+        </div>
+      </a>
+
+    </div>
   </div>
 </section>
 
-<!-- ── Recommenders promo ─────────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-  <div class="rs-card overflow-hidden">
-    <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x" style="border-color:var(--rs-border)">
-      <div class="p-6 flex flex-col gap-3">
-        <div class="flex items-center gap-2">
-          <span class="text-2xl">🎓</span>
-          <h2 class="font-bold text-base">Conference Recommender</h2>
+<!-- ── Section III — Recommenders promo (dark slab) ────────────────── -->
+<section style="padding-top:5rem">
+  <div class="rs-container">
+    <div class="rs-slab">
+      <div class="grid md:grid-cols-2 md:divide-x" style="border-color:rgba(239,231,210,0.12)">
+
+        <div class="p-7 flex flex-col gap-3" style="border-color:rgba(239,231,210,0.12)">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div class="rs-disc" style="background:transparent;border-color:var(--rs-coral-soft);color:var(--rs-coral-soft)">I</div>
+            <span class="rs-eyebrow rs-eyebrow--faint" style="color:var(--rs-coral-soft);--tw-bg-opacity:1">
+              <span style="background:var(--rs-coral-soft)"></span>
+              <span style="color:var(--rs-coral-soft)">Conference Recommender</span>
+            </span>
+          </div>
+          <h3 class="rs-display-3" style="color:var(--rs-paper);margin-top:0.5rem">
+            Where should your paper <span class="rs-em" style="color:var(--rs-coral-soft)">go</span><span class="rs-dot" style="color:var(--rs-coral)">?</span>
+          </h3>
+          <p style="font-size:0.92rem;color:rgba(239,231,210,0.78);line-height:1.6;margin-top:0.5rem">
+            Paste title + abstract and get ranked conference matches with deadlines, acceptance rates, and reviewer expectations — plus live abstract-structure analysis and a sample draft to try.
+          </p>
+          <div style="margin-top:auto;padding-top:1rem">
+            <a href="conference-recommender.html" class="rs-btn rs-btn--primary">Try the recommender →</a>
+          </div>
         </div>
-        <p class="text-sm" style="color:var(--rs-muted)">
-          Where should your paper go? Paste title + abstract and get ranked conference matches with deadlines, acceptance rates, and reviewer expectations — plus live abstract-structure analysis and a sample draft to try.
+
+        <div class="p-7 flex flex-col gap-3" style="border-color:rgba(239,231,210,0.12)">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div class="rs-disc" style="background:transparent;border-color:var(--rs-mustard);color:var(--rs-mustard)">II</div>
+            <span class="rs-eyebrow" style="color:var(--rs-mustard)">
+              <span style="background:var(--rs-mustard)"></span>
+              <span style="color:var(--rs-mustard)">Journal Recommender</span>
+            </span>
+          </div>
+          <h3 class="rs-display-3" style="color:var(--rs-paper);margin-top:0.5rem">
+            Writing a journal <span class="rs-em" style="color:var(--rs-mustard)">paper</span><span class="rs-dot" style="color:var(--rs-mustard)">?</span>
+          </h3>
+          <p style="font-size:0.92rem;color:rgba(239,231,210,0.78);line-height:1.6;margin-top:0.5rem">
+            Match your manuscript against 20 Q1 journal profiles — impact factor, review timeline, open access, and similar published papers, with a Copy-shortlist export.
+          </p>
+          <div style="margin-top:auto;padding-top:1rem">
+            <a href="journal-recommender.html" class="rs-btn" style="background:var(--rs-mustard);color:var(--rs-ink)">Match my manuscript →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section IV — How It Works ───────────────────────────────────── -->
+<section style="padding-top:6rem">
+  <div class="rs-container">
+    <div class="sec-rule">
+      <span class="sec-rule__roman">IV.</span>
+      <span class="sec-rule__meta">Method · Collect, score, store, refresh</span>
+      <span class="sec-rule__count">004 / 011</span>
+    </div>
+
+    <div style="margin:2rem 0 3rem;max-width:880px">
+      <span class="rs-eyebrow">Method</span>
+      <h2 class="rs-display-2" style="margin-top:0.75rem">
+        How ResearchScope actually <span class="rs-em">works</span><span class="rs-dot">.</span>
+      </h2>
+      <p style="font-size:1rem;color:var(--rs-ink-mute);margin-top:1rem;max-width:38rem;line-height:1.6">
+        We index <strong>60,000+ papers</strong> from arXiv CoRR and 20+ major conference proceedings — all served from a Railway PostgreSQL backend so you can browse and search the full dataset with no caps.
+      </p>
+    </div>
+
+    <div class="rs-pipeline">
+      <div>
+        <div style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral);font-size:1.4rem;margin-bottom:0.5rem">I.</div>
+        <div style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.015em">Collect</div>
+        <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
+          Pull every new CS paper from <strong>arXiv CoRR</strong> (19 categories) plus proceedings from <strong>NeurIPS, ICML, ICLR, CVPR, ACL, KDD, AAAI</strong> and 15+ more venues.
         </p>
-        <a href="conference-recommender" class="mt-auto inline-flex items-center gap-1.5 font-semibold text-sm px-4 py-2 rounded-lg text-white self-start" style="background:var(--rs-primary)">
-          Try it →
-        </a>
       </div>
-      <div class="p-6 flex flex-col gap-3">
-        <div class="flex items-center gap-2">
-          <span class="text-2xl">📖</span>
-          <h2 class="font-bold text-base">Journal Recommender</h2>
-        </div>
-        <p class="text-sm" style="color:var(--rs-muted)">
-          Writing a journal paper? Match your manuscript against 20 Q1 journal profiles — impact factor, review timeline, open access, and similar published papers, with a Copy-shortlist export.
+      <div>
+        <div style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral);font-size:1.4rem;margin-bottom:0.5rem">II.</div>
+        <div style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.015em">Score →</div>
+        <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
+          Each paper gets a <strong>Paper Score 0–10</strong> across 6 signals: recency, novelty, citation quality, institution prestige, author reputation, and completeness.
         </p>
-        <a href="journal-recommender" class="mt-auto inline-flex items-center gap-1.5 font-semibold text-sm px-4 py-2 rounded-lg text-white self-start" style="background:#10b981">
-          Try it →
-        </a>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── How It Works ───────────────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-  <div class="rs-card p-6 sm:p-8">
-    <div class="flex items-center justify-between mb-1">
-      <h2 class="text-xl font-bold">⚙️ How ResearchScope Works</h2>
-      <button onclick="this.closest('section').querySelector('.how-body').classList.toggle('hidden');this.textContent=this.textContent==='Hide'?'Details':'Hide'" class="text-xs font-medium px-3 py-1 rounded-full border" style="color:var(--rs-muted);border-color:var(--rs-border)">Details</button>
-    </div>
-    <p class="text-sm mb-6" style="color:var(--rs-muted)">We index <strong>60,000+ papers</strong> from arXiv CoRR and 20+ major conference proceedings — all served from a Railway PostgreSQL backend so you can browse and search the full dataset with no caps.</p>
-
-    <!-- Pipeline steps -->
-    <div class="grid sm:grid-cols-4 gap-4 mb-8">
-      <div class="text-center p-4 rounded-xl" style="background:var(--rs-hover,rgba(99,102,241,0.06))">
-        <div class="text-3xl mb-2">🌐</div>
-        <div class="font-bold text-sm mb-1">Step 1 — Collect</div>
-        <div class="text-xs" style="color:var(--rs-muted)">Pull every new CS paper from <strong>arXiv CoRR</strong> (19 categories) + proceedings from <strong>NeurIPS, ICML, ICLR, CVPR, ACL, KDD, AAAI</strong> and 15+ more venues</div>
+      <div>
+        <div style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral);font-size:1.4rem;margin-bottom:0.5rem">III.</div>
+        <div style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.015em">Store →</div>
+        <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
+          <strong>60,000+ papers</strong> land in Railway PostgreSQL — fully browsable and searchable with server-side filtering and pagination, no caps.
+        </p>
       </div>
-      <div class="text-center p-4 rounded-xl" style="background:var(--rs-hover,rgba(99,102,241,0.06))">
-        <div class="text-3xl mb-2">🏆</div>
-        <div class="font-bold text-sm mb-1">Step 2 — Score</div>
-        <div class="text-xs" style="color:var(--rs-muted)">Each paper gets a <strong>Paper Score 0–10</strong> based on 6 signals: recency, novelty, citation quality, institution prestige, author reputation, and completeness</div>
-      </div>
-      <div class="text-center p-4 rounded-xl" style="background:var(--rs-hover,rgba(99,102,241,0.06))">
-        <div class="text-3xl mb-2">🗄️</div>
-        <div class="font-bold text-sm mb-1">Step 3 — Store</div>
-        <div class="text-xs" style="color:var(--rs-muted)"><strong>All 60,000+ papers</strong> go into Railway PostgreSQL — fully browsable and searchable with server-side filtering and pagination, no caps</div>
-      </div>
-      <div class="text-center p-4 rounded-xl" style="background:var(--rs-hover,rgba(99,102,241,0.06))">
-        <div class="text-3xl mb-2">🔄</div>
-        <div class="font-bold text-sm mb-1">Step 4 — Refresh</div>
-        <div class="text-xs" style="color:var(--rs-muted)">arXiv papers update <strong>daily (Mon–Fri)</strong>. Conference papers are permanent — added once per proceedings cycle, never expire</div>
+      <div>
+        <div style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral);font-size:1.4rem;margin-bottom:0.5rem">IV.</div>
+        <div style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.015em">Refresh →</div>
+        <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
+          arXiv papers update <strong>daily (Mon–Fri)</strong>. Conference papers are permanent — added once per proceedings cycle, never expire.
+        </p>
       </div>
     </div>
 
-    <!-- Scoring breakdown — hidden by default -->
-    <div class="how-body hidden">
-      <hr class="mb-6" style="border-color:var(--rs-border)"/>
-      <h3 class="font-bold mb-4">📊 The Scoring System — Plain English</h3>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+    <details style="margin-top:1.5rem">
+      <summary style="cursor:pointer;font-family:var(--rs-font-display);font-size:0.85rem;font-weight:600;color:var(--rs-coral);letter-spacing:0.04em;list-style:none">
+        ▾ The scoring system, in plain English
+      </summary>
+      <div style="margin-top:1.5rem;padding:2rem;background:var(--rs-bone);border:1px solid var(--rs-rule);border-radius:14px">
 
-        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="text-lg">📅</span>
-            <span class="font-semibold text-sm">Recency <span style="color:var(--rs-muted)">(28%)</span></span>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem">
+          <div style="padding:1.25rem;border:1px solid var(--rs-rule);border-radius:10px;background:var(--rs-paper)">
+            <div class="rs-feature-eyebrow"><span class="rs-num">I.</span><span>Recency · 28%</span></div>
+            <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
+              A paper published this year scores 10/10. One from 10+ years ago scores 0. CS moves fast — freshness matters.
+            </p>
           </div>
-          <p class="text-xs" style="color:var(--rs-muted)">A paper published this year scores 10/10. One from 10+ years ago scores 0. CS moves fast — freshness matters.</p>
+          <div style="padding:1.25rem;border:1px solid var(--rs-rule);border-radius:10px;background:var(--rs-paper)">
+            <div class="rs-feature-eyebrow"><span class="rs-num">II.</span><span>Novelty · 22%</span></div>
+            <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
+              We scan the title and abstract for words like "we propose", "outperforms", "state-of-the-art". Surveys and replications score lower.
+            </p>
+          </div>
+          <div style="padding:1.25rem;border:1px solid var(--rs-rule);border-radius:10px;background:var(--rs-paper)">
+            <div class="rs-feature-eyebrow"><span class="rs-num">III.</span><span>Citation Quality · 18%</span></div>
+            <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
+              Log-scaled citation count plus conference rank (A* = top-tier), with an extra boost for oral/spotlight acceptances. A NeurIPS oral with 500 citations scores near 10.
+            </p>
+          </div>
+          <div style="padding:1.25rem;border:1px solid var(--rs-rule);border-radius:10px;background:var(--rs-paper)">
+            <div class="rs-feature-eyebrow"><span class="rs-num">IV.</span><span>Institution Prestige · 15%</span></div>
+            <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
+              Papers from OpenAI, DeepMind, Google Research, MIT, Stanford, CMU etc. get a boost. Detected from affiliations or abstract text.
+            </p>
+          </div>
+          <div style="padding:1.25rem;border:1px solid var(--rs-rule);border-radius:10px;background:var(--rs-paper)">
+            <div class="rs-feature-eyebrow"><span class="rs-num">V.</span><span>Author Reputation · 10%</span></div>
+            <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
+              Papers co-authored by Turing Award winners, lab founders, or well-known researchers (Hinton, LeCun, Vaswani, Karpathy…) score higher.
+            </p>
+          </div>
+          <div style="padding:1.25rem;border:1px solid var(--rs-rule);border-radius:10px;background:var(--rs-paper)">
+            <div class="rs-feature-eyebrow"><span class="rs-num">VI.</span><span>Completeness · 7%</span></div>
+            <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">
+              Has the paper got an abstract, author list, PDF link, and topic tags? Well-documented papers surface above poorly indexed ones.
+            </p>
+          </div>
         </div>
 
-        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="text-lg">💡</span>
-            <span class="font-semibold text-sm">Novelty <span style="color:var(--rs-muted)">(22%)</span></span>
-          </div>
-          <p class="text-xs" style="color:var(--rs-muted)">We scan the title and abstract for words like "we propose", "outperforms", "state-of-the-art". Surveys and replications score lower.</p>
-        </div>
-
-        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="text-lg">📈</span>
-            <span class="font-semibold text-sm">Citation Quality <span style="color:var(--rs-muted)">(18%)</span></span>
-          </div>
-          <p class="text-xs" style="color:var(--rs-muted)">Uses log-scaled citation count + conference rank (A* = top-tier), with an extra boost for oral/spotlight acceptances. A NeurIPS oral with 500 citations scores near 10.</p>
-        </div>
-
-        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="text-lg">🏛️</span>
-            <span class="font-semibold text-sm">Institution Prestige <span style="color:var(--rs-muted)">(15%)</span></span>
-          </div>
-          <p class="text-xs" style="color:var(--rs-muted)">Papers from OpenAI, DeepMind, Google Research, MIT, Stanford, CMU etc. get a boost. Detected from affiliations or abstract text.</p>
-        </div>
-
-        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="text-lg">👤</span>
-            <span class="font-semibold text-sm">Author Reputation <span style="color:var(--rs-muted)">(10%)</span></span>
-          </div>
-          <p class="text-xs" style="color:var(--rs-muted)">Papers co-authored by Turing Award winners, lab founders, or well-known researchers (Hinton, LeCun, Vaswani, Karpathy…) score higher.</p>
-        </div>
-
-        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="text-lg">✅</span>
-            <span class="font-semibold text-sm">Completeness <span style="color:var(--rs-muted)">(7%)</span></span>
-          </div>
-          <p class="text-xs" style="color:var(--rs-muted)">Has the paper got an abstract, author list, PDF link, and topic tags? Well-documented papers surface above poorly indexed ones.</p>
+        <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--rs-rule)">
+          <h4 class="rs-display-3" style="margin-bottom:0.75rem">Author momentum — <span class="rs-em">who is on a hot streak</span><span class="rs-dot">?</span></h4>
+          <p style="font-size:0.88rem;color:var(--rs-ink-mute);line-height:1.6;max-width:48rem">
+            Author momentum measures how <strong>productive and impactful</strong> a researcher has been recently — not just their all-time record. It combines recent output (30%), average paper quality (25%), acceleration vs. their prior two-year window (20%), topic strength in trending areas (15%), and conference strength (10%). A senior professor with 10,000 citations but no papers in 3 years scores low. A PhD student publishing 4 strong LLM papers this year at NeurIPS scores high. Momentum finds who is <em>actively pushing the frontier right now</em>.
+          </p>
         </div>
       </div>
+    </details>
+  </div>
+</section>
 
-      <h3 class="font-bold mb-4">🚀 Author Momentum — Who's on a Hot Streak?</h3>
-      <div class="grid sm:grid-cols-2 gap-4 mb-6">
-        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
-          <p class="text-xs" style="color:var(--rs-muted)">Author momentum measures how <strong>productive and impactful</strong> a researcher has been recently — not just their all-time record. It combines:</p>
-          <ul class="text-xs mt-2 space-y-1" style="color:var(--rs-muted)">
-            <li>📝 <strong>Recent output (30%)</strong> — papers published in the last 2 years</li>
-            <li>⭐ <strong>Avg paper quality (25%)</strong> — mean Paper Score across all their work</li>
-            <li>📈 <strong>Acceleration (20%)</strong> — publishing faster than their prior 2-year window?</li>
-            <li>🔥 <strong>Topic strength (15%)</strong> — are they working in trending areas (LLMs, diffusion, etc.)?</li>
-            <li>🏆 <strong>Conference strength (10%)</strong> — what % of their papers are at A* venues?</li>
-          </ul>
-        </div>
-        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
-          <p class="text-xs mb-2" style="color:var(--rs-muted)"><strong>Why momentum, not just citations?</strong></p>
-          <p class="text-xs" style="color:var(--rs-muted)">A senior professor with 10,000 citations but no papers in 3 years scores low. A PhD student publishing 4 strong LLM papers this year at NeurIPS scores high. Momentum finds who's <em>actively pushing the frontier right now</em> — which is what matters if you want to follow the cutting edge.</p>
-        </div>
-      </div>
+<!-- ── Section V — Paper of the Day ────────────────────────────────── -->
+<section style="padding-top:5rem">
+  <div class="rs-container">
+    <div class="sec-rule">
+      <span class="sec-rule__roman">V.</span>
+      <span class="sec-rule__meta">Today · One paper, picked carefully</span>
+      <span class="sec-rule__count">005 / 011</span>
+    </div>
+    <div style="margin:2rem 0 2rem">
+      <span class="rs-eyebrow">Paper of the Day</span>
+      <h2 class="rs-display-2" style="margin-top:0.75rem">
+        The single paper most worth your <span class="rs-em">attention</span><span class="rs-dot">.</span>
+      </h2>
+    </div>
+    <div id="potd-container"></div>
+  </div>
+</section>
 
-      <div class="p-4 rounded-xl text-xs" style="background:var(--rs-hover,rgba(99,102,241,0.06));color:var(--rs-muted)">
-        💬 <strong>Why not just use citation count?</strong> Citation counts lag reality by 1–2 years, heavily favour older papers, and ignore emerging researchers entirely. Our multi-signal scoring surfaces important new work <em>before</em> the citation wave hits.
+<!-- ── Section VI — Editorial digest ────────────────────────────────── -->
+<section style="padding-top:5rem">
+  <div class="rs-container">
+    <div class="sec-rule">
+      <span class="sec-rule__roman">VI.</span>
+      <span class="sec-rule__meta">Editorial · Hand-picked today</span>
+      <span class="sec-rule__count">006 / 011</span>
+    </div>
+    <div style="margin:2rem 0 2rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div>
+        <span class="rs-eyebrow">Editorial</span>
+        <h2 class="rs-display-2" style="margin-top:0.75rem">
+          Today&rsquo;s research intelligence <span class="rs-em">digest</span><span class="rs-dot">.</span>
+        </h2>
       </div>
     </div>
+    <div id="editorial-container"><div class="spinner"></div></div>
   </div>
 </section>
 
-<!-- ── Paper of the Day ──────────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-  <div id="potd-container"></div>
-</section>
-
-<!-- ── Editorial Queue ───────────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-  <h2 class="text-xl font-bold mb-4">📋 Today's Research Intelligence Digest</h2>
-  <div id="editorial-container"><div class="spinner"></div></div>
-</section>
-
-<!-- ── Top Papers ────────────────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-  <div class="flex items-center justify-between mb-4">
-    <h2 class="text-xl font-bold">🏆 Top Papers</h2>
-    <a href="papers" class="text-sm font-medium" style="color:var(--rs-primary)">View all →</a>
-  </div>
-  <div id="top-papers-container"><div class="spinner"></div></div>
-</section>
-
-<!-- ── Featured Topics ──────────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-  <div class="flex items-center justify-between mb-4">
-    <h2 class="text-xl font-bold">🗂 Trending Topics</h2>
-    <a href="topics" class="text-sm font-medium" style="color:var(--rs-primary)">All topics →</a>
-  </div>
-  <div id="topics-container" class="flex flex-wrap gap-2"></div>
-</section>
-
-<!-- ── Top Authors & Labs ──────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-  <div class="flex items-center justify-between mb-4">
-    <h2 class="text-xl font-bold">👩‍🔬 Rising Researchers</h2>
-    <a href="authors" class="text-sm font-medium" style="color:var(--rs-primary)">All authors →</a>
-  </div>
-  <div id="authors-container"><div class="spinner"></div></div>
-</section>
-
-<!-- ── Research Gaps ──────────────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-  <div class="flex items-center justify-between mb-4">
-    <h2 class="text-xl font-bold">🔍 Featured Research Gaps</h2>
-    <a href="gaps" class="text-sm font-medium" style="color:var(--rs-primary)">All gaps →</a>
-  </div>
-  <div id="gaps-container"><div class="spinner"></div></div>
-</section>
-
-<!-- ── What's New ─────────────────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-  <div class="rs-card p-6">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-xl font-bold">🆕 What's New in ResearchScope</h2>
-      <span class="text-xs px-2 py-1 rounded-full font-semibold" style="background:#dcfce7;color:#166534">Actively maintained</span>
+<!-- ── Section VII — Top Papers ─────────────────────────────────────── -->
+<section style="padding-top:5rem">
+  <div class="rs-container">
+    <div class="sec-rule">
+      <span class="sec-rule__roman">VII.</span>
+      <span class="sec-rule__meta">Top of the catalog</span>
+      <span class="sec-rule__count">007 / 011</span>
     </div>
-    <div class="space-y-3">
-
-      <div class="flex gap-3 items-start">
-        <span class="text-xs font-mono px-2 py-0.5 rounded shrink-0 mt-0.5" style="background:#dcfce7;color:#166534">Jun 2026</span>
-        <div>
-          <p class="text-sm font-semibold">OpenReview Acceptance Tiers — Oral &amp; Spotlight Signals</p>
-          <p class="text-xs" style="color:var(--rs-muted)">Papers from ICLR, NeurIPS, ICML, and COLM now carry their acceptance tier (oral / spotlight / poster). Oral and spotlight papers get a score boost and show as badges. Coverage extended through ICLR 2026, NeurIPS 2025, and ICML 2025.</p>
-        </div>
+    <div style="margin:2rem 0 2rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div>
+        <span class="rs-eyebrow">Top Papers</span>
+        <h2 class="rs-display-2" style="margin-top:0.75rem">
+          The highest-scored <span class="rs-em">papers</span><span class="rs-dot">.</span>
+        </h2>
       </div>
+      <a href="papers.html" class="rs-btn rs-btn--ghost">View all →</a>
+    </div>
+    <div id="top-papers-container"><div class="spinner"></div></div>
+  </div>
+</section>
 
-      <div class="flex gap-3 items-start">
-        <span class="text-xs font-mono px-2 py-0.5 rounded shrink-0 mt-0.5" style="background:#dcfce7;color:#166534">Jun 2026</span>
-        <div>
-          <p class="text-sm font-semibold">Smarter Conference &amp; Journal Recommenders</p>
-          <p class="text-xs" style="color:var(--rs-muted)">Both recommenders now run on one shared matching engine. New: one-click sample abstracts, field auto-detection with a confidence level (no more defaulting to ML on weak signals), a fit-scale legend, ⌘/Ctrl+Enter to run, auto-saved drafts, and a Copy-shortlist export.</p>
-        </div>
+<!-- ── Section VIII — Trending Topics ───────────────────────────────── -->
+<section style="padding-top:5rem">
+  <div class="rs-container">
+    <div class="sec-rule">
+      <span class="sec-rule__roman">VIII.</span>
+      <span class="sec-rule__meta">Topics · What is moving</span>
+      <span class="sec-rule__count">008 / 011</span>
+    </div>
+    <div style="margin:2rem 0 2rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div>
+        <span class="rs-eyebrow">Trending</span>
+        <h2 class="rs-display-2" style="margin-top:0.75rem">
+          Topics gaining <span class="rs-em">momentum</span><span class="rs-dot">.</span>
+        </h2>
       </div>
+      <a href="topics.html" class="rs-btn rs-btn--ghost">All topics →</a>
+    </div>
+    <div id="topics-container" style="display:flex;flex-wrap:wrap;gap:0.6rem"></div>
+  </div>
+</section>
 
-      <div class="flex gap-3 items-start">
-        <span class="text-xs font-mono px-2 py-0.5 rounded shrink-0 mt-0.5" style="background:#dcfce7;color:#166534">Jun 2026</span>
-        <div>
-          <p class="text-sm font-semibold">Keyless Journal Fetching via OpenAlex</p>
-          <p class="text-xs" style="color:var(--rs-muted)">The pipeline can now pull every paper from 20 top CS journals (TPAMI, IJCV, AIJ, PR, TKDE, Nature Communications…) directly through OpenAlex by source ID — no Semantic Scholar API key required. S2 is still used automatically when a key is configured.</p>
-        </div>
+<!-- ── Section IX — Rising Researchers ──────────────────────────────── -->
+<section style="padding-top:5rem">
+  <div class="rs-container">
+    <div class="sec-rule">
+      <span class="sec-rule__roman">IX.</span>
+      <span class="sec-rule__meta">Researchers · On a streak</span>
+      <span class="sec-rule__count">009 / 011</span>
+    </div>
+    <div style="margin:2rem 0 2rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div>
+        <span class="rs-eyebrow">Researchers</span>
+        <h2 class="rs-display-2" style="margin-top:0.75rem">
+          Rising <span class="rs-em">researchers</span><span class="rs-dot">.</span>
+        </h2>
       </div>
+      <a href="authors.html" class="rs-btn rs-btn--ghost">All authors →</a>
+    </div>
+    <div id="authors-container"><div class="spinner"></div></div>
+  </div>
+</section>
 
-      <div class="flex gap-3 items-start">
-        <span class="text-xs font-mono px-2 py-0.5 rounded shrink-0 mt-0.5" style="background:#dcfce7;color:#166534">Jun 2026</span>
-        <div>
-          <p class="text-sm font-semibold">Visual Refresh — Glass Nav, Inter Font, Richer Dark Mode</p>
-          <p class="text-xs" style="color:var(--rs-muted)">Site-wide UI upgrade: Inter loaded from Google Fonts, frosted-glass sticky nav with backdrop blur, richer mesh hero gradient, gradient stat values, card hover lifts with indigo tint, and a deeper dark mode palette throughout.</p>
-        </div>
+<!-- ── Section X — Featured Research Gaps ───────────────────────────── -->
+<section style="padding-top:5rem">
+  <div class="rs-container">
+    <div class="sec-rule">
+      <span class="sec-rule__roman">X.</span>
+      <span class="sec-rule__meta">Gaps · Where to push next</span>
+      <span class="sec-rule__count">010 / 011</span>
+    </div>
+    <div style="margin:2rem 0 2rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div>
+        <span class="rs-eyebrow">Research Gaps</span>
+        <h2 class="rs-display-2" style="margin-top:0.75rem">
+          Featured <span class="rs-em">gaps</span> to explore<span class="rs-dot">.</span>
+        </h2>
       </div>
+      <a href="gaps.html" class="rs-btn rs-btn--ghost">All gaps →</a>
+    </div>
+    <div id="gaps-container"><div class="spinner"></div></div>
+  </div>
+</section>
 
-      <div class="flex gap-3 items-start">
-        <span class="text-xs font-mono px-2 py-0.5 rounded shrink-0 mt-0.5" style="background:#dcfce7;color:#166534">Jun 2026</span>
-        <div>
-          <p class="text-sm font-semibold">Dedicated Sign-in &amp; Register Pages</p>
-          <p class="text-xs" style="color:var(--rs-muted)">Sign-in and Create Account are now separate focused pages instead of a shared tabbed modal. Each page redirects back to where you came from after auth.</p>
-        </div>
+<!-- ── Section XI — What&rsquo;s New (Changelog) ────────────────────── -->
+<section style="padding-top:5rem;padding-bottom:6rem">
+  <div class="rs-container">
+    <div class="sec-rule">
+      <span class="sec-rule__roman">XI.</span>
+      <span class="sec-rule__meta">Changelog · What changed</span>
+      <span class="sec-rule__count">011 / 011</span>
+    </div>
+
+    <div style="margin:2rem 0 2rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div>
+        <span class="rs-eyebrow">Changelog</span>
+        <h2 class="rs-display-2" style="margin-top:0.75rem">
+          What&rsquo;s new in <span class="rs-em">ResearchScope</span><span class="rs-dot">.</span>
+        </h2>
       </div>
+      <span class="rs-pill">Actively maintained</span>
+    </div>
 
-      <div class="flex gap-3 items-start">
-        <span class="text-xs font-mono px-2 py-0.5 rounded shrink-0 mt-0.5" style="background:#dcfce7;color:#166534">Jun 2026</span>
-        <div>
-          <p class="text-sm font-semibold">Security Hardening — Auth &amp; API</p>
-          <p class="text-xs" style="color:var(--rs-muted)">JWT secret misconfiguration now raises a loud server warning; API errors return a generic message instead of leaking internal details; SSL mode is conditional for local dev; login no longer saves partial auth state on profile-fetch failure.</p>
+    <div class="rs-card" style="padding:2rem">
+      <div style="display:flex;flex-direction:column;gap:1.5rem">
+
+        <div style="display:flex;gap:1rem;align-items:flex-start">
+          <span class="rs-time-pill">Jun 2026</span>
+          <div>
+            <p style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.01em;margin-bottom:0.25rem">OpenReview acceptance tiers — Oral &amp; Spotlight signals</p>
+            <p style="font-size:0.85rem;color:var(--rs-ink-mute);line-height:1.55">Papers from ICLR, NeurIPS, ICML, and COLM now carry their acceptance tier (oral / spotlight / poster). Oral and spotlight papers get a score boost and show as badges. Coverage extended through ICLR 2026, NeurIPS 2025, and ICML 2025.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="flex gap-3 items-start">
-        <span class="text-xs font-mono px-2 py-0.5 rounded shrink-0 mt-0.5" style="background:#eff6ff;color:#2563eb">Jun 2026</span>
-        <div>
-          <p class="text-sm font-semibold">Journal Recommender + 20 Q1 Journals</p>
-          <p class="text-xs" style="color:var(--rs-muted)">New Journal Recommender matches your manuscript against Q1 journal profiles — impact factor, review timeline, open access status, and similar published papers. Covers JMLR, TMLR, TACL, TPAMI, Nature MI, CSUR, and 14 more.</p>
+        <div style="display:flex;gap:1rem;align-items:flex-start">
+          <span class="rs-time-pill">Jun 2026</span>
+          <div>
+            <p style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.01em;margin-bottom:0.25rem">Smarter Conference &amp; Journal recommenders</p>
+            <p style="font-size:0.85rem;color:var(--rs-ink-mute);line-height:1.55">Both recommenders now run on one shared matching engine. New: one-click sample abstracts, field auto-detection with a confidence level, a fit-scale legend, ⌘/Ctrl+Enter to run, auto-saved drafts, and a Copy-shortlist export.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="flex gap-3 items-start">
-        <span class="text-xs font-mono px-2 py-0.5 rounded shrink-0 mt-0.5" style="background:#eff6ff;color:#2563eb">Jun 2026</span>
-        <div>
-          <p class="text-sm font-semibold">Backend API on Railway + User Accounts</p>
-          <p class="text-xs" style="color:var(--rs-muted)">FastAPI backend deployed on Railway with PostgreSQL full-text search. Sign up to save favourites and sync across devices. API available at <a href="https://researchscope-production.up.railway.app/docs" target="_blank" style="color:var(--rs-primary)">railway.app/docs</a>.</p>
+        <div style="display:flex;gap:1rem;align-items:flex-start">
+          <span class="rs-time-pill">Jun 2026</span>
+          <div>
+            <p style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.01em;margin-bottom:0.25rem">Keyless journal fetching via OpenAlex</p>
+            <p style="font-size:0.85rem;color:var(--rs-ink-mute);line-height:1.55">The pipeline can now pull every paper from 20 top CS journals (TPAMI, IJCV, AIJ, PR, TKDE, Nature Communications…) directly through OpenAlex by source ID — no Semantic Scholar API key required. S2 is still used automatically when a key is configured.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="flex gap-3 items-start">
-        <span class="text-xs font-mono px-2 py-0.5 rounded shrink-0 mt-0.5" style="background:#eff6ff;color:#2563eb">Jun 2026</span>
-        <div>
-          <p class="text-sm font-semibold">OpenAlex Integration + HF Training Dataset</p>
-          <p class="text-xs" style="color:var(--rs-muted)">Papers now sourced from OpenAlex (250M+ works) in addition to arXiv, S2, ACL, OpenReview, PMLR, and CVF. Full dataset pushed to <a href="https://huggingface.co/datasets/kishormorol/researchscope-papers" target="_blank" style="color:var(--rs-primary)">HuggingFace</a> as JSONL for LLM training.</p>
+        <div style="display:flex;gap:1rem;align-items:flex-start">
+          <span class="rs-time-pill">Jun 2026</span>
+          <div>
+            <p style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.01em;margin-bottom:0.25rem">Visual refresh — Atelier Zero skin</p>
+            <p style="font-size:0.85rem;color:var(--rs-ink-mute);line-height:1.55">Site-wide rebrand: warm paper canvas, Inter Tight + Playfair Display typography, single coral accent, italic-serif Roman numerals, side rails and metadata strip, hairline borders. Light only by spec.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="flex gap-3 items-start">
-        <span class="text-xs font-mono px-2 py-0.5 rounded shrink-0 mt-0.5" style="background:#eff6ff;color:#2563eb">Jun 2026</span>
-        <div>
-          <p class="text-sm font-semibold">Complete A* Conference Coverage</p>
-          <p class="text-xs" style="color:var(--rs-muted)">AAAI, IJCAI, CHI, SIGIR, WWW, KDD, WSDM, SIGMOD, ICSE now bulk-fetched via Semantic Scholar alongside ICLR, NeurIPS, ICML, CVPR, ACL, EMNLP and more.</p>
+        <div style="display:flex;gap:1rem;align-items:flex-start">
+          <span class="rs-time-pill">Jun 2026</span>
+          <div>
+            <p style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.01em;margin-bottom:0.25rem">Dedicated Sign-in &amp; Register pages</p>
+            <p style="font-size:0.85rem;color:var(--rs-ink-mute);line-height:1.55">Sign-in and Create Account are now separate focused pages instead of a shared tabbed modal. Each page redirects back to where you came from after auth.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="flex gap-3 items-start">
-        <span class="text-xs font-mono px-2 py-0.5 rounded shrink-0 mt-0.5" style="background:#eff6ff;color:#2563eb">Apr 2026</span>
-        <div>
-          <p class="text-sm font-semibold">CiteLens Integration — Citation Analysis in One Click</p>
-          <p class="text-xs" style="color:var(--rs-muted)">Every arXiv paper and Paper of the Day has an "Analyze citations" button linking to <a href="https://kishormorol.github.io/CiteLens/" target="_blank" rel="noopener" style="color:var(--rs-primary)">CiteLens</a> — see who cited it, ranked by impact and relevance.</p>
+        <div style="display:flex;gap:1rem;align-items:flex-start">
+          <span class="rs-time-pill">Jun 2026</span>
+          <div>
+            <p style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.01em;margin-bottom:0.25rem">Security hardening — Auth &amp; API</p>
+            <p style="font-size:0.85rem;color:var(--rs-ink-mute);line-height:1.55">JWT secret misconfiguration now raises a loud server warning; API errors return a generic message instead of leaking internal details; SSL mode is conditional for local dev; login no longer saves partial auth state on profile-fetch failure.</p>
+          </div>
         </div>
-      </div>
 
+        <div style="display:flex;gap:1rem;align-items:flex-start">
+          <span class="rs-time-pill">Jun 2026</span>
+          <div>
+            <p style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.01em;margin-bottom:0.25rem">Journal recommender + 20 Q1 journals</p>
+            <p style="font-size:0.85rem;color:var(--rs-ink-mute);line-height:1.55">New Journal Recommender matches your manuscript against Q1 journal profiles — impact factor, review timeline, open access status, and similar published papers. Covers JMLR, TMLR, TACL, TPAMI, Nature MI, CSUR, and 14 more.</p>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:1rem;align-items:flex-start">
+          <span class="rs-time-pill">Jun 2026</span>
+          <div>
+            <p style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.01em;margin-bottom:0.25rem">Backend API on Railway + user accounts</p>
+            <p style="font-size:0.85rem;color:var(--rs-ink-mute);line-height:1.55">FastAPI backend deployed on Railway with PostgreSQL full-text search. Sign up to save favourites and sync across devices. API available at <a href="https://researchscope-production.up.railway.app/docs" target="_blank" style="color:var(--rs-link);text-decoration:underline;text-decoration-color:var(--rs-link-line)">railway.app/docs</a>.</p>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:1rem;align-items:flex-start">
+          <span class="rs-time-pill">Jun 2026</span>
+          <div>
+            <p style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.01em;margin-bottom:0.25rem">OpenAlex integration + HF training dataset</p>
+            <p style="font-size:0.85rem;color:var(--rs-ink-mute);line-height:1.55">Papers now sourced from OpenAlex (250M+ works) in addition to arXiv, S2, ACL, OpenReview, PMLR, and CVF. Full dataset pushed to <a href="https://huggingface.co/datasets/kishormorol/researchscope-papers" target="_blank" style="color:var(--rs-link);text-decoration:underline;text-decoration-color:var(--rs-link-line)">HuggingFace</a> as JSONL for LLM training.</p>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:1rem;align-items:flex-start">
+          <span class="rs-time-pill">Jun 2026</span>
+          <div>
+            <p style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.01em;margin-bottom:0.25rem">Complete A* conference coverage</p>
+            <p style="font-size:0.85rem;color:var(--rs-ink-mute);line-height:1.55">AAAI, IJCAI, CHI, SIGIR, WWW, KDD, WSDM, SIGMOD, ICSE now bulk-fetched via Semantic Scholar alongside ICLR, NeurIPS, ICML, CVPR, ACL, EMNLP and more.</p>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:1rem;align-items:flex-start">
+          <span class="rs-time-pill">Apr 2026</span>
+          <div>
+            <p style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);letter-spacing:-0.01em;margin-bottom:0.25rem">CiteLens integration — citation analysis in one click</p>
+            <p style="font-size:0.85rem;color:var(--rs-ink-mute);line-height:1.55">Every arXiv paper and Paper of the Day has an "Analyze citations" button linking to <a href="https://kishormorol.github.io/CiteLens/" target="_blank" rel="noopener" style="color:var(--rs-link);text-decoration:underline;text-decoration-color:var(--rs-link-line)">CiteLens</a> — see who cited it, ranked by impact and relevance.</p>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ── Footer ────────────────────────────────────────────────────────── -->
-<footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  <p class="font-semibold mb-2">🔭 ResearchScope</p>
-  <p>Open-source CS research intelligence &middot; Updated daily via GitHub Actions &middot; Built for researchers and creators</p>
-  <p class="mt-3 font-medium" style="color:var(--rs-text)">Data Sources</p>
-  <p class="mt-1">
-    <a href="https://arxiv.org" target="_blank" class="hover:underline" style="color:var(--rs-primary)">arXiv</a> (metadata CC0) &middot;
-    <a href="https://aclanthology.org" target="_blank" class="hover:underline" style="color:var(--rs-primary)">ACL Anthology</a> (CC BY 4.0 / CC BY-NC-SA 3.0) &middot;
-    <a href="https://proceedings.mlr.press" target="_blank" class="hover:underline" style="color:var(--rs-primary)">PMLR</a> (CC BY 4.0) &middot;
-    <a href="https://www.semanticscholar.org" target="_blank" class="hover:underline" style="color:var(--rs-primary)">Semantic Scholar</a>
-  </p>
-  <p class="mt-2">
-    <a href="https://github.com/kishormorol/ResearchScope" target="_blank" class="hover:underline" style="color:var(--rs-primary)">GitHub</a>
-    &middot; <a href="https://github.com/kishormorol/ResearchScope/blob/main/ROADMAP.md" class="hover:underline" style="color:var(--rs-primary)">Roadmap</a>
-    &middot; MIT License &copy; 2026 Md Kishor Morol
-  </p>
+<footer style="border-top:1px solid var(--rs-rule);padding:4rem 0 6rem;background:var(--rs-paper)">
+  <div class="rs-container">
+    <div class="sec-rule" style="margin-top:0">
+      <span class="sec-rule__roman">FIN.</span>
+      <span class="sec-rule__meta">Colophon · Sources · License</span>
+      <span class="sec-rule__count">011 / 011</span>
+    </div>
+
+    <p class="rs-mega" style="margin:2.5rem 0 2rem">
+      <span class="rs-em">Research</span>Scope<span class="rs-dot">.</span>
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;margin-bottom:3rem">
+      <div>
+        <div class="rs-eyebrow rs-eyebrow--ink" style="margin-bottom:0.75rem">Catalog</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem">
+          <li><a href="papers.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Papers</a></li>
+          <li><a href="topics.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Topics</a></li>
+          <li><a href="authors.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Authors</a></li>
+          <li><a href="labs.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Labs &amp; Unis</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="rs-eyebrow rs-eyebrow--ink" style="margin-bottom:0.75rem">Decide</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem">
+          <li><a href="conferences.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Conferences</a></li>
+          <li><a href="journals.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Journals</a></li>
+          <li><a href="deadlines.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Upcoming Deadlines</a></li>
+          <li><a href="conference-recommender.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Venue Recommender</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="rs-eyebrow rs-eyebrow--ink" style="margin-bottom:0.75rem">Discover</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem">
+          <li><a href="gaps.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Research Gaps</a></li>
+          <li><a href="digest.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Weekly Digest</a></li>
+          <li><a href="favourites.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Favourites</a></li>
+          <li><a href="library.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Personal Library</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="rs-eyebrow rs-eyebrow--ink" style="margin-bottom:0.75rem">Account</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem">
+          <li><a href="signin.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Sign in</a></li>
+          <li><a href="register.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Create account</a></li>
+          <li><a href="profile.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Profile</a></li>
+          <li><a href="search.html" style="color:var(--rs-ink);text-decoration:none;font-size:0.88rem">Search</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <hr style="border:none;border-top:1px solid var(--rs-rule);margin:2rem 0"/>
+
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start;justify-content:space-between;font-size:0.78rem;color:var(--rs-ink-mute);line-height:1.6">
+      <div style="max-width:38rem">
+        <p style="margin-bottom:0.5rem"><strong style="color:var(--rs-ink)">Data sources.</strong>
+          <a href="https://arxiv.org" target="_blank" style="color:var(--rs-coral);text-decoration:none">arXiv</a> (CC0) ·
+          <a href="https://aclanthology.org" target="_blank" style="color:var(--rs-coral);text-decoration:none">ACL Anthology</a> (CC BY 4.0 / CC BY-NC-SA 3.0) ·
+          <a href="https://proceedings.mlr.press" target="_blank" style="color:var(--rs-coral);text-decoration:none">PMLR</a> (CC BY 4.0) ·
+          <a href="https://www.semanticscholar.org" target="_blank" style="color:var(--rs-coral);text-decoration:none">Semantic Scholar</a>
+        </p>
+        <p>Open-source CS research intelligence · Updated daily via GitHub Actions · MIT License © 2026 Md Kishor Morol</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.25rem;text-align:right">
+        <a href="https://github.com/kishormorol/ResearchScope" target="_blank" style="color:var(--rs-coral);text-decoration:none;font-weight:600">GitHub →</a>
+        <a href="https://github.com/kishormorol/ResearchScope/blob/main/ROADMAP.md" style="color:var(--rs-coral);text-decoration:none;font-weight:600">Roadmap →</a>
+      </div>
+    </div>
+  </div>
 </footer>
 
-<script src="assets/js/app.js"></script>
-<script src="assets/js/railway-api.js"></script>
+<script src="assets/js/app.js?v=ui-integrity-18"></script>
+<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
 <script>
-const GAP_TYPE_LABELS = { explicit: '📌 Explicit', pattern: '📊 Pattern', starter: '💡 Starter' };
+const GAP_TYPE_LABELS = { explicit: 'Explicit', pattern: 'Pattern', starter: 'Starter' };
 const GAP_TYPE_COLOR  = { explicit: 'gap-card-explicit', pattern: 'gap-card-pattern', starter: 'gap-card-starter' };
 
 function renderEditorial(ed) {
@@ -590,14 +757,14 @@ function renderEditorial(ed) {
   const p = (ed.top_papers || [])[0];
   if (p) {
     html += `<div class="editorial-card col-span-full lg:col-span-1">
-      <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--rs-primary)">📄 Paper of the Day</p>
-      <a href="${escHtml(p.paper_url || '#')}" target="_blank" class="font-bold text-base hover:underline">${escHtml(p.title)}</a>
-      <div class="flex gap-1 flex-wrap mt-1 mb-2">
+      <p class="rs-feature-eyebrow"><span class="rs-num">I.</span><span>Paper of the Day</span></p>
+      <a href="${escHtml(p.paper_url || '#')}" target="_blank" class="rs-display-3 hover:underline" style="display:block;margin-top:0.5rem">${escHtml(p.title)}</a>
+      <div class="flex gap-1 flex-wrap mt-2 mb-2">
         ${(p.tags || []).slice(0,3).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
         ${difficultyBadge(p)}
-        <span class="badge badge-score">⭐ ${(+p.paper_score||0).toFixed(1)}</span>
+        <span class="badge badge-score">${(+p.paper_score||0).toFixed(1)}</span>
       </div>
-      <p class="text-sm" style="color:var(--rs-muted)">${escHtml(p.why_it_matters || p.one_line_takeaway || '')}</p>
+      <p style="font-size:0.88rem;color:var(--rs-ink-mute);line-height:1.55">${escHtml(p.why_it_matters || p.one_line_takeaway || '')}</p>
     </div>`;
   }
 
@@ -605,11 +772,11 @@ function renderEditorial(ed) {
   const a = ed.breakout_author;
   if (a) {
     html += `<div class="editorial-card">
-      <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--rs-primary)">🌟 Breakout Author</p>
-      <div class="font-semibold">${escHtml(a.name)}</div>
-      <div class="text-sm" style="color:var(--rs-muted)">${a.paper_count} papers · Momentum ${(+a.momentum_score||0).toFixed(1)}/10</div>
-      <div class="flex flex-wrap gap-1 mt-1">${(a.topics||[]).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}</div>
-      <p class="text-sm mt-1" style="color:var(--rs-muted)">${escHtml(a.reason||'')}</p>
+      <p class="rs-feature-eyebrow"><span class="rs-num">II.</span><span>Breakout Author</span></p>
+      <div style="font-family:var(--rs-font-display);font-weight:700;font-size:1rem;color:var(--rs-ink);margin-top:0.5rem">${escHtml(a.name)}</div>
+      <div style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.25rem">${a.paper_count} papers · Momentum ${(+a.momentum_score||0).toFixed(1)}/10</div>
+      <div class="flex flex-wrap gap-1 mt-2">${(a.topics||[]).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}</div>
+      <p style="font-size:0.85rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">${escHtml(a.reason||'')}</p>
     </div>`;
   }
 
@@ -617,10 +784,10 @@ function renderEditorial(ed) {
   const t = ed.emerging_trend;
   if (t) {
     html += `<div class="editorial-card">
-      <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--rs-primary)">📈 Emerging Trend</p>
-      <div class="font-semibold">${escHtml(t.name)}</div>
-      <div class="text-sm" style="color:var(--rs-muted)">${t.paper_count} papers · Trend score ${(+t.trend_score||0).toFixed(1)}/10</div>
-      <p class="text-sm mt-1" style="color:var(--rs-muted)">${escHtml(t.gap_summary||'')}</p>
+      <p class="rs-feature-eyebrow"><span class="rs-num">III.</span><span>Emerging Trend</span></p>
+      <div style="font-family:var(--rs-font-display);font-weight:700;font-size:1rem;color:var(--rs-ink);margin-top:0.5rem">${escHtml(t.name)}</div>
+      <div style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.25rem">${t.paper_count} papers · Trend score ${(+t.trend_score||0).toFixed(1)}/10</div>
+      <p style="font-size:0.85rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">${escHtml(t.gap_summary||'')}</p>
     </div>`;
   }
 
@@ -628,10 +795,10 @@ function renderEditorial(ed) {
   const g = ed.research_gap;
   if (g) {
     html += `<div class="editorial-card">
-      <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--rs-primary)">🔍 Gap to Explore</p>
-      <div class="font-semibold">${escHtml(g.title||g.topic)}</div>
-      <p class="text-sm mt-1" style="color:var(--rs-muted)">${escHtml(truncate(g.description,160))}</p>
-      ${g.starter_idea ? `<p class="text-xs mt-2 font-medium" style="color:#10b981">💡 Starter idea: ${escHtml(g.starter_idea)}</p>` : ''}
+      <p class="rs-feature-eyebrow"><span class="rs-num">IV.</span><span>Gap to Explore</span></p>
+      <div style="font-family:var(--rs-font-display);font-weight:700;font-size:1rem;color:var(--rs-ink);margin-top:0.5rem">${escHtml(g.title||g.topic)}</div>
+      <p style="font-size:0.85rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">${escHtml(truncate(g.description,160))}</p>
+      ${g.starter_idea ? `<p style="font-family:var(--rs-font-mono);font-size:0.78rem;margin-top:0.75rem;color:var(--rs-olive);padding:0.5rem 0.75rem;background:var(--rs-paper);border:1px solid var(--rs-rule);border-radius:4px">Starter idea — ${escHtml(g.starter_idea)}</p>` : ''}
     </div>`;
   }
 
@@ -639,9 +806,9 @@ function renderEditorial(ed) {
   const u = ed.underrated_paper;
   if (u) {
     html += `<div class="editorial-card">
-      <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--rs-primary)">💎 Underrated Paper</p>
-      <a href="${escHtml(u.paper_url||'#')}" target="_blank" class="font-semibold hover:underline text-sm">${escHtml(u.title)}</a>
-      <p class="text-xs mt-1" style="color:var(--rs-muted)">${escHtml(u.reason||'')}</p>
+      <p class="rs-feature-eyebrow"><span class="rs-num">V.</span><span>Underrated Paper</span></p>
+      <a href="${escHtml(u.paper_url||'#')}" target="_blank" style="display:block;margin-top:0.5rem;font-family:var(--rs-font-display);font-weight:600;color:var(--rs-ink);font-size:0.95rem;line-height:1.35">${escHtml(u.title)}</a>
+      <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">${escHtml(u.reason||'')}</p>
     </div>`;
   }
 
@@ -649,17 +816,17 @@ function renderEditorial(ed) {
 
   // Top 5 list
   if ((ed.top_papers||[]).length > 1) {
-    html += `<div class="mt-6">
-      <h3 class="font-bold mb-3">Today's Top 5 Papers</h3>
-      <div class="space-y-2">`;
+    html += `<div style="margin-top:2rem">
+      <h3 class="rs-display-3" style="margin-bottom:1rem">Today&rsquo;s Top 5 Papers<span class="rs-dot">.</span></h3>
+      <div style="display:flex;flex-direction:column;gap:0.6rem">`;
     ed.top_papers.slice(0,5).forEach((p,i) => {
-      html += `<div class="rs-card p-3 flex items-center gap-3">
-        <span class="text-2xl font-black" style="color:var(--rs-primary);min-width:2rem">${i+1}</span>
-        <div class="flex-1 min-w-0">
-          <a href="${escHtml(p.paper_url||'#')}" target="_blank" class="font-semibold text-sm hover:underline">${escHtml(p.title)}</a>
-          <div class="flex gap-1 flex-wrap mt-0.5">
+      html += `<div class="rs-card" style="padding:1rem;display:flex;align-items:center;gap:1rem">
+        <span style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral);font-size:1.5rem;min-width:2rem;text-align:center">${i+1}</span>
+        <div style="flex:1;min-width:0">
+          <a href="${escHtml(p.paper_url||'#')}" target="_blank" style="font-family:var(--rs-font-display);font-weight:600;font-size:0.92rem;color:var(--rs-ink);text-decoration:none;display:block">${escHtml(p.title)}</a>
+          <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.4rem">
             ${(p.tags||[]).slice(0,2).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
-            <span class="badge badge-score">⭐ ${(+p.paper_score||0).toFixed(1)}</span>
+            <span class="badge badge-score">${(+p.paper_score||0).toFixed(1)}</span>
           </div>
         </div>
       </div>`;
@@ -706,31 +873,31 @@ function renderEditorial(ed) {
   if (topics && topics.length) {
     const sorted = [...topics].sort((a,b) => (b.trend_score||0) - (a.trend_score||0));
     topicsEl.innerHTML = sorted.slice(0,20).map(t =>
-      `<a href="topics" class="topic-chip">${escHtml(t.name)}<span class="ml-1 opacity-60 text-xs">${(t.paper_ids||[]).length}</span></a>`
+      `<a href="topics.html" class="topic-chip">${escHtml(t.name)}<span style="margin-left:6px;color:var(--rs-muted);font-size:0.72rem;font-family:var(--rs-font-mono)">${(t.paper_ids||[]).length}</span></a>`
     ).join('');
   } else {
-    topicsEl.innerHTML = '<p style="color:var(--rs-muted)">No topics yet.</p>';
+    topicsEl.innerHTML = '<p style="color:var(--rs-ink-mute)">No topics yet.</p>';
   }
 
   // Research gaps preview
   const gapsEl = document.getElementById('gaps-container');
   if (gaps && gaps.length) {
     const top = gaps.slice(0,4);
-    gapsEl.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">` +
+    gapsEl.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:1rem">` +
       top.map(g => `
         <div class="gap-card ${GAP_TYPE_COLOR[g.gap_type]||''}">
-          <div class="flex items-center gap-2 mb-1">
-            <span class="text-xs font-bold">${GAP_TYPE_LABELS[g.gap_type]||g.gap_type}</span>
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
+            <span class="rs-feature-eyebrow" style="margin-bottom:0"><span class="rs-num">${GAP_TYPE_LABELS[g.gap_type]||g.gap_type}</span></span>
             <span class="badge badge-tag">${escHtml(g.topic)}</span>
-            <span class="text-xs" style="color:var(--rs-muted)">${g.frequency} papers</span>
+            <span style="font-family:var(--rs-font-mono);font-size:0.7rem;color:var(--rs-ink-faint);margin-left:auto">${g.frequency} papers</span>
           </div>
-          <h3 class="font-semibold text-sm mb-1">${escHtml(g.title||g.topic)}</h3>
-          <p class="text-xs" style="color:var(--rs-muted)">${escHtml(truncate(g.description,120))}</p>
-          ${g.starter_idea ? `<p class="text-xs mt-2" style="color:#10b981">💡 ${escHtml(g.starter_idea)}</p>` : ''}
+          <h3 style="font-family:var(--rs-font-display);font-weight:700;font-size:0.95rem;color:var(--rs-ink);margin-bottom:0.4rem;letter-spacing:-0.01em">${escHtml(g.title||g.topic)}</h3>
+          <p style="font-size:0.82rem;color:var(--rs-ink-mute);line-height:1.5">${escHtml(truncate(g.description,120))}</p>
+          ${g.starter_idea ? `<p style="font-family:var(--rs-font-mono);font-size:0.78rem;margin-top:0.75rem;color:var(--rs-olive);padding:0.5rem 0.75rem;background:var(--rs-paper);border:1px solid var(--rs-rule);border-radius:4px">${escHtml(g.starter_idea)}</p>` : ''}
         </div>`).join('') +
       `</div>`;
   } else {
-    gapsEl.innerHTML = '<p style="color:var(--rs-muted)">No gaps detected yet.</p>';
+    gapsEl.innerHTML = '<p style="color:var(--rs-ink-mute)">No gaps detected yet.</p>';
   }
 
   // Rising researchers — load separately so it never blocks the page
@@ -738,24 +905,24 @@ function renderEditorial(ed) {
     const authorsEl = document.getElementById('authors-container');
     if (authors && authors.length) {
       const sorted = [...authors].sort((a,b)=>(b.momentum_score||0)-(a.momentum_score||0));
-      authorsEl.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">` +
+      authorsEl.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1rem">` +
         sorted.slice(0,6).map(a => `
-          <div class="rs-card p-4">
-            <div class="flex items-center gap-3 mb-2">
-              <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold" style="background:var(--rs-primary);color:#fff">
+          <div class="rs-card" style="padding:1.25rem">
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem">
+              <div style="width:42px;height:42px;border-radius:50%;background:var(--rs-paper);border:1px solid var(--rs-rule);display:flex;align-items:center;justify-content:center;font-family:var(--rs-font-italic);font-style:italic;font-weight:500;font-size:1.1rem;color:var(--rs-coral)">
                 ${escHtml((a.name||'?')[0].toUpperCase())}
               </div>
               <div>
-                <div class="font-semibold text-sm">${escHtml(a.name)}</div>
-                <div class="text-xs" style="color:var(--rs-muted)">${(a.paper_ids||[]).length} papers</div>
+                <div style="font-family:var(--rs-font-display);font-weight:700;font-size:0.92rem;color:var(--rs-ink);letter-spacing:-0.01em">${escHtml(a.name)}</div>
+                <div style="font-size:0.74rem;color:var(--rs-ink-faint);font-family:var(--rs-font-mono)">${(a.paper_ids||[]).length} papers</div>
               </div>
             </div>
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-xs" style="color:var(--rs-muted)">Momentum</span>
-              <div class="momentum-bar flex-1"><div class="momentum-fill" style="width:${(a.momentum_score||0)*10}%"></div></div>
-              <span class="text-xs font-bold">${(+a.momentum_score||0).toFixed(1)}</span>
+            <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem">
+              <span style="font-size:0.7rem;color:var(--rs-ink-mute);font-family:var(--rs-font-display);letter-spacing:0.12em;text-transform:uppercase">Momentum</span>
+              <div class="momentum-bar" style="flex:1"><div class="momentum-fill" style="width:${(a.momentum_score||0)*10}%"></div></div>
+              <span style="font-family:var(--rs-font-display);font-weight:700;font-size:0.85rem;color:var(--rs-ink);font-variant-numeric:tabular-nums">${(+a.momentum_score||0).toFixed(1)}</span>
             </div>
-            <div class="flex flex-wrap gap-1">${(a.topics||[]).slice(0,3).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:0.35rem">${(a.topics||[]).slice(0,3).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}</div>
           </div>`).join('') +
         `</div>`;
     } else {
@@ -766,5 +933,3 @@ function renderEditorial(ed) {
 </script>
 </body>
 </html>
-
-

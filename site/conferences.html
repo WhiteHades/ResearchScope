@@ -6,30 +6,30 @@
   <title>Conferences – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css"/>
-  <link rel="stylesheet" href="assets/css/library.css"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-18"/>
+  <link rel="stylesheet" href="assets/css/library.css?v=ui-integrity-18"/>
+  <script src="assets/js/theme-bootstrap.js?v=ui-integrity-18"></script>
 </head>
 <body>
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-2">
-      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">
-        🔭 ResearchScope
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-ink);font-family:var(--rs-font-display);letter-spacing:-0.02em">
+        <span style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral)">Ø</span>
+        <span>ResearchScope<span class="rs-dot">.</span></span>
       </a>
       <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1">
-        <a href="papers">Papers</a>
-        <a href="topics">Topics</a>
-        <a href="digest">📬 Digest</a>
-        <a href="conferences">Conferences</a>
-        <a href="journals">Journals</a>
-        
-        <a href="authors">Authors</a>
-        <a href="labs">Labs &amp; Unis</a>
-        <a href="gaps">Research Gaps</a>
-        <a href="deadlines">📅 Upcoming</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">Upcoming</a>
       </div>
-      <div class="flex items-center gap-2 justify-end" style="flex:1">
-        <!-- Global search -->
+      <div id="rs-nav-actions" class="flex items-center gap-2 justify-end" style="flex:1">
         <div class="search-wrap hidden lg:block">
           <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
@@ -42,7 +42,6 @@
           Star
           <span class="github-star-count">–</span>
         </a>
-        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
         <button id="mobile-menu-btn" class="lg:hidden p-1 rounded" aria-label="Open menu" aria-expanded="false">
           <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -54,46 +53,44 @@
       </div>
     </div>
   </div>
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-border);background:var(--rs-surface)">
+  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-rule);background:var(--rs-bone)">
     <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
       <a href="./" class="mobile-nav-link">Home</a>
-      <a href="papers" class="mobile-nav-link">Papers</a>
-      <a href="topics" class="mobile-nav-link">Topics</a>
-      <a href="digest" class="mobile-nav-link">📬 Weekly Digest</a>
-      <a href="conferences" class="mobile-nav-link">Conferences</a>
-      <a href="journals" class="mobile-nav-link">Journals</a>
-      
-      <a href="authors" class="mobile-nav-link">Authors</a>
-      <a href="labs" class="mobile-nav-link">Labs &amp; Unis</a>
-      <a href="gaps" class="mobile-nav-link">Research Gaps</a>
-      <a href="deadlines" class="mobile-nav-link">📅 Upcoming Conferences</a>
+      <a href="papers.html" class="mobile-nav-link">Papers</a>
+      <a href="topics.html" class="mobile-nav-link">Topics</a>
+      <a href="digest.html" class="mobile-nav-link">Weekly Digest</a>
+      <a href="conferences.html" class="mobile-nav-link">Conferences</a>
+      <a href="journals.html" class="mobile-nav-link">Journals</a>
+      <a href="authors.html" class="mobile-nav-link">Authors</a>
+      <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines.html" class="mobile-nav-link">Upcoming Conferences</a>
     </div>
   </div>
 </nav>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="library-toolbar">
     <div>
-      <h1 class="text-2xl font-bold mb-1">🎓 A* Conference Papers</h1>
+      <h1 class="text-2xl font-bold mb-1"> A* Conference Papers</h1>
       <p class="text-xs mb-1" style="color:var(--rs-muted)">
-        <a href="papers"  style="color:var(--rs-muted)" class="hover:underline">📄 arXiv Preprints</a>
+        <a href="papers.html"  style="color:var(--rs-muted)" class="hover:underline"> arXiv Preprints</a>
         <span class="badge badge-conf ml-2 mr-1">Section 2 of 3</span>
-        <a href="journals" style="color:var(--rs-muted)" class="ml-2 hover:underline">📖 Q1 Journals</a>
+        <a href="journals.html" style="color:var(--rs-muted)" class="ml-2 hover:underline"> Q1 Journals</a>
       </p>
       <p class="text-sm mb-4" style="color:var(--rs-muted)">Top 1,000 papers from NeurIPS, ICML, ICLR, CVPR, ACL, AAAI and all A* CS venues — ranked by impact score.
-        <button onclick="document.getElementById('scoring-explainer').classList.toggle('hidden')"
+        <button onclick="toggleDisclosure(this,'scoring-explainer')" aria-expanded="false" aria-controls="scoring-explainer"
           class="ml-2 text-xs font-semibold underline" style="color:var(--rs-primary)">How scoring works ↓</button>
-        <a href="conference-recommender" class="ml-3 text-xs font-semibold" style="color:var(--rs-primary)">🎯 Find a venue for your paper →</a>
+        <a href="conference-recommender.html" class="ml-3 text-xs font-semibold" style="color:var(--rs-primary)"> Find a venue for your paper →</a>
       </p>
     </div>
   </div>
 
   <div id="scoring-explainer" class="hidden rs-card p-4 mb-4 text-sm">
-    <p class="font-bold mb-2">📊 How Papers Are Scored (0–10)</p>
+    <p class="font-bold mb-2"> How Papers Are Scored (0–10)</p>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-      <div><p class="font-semibold">⭐ Paper Score</p><p style="color:var(--rs-muted)">Venue rank (A*), citation velocity, contribution depth, and author/institution prestige.</p></div>
-      <div><p class="font-semibold">📖 Read First</p><p style="color:var(--rs-muted)">Foundational value, abstract clarity, accessibility, and topic centrality.</p></div>
-      <div><p class="font-semibold">🎙 Content Potential</p><p style="color:var(--rs-muted)">Real-world applicability, broad relevance, surprising results, and explainability.</p></div>
+      <div><p class="font-semibold">Paper Score</p><p style="color:var(--rs-muted)">Venue rank (A*), citation velocity, contribution depth, and author/institution prestige.</p></div>
+      <div><p class="font-semibold"> Read First</p><p style="color:var(--rs-muted)">Foundational value, abstract clarity, accessibility, and topic centrality.</p></div>
+      <div><p class="font-semibold"> Content Potential</p><p style="color:var(--rs-muted)">Real-world applicability, broad relevance, surprising results, and explainability.</p></div>
     </div>
   </div>
 
@@ -124,16 +121,16 @@
       </select>
       <select id="filter-year"  class="rs-select"><option value="">All Years</option></select>
       <select id="sort-by" class="rs-select">
-        <option value="paper_score">Sort: Paper Score</option>
+        <option value="paper_score">Sort: Score</option>
         <option value="read_first">Sort: Read First</option>
-        <option value="content">Sort: Content Potential</option>
-        <option value="year">Sort: Year (newest)</option>
+        <option value="content">Sort: Content</option>
+        <option value="year">Sort: Newest</option>
         <option value="citations">Sort: Citations</option>
         <option value="title">Sort: Title A–Z</option>
       </select>
     </div>
     <div class="flex items-center justify-between mt-2">
-      <p class="text-xs" style="color:var(--rs-muted)" id="result-count"></p>
+      <p class="text-xs" style="color:var(--rs-muted)" id="result-count" role="status" aria-live="polite"></p>
       <button onclick="clearFilters()" class="text-xs" style="color:var(--rs-primary)">Clear filters</button>
     </div>
   </div>
@@ -160,7 +157,7 @@
   <div id="paginator"></div>
 </div>
 <footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  <p class="font-semibold mb-2">🔭 ResearchScope</p>
+  <p class="font-semibold mb-2"> ResearchScope</p>
   <p>Open-source CS research intelligence &middot; Updated daily via GitHub Actions &middot; Built for researchers and creators</p>
   <p class="mt-3 font-medium" style="color:var(--rs-text)">Data Sources</p>
   <p class="mt-1">
@@ -175,9 +172,9 @@
     &middot; MIT License &copy; 2026 Md Kishor Morol
   </p>
 </footer>
-<script src="assets/js/app.js"></script>
+<script src="assets/js/app.js?v=ui-integrity-18"></script>
 <script src="assets/js/library.js"></script>
-<script src="assets/js/railway-api.js"></script>
+<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
 <script>
 // ── State ─────────────────────────────────────────────────────────────────────
 let currentPage = 1, totalCount = 0;
@@ -225,12 +222,13 @@ function renderRows(papers, startIdx=0) {
     const tags    = normalizeTags(p.tags);
     const typeStr = p.paper_type ? `<span class="badge badge-type">${escHtml(p.paper_type)}</span>` : '–';
     return `
-    <tr class="cursor-pointer" onclick="toggleDetail(${idx})">
+    <tr class="cursor-pointer" onclick="if(!event.target.closest('a,button'))toggleDetail(${idx})">
       <td>
         <a href="${escHtml(url)}" target="_blank" rel="noopener"
-           class="font-medium hover:text-indigo-600 transition-colors"
+           class="font-medium rs-table-title-link"
            onclick="event.stopPropagation()">${escHtml(p.title)}</a>
-        <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${escHtml(authors)}${escHtml(more)}</div>
+         <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${escHtml(authors)}${escHtml(more)}</div>
+         <button id="paper-detail-btn-${idx}" type="button" class="rs-table-detail-btn text-xs mt-1 underline" style="color:var(--rs-primary)" aria-expanded="false" aria-controls="detail-${idx}" onclick="event.stopPropagation();toggleDetail(${idx})">Details</button>
       </td>
       <td class="hidden md:table-cell text-xs" style="color:var(--rs-muted)">
         ${escHtml(p.venue||'')} ${p.year||''}
@@ -240,14 +238,14 @@ function renderRows(papers, startIdx=0) {
       <td>${difficultyBadge(p)}</td>
       <td>${typeStr}</td>
       <td>
-        <span class="badge badge-score font-bold">⭐ ${(p.paper_score||0).toFixed(1)}</span>
+        <span class="badge badge-score font-bold">${(p.paper_score||0).toFixed(1)}</span>
         <div class="text-xs mt-0.5" style="color:var(--rs-muted)">
-          📖 ${(p.read_first_score||0).toFixed(1)} · 🎙 ${(p.content_potential_score||0).toFixed(1)}
+           ${(p.read_first_score||0).toFixed(1)} ·  ${(p.content_potential_score||0).toFixed(1)}
         </div>
       </td>
       <td class="library-cell">${libBtn}</td>
     </tr>
-    <tr class="detail-row" id="detail-${idx}">
+    <tr class="detail-row" id="detail-${idx}" aria-labelledby="paper-detail-btn-${idx}">
       <td colspan="7">
         <div class="grid md:grid-cols-2 gap-6">
           <div>
@@ -260,8 +258,8 @@ function renderRows(papers, startIdx=0) {
             <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Score Breakdown</p>
             ${scoreBar('Paper Score',p.paper_score)}${scoreBar('Read First',p.read_first_score)}${scoreBar('Content',p.content_potential_score)}
             <div class="mt-3 flex flex-wrap gap-2">
-              ${p.paper_url?`<a href="${escHtml(p.paper_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)">📄 Paper</a>`:''}
-              ${p.pdf_url?`<a href="${escHtml(p.pdf_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)">📑 PDF</a>`:''}
+              ${p.paper_url?`<a href="${escHtml(p.paper_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)"> Paper</a>`:''}
+              ${p.pdf_url?`<a href="${escHtml(p.pdf_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)"> PDF</a>`:''}
             </div>
           </div>
         </div>
@@ -271,7 +269,12 @@ function renderRows(papers, startIdx=0) {
   if (libraryButtons) libraryButtons.refresh();
 }
 
-function toggleDetail(i) { document.getElementById(`detail-${i}`)?.classList.toggle('open'); }
+function toggleDetail(i) {
+  const detail = document.getElementById(`detail-${i}`);
+  if (!detail) return;
+  const open = detail.classList.toggle('open');
+  document.getElementById(`paper-detail-btn-${i}`)?.setAttribute('aria-expanded', String(open));
+}
 
 async function loadAndRender() {
   document.getElementById('papers-body').innerHTML =
@@ -329,5 +332,3 @@ const debouncedFilter = debounce(applyFilters, 300);
 </script>
 </body>
 </html>
-
-

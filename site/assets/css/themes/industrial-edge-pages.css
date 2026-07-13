@@ -1,0 +1,201 @@
+/* Auth, profile, deadlines, and dynamic-list hardening for the industrial theme.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* ── Industrial edge-page hardening: auth, profile, deadlines, dynamic lists ── */
+.auth-page {
+  background: var(--rs-paper) !important;
+  background-image:
+    linear-gradient(rgba(5, 5, 5, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(5, 5, 5, 0.035) 1px, transparent 1px) !important;
+  background-size: 28px 28px !important;
+}
+
+.auth-card {
+  border: 1px solid var(--rs-ink) !important;
+  background: var(--rs-ink) !important;
+}
+
+.auth-brand {
+  background: var(--rs-ink) !important;
+  border-right: 1px solid var(--rs-paper) !important;
+}
+
+.auth-brand-mark,
+.auth-brand-title,
+.auth-panel h1 {
+  font-family: var(--rs-font-display) !important;
+  font-style: normal !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.045em !important;
+  text-transform: uppercase !important;
+}
+
+.auth-brand-blurb,
+.auth-field label,
+.auth-optional {
+  font-family: var(--rs-font-mono) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+.auth-panel {
+  background: var(--rs-bone) !important;
+  color: var(--rs-ink) !important;
+}
+
+.auth-input,
+.auth-submit,
+.auth-pwd-toggle,
+#name-save-btn,
+.rs-danger-btn,
+#profile-gate a,
+.area-chip {
+  border: 1px solid var(--rs-ink) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink) !important;
+  font-family: var(--rs-font-mono) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+.auth-submit,
+#name-save-btn,
+#profile-gate a,
+.area-chip.active {
+  background: var(--rs-coral) !important;
+  border-color: var(--rs-coral) !important;
+  color: var(--rs-paper) !important;
+}
+
+.auth-submit:hover,
+.auth-pwd-toggle:hover,
+#name-save-btn:hover,
+#profile-gate a:hover,
+.area-chip:hover,
+.area-chip.active:hover,
+.rs-danger-btn:hover {
+  background: var(--rs-ink) !important;
+  border-color: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+  transform: none !important;
+}
+
+.auth-input:focus {
+  outline: 2px solid var(--rs-coral) !important;
+  outline-offset: 2px !important;
+  background: var(--rs-bone) !important;
+}
+
+.auth-error {
+  background: var(--rs-paper) !important;
+  border: 1px solid var(--rs-coral) !important;
+  color: var(--rs-coral) !important;
+  font-family: var(--rs-font-mono) !important;
+}
+
+#profile-avatar {
+  border: 1px solid var(--rs-ink) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-coral) !important;
+  font-family: var(--rs-font-display) !important;
+  font-style: normal !important;
+}
+
+#profile-name-display,
+.rs-card h2,
+.deadline-card h3,
+.next-banner #banner-name,
+.next-banner #banner-countdown {
+  font-family: var(--rs-font-display) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.035em !important;
+  text-transform: uppercase !important;
+}
+
+#profile-body .rs-card a[style*="background:var(--rs-bg)"] {
+  border: 1px solid var(--rs-ink) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink) !important;
+  font-family: var(--rs-font-mono) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+#profile-body .rs-card a[style*="background:var(--rs-bg)"]:hover {
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+}
+
+.deadline-card {
+  border: 1px solid var(--rs-ink) !important;
+  background: var(--rs-bone) !important;
+  transition: background-color 160ms ease, border-color 160ms ease !important;
+}
+
+.deadline-card:hover {
+  background: var(--rs-paper-warm) !important;
+  border-color: var(--rs-coral) !important;
+}
+
+.next-banner {
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+  border: 1px solid var(--rs-ink) !important;
+}
+
+.countdown-chip,
+.est-badge {
+  border: 1px solid var(--rs-ink) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink) !important;
+  font-family: var(--rs-font-mono) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+.chip-urgent,
+.chip-soon,
+.deadline-card .text-red-500,
+.est-badge {
+  color: var(--rs-coral) !important;
+}
+
+.dl-label,
+.deadline-card .badge,
+.next-banner .text-xs,
+.recommender-result .text-xs.font-bold.uppercase,
+.recommender-panel label {
+  font-family: var(--rs-font-mono) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+.dl-date {
+  color: var(--rs-ink) !important;
+  font-family: var(--rs-font-mono) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+#search-page-input {
+  border: 1px solid var(--rs-ink) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink) !important;
+  font-family: var(--rs-font-mono) !important;
+  font-weight: 700 !important;
+}
+
+#search-page-input:focus {
+  outline: 2px solid var(--rs-coral) !important;
+  outline-offset: 2px !important;
+}

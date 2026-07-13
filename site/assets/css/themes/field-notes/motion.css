@@ -1,0 +1,65 @@
+/* Field Notes motion: tactile paper lift, soft entrance, reduced-motion safe. */
+
+@media (prefers-reduced-motion: no-preference) {
+  .rs-card,
+  .digest-paper-card,
+  .gap-card,
+  .deadline-card,
+  .library-card,
+  .recommender-paper {
+    transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, opacity 180ms ease;
+  }
+
+  .rs-btn,
+  .pager-btn,
+  .github-star-btn,
+  .topic-filter-btn,
+  .topic-view-btn,
+  .library-link,
+  .library-toggle,
+  .auth-submit,
+  button {
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, opacity 160ms ease;
+  }
+}
+
+html[data-rs-theme="field-notes"] * {
+  will-change: auto !important;
+}
+
+html[data-rs-theme="field-notes"] :is(a, button) {
+  transition-property: background-color, border-color, color, opacity !important;
+}
+
+html[data-rs-theme="field-notes"] .rs-live::before {
+  animation: none;
+}
+
+.rs-btn:active,
+.pager-btn:active,
+.github-star-btn:active,
+.topic-filter-btn:active,
+.topic-view-btn:active,
+.library-link:active,
+.library-toggle:active,
+.auth-submit:active,
+button:active { transform: translateY(2px) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-gradient::after { animation: none; }
+  .rs-card,
+  .digest-paper-card,
+  .gap-card,
+  .deadline-card,
+  .library-card,
+  .recommender-paper,
+  .rs-btn,
+  .pager-btn,
+  .github-star-btn,
+  .topic-filter-btn,
+  .topic-view-btn,
+  .library-link,
+  .library-toggle,
+  .auth-submit,
+  button { transition: none !important; }
+}

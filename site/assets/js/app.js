@@ -2,27 +2,6 @@
  * ResearchScope – shared JS utilities
  */
 
-// ── Theme ─────────────────────────────────────────────────────────────
-const THEME_KEY = 'rs-theme';
-
-function applyTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem(THEME_KEY, theme);
-  const icon = document.getElementById('theme-icon');
-  if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
-}
-
-function initTheme() {
-  const saved = localStorage.getItem(THEME_KEY);
-  const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  applyTheme(saved || preferred);
-}
-
-function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme') || 'light';
-  applyTheme(current === 'dark' ? 'light' : 'dark');
-}
-
 // ── Data fetching ──────────────────────────────────────────────────────
 async function fetchData(url) {
   try {
@@ -54,7 +33,7 @@ function difficultyBadge(d) {
 }
 
 function scoreBadge(score) {
-  return `<span class="badge badge-score score-badge-tip" title="Paper score (0–10): weighted by citation impact, recency, venue rank, acceptance tier (oral/spotlight), topic relevance, and content quality">⭐ ${(+score || 0).toFixed(1)}</span>`;
+  return `<span class="badge badge-score score-badge-tip" title="Paper score (0–10): weighted by citation impact, recency, venue rank, acceptance tier (oral/spotlight), topic relevance, and content quality">${(+score || 0).toFixed(1)}</span>`;
 }
 
 function tagChips(tags) {
@@ -69,6 +48,14 @@ function escHtml(str) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+function toggleDisclosure(button, targetId) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  const opening = target.classList.contains('hidden');
+  target.classList.toggle('hidden', !opening);
+  button?.setAttribute('aria-expanded', String(opening));
 }
 
 function truncate(str, max = 120) {
@@ -98,8 +85,8 @@ function rankBadge(rank) {
 // work. Posters are the default tier and get no badge to avoid clutter.
 function presentationBadge(type) {
   const t = (type || '').toLowerCase();
-  if (t === 'oral')      return `<span class="badge badge-oral" title="Oral presentation — top accepted tier">🎤 Oral</span>`;
-  if (t === 'spotlight') return `<span class="badge badge-spotlight" title="Spotlight — highlighted accepted paper">✨ Spotlight</span>`;
+  if (t === 'oral')      return `<span class="badge badge-oral" title="Oral presentation — top accepted tier">Oral</span>`;
+  if (t === 'spotlight') return `<span class="badge badge-spotlight" title="Spotlight — highlighted accepted paper">Spotlight</span>`;
   return '';
 }
 
@@ -135,9 +122,9 @@ function citelensBtn(paper) {
   const href = `https://kishormorol.github.io/CiteLens/?q=${encodeURIComponent(arxivId)}`;
   return `<a href="${escHtml(href)}" target="_blank" rel="noopener"
     class="mt-3 inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md border"
-    style="color:var(--rs-primary);border-color:var(--rs-primary);opacity:0.85"
+    style="color:var(--rs-primary);border-color:var(--rs-primary)"
     title="See who cited this paper — powered by CiteLens">
-    🔍 Analyze citations
+    Analyze citations
   </a>`;
 }
 
@@ -155,7 +142,7 @@ function renderPaperCard(paper, opts = {}) {
     <div class="flex items-start justify-between gap-4 flex-wrap">
       <div class="flex-1 min-w-0">
         <a href="${escHtml(url)}" target="_blank" rel="noopener"
-           class="text-base font-semibold hover:text-indigo-600 transition-colors">
+           class="text-base font-semibold rs-table-title-link">
           ${escHtml(paper.title)}
         </a>
         <p class="text-xs mt-1" style="color:var(--rs-muted)">
@@ -163,7 +150,7 @@ function renderPaperCard(paper, opts = {}) {
         </p>
       </div>
       <div class="flex gap-1 flex-shrink-0 flex-wrap">
-        <span class="badge badge-score">⭐ ${(+paper.paper_score || 0).toFixed(1)}</span>
+        <span class="badge badge-score">${(+paper.paper_score || 0).toFixed(1)}</span>
         ${difficultyBadge(paper)}
         ${rankBadge(paper.conference_rank)}
         ${presentationBadge(paper.presentation_type)}
@@ -228,19 +215,22 @@ async function loadStats() {
 // ── Paginator ──────────────────────────────────────────────────────────
 function renderPaginator(containerId, current, total, onChange) {
   const el = document.getElementById(containerId);
-  if (!el || total <= 1) return;
-  let html = `<div class="flex gap-1 flex-wrap justify-center mt-4">`;
-  html += `<button class="pager-btn" onclick="(${onChange})(${current - 1})" ${current <= 1 ? 'disabled' : ''}>← Prev</button>`;
+  if (!el) return;
+  if (total <= 1) { el.replaceChildren(); return; }
+  const restoreFocus = el.contains(document.activeElement);
+  let html = `<nav class="flex gap-1 flex-wrap justify-center mt-4" aria-label="Results pages">`;
+  html += `<button class="pager-btn" aria-label="Previous page" onclick="(${onChange})(${current - 1})" ${current <= 1 ? 'disabled' : ''}>← Prev</button>`;
   const pages = Math.min(total, 7);
   let start = Math.max(1, current - 3);
   let end   = Math.min(total, start + pages - 1);
   start = Math.max(1, end - pages + 1);
   for (let p = start; p <= end; p++) {
-    html += `<button class="pager-btn ${p === current ? 'active' : ''}" onclick="(${onChange})(${p})">${p}</button>`;
+    html += `<button class="pager-btn ${p === current ? 'active' : ''}" aria-label="Page ${p}"${p === current ? ' aria-current="page"' : ''} onclick="(${onChange})(${p})">${p}</button>`;
   }
-  html += `<button class="pager-btn" onclick="(${onChange})(${current + 1})" ${current >= total ? 'disabled' : ''}>Next →</button>`;
-  html += `</div>`;
+  html += `<button class="pager-btn" aria-label="Next page" onclick="(${onChange})(${current + 1})" ${current >= total ? 'disabled' : ''}>Next →</button>`;
+  html += `</nav>`;
   el.innerHTML = html;
+  if (restoreFocus) el.querySelector('[aria-current="page"]')?.focus();
 }
 
 // ── Search / filter ────────────────────────────────────────────────────
@@ -324,11 +314,12 @@ function renderDropdown(results, query, dropdown) {
   }
 
   let html = '';
+  let optionIndex = 0;
 
   if (papers.length) {
     html += `<div class="search-section-label">Papers</div>`;
     papers.forEach(p => {
-      html += `<a class="search-result-item" href="papers?q=${encodeURIComponent(p.title)}">
+      html += `<a id="rs-search-option-${optionIndex++}" class="search-result-item" role="option" href="papers.html?q=${encodeURIComponent(p.title)}">
         <div class="sr-title">${escHtml(p.title)}</div>
         <div class="sr-meta">${escHtml(p.venue || 'arXiv')} · ${p.year || ''}</div>
       </a>`;
@@ -338,7 +329,7 @@ function renderDropdown(results, query, dropdown) {
   if (authors.length) {
     html += `<div class="search-section-label">Authors</div>`;
     authors.forEach(a => {
-      html += `<a class="search-result-item" href="authors?q=${encodeURIComponent(a.name)}">
+      html += `<a id="rs-search-option-${optionIndex++}" class="search-result-item" role="option" href="authors.html?q=${encodeURIComponent(a.name)}">
         <div class="sr-title">${escHtml(a.name)}</div>
         <div class="sr-meta">${a.paper_ids?.length || 0} papers</div>
       </a>`;
@@ -348,14 +339,14 @@ function renderDropdown(results, query, dropdown) {
   if (topics.length) {
     html += `<div class="search-section-label">Topics</div>`;
     topics.forEach(t => {
-      html += `<a class="search-result-item" href="topics#${escHtml(t.id)}">
+      html += `<a id="rs-search-option-${optionIndex++}" class="search-result-item" role="option" href="topics.html#topic-${escHtml(t.id)}">
         <div class="sr-title">${escHtml(t.name)}</div>
         <div class="sr-meta">${t.paper_ids?.length || 0} papers</div>
       </a>`;
     });
   }
 
-  html += `<a class="search-see-all" href="search?q=${encodeURIComponent(query)}">See all results →</a>`;
+  html += `<a id="rs-search-option-${optionIndex}" class="search-see-all" role="option" href="search.html?q=${encodeURIComponent(query)}">See all results →</a>`;
   dropdown.innerHTML = html;
 }
 
@@ -365,35 +356,75 @@ function initSearch() {
   if (!input || !dropdown) return;
 
   let debounce;
+  let requestId = 0;
+
+  input.setAttribute('role', 'combobox');
+  input.setAttribute('aria-autocomplete', 'list');
+  input.setAttribute('aria-controls', dropdown.id);
+  input.setAttribute('aria-expanded', 'false');
+  dropdown.setAttribute('role', 'listbox');
 
   input.addEventListener('focus', () => loadSearchData());
 
   input.addEventListener('input', () => {
     clearTimeout(debounce);
+    const currentRequest = ++requestId;
     const q = input.value.trim();
-    if (!q) { dropdown.classList.add('hidden'); return; }
+    if (!q) {
+      dropdown.classList.add('hidden');
+      input.setAttribute('aria-expanded', 'false');
+      input.removeAttribute('aria-activedescendant');
+      return;
+    }
 
     debounce = setTimeout(async () => {
       const data    = await loadSearchData();
       const results = await runSearch(q, data, 4);
+      if (currentRequest !== requestId || input.value.trim() !== q) return;
       renderDropdown(results, q, dropdown);
       dropdown.classList.remove('hidden');
+      input.setAttribute('aria-expanded', 'true');
     }, 180);
   });
 
   input.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' && !dropdown.classList.contains('hidden')) {
+      e.preventDefault();
+      dropdown.querySelector('[role="option"]')?.focus();
+      return;
+    }
     if (e.key === 'Enter' && input.value.trim()) {
-      window.location.href = `search?q=${encodeURIComponent(input.value.trim())}`;
+      window.location.href = `search.html?q=${encodeURIComponent(input.value.trim())}`;
     }
     if (e.key === 'Escape') {
       dropdown.classList.add('hidden');
+      input.setAttribute('aria-expanded', 'false');
       input.blur();
+    }
+  });
+
+  dropdown.addEventListener('keydown', event => {
+    const items = Array.from(dropdown.querySelectorAll('[role="option"]'));
+    const current = items.indexOf(document.activeElement);
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      const direction = event.key === 'ArrowDown' ? 1 : -1;
+      items[(current + direction + items.length) % items.length]?.focus();
+    } else if (event.key === 'Home' || event.key === 'End') {
+      event.preventDefault();
+      items[event.key === 'Home' ? 0 : items.length - 1]?.focus();
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      dropdown.classList.add('hidden');
+      input.setAttribute('aria-expanded', 'false');
+      input.focus();
     }
   });
 
   document.addEventListener('click', e => {
     if (!input.closest('.search-wrap').contains(e.target)) {
       dropdown.classList.add('hidden');
+      input.setAttribute('aria-expanded', 'false');
     }
   });
 }
@@ -457,10 +488,10 @@ function pickPaperOfTheDay(papers, poolSize = 60) {
 
 function tweetPaperUrl(paper) {
   const venue   = [paper.venue, paper.year].filter(Boolean).join(' ');
-  const score   = paper.paper_score ? ` | ⭐ ${(+paper.paper_score).toFixed(1)}/10` : '';
+  const score   = paper.paper_score ? ` | ${(+paper.paper_score).toFixed(1)}/10` : '';
   const snippet = (paper.abstract || paper.summary || '').slice(0, 160);
-  const pageUrl = `https://kishormorol.github.io/ResearchScope/papers?q=${encodeURIComponent(paper.title || '')}`;
-  const text    = `📄 ${paper.title}\n${venue}${score}\n\n${snippet}…\n\n🔭 ResearchScope\n${pageUrl}\n\n#AIResearch #MachineLearning #ResearchScope`;
+  const pageUrl = `https://kishormorol.github.io/ResearchScope/papers.html?q=${encodeURIComponent(paper.title || '')}`;
+  const text    = `${paper.title}\n${venue}${score}\n\n${snippet}…\n\nResearchScope\n${pageUrl}\n\n#AIResearch #MachineLearning #ResearchScope`;
   return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
 }
 
@@ -482,26 +513,26 @@ function renderPotdCard(paper) {
   return `
   <div class="potd-wrap">
     <div class="potd-label">
-      ✨ Paper of the Day
-      <span style="font-size:0.65rem;opacity:0.6;font-weight:400">${new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>
+      Paper of the Day
+      <span style="font-size:0.65rem;font-weight:400">${new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>
     </div>
     <div class="potd-title">
       <a href="${escHtml(url)}" target="_blank" rel="noopener">${escHtml(paper.title)}</a>
     </div>
     <div class="potd-meta">
       ${venue ? escHtml(venue) + (authors ? ' · ' : '') : ''}${escHtml(authors)}${escHtml(extra)}
-      ${paper.paper_score ? ` · ⭐ ${(+paper.paper_score).toFixed(1)}/10` : ''}
+      ${paper.paper_score ? ` · ${(+paper.paper_score).toFixed(1)}/10` : ''}
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.75rem">${tags}</div>
     <p class="potd-abstract">${escHtml((paper.abstract || paper.summary || '').slice(0, 300))}</p>
     <div class="potd-actions">
       <a href="${escHtml(url)}" target="_blank" rel="noopener" class="potd-btn potd-btn-primary">Read Paper →</a>
-      ${(() => { const aid = extractArxivId(url); return aid ? `<a href="https://kishormorol.github.io/CiteLens/?q=${encodeURIComponent(aid)}" target="_blank" rel="noopener" class="potd-btn potd-btn-ghost" title="See who cited this paper">🔍 Analyze citations</a>` : ''; })()}
+      ${(() => { const aid = extractArxivId(url); return aid ? `<a href="https://kishormorol.github.io/CiteLens/?q=${encodeURIComponent(aid)}" target="_blank" rel="noopener" class="potd-btn potd-btn-ghost" title="See who cited this paper">Analyze citations</a>` : ''; })()}
       <a href="${escHtml(tweetPaperUrl(paper))}" target="_blank" rel="noopener" class="potd-btn potd-btn-ghost">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.738-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         Share
       </a>
-      <button onclick="copyPotdLink('${escHtml(url)}',this)" class="potd-btn potd-btn-ghost">📋 Copy Link</button>
+      <button onclick="copyPotdLink('${escHtml(url)}',this)" class="potd-btn potd-btn-ghost">Copy Link</button>
       <span class="potd-next">${nextLabel}</span>
     </div>
   </div>`;
@@ -510,7 +541,7 @@ function renderPotdCard(paper) {
 function copyPotdLink(url, btn) {
   navigator.clipboard.writeText(url).then(() => {
     const orig = btn.textContent;
-    btn.textContent = '✓ Copied!';
+    btn.textContent = 'Copied!';
     setTimeout(() => btn.textContent = orig, 2000);
   });
 }
@@ -530,36 +561,37 @@ function buildDropdownNav() {
 
   function dropdown(label, items) {
     const hasActive = items.some(([href]) => href && href === page);
+    const menuId = `rs-nav-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-menu`;
     const rows = items.map(([href, lbl, divider]) => {
       if (divider) return `<div class="rs-nav-dd-divider"></div>`;
-      return `<a href="${href}"${href === page ? ' class="active"' : ''}>${lbl}</a>`;
+      return `<a href="${href}" role="menuitem"${href === page ? ' class="active"' : ''}>${lbl}</a>`;
     }).join('');
     return `<div class="rs-nav-dd">
-      <button class="rs-nav-dd-btn${hasActive ? ' active' : ''}">${label}<span class="rs-nav-dd-arrow">▾</span></button>
-      <div class="rs-nav-dd-menu">${rows}</div>
+      <button class="rs-nav-dd-btn${hasActive ? ' active' : ''}" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="${menuId}">${label}<span class="rs-nav-dd-arrow" aria-hidden="true">▾</span></button>
+      <div id="${menuId}" class="rs-nav-dd-menu" role="menu" aria-label="${label}">${rows}</div>
     </div>`;
   }
 
   if (linksDiv) {
     linksDiv.innerHTML =
-      navLink('papers', 'Papers') +
+      navLink('papers.html', 'Papers') +
       dropdown('Venues', [
-        ['conferences', '🎓 Conferences'],
-        ['journals',    '📖 Journals'],
+        ['conferences.html', 'Conferences'],
+        ['journals.html',    'Journals'],
         [null, null, true],
-        ['conference-recommender', 'Conference Recommender'],
-        ['journal-recommender',    'Journal Recommender'],
+        ['conference-recommender.html', 'Conference Recommender'],
+        ['journal-recommender.html',    'Journal Recommender'],
       ]) +
       dropdown('Discover', [
-        ['topics', 'Topics'],
-        ['gaps',   'Research Gaps'],
-        ['digest', '📬 Digest'],
+        ['topics.html', 'Topics'],
+        ['gaps.html',   'Research Gaps'],
+        ['digest.html', 'Digest'],
       ]) +
       dropdown('People', [
-        ['authors', 'Authors'],
-        ['labs',    'Labs & Unis'],
+        ['authors.html', 'Authors'],
+        ['labs.html',    'Labs & Unis'],
       ]) +
-      navLink('deadlines', '📅 Deadlines');
+      navLink('deadlines.html', 'Deadlines');
   }
 
   if (mobLinks) {
@@ -568,31 +600,31 @@ function buildDropdownNav() {
     const sec = t => `<p class="mobile-nav-section">${t}</p>`;
     mobLinks.innerHTML =
       ml('./',  'Home') +
-      ml('papers', 'Papers') +
+      ml('papers.html', 'Papers') +
       sec('Venues') +
-      ml('conferences',           '🎓 Conferences') +
-      ml('journals',              '📖 Journals') +
-      ml('conference-recommender','Conference Recommender') +
-      ml('journal-recommender',   'Journal Recommender') +
+      ml('conferences.html',           'Conferences') +
+      ml('journals.html',              'Journals') +
+      ml('conference-recommender.html','Conference Recommender') +
+      ml('journal-recommender.html',   'Journal Recommender') +
       sec('Discover') +
-      ml('topics', 'Topics') +
-      ml('gaps',   'Research Gaps') +
-      ml('digest', '📬 Digest') +
+      ml('topics.html', 'Topics') +
+      ml('gaps.html',   'Research Gaps') +
+      ml('digest.html', 'Digest') +
       sec('People') +
-      ml('authors',    'Authors') +
-      ml('labs',       'Labs & Unis') +
-      ml('deadlines',  '📅 Deadlines') +
-      ml('favourites', '⭐ My Favourites');
+      ml('authors.html',    'Authors') +
+      ml('labs.html',       'Labs & Unis') +
+      ml('deadlines.html',  'Deadlines') +
+      ml('favourites.html', 'My Favourites') +
+      sec('Account') +
+      ml('search.html', 'Search') +
+      '<div id="rs-mobile-auth" class="rs-mobile-auth"></div>';
   }
 }
 
 // ── Init ───────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  initTheme();
   initStarCount();
   buildDropdownNav();
-  const toggle = document.getElementById('theme-toggle');
-  if (toggle) toggle.addEventListener('click', toggleTheme);
 
   // Highlight active nav link (desktop + mobile) — runs after buildDropdownNav
   const path = window.location.pathname.split('/').pop() || './';
@@ -603,29 +635,288 @@ document.addEventListener('DOMContentLoaded', () => {
   // Global search
   initSearch();
 
-  // Mobile menu toggle
+  // Mobile menu toggle (with t-panel + t-icon-swap transitions)
   const mobileBtn  = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
   const iconOpen   = document.getElementById('hamburger-icon');
   const iconClose  = document.getElementById('close-icon');
 
   if (mobileBtn && mobileMenu) {
+    // Add t-panel + t-icon-swap class hooks. Tailwind's `hidden` keeps the
+    // breakpoint hide (>1024px) intact; on mobile widths the t-panel classes
+    // drive the open/close animation.
+    mobileMenu.classList.add('t-panel');
+    if (iconOpen && iconClose) {
+      mobileBtn.classList.add('t-icon-swap');
+      iconClose.classList.remove('hidden');
+      iconClose.classList.add('is-leaving');
+    }
+
+    let menuClosingTimer = null;
+    const dur = () => parseInt(getComputedStyle(mobileMenu).getPropertyValue('--panel-close-dur')) || 200;
+
+    const setIcon = (showingClose) => {
+      if (!iconOpen || !iconClose) return;
+      const out  = showingClose ? iconOpen  : iconClose;
+      const into = showingClose ? iconClose : iconOpen;
+      out.classList.add('is-leaving');
+      into.classList.remove('is-leaving');
+    };
+
+    mobileBtn.setAttribute('aria-controls', mobileMenu.id);
+
+    const closeMobileMenu = (returnFocus = false) => {
+      if (menuClosingTimer) { clearTimeout(menuClosingTimer); menuClosingTimer = null; }
+      mobileMenu.classList.remove('is-open');
+      mobileMenu.classList.add('is-closing');
+      mobileBtn.setAttribute('aria-expanded', 'false');
+      mobileBtn.setAttribute('aria-label', 'Open menu');
+      setIcon(false);
+      menuClosingTimer = setTimeout(() => {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('is-closing');
+        menuClosingTimer = null;
+        if (returnFocus) mobileBtn.focus();
+      }, dur());
+    };
+
+    const openMobileMenu = () => {
+      if (menuClosingTimer) { clearTimeout(menuClosingTimer); menuClosingTimer = null; }
+      mobileMenu.classList.remove('hidden');
+      void mobileMenu.offsetWidth;
+      mobileMenu.classList.remove('is-closing');
+      mobileMenu.classList.add('is-open');
+      mobileBtn.setAttribute('aria-expanded', 'true');
+      mobileBtn.setAttribute('aria-label', 'Close menu');
+      setIcon(true);
+    };
+
     mobileBtn.addEventListener('click', () => {
-      const isOpen = !mobileMenu.classList.contains('hidden');
-      mobileMenu.classList.toggle('hidden');
-      iconOpen.classList.toggle('hidden', !isOpen);
-      iconClose.classList.toggle('hidden', isOpen);
-      mobileBtn.setAttribute('aria-expanded', String(!isOpen));
+      if (mobileMenu.classList.contains('is-open')) closeMobileMenu();
+      else openMobileMenu();
     });
 
     // Close menu when a link is tapped
     mobileMenu.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-        iconOpen.classList.remove('hidden');
-        iconClose.classList.add('hidden');
-        mobileBtn.setAttribute('aria-expanded', 'false');
+        closeMobileMenu();
       });
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && mobileMenu.classList.contains('is-open')) closeMobileMenu(true);
+    });
+    document.addEventListener('click', event => {
+      if (!mobileMenu.classList.contains('is-open')) return;
+      if (!mobileMenu.contains(event.target) && !mobileBtn.contains(event.target)) closeMobileMenu();
     });
   }
 });
+
+// ── transitions-dev: Dropdown (Venues / Discover / People nav dropdowns) ──
+function initNavDropdowns() {
+  document.querySelectorAll('.rs-nav-dd').forEach(dd => {
+    const menu = dd.querySelector('.rs-nav-dd-menu');
+    const button = dd.querySelector('.rs-nav-dd-btn');
+    if (!menu || !button) return;
+    menu.classList.add('t-dropdown-menu');
+    let closeTimer = null;
+
+    const open = () => {
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+      document.querySelectorAll('.rs-nav-dd.is-open').forEach(other => {
+        if (other !== dd && typeof other._rsClose === 'function') other._rsClose();
+      });
+      dd.classList.add('is-open');
+      menu.classList.remove('is-closing');
+      menu.classList.add('is-open');
+      button.setAttribute('aria-expanded', 'true');
+    };
+    const close = (returnFocus = false) => {
+      if (!menu.classList.contains('is-open')) return;
+      dd.classList.remove('is-open');
+      menu.classList.remove('is-open');
+      menu.classList.add('is-closing');
+      button.setAttribute('aria-expanded', 'false');
+      const dur = parseInt(getComputedStyle(menu).getPropertyValue('--dropdown-close-dur')) || 120;
+      closeTimer = setTimeout(() => {
+        menu.classList.remove('is-closing');
+        closeTimer = null;
+        if (returnFocus) button.focus();
+      }, dur);
+    };
+    dd._rsClose = close;
+    /* Hover bridge: extend the open state to BOTH the parent and the menu
+       itself. Moving the mouse from button → menu now keeps `is-open`
+       active even when the cursor briefly crosses the visual gap. */
+    const enterMenu = () => { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; } open(); };
+    const leaveAll  = (e) => {
+      // Only close when leaving the parent AND the menu simultaneously
+      const to = e.relatedTarget;
+      if (to && (dd.contains(to) || menu.contains(to))) return;
+      close();
+    };
+
+    dd.addEventListener('mouseenter', open);
+    dd.addEventListener('mouseleave', leaveAll);
+    menu.addEventListener('mouseenter', enterMenu);
+    menu.addEventListener('mouseleave', leaveAll);
+    dd.addEventListener('focusin', open);
+    dd.addEventListener('focusout', e => {
+      if (!dd.contains(e.relatedTarget) && !menu.contains(e.relatedTarget)) close();
+    });
+    menu.addEventListener('focusin', enterMenu);
+
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      if (dd.classList.contains('is-open')) close();
+      else open();
+    });
+    button.addEventListener('keydown', event => {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        open();
+        menu.querySelector('a')?.focus();
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        close(true);
+      }
+    });
+    menu.addEventListener('keydown', event => {
+      const items = Array.from(menu.querySelectorAll('a'));
+      const current = items.indexOf(document.activeElement);
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        close(true);
+      } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        const direction = event.key === 'ArrowDown' ? 1 : -1;
+        items[(current + direction + items.length) % items.length]?.focus();
+      } else if (event.key === 'Home' || event.key === 'End') {
+        event.preventDefault();
+        items[event.key === 'Home' ? 0 : items.length - 1]?.focus();
+      }
+    });
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    const open = document.querySelector('.rs-nav-dd.is-open');
+    if (open && typeof open._rsClose === 'function') open._rsClose(true);
+  });
+  document.addEventListener('click', event => {
+    document.querySelectorAll('.rs-nav-dd.is-open').forEach(dd => {
+      if (!dd.contains(event.target) && typeof dd._rsClose === 'function') dd._rsClose();
+    });
+  });
+}
+
+// ── transitions-dev: Notification badge pulse on GitHub star count update ──
+function pulseStarBadge() {
+  document.querySelectorAll('.github-star-btn').forEach(btn => {
+    if (btn.querySelector('.t-badge__pulse')) return;
+    const dot = document.createElement('span');
+    dot.className = 't-badge__pulse';
+    dot.setAttribute('aria-hidden', 'true');
+    btn.classList.add('t-badge');
+    btn.appendChild(dot);
+  });
+}
+
+// ── transitions-dev: Text states swap helper ───────────────────────────
+// Usage: textSwap(el, 'new value')
+function textSwap(el, nextText) {
+  if (!el || el.textContent === nextText) return;
+  el.classList.add('is-leaving');
+  setTimeout(() => {
+    el.textContent = nextText;
+    el.classList.remove('is-leaving');
+    el.classList.add('is-entering');
+    void el.offsetWidth;
+    el.classList.remove('is-entering');
+  }, 180);
+}
+
+// ── Review comparison bridge ───────────────────────────────────────────
+function initReviewCompareBridge() {
+  const params = new URLSearchParams(location.search);
+  if (!params.has('compare')) return;
+
+  const parentOrigins = new Set(['http://127.0.0.1:8789', 'http://localhost:8789']);
+  const ownOrigin = location.origin;
+  let applyingRemoteScroll = false;
+  let remoteScrollTimer = 0;
+  let lastPostedRatio = -1;
+
+  const normalizePath = url => {
+    let path = url.pathname || '/';
+    if (path === '/index.html') path = '/';
+    return `${path}${url.search}${url.hash}`;
+  };
+
+  const scrollRatio = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    return max > 0 ? window.scrollY / max : 0;
+  };
+
+  const post = message => {
+    if (window.parent === window) return;
+    for (const origin of parentOrigins) {
+      window.parent.postMessage({ ...message, rsOrigin: ownOrigin }, origin);
+    }
+  };
+
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (!link || link.target === '_blank' || link.hasAttribute('download')) return;
+    if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    const url = new URL(link.getAttribute('href'), location.href);
+    if (url.origin !== location.origin) return;
+
+    event.preventDefault();
+    post({ type: 'researchscope:compare-route', path: normalizePath(url) });
+  });
+
+  window.addEventListener('scroll', () => {
+    if (applyingRemoteScroll) return;
+    const ratio = scrollRatio();
+    if (Math.abs(ratio - lastPostedRatio) < 0.003) return;
+    lastPostedRatio = ratio;
+    post({ type: 'researchscope:compare-scroll', ratio });
+  }, { passive: true });
+
+  window.addEventListener('message', event => {
+    if (!parentOrigins.has(event.origin)) return;
+    if (event.data?.type !== 'researchscope:apply-scroll') return;
+
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const ratio = Number(event.data.ratio || 0);
+    window.clearTimeout(remoteScrollTimer);
+    applyingRemoteScroll = true;
+    lastPostedRatio = ratio;
+    window.scrollTo({ top: Math.max(0, max) * ratio, behavior: 'auto' });
+    remoteScrollTimer = window.setTimeout(() => { applyingRemoteScroll = false; }, 220);
+  });
+
+  window.addEventListener('load', () => {
+    post({ type: 'researchscope:compare-ready', path: normalizePath(location), ratio: scrollRatio() });
+  });
+}
+
+// ── Bootstrap transitions ──────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initNavDropdowns();
+  pulseStarBadge();
+  initReviewCompareBridge();
+});
+
+// ── Theme system bootstrap ──────────────────────────────────────────────
+(function loadThemeSystem() {
+  if (document.getElementById('rs-theme-switcher-script')) return;
+  const script = document.createElement('script');
+  script.id = 'rs-theme-switcher-script';
+  script.src = 'assets/js/theme-switcher.js?v=ui-integrity-18';
+  script.defer = true;
+  document.head.appendChild(script);
+})();

@@ -6,29 +6,29 @@
   <title>Topics & Reading Paths – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-18"/>
+  <script src="assets/js/theme-bootstrap.js?v=ui-integrity-18"></script>
 </head>
 <body>
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-2">
-      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">
-        🔭 ResearchScope
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-ink);font-family:var(--rs-font-display);letter-spacing:-0.02em">
+        <span style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral)">Ø</span>
+        <span>ResearchScope<span class="rs-dot">.</span></span>
       </a>
       <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1">
-        <a href="papers">Papers</a>
-        <a href="topics">Topics</a>
-        <a href="digest">📬 Digest</a>
-        <a href="conferences">Conferences</a>
-        <a href="journals">Journals</a>
-        
-        <a href="authors">Authors</a>
-        <a href="labs">Labs &amp; Unis</a>
-        <a href="gaps">Research Gaps</a>
-        <a href="deadlines">📅 Upcoming</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">Upcoming</a>
       </div>
-      <div class="flex items-center gap-2 justify-end" style="flex:1">
-        <!-- Global search -->
+      <div id="rs-nav-actions" class="flex items-center gap-2 justify-end" style="flex:1">
         <div class="search-wrap hidden lg:block">
           <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
@@ -41,7 +41,6 @@
           Star
           <span class="github-star-count">–</span>
         </a>
-        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
         <button id="mobile-menu-btn" class="lg:hidden p-1 rounded" aria-label="Open menu" aria-expanded="false">
           <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -53,43 +52,41 @@
       </div>
     </div>
   </div>
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-border);background:var(--rs-surface)">
+  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-rule);background:var(--rs-bone)">
     <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
       <a href="./" class="mobile-nav-link">Home</a>
-      <a href="papers" class="mobile-nav-link">Papers</a>
-      <a href="topics" class="mobile-nav-link">Topics</a>
-      <a href="digest" class="mobile-nav-link">📬 Weekly Digest</a>
-      <a href="conferences" class="mobile-nav-link">Conferences</a>
-      <a href="journals" class="mobile-nav-link">Journals</a>
-      
-      <a href="authors" class="mobile-nav-link">Authors</a>
-      <a href="labs" class="mobile-nav-link">Labs &amp; Unis</a>
-      <a href="gaps" class="mobile-nav-link">Research Gaps</a>
-      <a href="deadlines" class="mobile-nav-link">📅 Upcoming Conferences</a>
+      <a href="papers.html" class="mobile-nav-link">Papers</a>
+      <a href="topics.html" class="mobile-nav-link">Topics</a>
+      <a href="digest.html" class="mobile-nav-link">Weekly Digest</a>
+      <a href="conferences.html" class="mobile-nav-link">Conferences</a>
+      <a href="journals.html" class="mobile-nav-link">Journals</a>
+      <a href="authors.html" class="mobile-nav-link">Authors</a>
+      <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines.html" class="mobile-nav-link">Upcoming Conferences</a>
     </div>
   </div>
 </nav>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <h1 class="text-2xl font-bold mb-2">🗂 Topics &amp; Reading Paths</h1>
+  <h1 class="text-2xl font-bold mb-2"> Topics &amp; Reading Paths</h1>
   <p class="text-sm mb-4" style="color:var(--rs-muted)">Click any topic to expand its reading path, prerequisites, and papers.</p>
 
   <div class="topic-view-switch mb-4" role="group" aria-label="Topic view">
-    <button type="button" class="topic-view-btn active" data-topic-view="list">List</button>
-    <button type="button" class="topic-view-btn" data-topic-view="graph">Graph</button>
-    <button type="button" class="topic-view-btn" data-topic-view="split">Split</button>
+    <button type="button" class="topic-view-btn active" data-topic-view="list" aria-pressed="true">List</button>
+    <button type="button" class="topic-view-btn" data-topic-view="graph" aria-pressed="false">Graph</button>
+    <button type="button" class="topic-view-btn" data-topic-view="split" aria-pressed="false">Split</button>
   </div>
 
   <!-- Filter bar -->
-  <div class="flex flex-wrap items-center gap-2 mb-6">
+  <div class="flex flex-wrap items-center gap-2 mb-6" role="group" aria-label="Filter topics">
     <input id="topic-search" type="search" placeholder="Filter topics…"
       class="search-input" style="max-width:220px"/>
-    <button class="topic-filter-btn active" data-diff="all">All</button>
-    <button class="topic-filter-btn" data-diff="L1">L1 Beginner</button>
-    <button class="topic-filter-btn" data-diff="L2">Intermediate</button>
-    <button class="topic-filter-btn" data-diff="L3">Advanced</button>
-    <button class="topic-filter-btn" data-diff="L4">Frontier</button>
-    <span id="topic-count" class="text-sm ml-auto" style="color:var(--rs-muted)"></span>
+    <button class="topic-filter-btn active" data-diff="all" aria-pressed="true">All</button>
+    <button class="topic-filter-btn" data-diff="L1" aria-pressed="false">L1 Beginner</button>
+    <button class="topic-filter-btn" data-diff="L2" aria-pressed="false">Intermediate</button>
+    <button class="topic-filter-btn" data-diff="L3" aria-pressed="false">Advanced</button>
+    <button class="topic-filter-btn" data-diff="L4" aria-pressed="false">Frontier</button>
+    <span id="topic-count" class="text-sm ml-auto" style="color:var(--rs-muted)" role="status" aria-live="polite"></span>
   </div>
 
   <section id="topic-graph-section" class="topic-graph-shell hidden" aria-label="Topic paper network graph">
@@ -173,7 +170,7 @@
   <div id="topics-list"><div class="spinner"></div></div>
 </div>
 <footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  <p class="font-semibold mb-2">🔭 ResearchScope</p>
+  <p class="font-semibold mb-2"> ResearchScope</p>
   <p>Open-source CS research intelligence &middot; Updated daily via GitHub Actions &middot; Built for researchers and creators</p>
   <p class="mt-3 font-medium" style="color:var(--rs-text)">Data Sources</p>
   <p class="mt-1">
@@ -188,22 +185,23 @@
     &middot; MIT License &copy; 2026 Md Kishor Morol
   </p>
 </footer>
-<script src="assets/js/app.js"></script>
-<script src="assets/js/railway-api.js"></script>
-<script src="assets/js/topic-graph.js"></script>
+<script src="assets/js/app.js?v=ui-integrity-18"></script>
+<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
+<script src="assets/js/topic-graph.js?v=ui-integrity-18"></script>
 <style>
 .topic-filter-btn {
   padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
   border: 1px solid var(--rs-border); background: var(--rs-surface); color: var(--rs-muted);
-  cursor: pointer; transition: all .15s;
+  cursor: pointer; transition: background-color .15s, border-color .15s, color .15s, transform .15s;
 }
 .topic-filter-btn.active, .topic-filter-btn:hover {
-  background: var(--rs-primary); color: #fff; border-color: var(--rs-primary);
+  background: var(--rs-primary); color: var(--rs-paper); border-color: var(--rs-primary);
 }
 .topic-accordion { border: 1px solid var(--rs-border); border-radius: 12px; margin-bottom: 8px; overflow: hidden; background: var(--rs-surface); }
 .topic-accordion-header {
   display: flex; align-items: center; gap: 10px; padding: 14px 18px;
-  cursor: pointer; user-select: none; flex-wrap: wrap;
+  cursor: pointer; user-select: none; flex-wrap: wrap; width: 100%;
+  background: transparent; border: 0; color: inherit; font: inherit; text-align: left;
 }
 .topic-accordion-header:hover { background: var(--rs-hover, rgba(0,0,0,.03)); }
 .topic-accordion-chevron { margin-left: auto; transition: transform .2s; font-size: 0.8rem; color: var(--rs-muted); }
@@ -217,10 +215,10 @@ const DIFF_LABELS = {L1:'L1 Beginner',L2:'L2 Intermediate',L3:'L3 Advanced',L4:'
 const DIFF_CLS = {L1:'badge-l1',L2:'badge-l2',L3:'badge-l3',L4:'badge-l4',
   beginner:'badge-l1',intermediate:'badge-l2',advanced:'badge-l3',frontier:'badge-l4'};
 
-function paperStub(p, icon='⭐') {
+function paperStub(p, icon='') {
   const url = p.paper_url || p.url || '#';
   return `<div class="reading-path-step">
-    <div class="path-number">${icon}</div>
+    ${icon ? `<div class="path-number">${icon}</div>` : ''}
     <div class="flex-1 min-w-0">
       <a href="${escHtml(url)}" target="_blank" class="text-sm font-medium hover:underline">${escHtml(p.title)}</a>
       <div class="flex gap-1 flex-wrap mt-0.5">
@@ -235,7 +233,7 @@ function paperStub(p, icon='⭐') {
 
 const DIFF_NORM = {beginner:'L1',intermediate:'L2',advanced:'L3',frontier:'L4',L1:'L1',L2:'L2',L3:'L3',L4:'L4'};
 
-function renderTopicAccordion(t, papersById) {
+function renderTopicAccordion(t, papersById, renderId = t.id) {
   const diff = DIFF_NORM[t.difficulty] || 'L2';
   const starters = (t.starter_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
   const frontier = (t.frontier_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
@@ -243,15 +241,15 @@ function renderTopicAccordion(t, papersById) {
   const paperCount = (t.paper_ids||[]).length;
 
   return `
-  <div class="topic-accordion" id="topic-${escHtml(t.id)}" data-diff="${escHtml(diff)}" data-name="${escHtml(t.name.toLowerCase())}">
-    <div class="topic-accordion-header" onclick="toggleAccordion(this.closest('.topic-accordion'))">
+  <div class="topic-accordion" id="topic-${escHtml(renderId)}" data-diff="${escHtml(diff)}" data-name="${escHtml(t.name.toLowerCase())}">
+    <button id="topic-trigger-${escHtml(renderId)}" type="button" class="topic-accordion-header" aria-expanded="false" aria-controls="topic-body-${escHtml(renderId)}" onclick="toggleAccordion(this.closest('.topic-accordion'),this)">
       <span class="font-semibold text-sm">${escHtml(t.name)}</span>
       <span class="badge ${DIFF_CLS[diff]||'badge-l2'} text-xs">${DIFF_LABELS[diff]||diff}</span>
-      <span class="badge badge-score text-xs">📈 ${(+t.trend_score||0).toFixed(1)}</span>
+      <span class="badge badge-score text-xs"> ${(+t.trend_score||0).toFixed(1)}</span>
       ${paperCount ? `<span class="text-xs" style="color:var(--rs-muted)">${paperCount} papers</span>` : ''}
       <span class="topic-accordion-chevron">▼</span>
-    </div>
-    <div class="topic-accordion-body">
+    </button>
+    <div id="topic-body-${escHtml(renderId)}" class="topic-accordion-body" role="region" aria-labelledby="topic-trigger-${escHtml(renderId)}">
       <div class="grid md:grid-cols-2 gap-6 pt-4">
         <div>
           <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Prerequisites</p>
@@ -269,8 +267,8 @@ function renderTopicAccordion(t, papersById) {
           <div class="flex flex-wrap gap-1">${t.keywords.slice(0,8).map(k=>`<span class="badge badge-tag">${escHtml(k)}</span>`).join('')}</div>` : ''}
         </div>
         <div>
-          ${starters.length ? `<p class="text-xs font-semibold uppercase mb-2" style="color:#10b981">📗 Start Here</p>${starters.slice(0,3).map(p=>paperStub(p,'📗')).join('')}` : ''}
-          ${frontier.length ? `<p class="text-xs font-semibold uppercase mb-2 mt-4" style="color:#7c3aed">🚀 Frontier</p>${frontier.slice(0,3).map(p=>paperStub(p,'🚀')).join('')}` : ''}
+          ${starters.length ? `<p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-success)"> Start Here</p>${starters.slice(0,3).map(p=>paperStub(p,'')).join('')}` : ''}
+          ${frontier.length ? `<p class="text-xs font-semibold uppercase mb-2 mt-4" style="color:var(--rs-coral)"> Frontier</p>${frontier.slice(0,3).map(p=>paperStub(p,'')).join('')}` : ''}
           ${!starters.length && !frontier.length ? `<p class="text-sm" style="color:var(--rs-muted)">No papers assigned yet.</p>` : ''}
         </div>
       </div>
@@ -278,12 +276,17 @@ function renderTopicAccordion(t, papersById) {
   </div>`;
 }
 
-function toggleAccordion(el) {
-  el.classList.toggle('open');
+function toggleAccordion(el, button = el?.querySelector('.topic-accordion-header')) {
+  const open = el.classList.toggle('open');
+  button?.setAttribute('aria-expanded', String(open));
 }
 function openAccordionById(id) {
   const el = document.getElementById(id);
-  if (el) { el.classList.add('open'); el.scrollIntoView({behavior:'smooth',block:'start'}); }
+  if (el) {
+    el.classList.add('open');
+    el.querySelector('.topic-accordion-header')?.setAttribute('aria-expanded', 'true');
+    el.scrollIntoView({behavior:'smooth',block:'start'});
+  }
 }
 
 // Open accordion if URL hash targets it
@@ -298,6 +301,7 @@ let _allPaperData = [];
 let _sortedTopics = [];
 let _activeTopicView = 'list';
 let _graphApi = null;
+let _graphCacheKey = '';
 let _showGraphPapers = true;
 
 function applyFilters() {
@@ -352,14 +356,28 @@ function graphFilters() {
   };
 }
 
-function renderGraphView() {
+function focusGraphHash() {
+  if (!location.hash || !_graphApi) return;
+  const hashId = location.hash.slice(1).replace(/^topic-/, '');
+  _graphApi.focusNode(`topic:${hashId}`);
+}
+
+function renderGraphView(force = false) {
   const graphLib = window.ResearchScopeTopicGraph;
   const canvas = document.getElementById('topic-graph-canvas');
   const panel = document.getElementById('topic-graph-panel');
   const statsEl = document.getElementById('topic-graph-stats');
   if (!graphLib || !canvas) return;
 
-  const graph = graphLib.buildTopicGraph(_allTopicData, _allPaperData, graphFilters());
+  const filters = graphFilters();
+  const cacheKey = JSON.stringify(filters);
+  if (!force && _graphApi && _graphCacheKey === cacheKey) {
+    focusGraphHash();
+    return;
+  }
+
+  const graph = graphLib.buildTopicGraph(_allTopicData, _allPaperData, filters);
+  _graphCacheKey = cacheKey;
   if (statsEl) {
     statsEl.innerHTML = `
       <span class="topic-graph-stat"><strong>${graph.stats.topicCount}</strong> topics</span>
@@ -370,11 +388,7 @@ function renderGraphView() {
   }
 
   _graphApi = graphLib.renderGraph(canvas, graph, { panel });
-
-  if (location.hash && _graphApi) {
-    const hashId = location.hash.slice(1).replace(/^topic-/, '');
-    _graphApi.focusNode(`topic:${hashId}`);
-  }
+  focusGraphHash();
 }
 
 const renderGraphDebounced = debounce(() => {
@@ -385,6 +399,7 @@ function setTopicView(view) {
   _activeTopicView = view;
   document.querySelectorAll('.topic-view-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.topicView === view);
+    btn.setAttribute('aria-pressed', String(btn.dataset.topicView === view));
   });
   const graphSection = document.getElementById('topic-graph-section');
   const list = document.getElementById('topics-list');
@@ -441,7 +456,12 @@ function resetGraphFilters() {
   const sorted = [...topics].sort((a,b) => (b.trend_score||0) - (a.trend_score||0)).slice(0, 1000);
   _sortedTopics = sorted;
 
-  document.getElementById('topics-list').innerHTML = sorted.map(t => renderTopicAccordion(t, papersById)).join('');
+  const renderedIds = new Map();
+  document.getElementById('topics-list').innerHTML = sorted.map(t => {
+    const occurrence = (renderedIds.get(t.id) || 0) + 1;
+    renderedIds.set(t.id, occurrence);
+    return renderTopicAccordion(t, papersById, occurrence === 1 ? t.id : `${t.id}-${occurrence}`);
+  }).join('');
   _allTopics = Array.from(document.querySelectorAll('.topic-accordion'));
   populateGraphTypeOptions(papers || []);
   applyFilters();
@@ -456,8 +476,9 @@ function resetGraphFilters() {
   // Filter buttons
   document.querySelectorAll('.topic-filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.topic-filter-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.topic-filter-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
       btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
       applyFilters();
       renderGraphDebounced();
     });
@@ -482,7 +503,7 @@ function resetGraphFilters() {
   document.getElementById('graph-fit')?.addEventListener('click', () => _graphApi?.fit());
   document.getElementById('graph-zoom-in')?.addEventListener('click', () => _graphApi?.zoomIn());
   document.getElementById('graph-zoom-out')?.addEventListener('click', () => _graphApi?.zoomOut());
-  document.getElementById('graph-layout')?.addEventListener('click', renderGraphView);
+  document.getElementById('graph-layout')?.addEventListener('click', () => renderGraphView(true));
   document.getElementById('graph-toggle-papers')?.addEventListener('click', (event) => {
     _showGraphPapers = !_showGraphPapers;
     event.currentTarget.textContent = _showGraphPapers ? 'Hide papers' : 'Show papers';
@@ -500,5 +521,3 @@ function resetGraphFilters() {
 </script>
 </body>
 </html>
-
-

@@ -96,7 +96,7 @@ jobs:
 
   deploy:
     needs: backfill
-    if: ${{ github.event.inputs.dry_run != 'true' }}
+    if: github.repository == 'kishormorol/ResearchScope' && github.event.inputs.dry_run != 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

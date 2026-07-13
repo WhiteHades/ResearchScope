@@ -6,26 +6,75 @@
   <title>Profile – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
-  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-18"/>
+  <script src="assets/js/theme-bootstrap.js?v=ui-integrity-18"></script>
 </head>
 <body>
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-2">
-      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">🔭 ResearchScope</a>
-      <div class="flex items-center gap-2 justify-end" style="flex:1">
-        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-ink);font-family:var(--rs-font-display);letter-spacing:-0.02em">
+        <span style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral)">Ø</span>
+        <span>ResearchScope<span class="rs-dot">.</span></span>
+      </a>
+      <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1">
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">Upcoming</a>
       </div>
+      <div id="rs-nav-actions" class="flex items-center gap-2 justify-end" style="flex:1">
+        <div class="search-wrap hidden lg:block">
+          <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+          </svg>
+          <input id="global-search" class="search-input" type="search" placeholder="Search papers, authors…" autocomplete="off"/>
+          <div id="search-dropdown" class="search-dropdown hidden"></div>
+        </div>
+        <a href="https://github.com/kishormorol/ResearchScope" target="_blank" rel="noopener" class="github-star-btn hidden lg:inline-flex" aria-label="Star on GitHub">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+          Star
+          <span class="github-star-count">–</span>
+        </a>
+        <button id="mobile-menu-btn" class="lg:hidden p-1 rounded" aria-label="Open menu" aria-expanded="false">
+          <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-rule);background:var(--rs-bone)">
+    <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
+      <a href="./" class="mobile-nav-link">Home</a>
+      <a href="papers.html" class="mobile-nav-link">Papers</a>
+      <a href="topics.html" class="mobile-nav-link">Topics</a>
+      <a href="digest.html" class="mobile-nav-link">Weekly Digest</a>
+      <a href="conferences.html" class="mobile-nav-link">Conferences</a>
+      <a href="journals.html" class="mobile-nav-link">Journals</a>
+      <a href="authors.html" class="mobile-nav-link">Authors</a>
+      <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines.html" class="mobile-nav-link">Upcoming Conferences</a>
     </div>
   </div>
 </nav>
 
-<main class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+<main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
   <!-- Not logged in -->
   <div id="profile-gate" class="hidden rs-card p-8 text-center">
     <p class="text-lg font-semibold mb-2">Sign in to view your profile</p>
-    <a href="signin?returnTo=profile" class="inline-block mt-2 px-5 py-2 rounded-lg text-white font-semibold text-sm" style="background:var(--rs-primary)">Sign in</a>
+    <a href="signin.html?returnTo=profile" class="inline-block mt-2 px-5 py-2 rounded-lg text-white font-semibold text-sm" style="background:var(--rs-primary)">Sign in</a>
   </div>
 
   <!-- Loading -->
@@ -37,9 +86,10 @@
     <!-- Avatar + identity -->
     <div class="rs-card p-6 flex items-center gap-5">
       <div id="profile-avatar"
-           style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#7c3aed);
-                  display:flex;align-items:center;justify-content:center;
-                  font-size:1.4rem;font-weight:800;color:#fff;flex-shrink:0">
+           style="width:56px;height:56px;border-radius:50%;background:var(--rs-paper);border:1px solid var(--rs-rule);
+                   display:flex;align-items:center;justify-content:center;
+                   font-size:1.4rem;font-weight:800;color:var(--rs-coral);flex-shrink:0;
+                  font-family:var(--rs-font-display);letter-spacing:-0.02em">
         ?
       </div>
       <div class="min-w-0">
@@ -68,45 +118,43 @@
     <!-- Edit name -->
     <div class="rs-card p-5">
       <h2 class="font-bold text-sm mb-3">Display name</h2>
-      <div class="flex gap-2">
+      <form class="flex gap-2" onsubmit="event.preventDefault();saveName()">
         <input id="name-input" class="rs-input" type="text" placeholder="Your name (optional)" autocomplete="name"/>
-        <button id="name-save-btn" onclick="saveName()"
+        <button id="name-save-btn" type="submit"
           class="px-4 py-2 rounded-lg text-sm font-semibold text-white shrink-0"
           style="background:var(--rs-primary)">Save</button>
-      </div>
-      <p id="name-status" class="text-xs mt-2 hidden"></p>
+      </form>
+      <p id="name-status" class="text-xs mt-2 hidden" role="status" aria-live="polite"></p>
     </div>
 
     <!-- Quick links -->
     <div class="rs-card p-5">
       <h2 class="font-bold text-sm mb-3">Quick links</h2>
       <div class="grid grid-cols-2 gap-2">
-        <a href="favourites" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
+        <a href="favourites.html" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
            style="background:var(--rs-bg);border:1px solid var(--rs-border)">
-          <span>⭐</span> My Favourites
+          My Favourites
         </a>
-        <a href="papers" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
+        <a href="papers.html" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
            style="background:var(--rs-bg);border:1px solid var(--rs-border)">
-          <span>📄</span> Browse Papers
+          <span></span> Browse Papers
         </a>
-        <a href="gaps" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
+        <a href="gaps.html" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
            style="background:var(--rs-bg);border:1px solid var(--rs-border)">
-          <span>🔍</span> Research Gaps
+          <span></span> Research Gaps
         </a>
-        <a href="conference-recommender" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
+        <a href="conference-recommender.html" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
            style="background:var(--rs-bg);border:1px solid var(--rs-border)">
-          <span>🎓</span> Venue Recommender
+          <span></span> Venue Recommender
         </a>
       </div>
     </div>
 
     <!-- Danger zone -->
-    <div class="rs-card p-5" style="border-color:#fecaca">
-      <h2 class="font-bold text-sm mb-1" style="color:#dc2626">Sign out</h2>
+    <div class="rs-card p-5 rs-danger-zone">
+      <h2 class="font-bold text-sm mb-1 rs-danger-text">Sign out</h2>
       <p class="text-xs mb-3" style="color:var(--rs-muted)">You can sign back in any time — your favourites and notes are saved.</p>
-      <button onclick="rsLogout()"
-        class="px-4 py-2 rounded-lg text-sm font-semibold"
-        style="background:#fef2f2;color:#dc2626;border:1.5px solid #fecaca">
+      <button onclick="rsLogout()" class="rs-danger-btn px-4 py-2 rounded-lg text-sm font-semibold">
         Sign out
       </button>
     </div>
@@ -114,8 +162,8 @@
   </div>
 </main>
 
-<script src="assets/js/app.js"></script>
-<script src="assets/js/railway-api.js"></script>
+<script src="assets/js/app.js?v=ui-integrity-18"></script>
+<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
 <script>
 (async () => {
   const loading = document.getElementById('profile-loading');
@@ -186,13 +234,13 @@ async function saveName() {
     document.getElementById('profile-name-display').textContent = user.name || user.email || '';
     document.getElementById('profile-email-display').textContent = user.name ? user.email || '' : '';
     document.getElementById('profile-avatar').textContent = (user.name || user.email || '?')[0].toUpperCase();
-    status.textContent = '✓ Name updated';
-    status.style.color = '#16a34a';
+    status.textContent = ' Name updated';
+    status.style.color = 'var(--rs-success)';
     status.classList.remove('hidden');
     setTimeout(() => status.classList.add('hidden'), 2500);
   } catch (e) {
     status.textContent = 'Could not save: ' + e.message;
-    status.style.color = '#dc2626';
+    status.style.color = 'var(--rs-danger)';
     status.classList.remove('hidden');
   } finally {
     btn.disabled = false;

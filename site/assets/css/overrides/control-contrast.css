@@ -1,0 +1,152 @@
+/* Control contrast audit layer for explicit normal, hover, and active button colors.
+   Imported by a public CSS facade. Keep this module focused; do not add unrelated selectors. */
+
+/* Control contrast audit: explicit normal and hover colors for every button-like control. */
+.rs-btn,
+.pager-btn,
+.library-link,
+.library-toggle,
+.potd-btn,
+.tweet-btn,
+.copy-link-btn,
+.star-cta-btn,
+.topic-graph-actions button,
+.topic-graph-action,
+.topic-view-btn,
+.topic-filter-btn,
+.topic-chip,
+.area-chip,
+.auth-submit,
+.auth-pwd-toggle,
+#name-save-btn,
+#profile-gate a,
+.rs-danger-btn,
+.rs-chip,
+#recommend-btn,
+#rec-sample-btn,
+#copy-shortlist-btn,
+main a[href$="recommender.html"] {
+  border-color: var(--rs-border) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink) !important;
+  text-decoration: none !important;
+}
+
+.rs-btn:hover,
+.pager-btn:hover,
+.library-link:hover,
+.library-toggle:hover,
+.potd-btn:hover,
+.tweet-btn:hover,
+.copy-link-btn:hover,
+.star-cta-btn:hover,
+.topic-graph-actions button:hover,
+.topic-graph-action:hover,
+.topic-view-btn:hover,
+.topic-filter-btn:hover,
+.topic-chip:hover,
+.area-chip:hover,
+.auth-submit:hover,
+.auth-pwd-toggle:hover,
+#name-save-btn:hover,
+#profile-gate a:hover,
+.rs-danger-btn:hover,
+.rs-chip:hover,
+#recommend-btn:hover,
+#rec-sample-btn:hover,
+#copy-shortlist-btn:hover,
+main a[href$="recommender.html"]:hover {
+  border-color: var(--rs-ink) !important;
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+}
+
+.rs-btn--primary,
+.potd-btn-primary,
+.auth-submit,
+#name-save-btn,
+#profile-gate a,
+#recommend-btn,
+.pager-btn.active,
+.library-toggle.is-active,
+.rs-chip.is-active,
+.rs-chip.active,
+.area-chip.active,
+.topic-view-btn.active,
+.topic-filter-btn.active {
+  border-color: var(--rs-coral) !important;
+  background: var(--rs-coral) !important;
+  color: var(--rs-paper) !important;
+}
+
+.rs-btn--primary:hover,
+.potd-btn-primary:hover,
+.auth-submit:hover,
+#name-save-btn:hover,
+#profile-gate a:hover,
+#recommend-btn:hover,
+.pager-btn.active:hover,
+.library-toggle.is-active:hover,
+.rs-chip.is-active:hover,
+.rs-chip.active:hover,
+.area-chip.active:hover,
+.topic-view-btn.active:hover,
+.topic-filter-btn.active:hover {
+  border-color: var(--rs-coral-deep) !important;
+  background: var(--rs-coral-deep) !important;
+  color: var(--rs-paper) !important;
+}
+
+.github-star-btn,
+.rs-nav a.github-star-btn,
+a.github-star-btn {
+  border-color: var(--rs-ink) !important;
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+  text-decoration: none !important;
+}
+
+.github-star-btn:hover,
+.rs-nav a.github-star-btn:hover,
+a.github-star-btn:hover {
+  border-color: var(--rs-coral) !important;
+  background: var(--rs-coral) !important;
+  color: var(--rs-paper) !important;
+}
+
+.github-star-count,
+.github-star-btn .github-star-count,
+.rs-nav a.github-star-btn .github-star-count,
+a.github-star-btn .github-star-count {
+  border: 1px solid var(--rs-paper) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink) !important;
+}
+
+.star-cta-btn {
+  border-color: var(--rs-mustard) !important;
+  background: var(--rs-mustard) !important;
+  color: var(--rs-ink) !important;
+}
+
+.star-cta-btn:hover {
+  border-color: var(--rs-paper) !important;
+  background: var(--rs-paper) !important;
+  color: var(--rs-ink) !important;
+}
+
+.star-cta-btn .github-star-count {
+  border-color: var(--rs-ink) !important;
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+}
+
+.star-cta-btn:hover .github-star-count {
+  border-color: var(--rs-ink) !important;
+  background: var(--rs-ink) !important;
+  color: var(--rs-paper) !important;
+}
+
+.text-red-500 {
+  color: var(--rs-danger) !important;
+}
