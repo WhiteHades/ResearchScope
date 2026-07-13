@@ -49,6 +49,14 @@
     return sessions.filter((session) => String(session?.id) !== String(sessionId));
   }
 
+  function paperLoadPercent(pdfPercent, contextPercent, includeContext) {
+    const clamp = (value) => Math.min(100, Math.max(0, Number(value) || 0));
+    const pdf = clamp(pdfPercent);
+    if (!includeContext) return Math.round(pdf);
+    const context = clamp(contextPercent);
+    return Math.round((pdf * 0.7) + (context * 0.3));
+  }
+
   function displayCitationLabels(value) {
     return String(value || '').replace(/\[S(\d+)\]/g, '[$1]');
   }
@@ -105,6 +113,6 @@
 
   return {
     citationPage, clampViewerPage, clampViewerZoom, consumeSse, displayAnswerText,
-    displayCitationLabels, removeSessionById, safeViewerUrl, workspaceUrl,
+    displayCitationLabels, paperLoadPercent, removeSessionById, safeViewerUrl, workspaceUrl,
   };
 });

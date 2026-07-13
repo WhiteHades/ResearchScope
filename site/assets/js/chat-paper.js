@@ -16,9 +16,103 @@
     generating: false,
     abortController: null,
     pollTimer: null,
+    loading: {
+      active: false,
+      pdf: 0,
+      context: 0,
+      pdfReady: false,
+      contextReady: false,
+      contextFailed: false,
+      pdfLabel: 'Downloading PDF',
+      contextLabel: 'Preparing paper context',
+      hideTimer: null,
+    },
   };
 
   const el = (id) => document.getElementById(id);
+
+  function renderPaperLoading() {
+    if (!state.loading.active) return;
+    const overlay = el('paper-loading');
+    if (!overlay) return;
+    const includeContext = api.auth.isLoggedIn();
+    const contextDone = !includeContext || state.loading.contextReady || state.loading.contextFailed;
+    const complete = state.loading.pdfReady && contextDone;
+    const combined = core.paperLoadPercent(
+      state.loading.pdf,
+      state.loading.context,
+      includeContext,
+    );
+    const percent = complete ? 100 : Math.min(99, combined);
+    el('paper-loading-title').textContent = includeContext
+      ? 'Loading paper and context'
+      : 'Loading paper';
+    el('paper-loading-phase').textContent = !state.loading.pdfReady
+      ? state.loading.pdfLabel
+      : (!contextDone ? state.loading.contextLabel : (
+        state.loading.contextFailed ? 'PDF ready · Chat context unavailable' : 'Paper and context ready'
+      ));
+    el('paper-loading-detail').textContent = !state.loading.pdfReady && !contextDone
+      ? 'Downloading the PDF while preparing grounded chat.'
+      : (!state.loading.pdfReady
+        ? 'Downloading and rendering the paper.'
+        : (!contextDone ? 'Extracting searchable text and building the paper context.' : 'Opening the workspace…'));
+    el('paper-loading-percent').textContent = `${percent}%`;
+    el('paper-loading-bar').style.width = `${percent}%`;
+    overlay.classList.remove('hidden');
+    if (complete) {
+      clearTimeout(state.loading.hideTimer);
+      state.loading.hideTimer = setTimeout(() => {
+        overlay.classList.add('hidden');
+        state.loading.active = false;
+      }, 450);
+    }
+  }
+
+  function startPaperLoading() {
+    clearTimeout(state.loading.hideTimer);
+    const includeContext = api.auth.isLoggedIn();
+    Object.assign(state.loading, {
+      active: true,
+      pdf: 0,
+      context: includeContext ? 3 : 100,
+      pdfReady: false,
+      contextReady: !includeContext,
+      contextFailed: false,
+      pdfLabel: 'Locating the PDF',
+      contextLabel: 'Checking saved paper context',
+    });
+    renderPaperLoading();
+  }
+
+  function setPdfLoading(progress, ready, label) {
+    if (!state.loading.active) return;
+    state.loading.pdf = Math.max(state.loading.pdf, Number(progress) || 0);
+    state.loading.pdfReady = state.loading.pdfReady || !!ready;
+    if (label) state.loading.pdfLabel = label;
+    renderPaperLoading();
+  }
+
+  function setContextLoading(progress, ready, label, failed) {
+    if (!state.loading.active) return;
+    state.loading.context = Math.max(state.loading.context, Number(progress) || 0);
+    state.loading.contextReady = state.loading.contextReady || !!ready;
+    state.loading.contextFailed = state.loading.contextFailed || !!failed;
+    if (label) state.loading.contextLabel = label;
+    renderPaperLoading();
+  }
+
+  function restartContextLoading() {
+    clearTimeout(state.loading.hideTimer);
+    Object.assign(state.loading, {
+      active: true,
+      context: 5,
+      contextReady: false,
+      contextFailed: false,
+      contextLabel: 'Retrying paper context preparation',
+    });
+    renderPaperLoading();
+  }
 
   function setDocumentState(label, failed) {
     const badge = el('document-state');
@@ -67,6 +161,7 @@
       el('external-pdf').href = externalUrl;
       el('external-pdf').classList.remove('hidden');
     }
+    setPdfLoading(100, true, 'PDF preview unavailable');
   }
 
   function messageNode(message) {
@@ -134,6 +229,8 @@
       const isArxiv = String(state.paper.id || '').startsWith('arxiv:') ||
         String(state.paper.source || '').toLowerCase() === 'arxiv';
       if (!isArxiv) {
+        setPdfLoading(100, true, 'Paper is not available in the arXiv reader');
+        setContextLoading(100, false, 'Paper context unavailable', true);
         el('paper-title').textContent = 'Chat with arXiv';
         el('paper-meta').textContent = 'This workspace currently supports arXiv papers only.';
         setDocumentState('arXiv only', true);
@@ -156,6 +253,8 @@
       if (viewer?.external_url) el('external-pdf').href = viewer.external_url;
       return true;
     } catch (error) {
+      setPdfLoading(100, true, 'Paper could not be loaded');
+      setContextLoading(100, false, 'Paper context unavailable', true);
       setDocumentState('Paper unavailable', true);
       el('paper-placeholder').innerHTML = '<div><h2 class="font-bold mb-2">Paper not found</h2><p>The requested paper could not be loaded.</p></div>';
       return false;
@@ -165,17 +264,20 @@
   async function preparePaper() {
     if (!state.paperId || !api.auth.isLoggedIn()) return;
     try {
+      setContextLoading(5, false, 'Checking saved paper context');
       state.document = await api.documents.status(state.paperId);
       if (state.viewerUrl || state.document.viewer_url) {
         showPdf(state.viewerUrl || state.document.viewer_url, 1);
       }
       if (state.document.status === 'ready') {
+        setContextLoading(100, true, 'Paper context ready');
         el('retry-prepare').classList.add('hidden');
         setDocumentState(`${state.document.page_count} pages · Ready`);
         setComposer(true, 'Answers are grounded in the prepared PDF.');
         return;
       }
       if (state.document.status === 'failed') {
+        setContextLoading(100, false, 'Chat context preparation failed', true);
         el('retry-prepare').classList.remove('hidden');
         setDocumentState('Preparation failed', true);
         setComposer(false, `Full PDF unavailable (${state.document.error_code || 'unknown error'}).`);
@@ -184,11 +286,20 @@
       if (state.document.status === 'not_prepared') {
         state.document = await api.documents.prepare(state.paperId);
       }
+      const contextProgress = state.document.status === 'preparing'
+        ? Math.min(92, Math.max(28, state.loading.context + 12))
+        : Math.max(12, state.loading.context);
+      setContextLoading(
+        contextProgress,
+        false,
+        state.document.status === 'preparing' ? 'Extracting and indexing paper context' : 'Paper context queued',
+      );
       setDocumentState(state.document.status === 'preparing' ? 'Preparing…' : 'Queued…');
       setComposer(false, 'Preparing the full paper for grounded chat…');
       clearTimeout(state.pollTimer);
       state.pollTimer = setTimeout(preparePaper, 1800);
     } catch (error) {
+      setContextLoading(100, false, 'Chat context unavailable', true);
       setDocumentState('Chat unavailable', true);
       setComposer(false, error.message === 'chat_disabled' ? 'Chat is disabled by the administrator.' : error.message);
     }
@@ -414,6 +525,10 @@
   }
 
   function bindEvents() {
+    window.addEventListener('researchscope:pdf-progress', (event) => {
+      const detail = event.detail || {};
+      setPdfLoading(detail.percent, detail.phase === 'ready', detail.label);
+    });
     document.querySelectorAll('.assistant-tab').forEach((button) => {
       button.addEventListener('click', () => setView(button.dataset.view));
     });
@@ -428,6 +543,7 @@
     });
     el('new-chat').addEventListener('click', newChat);
     el('retry-prepare').addEventListener('click', async () => {
+      restartContextLoading();
       el('retry-prepare').classList.add('hidden');
       setDocumentState('Queued…');
       setComposer(false, 'Retrying full PDF preparation…');
@@ -436,6 +552,7 @@
         clearTimeout(state.pollTimer);
         state.pollTimer = setTimeout(preparePaper, 1200);
       } catch (error) {
+        setContextLoading(100, false, 'Chat context unavailable', true);
         setDocumentState('Chat unavailable', true);
         setComposer(false, error.message);
       }
@@ -469,6 +586,7 @@
       setView('history');
       return;
     }
+    startPaperLoading();
     const paperLoaded = await loadPaper(state.paperId);
     if (!paperLoaded) {
       setComposer(false, 'Choose an arXiv paper to use this workspace.');

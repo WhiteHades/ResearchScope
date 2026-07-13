@@ -25,6 +25,10 @@ assert.deepEqual(
   [{ id: 'keep' }]
 );
 assert.deepEqual(core.removeSessionById(null, 'delete'), []);
+assert.equal(core.paperLoadPercent(50, 50, true), 50);
+assert.equal(core.paperLoadPercent(100, 50, true), 85);
+assert.equal(core.paperLoadPercent(42.4, 0, false), 42);
+assert.equal(core.paperLoadPercent(150, -10, true), 70);
 assert.equal(
   core.displayCitationLabels('Method [S1], results [S2][S3].'),
   'Method [1], results [2][3].'

@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
-  <link rel="stylesheet" href="assets/css/chat-paper.css?v=20260714-reader-history"/>
+  <link rel="stylesheet" href="assets/css/chat-paper.css?v=20260714-paper-loading"/>
 </head>
 <body>
 <nav class="rs-nav">
@@ -77,6 +77,20 @@
       </div>
       <iframe id="paper-frame" title="Paper PDF fallback"></iframe>
       <div id="paper-placeholder" class="paper-placeholder"><div><h2 class="font-bold mb-2">Paper viewer</h2><p>Choose a paper to open its PDF and chat history.</p></div></div>
+      <div id="paper-loading" class="paper-loading-overlay hidden" role="status" aria-live="polite">
+        <div class="paper-loading-card">
+          <div class="paper-loading-spinner" aria-hidden="true"></div>
+          <h2 id="paper-loading-title">Loading paper and context</h2>
+          <p id="paper-loading-phase">Starting the paper workspace…</p>
+          <div class="paper-loading-progress-row">
+            <div class="paper-loading-track" aria-hidden="true">
+              <span id="paper-loading-bar"></span>
+            </div>
+            <strong id="paper-loading-percent">0%</strong>
+          </div>
+          <p id="paper-loading-detail" class="paper-loading-detail">Downloading the PDF and preparing grounded chat.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -123,9 +137,9 @@
 
 <script src="assets/js/app.js"></script>
 <script src="assets/js/railway-api.js?v=20260714-history-refresh"></script>
-<script src="assets/js/chat-paper-core.js?v=20260714-history-refresh"></script>
+<script src="assets/js/chat-paper-core.js?v=20260714-paper-loading"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="assets/js/paper-pdf-viewer.js?v=20260714-reader-history"></script>
-<script src="assets/js/chat-paper.js?v=20260714-history-refresh"></script>
+<script src="assets/js/paper-pdf-viewer.js?v=20260714-paper-loading"></script>
+<script src="assets/js/chat-paper.js?v=20260714-paper-loading"></script>
 </body>
 </html>

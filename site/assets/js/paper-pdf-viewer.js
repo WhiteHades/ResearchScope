@@ -16,6 +16,12 @@
     scrollFrame: null,
   };
 
+  function reportProgress(phase, percent, label) {
+    window.dispatchEvent(new CustomEvent('researchscope:pdf-progress', {
+      detail: { phase, percent, label },
+    }));
+  }
+
   function bindElements() {
     elements.scroll = document.getElementById('pdf-scroll');
     elements.pages = document.getElementById('pdf-pages');
@@ -173,6 +179,7 @@
     elements.frame.style.display = 'block';
     elements.placeholder.style.display = 'none';
     setControlsEnabled(false);
+    reportProgress('ready', 100, 'PDF opened in the browser viewer');
   }
 
   async function open(url, page) {
@@ -186,6 +193,7 @@
       return true;
     }
     try {
+      reportProgress('downloading', 2, 'Downloading PDF');
       state.generation += 1;
       state.observer?.disconnect();
       state.document?.destroy();
@@ -200,12 +208,19 @@
       elements.placeholder.style.display = 'grid';
       elements.placeholder.innerHTML = '<div><div class="pdf-loading-mark" aria-hidden="true">▤</div><h2 class="font-bold mb-2">Opening paper</h2><p>Preparing the reading view…</p></div>';
       const task = pdfjs.getDocument({ url, withCredentials: false });
+      task.onProgress = ({ loaded, total }) => {
+        const ratio = total > 0 ? loaded / total : 0;
+        const percent = total > 0 ? Math.min(78, 5 + Math.round(ratio * 73)) : 18;
+        reportProgress('downloading', percent, 'Downloading PDF');
+      };
       state.document = await task.promise;
+      reportProgress('rendering', 86, 'Building the PDF reading view');
       state.page = core.clampViewerPage(state.page, state.document.numPages);
       elements.placeholder.style.display = 'none';
       setControlsEnabled(true);
       updateControls();
       await buildPageShells(state.page);
+      reportProgress('ready', 100, 'PDF ready');
       return true;
     } catch (_) {
       showFallback(url, page);
