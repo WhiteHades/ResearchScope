@@ -15,6 +15,16 @@ assert.deepEqual(first.events[0], { type: 'delta', data: { text: 'Hello' } });
 assert.equal(first.rest, 'partial');
 assert.equal(core.citationPage(first.events[1].data.citations[0]), 4);
 assert.equal(core.citationPage({ page_start: 0 }), 1);
+assert.equal(core.clampViewerPage(7, 5), 5);
+assert.equal(core.clampViewerPage(-2, 5), 1);
+assert.equal(core.clampViewerZoom(0.1), 0.6);
+assert.equal(core.clampViewerZoom(3), 2.25);
+assert.equal(core.clampViewerZoom(1.234), 1.25);
+assert.deepEqual(
+  core.removeSessionById([{ id: 'keep' }, { id: 'delete' }], 'delete'),
+  [{ id: 'keep' }]
+);
+assert.deepEqual(core.removeSessionById(null, 'delete'), []);
 assert.equal(
   core.displayCitationLabels('Method [S1], results [S2][S3].'),
   'Method [1], results [2][3].'

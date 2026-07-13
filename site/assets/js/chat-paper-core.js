@@ -33,6 +33,22 @@
     return Number.isFinite(page) && page > 0 ? page : 1;
   }
 
+  function clampViewerPage(value, totalPages) {
+    const total = Math.max(1, Number(totalPages) || 1);
+    const page = Math.round(Number(value) || 1);
+    return Math.min(total, Math.max(1, page));
+  }
+
+  function clampViewerZoom(value) {
+    const zoom = Number(value) || 1;
+    return Math.min(2.25, Math.max(0.6, Math.round(zoom * 20) / 20));
+  }
+
+  function removeSessionById(sessions, sessionId) {
+    if (!Array.isArray(sessions)) return [];
+    return sessions.filter((session) => String(session?.id) !== String(sessionId));
+  }
+
   function displayCitationLabels(value) {
     return String(value || '').replace(/\[S(\d+)\]/g, '[$1]');
   }
@@ -88,6 +104,7 @@
   }
 
   return {
-    citationPage, consumeSse, displayAnswerText, displayCitationLabels, safeViewerUrl, workspaceUrl,
+    citationPage, clampViewerPage, clampViewerZoom, consumeSse, displayAnswerText,
+    displayCitationLabels, removeSessionById, safeViewerUrl, workspaceUrl,
   };
 });

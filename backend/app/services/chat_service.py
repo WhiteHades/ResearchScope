@@ -53,6 +53,37 @@ _SUBSCRIPT_BRACED_RE = re.compile(r"_\{([0-9+\-=()]+)\}")
 _SUBSCRIPT_SIMPLE_RE = re.compile(r"_([0-9+\-=()])")
 _SUPERSCRIPT_CHARS = str.maketrans("0123456789+-=()", "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾")
 _SUBSCRIPT_CHARS = str.maketrans("0123456789+-=()", "₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎")
+_CITATION_TERM_RE = re.compile(r"[a-z][a-z0-9-]{3,}")
+_CITATION_STOP_WORDS = {
+    "about",
+    "after",
+    "also",
+    "answer",
+    "authors",
+    "because",
+    "before",
+    "being",
+    "between",
+    "could",
+    "from",
+    "have",
+    "into",
+    "main",
+    "more",
+    "paper",
+    "results",
+    "should",
+    "shows",
+    "their",
+    "these",
+    "they",
+    "this",
+    "through",
+    "using",
+    "were",
+    "which",
+    "with",
+}
 _INSUFFICIENT_EVIDENCE_RESPONSE = (
     "I couldn't find enough evidence in this paper to answer that. "
     "Try asking about a specific section, method, experiment, or result."
@@ -148,6 +179,7 @@ def build_system_prompt(
     chunks: list[RetrievedChunk],
     *,
     visual_page_numbers: list[int] | None = None,
+    query_mode: str = "local",
 ) -> str:
     sources = []
     for index, chunk in enumerate(chunks, start=1):
@@ -167,6 +199,19 @@ def build_system_prompt(
             f"{pages} are additional evidence. Cite an [S#] source from the same "
             "page for claims read from an attached image.\n"
         )
+    global_guidance = ""
+    if query_mode == "global":
+        global_guidance = f"""
+Whole-paper request:
+- The user asked for a summary, overview, main argument, or contribution.
+- The SOURCE PACKET contains ordered context from across the prepared paper.
+- Provide a useful synthesis; do not refuse merely because the request is broad.
+- Cover the problem, approach, principal contributions or findings, and explicit
+  limitations when those elements appear in the packet.
+- Prefer 3-6 concise paragraphs or bullets, each with direct [S#] support.
+- Use "{_INSUFFICIENT_EVIDENCE_RESPONSE}" only when the packet is actually empty
+  or unrelated to the requested paper.
+"""
     return f"""Role: You are ResearchScope, an evidence-grounded paper assistant.
 
 Goal: Answer the current question using only the SOURCE PACKET below.
@@ -196,6 +241,7 @@ Stop rules:
   "{_INSUFFICIENT_EVIDENCE_RESPONSE}"
 - If evidence is partial, answer only the supported part and clearly state what
   could not be verified from the retrieved excerpts.
+{global_guidance}
 
 Output:
 - Lead with a direct answer, then add only useful supporting detail.
@@ -229,6 +275,78 @@ def answer_has_citation_coverage(answer: str, chunks: list[RetrievedChunk]) -> b
         if not citations_from_answer(block, chunks):
             return False
     return True
+
+
+def _citation_terms(value: str) -> set[str]:
+    return {
+        term
+        for term in _CITATION_TERM_RE.findall(value.lower())
+        if term not in _CITATION_STOP_WORDS
+    }
+
+
+def _is_substantive_block(block: str) -> bool:
+    block = block.strip()
+    if not block or len(block) < 20 or not re.search(r"[A-Za-z]", block):
+        return False
+    return not (block.endswith(":") and len(block) < 100)
+
+
+def _best_source_number(block: str, chunks: list[RetrievedChunk]) -> int | None:
+    block_terms = _citation_terms(_SOURCE_RE.sub("", block))
+    if not block_terms:
+        return None
+    best_number: int | None = None
+    best_score = 0.0
+    for source_number, chunk in enumerate(chunks, start=1):
+        chunk_terms = _citation_terms(chunk.content)
+        overlap = block_terms & chunk_terms
+        if len(overlap) < 2:
+            continue
+        score = len(overlap) / max(1.0, len(block_terms) ** 0.5)
+        if score > best_score:
+            best_score = score
+            best_number = source_number
+    return best_number
+
+
+def repair_missing_citations(answer: str, chunks: list[RetrievedChunk]) -> str:
+    """Attach only evidence labels with meaningful lexical support."""
+    repaired: list[str] = []
+    for part in re.split(r"(\n+)", answer):
+        block = part.strip()
+        if (
+            not _is_substantive_block(block)
+            or citations_from_answer(block, chunks)
+            or not block
+        ):
+            repaired.append(part)
+            continue
+        source_number = _best_source_number(block, chunks)
+        repaired.append(
+            f"{part.rstrip()} [S{source_number}]" if source_number else part
+        )
+    return "".join(repaired).strip()
+
+
+def retain_cited_answer(answer: str, chunks: list[RetrievedChunk]) -> str:
+    """Keep supported blocks instead of replacing the entire answer."""
+    retained: list[str] = []
+    pending_headers: list[str] = []
+    for block in re.split(r"\n+", answer):
+        stripped = block.strip()
+        if not stripped:
+            continue
+        if not _is_substantive_block(stripped):
+            pending_headers.append(stripped)
+            continue
+        if citations_from_answer(stripped, chunks):
+            retained.extend(pending_headers)
+            pending_headers = []
+            retained.append(stripped)
+        else:
+            pending_headers = []
+    return "\n".join(retained).strip()
 
 
 def build_user_prompt(question: str, history: list[tuple[str, str]]) -> str:
@@ -478,7 +596,10 @@ async def start_turn(
         provider=config.provider,
         model=config.model,
         system_prompt=build_system_prompt(
-            paper, chunks, visual_page_numbers=visual_page_numbers
+            paper,
+            chunks,
+            visual_page_numbers=visual_page_numbers,
+            query_mode=query_mode,
         ),
         provider_messages=provider_messages,
         chunks=chunks,
@@ -548,6 +669,10 @@ async def stream_chat_turn(
         )
         if not answer:
             raise ProviderRequestError("provider_empty_response")
+        if answer != _INSUFFICIENT_EVIDENCE_RESPONSE:
+            answer = repair_missing_citations(answer, turn.chunks)
+            if not answer_has_citation_coverage(answer, turn.chunks):
+                answer = retain_cited_answer(answer, turn.chunks)
         citations = citations_from_answer(answer, turn.chunks)
         if not citations or not answer_has_citation_coverage(answer, turn.chunks):
             answer = _INSUFFICIENT_EVIDENCE_RESPONSE

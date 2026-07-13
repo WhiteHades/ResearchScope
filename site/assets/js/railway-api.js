@@ -479,8 +479,8 @@ window._rs_api = {
     createSession: (paperId) => _apiFetch('/chat/sessions', {
       method: 'POST', body: JSON.stringify({ paper_id: paperId }),
     }),
-    listSessions: (opts = {}) => _apiFetch(`/chat/sessions?${new URLSearchParams(opts)}`),
-    getSession: (id) => _apiFetch(`/chat/sessions/${encodeURIComponent(id)}`),
+    listSessions: (opts = {}) => _apiFetch(`/chat/sessions?${new URLSearchParams(opts)}`, { cache: 'no-store' }),
+    getSession: (id) => _apiFetch(`/chat/sessions/${encodeURIComponent(id)}`, { cache: 'no-store' }),
     updateSession: (id, data) => _apiFetch(`/chat/sessions/${encodeURIComponent(id)}`, {
       method: 'PATCH', body: JSON.stringify(data),
     }),

@@ -8,19 +8,63 @@ html, body { height: 100%; overflow: hidden; }
 .paper-pane, .assistant-pane { min-width: 0; min-height: 0; }
 .paper-pane { display: flex; flex-direction: column; border-right: 1px solid var(--rs-border); }
 .paper-toolbar, .assistant-toolbar {
-  min-height: 4.25rem; padding: .65rem 1rem; background: var(--rs-surface);
+  min-height: 3.35rem; padding: .45rem .75rem; background: var(--rs-surface);
   border-bottom: 1px solid var(--rs-border); display: flex; align-items: center; gap: .75rem;
 }
+.paper-mode {
+  align-self: stretch; display: inline-flex; align-items: center; gap: .4rem; padding: 0 .35rem;
+  color: var(--rs-primary); border-bottom: 2px solid var(--rs-primary); font-size: .77rem; font-weight: 750;
+}
+.paper-mode-icon { font-size: 1rem; }
 .paper-heading { min-width: 0; flex: 1; }
-.paper-heading h1 { font-size: .95rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.paper-heading p { font-size: .72rem; color: var(--rs-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.paper-heading h1 { font-size: .78rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.paper-heading p { font-size: .65rem; color: var(--rs-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .document-state { font-size: .72rem; padding: .25rem .55rem; border-radius: 999px; background: var(--rs-primary-50); color: var(--rs-primary); white-space: nowrap; }
 .document-state.failed { background: #fee2e2; color: #b91c1c; }
 [data-theme="dark"] .document-state.failed { background: #450a0a; color: #fca5a5; }
-.paper-frame-wrap { flex: 1; min-height: 0; position: relative; background: #202124; }
+.pdf-toolbar {
+  min-height: 2.55rem; padding: .35rem .65rem; display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: .65rem; border-bottom: 1px solid var(--rs-border); background: #11100f; color: #dedbd8;
+}
+.pdf-toolbar-group { display: flex; align-items: center; gap: .3rem; }
+.pdf-toolbar-group:last-child { justify-content: flex-end; }
+.pdf-toolbar-title {
+  max-width: 14rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: #aaa4a0; font-size: .69rem; font-weight: 650; letter-spacing: .02em;
+}
+.pdf-tool-button, .pdf-fit-button {
+  min-width: 1.9rem; height: 1.85rem; padding: 0 .42rem; display: inline-grid; place-items: center;
+  border: 1px solid transparent; border-radius: .38rem; background: transparent; color: inherit; font-size: .9rem;
+}
+.pdf-tool-button:hover, .pdf-fit-button:hover { border-color: #4a4744; background: #211f1e; }
+.pdf-tool-button:disabled, .pdf-fit-button:disabled { opacity: .35; cursor: default; }
+.pdf-fit-button { width: auto; font-size: .66rem; font-weight: 650; }
+.pdf-page-control { display: flex; align-items: center; gap: .3rem; color: #8f8b88; font-size: .68rem; }
+#pdf-page-number {
+  width: 2.4rem; height: 1.7rem; padding: 0 .3rem; border: 1px solid #3f3c39; border-radius: .3rem;
+  background: #1f1d1c; color: #f5f2ef; text-align: center; font-size: .7rem; outline: none;
+}
+#pdf-page-number:focus { border-color: var(--rs-primary); }
+#pdf-page-number::-webkit-inner-spin-button, #pdf-page-number::-webkit-outer-spin-button { appearance: none; margin: 0; }
+.pdf-zoom-value { min-width: 2.55rem; color: #aaa4a0; text-align: center; font-size: .65rem; font-variant-numeric: tabular-nums; }
+.paper-frame-wrap { flex: 1; min-height: 0; position: relative; background: #171615; }
+.pdf-scroll { width: 100%; height: 100%; overflow: auto; scroll-behavior: smooth; scrollbar-color: #5c5854 #1b1a19; }
+.pdf-scroll:focus-visible { outline: 2px solid var(--rs-primary); outline-offset: -2px; }
+.pdf-pages { min-height: 100%; display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 1rem 1.5rem 3rem; }
+.pdf-page {
+  position: relative; flex: none; max-width: 100%; overflow: hidden; background: #242220;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 9px 24px rgba(0,0,0,.24);
+}
+.pdf-page::before {
+  content: attr(aria-label); position: absolute; inset: 0; display: grid; place-items: center;
+  color: #746f6b; font-size: .7rem; font-weight: 650;
+}
+.pdf-page-canvas { position: relative; z-index: 1; display: block; max-width: none; }
+[data-theme="dark"] .pdf-page-canvas { filter: invert(.9) hue-rotate(180deg) contrast(.94); }
 #paper-frame { width: 100%; height: 100%; border: 0; display: none; }
 .paper-placeholder { position: absolute; inset: 0; display: grid; place-items: center; padding: 2rem; text-align: center; color: #d1d5db; }
 .paper-placeholder > div { max-width: 32rem; }
+.pdf-loading-mark { margin-bottom: .55rem; color: var(--rs-primary); font-size: 1.6rem; }
 .assistant-pane { display: flex; flex-direction: column; background: var(--rs-surface); }
 .assistant-toolbar { justify-content: space-between; }
 .assistant-tabs { display: flex; align-self: stretch; gap: 1rem; }
@@ -61,6 +105,7 @@ html, body { height: 100%; overflow: hidden; }
 .history-actions { display: flex; gap: .4rem; margin-top: .5rem; }
 .history-actions button { border: 0; background: transparent; color: var(--rs-muted); font-size: .68rem; }
 .history-actions button:hover { color: var(--rs-primary); }
+.history-actions button:disabled { opacity: .5; cursor: wait; }
 .history-danger { color: #dc2626 !important; }
 .history-footer { padding: .75rem; border-top: 1px solid var(--rs-border); }
 .mobile-pane-tabs { display: none; }
@@ -73,8 +118,16 @@ html, body { height: 100%; overflow: hidden; }
   .paper-pane, .assistant-pane { height: 100%; border-right: 0; }
   .mobile-hidden { display: none !important; }
 }
+@media (max-width: 720px) {
+  .pdf-toolbar { grid-template-columns: 1fr auto; }
+  .pdf-toolbar-title { display: none; }
+  .pdf-pages { padding-inline: .75rem; }
+}
 @media (max-width: 560px) {
   .suggestions { grid-template-columns: 1fr; }
   .paper-toolbar, .assistant-toolbar { padding-inline: .7rem; }
+  .paper-mode { display: none; }
+  .document-state { display: none; }
+  .pdf-fit-button { display: none; }
   .message-bubble { max-width: 96%; }
 }

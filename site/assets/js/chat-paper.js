@@ -39,9 +39,13 @@
       return false;
     }
     const clean = safeUrl.split('#')[0];
-    el('paper-frame').src = `${clean}#page=${page || 1}`;
-    el('paper-frame').style.display = 'block';
-    el('paper-placeholder').style.display = 'none';
+    if (window.ResearchScopePdfViewer) {
+      window.ResearchScopePdfViewer.open(clean, page || 1);
+    } else {
+      el('paper-frame').src = `${clean}#page=${page || 1}`;
+      el('paper-frame').style.display = 'block';
+      el('paper-placeholder').style.display = 'none';
+    }
     el('external-pdf').href = clean;
     el('external-pdf').classList.remove('hidden');
     return true;
@@ -56,6 +60,7 @@
 
     el('paper-frame').removeAttribute('src');
     el('paper-frame').style.display = 'none';
+    el('pdf-scroll').style.display = 'none';
     el('paper-placeholder').style.display = 'grid';
     el('paper-placeholder').innerHTML = '<div><h2 class="font-bold mb-2">PDF preview unavailable</h2><p>This publisher does not allow its PDF to be embedded.</p></div>';
     if (externalUrl) {
@@ -136,6 +141,7 @@
         return false;
       }
       el('paper-title').textContent = state.paper.title;
+      el('pdf-toolbar-title').textContent = state.paper.title;
       const authors = (state.paper.authors || []).slice(0, 4).join(', ');
       el('paper-meta').textContent = [authors, state.paper.venue, state.paper.year].filter(Boolean).join(' · ');
       document.title = `${state.paper.title} – ResearchScope`;
@@ -247,7 +253,10 @@
       const remove = document.createElement('button');
       remove.className = 'history-danger';
       remove.textContent = 'Delete';
-      remove.addEventListener('click', () => deleteSession(session));
+      remove.addEventListener('click', (event) => {
+        event.stopPropagation();
+        deleteSession(session, remove);
+      });
       actions.append(rename, remove);
       item.append(main, actions);
       root.appendChild(item);
@@ -273,11 +282,29 @@
     await loadSessions();
   }
 
-  async function deleteSession(session) {
+  async function deleteSession(session, button) {
     if (!window.confirm(`Delete “${session.title}”?`)) return;
-    await api.chat.deleteSession(session.id);
-    if (state.session?.id === session.id) newChat();
-    await loadSessions();
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Deleting…';
+    }
+    try {
+      await api.chat.deleteSession(session.id);
+    } catch (error) {
+      if (button) {
+        button.disabled = false;
+        button.textContent = 'Delete';
+        button.title = error.message || 'Could not delete this chat.';
+      }
+      return;
+    }
+    state.sessions = core.removeSessionById(state.sessions, session.id);
+    if (state.session?.id === session.id) {
+      state.session = null;
+      state.messages = [];
+      renderMessages();
+    }
+    renderHistory();
   }
 
   function newChat() {
@@ -426,8 +453,11 @@
     el('delete-all-chats').addEventListener('click', async () => {
       if (!api.auth.isLoggedIn() || !window.confirm('Delete all of your paper chats?')) return;
       await api.chat.deleteAllSessions();
-      newChat();
-      await loadSessions();
+      state.sessions = [];
+      state.session = null;
+      state.messages = [];
+      renderMessages();
+      renderHistory();
     });
   }
 

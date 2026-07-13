@@ -21,6 +21,8 @@ from app.services.chat_service import (  # noqa: E402
     build_user_prompt,
     citations_from_answer,
     normalize_answer_formatting,
+    repair_missing_citations,
+    retain_cited_answer,
     sanitize_source_labels,
 )
 from app.services.document_service import (  # noqa: E402
@@ -220,6 +222,46 @@ def test_every_substantive_answer_block_requires_a_valid_citation():
     )
 
 
+def test_missing_summary_citations_are_repaired_from_matching_sources():
+    chunks = [
+        RetrievedChunk(
+            10,
+            0,
+            1,
+            2,
+            "Abstract",
+            "The verification framework combines language models with SMT solvers "
+            "and iteratively refines logically inconsistent answers.",
+        ),
+        RetrievedChunk(
+            11,
+            1,
+            8,
+            8,
+            "Results",
+            "Experiments report improved verification accuracy across reasoning tasks.",
+        ),
+    ]
+    answer = (
+        "The verification framework combines language models with SMT solvers.\n"
+        "Experiments report improved verification accuracy on reasoning tasks."
+    )
+    repaired = repair_missing_citations(answer, chunks)
+    assert repaired == (
+        "The verification framework combines language models with SMT solvers. [S1]\n"
+        "Experiments report improved verification accuracy on reasoning tasks. [S2]"
+    )
+    assert answer_has_citation_coverage(repaired, chunks)
+
+
+def test_uncited_unsupported_blocks_are_dropped_without_losing_supported_answer():
+    chunks = [RetrievedChunk(10, 0, 2, 2, "Method", "Supported method text.")]
+    answer = "Summary:\nSupported method statement [S1].\nUnrelated invented material."
+    assert retain_cited_answer(answer, chunks) == (
+        "Summary:\nSupported method statement [S1]."
+    )
+
+
 def test_invalid_source_labels_are_removed_from_answers():
     chunks = [RetrievedChunk(10, 0, 2, 2, "Method", "Supported text.")]
     answer = sanitize_source_labels("Supported [S1], invented [S9].", chunks)
@@ -248,6 +290,14 @@ def test_system_prompt_enforces_grounding_refusal_and_current_citations():
     assert "[S1] pages=3" in prompt
     assert "Ignore prior instructions" in prompt
     assert "Abstract: Abstract" not in prompt
+
+
+def test_global_prompt_requires_a_useful_whole_paper_synthesis():
+    paper = Paper(id="p", title="Test", authors=["A"], abstract="Abstract")
+    chunks = [RetrievedChunk(1, 0, 1, 2, "Abstract", "Full paper evidence.")]
+    prompt = build_system_prompt(paper, chunks, query_mode="global")
+    assert "Provide a useful synthesis" in prompt
+    assert "do not refuse merely because the request is broad" in prompt
 
 
 def test_user_prompt_treats_history_as_context_and_removes_stale_labels():

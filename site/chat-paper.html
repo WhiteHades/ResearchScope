@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
-  <link rel="stylesheet" href="assets/css/chat-paper.css"/>
+  <link rel="stylesheet" href="assets/css/chat-paper.css?v=20260714-reader-history"/>
 </head>
 <body>
 <nav class="rs-nav">
@@ -41,6 +41,10 @@
 <main class="chat-workspace">
   <section id="paper-pane" class="paper-pane" aria-label="Paper viewer">
     <div class="paper-toolbar">
+      <div class="paper-mode" aria-label="Active document view">
+        <span class="paper-mode-icon" aria-hidden="true">▤</span>
+        <span>Paper</span>
+      </div>
       <div class="paper-heading">
         <h1 id="paper-title">Select a paper</h1>
         <p id="paper-meta">Open a paper from ResearchScope to begin.</p>
@@ -49,8 +53,29 @@
       <button id="retry-prepare" class="chat-action hidden">Retry</button>
       <a id="external-pdf" class="chat-action hidden" target="_blank" rel="noopener">Open PDF</a>
     </div>
+    <div id="pdf-toolbar" class="pdf-toolbar" aria-label="PDF controls">
+      <div class="pdf-toolbar-group">
+        <button id="pdf-prev" class="pdf-tool-button" type="button" aria-label="Previous page">‹</button>
+        <label class="pdf-page-control" aria-label="Current PDF page">
+          <input id="pdf-page-number" type="number" min="1" value="1" inputmode="numeric"/>
+          <span>/</span>
+          <span id="pdf-page-count">—</span>
+        </label>
+        <button id="pdf-next" class="pdf-tool-button" type="button" aria-label="Next page">›</button>
+      </div>
+      <div class="pdf-toolbar-title" id="pdf-toolbar-title">Paper reader</div>
+      <div class="pdf-toolbar-group">
+        <button id="pdf-zoom-out" class="pdf-tool-button" type="button" aria-label="Zoom out">−</button>
+        <span id="pdf-zoom-value" class="pdf-zoom-value">100%</span>
+        <button id="pdf-zoom-in" class="pdf-tool-button" type="button" aria-label="Zoom in">＋</button>
+        <button id="pdf-fit-width" class="pdf-fit-button" type="button">Fit width</button>
+      </div>
+    </div>
     <div class="paper-frame-wrap">
-      <iframe id="paper-frame" title="Paper PDF"></iframe>
+      <div id="pdf-scroll" class="pdf-scroll" tabindex="0" aria-label="PDF document">
+        <div id="pdf-pages" class="pdf-pages"></div>
+      </div>
+      <iframe id="paper-frame" title="Paper PDF fallback"></iframe>
       <div id="paper-placeholder" class="paper-placeholder"><div><h2 class="font-bold mb-2">Paper viewer</h2><p>Choose a paper to open its PDF and chat history.</p></div></div>
     </div>
   </section>
@@ -97,8 +122,10 @@
 </main>
 
 <script src="assets/js/app.js"></script>
-<script src="assets/js/railway-api.js?v=20260712-local-api"></script>
-<script src="assets/js/chat-paper-core.js"></script>
-<script src="assets/js/chat-paper.js"></script>
+<script src="assets/js/railway-api.js?v=20260714-history-refresh"></script>
+<script src="assets/js/chat-paper-core.js?v=20260714-history-refresh"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="assets/js/paper-pdf-viewer.js?v=20260714-reader-history"></script>
+<script src="assets/js/chat-paper.js?v=20260714-history-refresh"></script>
 </body>
 </html>
