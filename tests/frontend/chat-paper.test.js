@@ -25,6 +25,13 @@ assert.deepEqual(
   [{ id: 'keep' }]
 );
 assert.deepEqual(core.removeSessionById(null, 'delete'), []);
+const sendState = { submitting: false, generating: false };
+assert.equal(core.claimSendSlot(sendState), true);
+assert.equal(sendState.submitting, true);
+assert.equal(core.claimSendSlot(sendState), false);
+sendState.submitting = false;
+sendState.generating = true;
+assert.equal(core.claimSendSlot(sendState), false);
 assert.equal(core.paperLoadPercent(50, 50, true), 50);
 assert.equal(core.paperLoadPercent(100, 50, true), 85);
 assert.equal(core.paperLoadPercent(42.4, 0, false), 42);

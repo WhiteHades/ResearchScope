@@ -13,6 +13,7 @@
     sessions: [],
     messages: [],
     viewerUrl: '',
+    submitting: false,
     generating: false,
     abortController: null,
     pollTimer: null,
@@ -437,18 +438,30 @@
   async function sendMessage() {
     const input = el('chat-input');
     const content = input.value.trim();
-    if (!content || state.generating || state.document?.status !== 'ready') return;
+    if (!content || state.document?.status !== 'ready') return;
     if (!api.auth.isLoggedIn()) {
       window.rsOpenModal(`chat-paper?id=${encodeURIComponent(state.paperId)}`);
       return;
     }
-    const session = await ensureSession();
+    if (!core.claimSendSlot(state)) return;
+    el('send-message').disabled = true;
+
+    let session;
+    try {
+      session = await ensureSession();
+    } catch (error) {
+      state.submitting = false;
+      setComposer(true, `Could not start chat: ${error.message}`);
+      return;
+    }
+
     const requestId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
     const userId = `local-user-${requestId}`;
     const assistantId = `local-assistant-${requestId}`;
     appendMessage({ id: userId, role: 'user', content, citations: [], status: 'complete' });
     appendMessage({ id: assistantId, role: 'assistant', content: '', citations: [], status: 'pending' });
     input.value = '';
+    state.submitting = false;
     state.generating = true;
     state.abortController = new AbortController();
     el('send-message').textContent = '■';
@@ -501,6 +514,7 @@
       });
       renderMessages();
     } finally {
+      state.submitting = false;
       state.generating = false;
       state.abortController = null;
       el('send-message').textContent = '↑';
@@ -558,6 +572,7 @@
       }
     });
     el('send-message').addEventListener('click', () => {
+      if (state.submitting) return;
       if (state.generating) state.abortController?.abort();
       else sendMessage();
     });

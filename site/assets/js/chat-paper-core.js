@@ -49,6 +49,12 @@
     return sessions.filter((session) => String(session?.id) !== String(sessionId));
   }
 
+  function claimSendSlot(state) {
+    if (!state || state.submitting || state.generating) return false;
+    state.submitting = true;
+    return true;
+  }
+
   function paperLoadPercent(pdfPercent, contextPercent, includeContext) {
     const clamp = (value) => Math.min(100, Math.max(0, Number(value) || 0));
     const pdf = clamp(pdfPercent);
@@ -112,7 +118,7 @@
   }
 
   return {
-    citationPage, clampViewerPage, clampViewerZoom, consumeSse, displayAnswerText,
+    citationPage, claimSendSlot, clampViewerPage, clampViewerZoom, consumeSse, displayAnswerText,
     displayCitationLabels, paperLoadPercent, removeSessionById, safeViewerUrl, workspaceUrl,
   };
 });

@@ -35,6 +35,7 @@ from app.services.document_service import (  # noqa: E402
     render_pdf_pages,
     resolve_pdf_url,
     safe_pdf_url,
+    sanitize_extracted_text,
 )
 from app.services.paper_catalog_service import (  # noqa: E402
     PaperCatalogError,
@@ -79,6 +80,11 @@ def test_resolve_pdf_url_uses_stored_then_source_fallbacks():
 
     unsafe = Paper(id="p2", title="Paper", pdf_url="https://example.com/paper.pdf")
     assert safe_pdf_url(unsafe) is None
+
+
+def test_extracted_text_removes_database_unsafe_control_characters():
+    raw = "alpha\x00beta\x01gamma\tline\nnext\r\n\x7f\x85end"
+    assert sanitize_extracted_text(raw) == "alphabetagamma\tline\nnext\r\nend"
 
 
 def test_old_prepared_documents_are_reported_for_automatic_upgrade(monkeypatch):

@@ -210,7 +210,7 @@ With `CHAT_VERIFY_BEFORE_STREAM=true`, the provider response is buffered until t
 
 ## OpenAI provider
 
-Only OpenAI is implemented for the current feature. Groq and Anthropic are not active provider choices.
+The current feature uses OpenAI exclusively.
 
 The backend calls:
 

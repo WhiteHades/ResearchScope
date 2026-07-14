@@ -4,6 +4,7 @@ import asyncio
 import base64
 import hashlib
 import ipaddress
+import logging
 import os
 import re
 import socket
@@ -30,6 +31,9 @@ from app.services.provider_service import (
 EXTRACTOR_VERSION = "pymupdf-hybrid-v2"
 _PREPARE_SEMAPHORE = asyncio.Semaphore(2)
 _STALE_AFTER = timedelta(minutes=15)
+log = logging.getLogger(__name__)
+
+_UNSAFE_TEXT_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]")
 
 _DEFAULT_HOSTS = {
     "arxiv.org",
@@ -71,6 +75,11 @@ class DocumentPreparationError(RuntimeError):
     def __init__(self, code: str):
         super().__init__(code)
         self.code = code
+
+
+def sanitize_extracted_text(value: str) -> str:
+    """Remove control characters that PostgreSQL TEXT cannot safely store."""
+    return _UNSAFE_TEXT_RE.sub("", value)
 
 
 def _allowed_hosts() -> set[str]:
@@ -279,9 +288,10 @@ def _extract_page_blocks(document: fitz.Document) -> list[list[PageBlock]]:
         blocks: list[PageBlock] = []
         for raw in page.get_text("blocks", sort=True):
             x0, y0, x1, y1, raw_text = raw[:5]
+            raw_text = sanitize_extracted_text(str(raw_text))
             text = "\n".join(
                 " ".join(line.split())
-                for line in str(raw_text).splitlines()
+                for line in raw_text.splitlines()
                 if line.strip()
             ).strip()
             if not text:
@@ -584,6 +594,7 @@ async def prepare_document(paper_id: str) -> None:
                     document.error_code = exc.code
                     await db.commit()
             except Exception:
+                log.exception("Document preparation failed for %s", paper_id)
                 await db.rollback()
                 document = await db.get(PaperDocument, paper_id)
                 if document:
