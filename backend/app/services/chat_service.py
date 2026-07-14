@@ -29,6 +29,11 @@ from app.services.document_service import (
     render_pdf_pages,
     resolve_pdf_url,
 )
+from app.services.guardrail_service import (
+    SAFE_COMPLETION_GUIDANCE,
+    classify_intent,
+    redact_secrets,
+)
 from app.services.provider_service import (
     ProviderConfigurationError,
     ProviderRequestError,
@@ -129,7 +134,7 @@ def citations_from_answer(answer: str, chunks: list[RetrievedChunk]) -> list[dic
                 "chunk_id": chunk.id,
                 "page_start": chunk.page_start,
                 "page_end": chunk.page_end,
-                "excerpt": chunk.content[:240].strip(),
+                "excerpt": redact_secrets(chunk.content[:240]).text.strip(),
             }
         )
     return citations
@@ -180,6 +185,7 @@ def build_system_prompt(
     *,
     visual_page_numbers: list[int] | None = None,
     query_mode: str = "local",
+    safety_guidance: str = "",
 ) -> str:
     sources = []
     for index, chunk in enumerate(chunks, start=1):
@@ -188,8 +194,13 @@ def build_system_prompt(
             if chunk.page_start == chunk.page_end
             else f"{chunk.page_start}-{chunk.page_end}"
         )
-        section = f"; section={chunk.section}" if chunk.section else ""
-        sources.append(f"[S{index}] pages={pages}{section}\n{chunk.content}")
+        section = (
+            f"; section={redact_secrets(chunk.section).text}"
+            if chunk.section
+            else ""
+        )
+        source_content = redact_secrets(chunk.content).text
+        sources.append(f"[S{index}] pages={pages}{section}\n{source_content}")
     source_text = "\n\n---\n\n".join(sources)
     visual_note = ""
     if visual_page_numbers:
@@ -212,6 +223,9 @@ Whole-paper request:
 - Use "{_INSUFFICIENT_EVIDENCE_RESPONSE}" only when the packet is actually empty
   or unrelated to the requested paper.
 """
+    title = redact_secrets(paper.title).text
+    authors = redact_secrets(", ".join(paper.authors or [])).text
+    venue_year = redact_secrets(f"{paper.venue or ''} {paper.year or ''}").text
     return f"""Role: You are ResearchScope, an evidence-grounded paper assistant.
 
 Goal: Answer the current question using only the SOURCE PACKET below.
@@ -242,6 +256,7 @@ Stop rules:
 - If evidence is partial, answer only the supported part and clearly state what
   could not be verified from the retrieved excerpts.
 {global_guidance}
+{safety_guidance}
 
 Output:
 - Lead with a direct answer, then add only useful supporting detail.
@@ -252,9 +267,9 @@ Output:
 - Never cite PAPER METADATA or prior conversation.
 
 BEGIN UNTRUSTED PAPER METADATA
-Title: {paper.title}
-Authors: {", ".join(paper.authors or [])}
-Venue/year: {paper.venue or ""} {paper.year or ""}
+Title: {title}
+Authors: {authors}
+Venue/year: {venue_year}
 END UNTRUSTED PAPER METADATA
 
 BEGIN SOURCE PACKET (ONLY EVIDENCE)
@@ -357,13 +372,15 @@ def build_user_prompt(question: str, history: list[tuple[str, str]]) -> str:
         prior_conversation.append(
             {
                 "role": role,
-                "content": _SOURCE_RE.sub("", content)[:2000].strip(),
+                "content": redact_secrets(_SOURCE_RE.sub("", content))
+                .text[:2000]
+                .strip(),
             }
         )
     payload = json.dumps(
         {
             "prior_conversation": prior_conversation,
-            "current_question": question,
+            "current_question": redact_secrets(question).text,
         },
         ensure_ascii=False,
     )
@@ -388,6 +405,10 @@ async def start_turn(
         raise ChatError("chat_provider_not_configured", 503)
     if len(content) > int(os.environ.get("CHAT_MAX_INPUT_CHARS", "4000")):
         raise ChatError("message_too_long", 422)
+    content = redact_secrets(content).text
+    intent = classify_intent(content)
+    if intent.action == "block":
+        raise ChatError("request_blocked", 422)
 
     document = await db.get(PaperDocument, session.paper_id)
     if not document or document.status != "ready" or not document_is_current(document):
@@ -431,7 +452,11 @@ async def start_turn(
     )
     history.reverse()
     retrieval_context = " ".join(
-        [message.content for message in history if message.role == "user"][-2:]
+        [
+            redact_secrets(message.content).text
+            for message in history
+            if message.role == "user"
+        ][-2:]
         + [content]
     )
     query_mode = classify_query(content)
@@ -600,6 +625,11 @@ async def start_turn(
             chunks,
             visual_page_numbers=visual_page_numbers,
             query_mode=query_mode,
+            safety_guidance=(
+                SAFE_COMPLETION_GUIDANCE
+                if intent.action == "safe_complete"
+                else ""
+            ),
         ),
         provider_messages=provider_messages,
         chunks=chunks,
@@ -647,9 +677,6 @@ async def stream_chat_turn(
     started = time.perf_counter()
     answer_parts: list[str] = []
     usage = {"input_tokens": 0, "output_tokens": 0}
-    verify_before_stream = (
-        os.environ.get("CHAT_VERIFY_BEFORE_STREAM", "true").strip().lower() == "true"
-    )
     try:
         async for event, payload in stream_provider(
             turn.system_prompt, turn.provider_messages
@@ -657,8 +684,6 @@ async def stream_chat_turn(
             if event == "delta":
                 text = str(payload)
                 answer_parts.append(text)
-                if not verify_before_stream:
-                    yield sse("delta", {"text": text})
             elif event == "usage" and isinstance(payload, dict):
                 for key in usage:
                     if payload.get(key) is not None:
@@ -667,6 +692,7 @@ async def stream_chat_turn(
         answer = sanitize_source_labels(
             normalize_answer_formatting("".join(answer_parts)), turn.chunks
         )
+        answer = redact_secrets(answer).text
         if not answer:
             raise ProviderRequestError("provider_empty_response")
         if answer != _INSUFFICIENT_EVIDENCE_RESPONSE:
@@ -677,8 +703,7 @@ async def stream_chat_turn(
         if not citations or not answer_has_citation_coverage(answer, turn.chunks):
             answer = _INSUFFICIENT_EVIDENCE_RESPONSE
             citations = []
-        if verify_before_stream:
-            yield sse("delta", {"text": answer})
+        yield sse("delta", {"text": answer})
         if not usage["input_tokens"]:
             usage["input_tokens"] = max(
                 1,

@@ -206,7 +206,17 @@ Before a response is displayed and saved, the backend:
 - maps accepted labels to real stored chunk IDs and page ranges;
 - replaces an answer with the insufficient-evidence response if grounding still fails.
 
-With `CHAT_VERIFY_BEFORE_STREAM=true`, the provider response is buffered until these checks finish. The browser still receives the validated answer through SSE, but unsafe partial text is not shown first.
+The provider response is always buffered until citation and secret-leak checks finish. The browser still receives the validated answer through SSE, but unsafe partial text is not shown first.
+
+### Narrow safety guardrails
+
+- High-confidence credential shapes are redacted from questions, recent history,
+  paper metadata, source text, citation excerpts, and generated answers.
+- Topic words alone never block a request. The intent check requires an explicit
+  operational request together with a severe abuse target.
+- Academic and defensive analysis remains allowed. Requests that could enable
+  harm are answered at a supported high level without executable steps, while
+  only explicit targeted credential theft and sexual abuse of minors are blocked.
 
 ## OpenAI provider
 
@@ -309,7 +319,6 @@ OPENAI_REASONING_EFFORT=low
 OPENAI_EMBEDDING_MODEL=text-embedding-3-large
 OPENAI_EMBEDDING_DIMENSIONS=256
 CHAT_EMBEDDINGS_ENABLED=true
-CHAT_VERIFY_BEFORE_STREAM=true
 ```
 
 Optional tuning variables are documented in `.env.example`, including chunk sizes, retrieval candidate counts, visual-page limits, timeouts, PDF hosts, daily quotas, and output limits.
