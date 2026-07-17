@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+import re
 from urllib.parse import quote, urlparse
 
 import httpx
@@ -17,6 +19,48 @@ _EMBEDDABLE_PDF_HOSTS = {
     "semanticscholar.org",
     "pdfs.semanticscholar.org",
 }
+_BYTE_RANGE_RE = re.compile(r"bytes=(\d*)-(\d*)")
+
+
+def direct_pdf_urls_enabled() -> bool:
+    return os.environ.get("CHAT_PDF_DIRECT_URLS", "true").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
+
+
+def public_pdf_viewer_url(paper_id: str, resolved: str | None) -> str | None:
+    if not resolved:
+        return None
+    if direct_pdf_urls_enabled():
+        return resolved
+    return f"/papers/{quote(paper_id, safe='')}/pdf"
+
+
+def parse_byte_range(value: str | None, total: int) -> tuple[int, int] | None:
+    """Parse one HTTP byte range, returning an inclusive start/end pair."""
+    if not value:
+        return None
+    match = _BYTE_RANGE_RE.fullmatch(value.strip())
+    if not match or total <= 0:
+        raise ValueError("range_not_satisfiable")
+    start_text, end_text = match.groups()
+    if not start_text and not end_text:
+        raise ValueError("range_not_satisfiable")
+    if not start_text:
+        suffix = int(end_text)
+        if suffix <= 0:
+            raise ValueError("range_not_satisfiable")
+        return max(0, total - suffix), total - 1
+    start = int(start_text)
+    if start >= total:
+        raise ValueError("range_not_satisfiable")
+    end = total - 1 if not end_text else min(int(end_text), total - 1)
+    if end < start:
+        raise ValueError("range_not_satisfiable")
+    return start, end
 
 
 def _embeddable_pdf_url(value: str | None) -> str | None:

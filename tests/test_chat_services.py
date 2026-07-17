@@ -15,6 +15,7 @@ sys.path.insert(0, str(BACKEND))
 from app.main import app  # noqa: E402
 from app.models import Paper, PaperDocument  # noqa: E402
 from app.routers.paper_documents import _status  # noqa: E402
+from app.services import document_service  # noqa: E402
 from app.services.chat_service import (  # noqa: E402
     answer_has_citation_coverage,
     build_system_prompt,
@@ -33,6 +34,8 @@ from app.services.document_service import (  # noqa: E402
     _host_allowed,
     chunk_pages,
     chunk_structured_pages,
+    clear_pdf_cache,
+    download_pdf,
     extract_pdf,
     render_pdf_pages,
     resolve_pdf_url,
@@ -48,7 +51,12 @@ from app.services.paper_catalog_service import (  # noqa: E402
     PaperCatalogError,
     fetch_catalog_paper,
 )
-from app.services.paper_viewer_service import resolve_paper_viewer_url  # noqa: E402
+from app.services.paper_viewer_service import (  # noqa: E402
+    direct_pdf_urls_enabled,
+    parse_byte_range,
+    public_pdf_viewer_url,
+    resolve_paper_viewer_url,
+)
 from app.services.provider_service import (  # noqa: E402
     EmbeddingConfig,
     ProviderConfig,
@@ -59,6 +67,7 @@ from app.services.provider_service import (  # noqa: E402
     get_provider_config,
     parse_openai_responses_event,
 )
+from app.services.quota_service import _window_start  # noqa: E402
 from app.services.retrieval_service import (  # noqa: E402
     RetrievedChunk,
     classify_query,
@@ -87,6 +96,66 @@ def test_pdf_host_allowlist_blocks_untrusted_hosts():
     assert _host_allowed("export.arxiv.org", allowed)
     assert not _host_allowed("arxiv.org.attacker.example", allowed)
     assert not _host_allowed("localhost", allowed)
+
+
+def test_pdf_range_parser_supports_browser_range_forms():
+    assert parse_byte_range(None, 100) is None
+    assert parse_byte_range("bytes=0-9", 100) == (0, 9)
+    assert parse_byte_range("bytes=90-", 100) == (90, 99)
+    assert parse_byte_range("bytes=-10", 100) == (90, 99)
+    assert parse_byte_range("bytes=0-999", 100) == (0, 99)
+    for invalid in ("bytes=100-101", "bytes=20-10", "bytes=0-1,4-5", "items=0-1"):
+        with pytest.raises(ValueError, match="range_not_satisfiable"):
+            parse_byte_range(invalid, 100)
+
+
+def test_direct_pdf_urls_are_enabled_by_default_and_configurable(monkeypatch):
+    monkeypatch.delenv("CHAT_PDF_DIRECT_URLS", raising=False)
+    assert direct_pdf_urls_enabled()
+    assert public_pdf_viewer_url("arxiv:123", "https://arxiv.org/pdf/123") == (
+        "https://arxiv.org/pdf/123"
+    )
+    monkeypatch.setenv("CHAT_PDF_DIRECT_URLS", "false")
+    assert not direct_pdf_urls_enabled()
+    assert public_pdf_viewer_url("arxiv:123", "https://arxiv.org/pdf/123") == (
+        "/papers/arxiv%3A123/pdf"
+    )
+
+
+def test_pdf_downloads_are_deduplicated_and_cached(monkeypatch):
+    calls = 0
+    payload = b"%PDF-1.7\nshared"
+
+    async def fake_download(_url: str) -> bytes:
+        nonlocal calls
+        calls += 1
+        await asyncio.sleep(0)
+        return payload
+
+    monkeypatch.setenv("CHAT_PDF_CACHE_TTL_SECONDS", "3600")
+    monkeypatch.setenv("CHAT_PDF_CACHE_MAX_ENTRIES", "4")
+    monkeypatch.setattr(document_service, "_download_pdf_uncached", fake_download)
+    clear_pdf_cache()
+
+    async def run():
+        first, second = await asyncio.gather(
+            download_pdf("https://arxiv.org/pdf/shared"),
+            download_pdf("https://arxiv.org/pdf/shared"),
+        )
+        third = await download_pdf("https://arxiv.org/pdf/shared")
+        return first, second, third
+
+    assert asyncio.run(run()) == (payload, payload, payload)
+    assert calls == 1
+    clear_pdf_cache()
+
+
+def test_rate_limit_windows_are_utc_aligned():
+    from datetime import datetime, timezone
+
+    now = datetime(2026, 7, 17, 12, 34, 56, tzinfo=timezone.utc)
+    assert _window_start(now, 60) == datetime(2026, 7, 17, 12, 34, tzinfo=timezone.utc)
+    assert _window_start(now, 86_400) == datetime(2026, 7, 17, tzinfo=timezone.utc)
 
 
 def test_resolve_pdf_url_uses_stored_then_source_fallbacks():

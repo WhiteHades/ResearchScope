@@ -1,6 +1,13 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Response
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Depends,
+    HTTPException,
+    Request,
+    Response,
+)
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth import get_current_user
@@ -15,7 +22,14 @@ from app.services.document_service import (
     safe_pdf_url,
 )
 from app.services.paper_catalog_service import PaperCatalogError, get_or_import_paper
+from app.services.paper_viewer_service import public_pdf_viewer_url
 from app.services.provider_service import chat_enabled
+from app.services.quota_service import (
+    QuotaConfigurationError,
+    QuotaExceeded,
+    client_ip,
+    enforce_prepare_limits,
+)
 
 router = APIRouter(prefix="/papers", tags=["paper-chat-documents"])
 
@@ -29,7 +43,7 @@ def _status(paper: Paper, document: PaperDocument | None) -> DocumentStatusOut:
         status="not_prepared" if stale or not document else document.status,
         page_count=0 if stale or not document else document.page_count,
         chunk_count=0 if stale or not document else document.chunk_count,
-        viewer_url=safe_pdf_url(paper),
+        viewer_url=public_pdf_viewer_url(paper.id, safe_pdf_url(paper)),
         error_code="document_upgrade_required"
         if stale
         else document.error_code
@@ -57,12 +71,19 @@ async def document_status(
 async def prepare(
     paper_id: str,
     background_tasks: BackgroundTasks,
+    request: Request,
     response: Response,
-    _current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
     if not chat_enabled():
         raise HTTPException(status_code=503, detail="chat_disabled")
+    try:
+        await enforce_prepare_limits(current_user.id, client_ip(request))
+    except QuotaExceeded as exc:
+        raise HTTPException(status_code=429, detail=exc.code) from exc
+    except QuotaConfigurationError as exc:
+        raise HTTPException(status_code=503, detail=exc.code) from exc
     try:
         paper = await get_or_import_paper(db, paper_id)
     except PaperCatalogError as exc:

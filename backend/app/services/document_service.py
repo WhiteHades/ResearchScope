@@ -8,6 +8,8 @@ import logging
 import os
 import re
 import socket
+import time
+from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from urllib.parse import parse_qs, urljoin, urlparse
@@ -27,11 +29,20 @@ from app.services.provider_service import (
     embeddings_enabled,
     get_embedding_config,
 )
+from app.services.quota_service import (
+    GlobalCostLimitExceeded,
+    QuotaConfigurationError,
+    reserve_global_provider_budget,
+)
 
 EXTRACTOR_VERSION = "pymupdf-hybrid-v2"
 _PREPARE_SEMAPHORE = asyncio.Semaphore(2)
 _STALE_AFTER = timedelta(minutes=15)
 log = logging.getLogger(__name__)
+
+_PDF_CACHE: OrderedDict[str, tuple[float, bytes]] = OrderedDict()
+_PDF_INFLIGHT: dict[str, asyncio.Task[bytes]] = {}
+_PDF_CACHE_LOCK = asyncio.Lock()
 
 _UNSAFE_TEXT_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]")
 
@@ -169,7 +180,58 @@ async def _validate_public_host(host: str) -> None:
             raise DocumentPreparationError("pdf_host_not_public")
 
 
+def clear_pdf_cache() -> None:
+    """Clear process-local PDF state. Primarily useful for deterministic tests."""
+    _PDF_CACHE.clear()
+    _PDF_INFLIGHT.clear()
+
+
+def _pdf_cache_setting(name: str, default: int) -> int:
+    try:
+        value = int(os.environ.get(name, str(default)).strip())
+    except ValueError as exc:
+        raise DocumentPreparationError("pdf_configuration_invalid") from exc
+    if value < 0:
+        raise DocumentPreparationError("pdf_configuration_invalid")
+    return value
+
+
 async def download_pdf(url: str) -> bytes:
+    ttl = _pdf_cache_setting("CHAT_PDF_CACHE_TTL_SECONDS", 3600)
+    max_entries = _pdf_cache_setting("CHAT_PDF_CACHE_MAX_ENTRIES", 4)
+    now = time.monotonic()
+    owner = False
+    async with _PDF_CACHE_LOCK:
+        cached = _PDF_CACHE.get(url)
+        if cached and cached[0] > now:
+            _PDF_CACHE.move_to_end(url)
+            return cached[1]
+        if cached:
+            _PDF_CACHE.pop(url, None)
+        task = _PDF_INFLIGHT.get(url)
+        if task is None:
+            task = asyncio.create_task(_download_pdf_uncached(url))
+            _PDF_INFLIGHT[url] = task
+            owner = True
+    try:
+        result = await asyncio.shield(task)
+    except BaseException:
+        if owner:
+            async with _PDF_CACHE_LOCK:
+                _PDF_INFLIGHT.pop(url, None)
+        raise
+    if owner:
+        async with _PDF_CACHE_LOCK:
+            _PDF_INFLIGHT.pop(url, None)
+            if ttl and max_entries:
+                _PDF_CACHE[url] = (time.monotonic() + ttl, result)
+                _PDF_CACHE.move_to_end(url)
+                while len(_PDF_CACHE) > max_entries:
+                    _PDF_CACHE.popitem(last=False)
+    return result
+
+
+async def _download_pdf_uncached(url: str) -> bytes:
     max_bytes = int(float(os.environ.get("CHAT_MAX_PDF_MB", "15")) * 1024 * 1024)
     timeout = httpx.Timeout(
         float(os.environ.get("CHAT_PDF_TIMEOUT_SECONDS", "60")), connect=10
@@ -290,9 +352,7 @@ def _extract_page_blocks(document: fitz.Document) -> list[list[PageBlock]]:
             x0, y0, x1, y1, raw_text = raw[:5]
             raw_text = sanitize_extracted_text(str(raw_text))
             text = "\n".join(
-                " ".join(line.split())
-                for line in raw_text.splitlines()
-                if line.strip()
+                " ".join(line.split()) for line in raw_text.splitlines() if line.strip()
             ).strip()
             if not text:
                 continue
@@ -467,6 +527,9 @@ async def embed_extracted_chunks(
     try:
         for start in range(0, len(children), batch_size):
             batch = children[start : start + batch_size]
+            await reserve_global_provider_budget(
+                sum(max(1, chunk.token_count) for chunk in batch), requests=1
+            )
             embedded = await create_embeddings(
                 [chunk.content for chunk in batch], config
             )
@@ -474,6 +537,8 @@ async def embed_extracted_chunks(
                 (chunk.chunk_index, vector)
                 for chunk, vector in zip(batch, embedded, strict=True)
             )
+    except (GlobalCostLimitExceeded, QuotaConfigurationError) as exc:
+        raise DocumentPreparationError(exc.code) from exc
     except ProviderRequestError as exc:
         raise DocumentPreparationError("embedding_failed") from exc
     return vectors, config.model

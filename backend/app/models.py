@@ -4,6 +4,7 @@ from datetime import date
 
 from sqlalchemy import (
     REAL,
+    BigInteger,
     Boolean,
     Column,
     Date,
@@ -236,6 +237,31 @@ class ChatUsageDaily(Base):
     request_count = Column(Integer, nullable=False, default=0)
     input_tokens = Column(Integer, nullable=False, default=0)
     output_tokens = Column(Integer, nullable=False, default=0)
+    updated_at = Column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+
+class ApiRateLimitWindow(Base):
+    __tablename__ = "api_rate_limit_windows"
+
+    scope = Column(String(80), primary_key=True)
+    subject_hash = Column(String(64), primary_key=True)
+    window_start = Column(DateTime(timezone=True), primary_key=True)
+    request_count = Column(Integer, nullable=False, default=0)
+    updated_at = Column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+    __table_args__ = (Index("ix_api_rate_limit_windows_updated", "updated_at"),)
+
+
+class ChatGlobalUsageDaily(Base):
+    __tablename__ = "chat_global_usage_daily"
+
+    usage_date = Column(Date, primary_key=True, default=date.today)
+    provider_request_units = Column(Integer, nullable=False, default=0)
+    provider_token_units = Column(BigInteger, nullable=False, default=0)
     updated_at = Column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )

@@ -97,7 +97,12 @@ The PDF URL is derived from trusted metadata or a supported source-specific patt
 - a default 15 MB size limit;
 - a `%PDF-` content-signature check.
 
-PDF bytes are held only in memory. They are not stored in PostgreSQL or on disk by this feature.
+Validated browser-safe HTTPS URLs are returned directly by default, avoiding
+unnecessary backend bandwidth and memory. When the proxy is required, concurrent
+downloads of the same PDF share one fetch and the result is kept in a bounded,
+time-limited process cache. PDF bytes are not stored in PostgreSQL or on disk.
+The proxy supports `Range`, `Content-Range`, `ETag`, and streamed 64 KiB response
+chunks for PDF.js and browser seeking.
 
 ### 2. Structured extraction
 
@@ -289,6 +294,11 @@ Defaults enforced by the backend:
 - 4,000 input characters per message;
 - 1,200 output tokens;
 - 20 completed requests per user per day;
+- 10 chat requests per user per minute and 30 per IP per minute;
+- 5 preparation requests per user per day and 20 per IP per day;
+- 60 proxied PDF requests per IP per minute;
+- a global daily circuit breaker reserving provider request and token units
+  before embeddings or generation begin;
 - one active generation per session;
 - two active generations per user, configurable with
   `CHAT_MAX_CONCURRENT_TURNS_PER_USER`;
@@ -310,6 +320,13 @@ JWT_TTL_HOURS=72
 CHAT_ENABLED=true
 CHAT_DAILY_MESSAGE_LIMIT=20
 CHAT_MAX_CONCURRENT_TURNS_PER_USER=2
+CHAT_USER_REQUESTS_PER_MINUTE=10
+CHAT_IP_REQUESTS_PER_MINUTE=30
+CHAT_PREPARES_PER_USER_PER_DAY=5
+CHAT_PREPARES_PER_IP_PER_DAY=20
+CHAT_PDF_REQUESTS_PER_IP_PER_MINUTE=60
+CHAT_GLOBAL_DAILY_PROVIDER_REQUEST_BUDGET=500
+CHAT_GLOBAL_DAILY_PROVIDER_TOKEN_BUDGET=2000000
 OPENAI_API_KEY=replace-with-server-side-key
 ALLOWED_ORIGINS=https://kishormorol.github.io,http://127.0.0.1:8080,http://localhost:8080
 ```
@@ -363,13 +380,22 @@ The feature fits the existing Railway boundary and does not require a vector dat
 Deployment requirements:
 
 1. Use the existing PostgreSQL service.
-2. Apply `001_chat_with_paper.sql` and `002_hybrid_paper_retrieval.sql` in order, or allow the current startup initialization to create/upgrade the additive schema.
+2. Apply `001_chat_with_paper.sql`, `002_hybrid_paper_retrieval.sql`, and
+   `003_chat_abuse_controls.sql` in order, or allow startup initialization to
+   create the additive schema.
 3. Configure the required backend environment variables.
 4. Confirm `/health` reports `db_live: true`, `chat_enabled: true`, and `chat_provider_configured: true`.
 5. Add the deployed frontend and intended localhost origins to `ALLOWED_ORIGINS`.
 6. Keep the OpenAI key only in Railway environment variables.
+7. Configure the ASGI server to trust proxy headers only from Railway's proxy
+   boundary, so `request.client` contains the originating client IP used by the
+   IP limits. Do not trust arbitrary client-supplied forwarded headers.
 
-Because vectors are stored as `REAL[]`, standard Railway PostgreSQL is sufficient. The main resource considerations are database growth from chunks/embeddings, OpenAI embedding and response costs, preparation concurrency, and transient memory while downloading or rendering PDFs.
+Because vectors are stored as `REAL[]`, standard Railway PostgreSQL is sufficient.
+Rate-limit counters and the global circuit breaker are PostgreSQL-backed, so they
+remain correct across multiple app replicas. Stale rate-limit windows are cleaned
+automatically. Set a limit to `0` only when that specific protection should be
+disabled.
 
 ## Verification
 

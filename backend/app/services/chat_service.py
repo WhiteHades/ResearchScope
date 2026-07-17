@@ -45,6 +45,11 @@ from app.services.provider_service import (
     provider_configured,
     stream_provider,
 )
+from app.services.quota_service import (
+    GlobalCostLimitExceeded,
+    QuotaConfigurationError,
+    reserve_global_provider_budget,
+)
 from app.services.retrieval_service import (
     RetrievedChunk,
     classify_query,
@@ -203,9 +208,7 @@ def build_system_prompt(
             else f"{chunk.page_start}-{chunk.page_end}"
         )
         section = (
-            f"; section={redact_secrets(chunk.section).text}"
-            if chunk.section
-            else ""
+            f"; section={redact_secrets(chunk.section).text}" if chunk.section else ""
         )
         source_content = redact_secrets(chunk.content).text
         sources.append(f"[S{index}] pages={pages}{section}\n{source_content}")
@@ -473,10 +476,15 @@ async def start_turn(
     if query_mode != "global" and embeddings_enabled():
         try:
             embedding_config = get_embedding_config()
+            await reserve_global_provider_budget(
+                max(1, len(retrieval_context) // 4), requests=1
+            )
             query_embedding = (
                 await create_embeddings([retrieval_context], embedding_config)
             )[0]
             query_embedding_model = embedding_config.model
+        except (GlobalCostLimitExceeded, QuotaConfigurationError) as exc:
+            raise ChatError(exc.code, 503) from exc
         except (ProviderConfigurationError, ProviderRequestError):
             query_embedding = None
 
@@ -575,6 +583,46 @@ async def start_turn(
             raise ChatError("duplicate_request", 409)
 
     config = get_provider_config()
+    conversation = [
+        (message.role, message.content)
+        for message in history[-6:]
+        if message.role in {"user", "assistant"}
+    ]
+    user_prompt = build_user_prompt(content, conversation)
+    visual_page_numbers = [int(page["page_number"]) for page in visual_pages]
+    provider_content: object = user_prompt
+    if visual_pages:
+        provider_content = [
+            {"type": "input_text", "text": user_prompt},
+            *[
+                {
+                    "type": "input_image",
+                    "image_url": page["data_url"],
+                    "detail": "high",
+                }
+                for page in visual_pages
+            ],
+        ]
+    provider_messages = [{"role": "user", "content": provider_content}]
+    system_prompt = build_system_prompt(
+        paper,
+        chunks,
+        visual_page_numbers=visual_page_numbers,
+        query_mode=query_mode,
+        safety_guidance=(
+            SAFE_COMPLETION_GUIDANCE if intent.action == "safe_complete" else ""
+        ),
+    )
+    estimated_provider_tokens = (
+        max(1, (len(system_prompt) + len(user_prompt)) // 4)
+        + (1_500 * len(visual_pages))
+        + config.max_output_tokens
+    )
+    try:
+        await reserve_global_provider_budget(estimated_provider_tokens, requests=1)
+    except (GlobalCostLimitExceeded, QuotaConfigurationError) as exc:
+        raise ChatError(exc.code, 503) from exc
+
     now = datetime.now(timezone.utc)
     user_message = ChatMessage(
         id=str(uuid.uuid4()),
@@ -601,44 +649,13 @@ async def start_turn(
     document.last_accessed_at = now
     await db.commit()
 
-    conversation = [
-        (message.role, message.content)
-        for message in history[-6:]
-        if message.role in {"user", "assistant"}
-    ]
-    user_prompt = build_user_prompt(content, conversation)
-    visual_page_numbers = [int(page["page_number"]) for page in visual_pages]
-    provider_content: object = user_prompt
-    if visual_pages:
-        provider_content = [
-            {"type": "input_text", "text": user_prompt},
-            *[
-                {
-                    "type": "input_image",
-                    "image_url": page["data_url"],
-                    "detail": "high",
-                }
-                for page in visual_pages
-            ],
-        ]
-    provider_messages = [{"role": "user", "content": provider_content}]
     return ChatTurn(
         session=session,
         user_message=user_message,
         assistant_message=assistant_message,
         provider=config.provider,
         model=config.model,
-        system_prompt=build_system_prompt(
-            paper,
-            chunks,
-            visual_page_numbers=visual_page_numbers,
-            query_mode=query_mode,
-            safety_guidance=(
-                SAFE_COMPLETION_GUIDANCE
-                if intent.action == "safe_complete"
-                else ""
-            ),
-        ),
+        system_prompt=system_prompt,
         provider_messages=provider_messages,
         chunks=chunks,
         query_mode=query_mode,

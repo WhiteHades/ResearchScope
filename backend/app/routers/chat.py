@@ -3,7 +3,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends, Header, HTTPException, Query
+from fastapi import APIRouter, Depends, Header, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
 from sqlalchemy import delete, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -21,6 +21,12 @@ from app.schemas_chat import (
     ChatSessionUpdate,
 )
 from app.services.chat_service import ChatError, start_turn, stream_chat_turn
+from app.services.quota_service import (
+    QuotaConfigurationError,
+    QuotaExceeded,
+    client_ip,
+    enforce_chat_request_limits,
+)
 
 router = APIRouter(prefix="/chat", tags=["paper-chat"])
 
@@ -200,11 +206,18 @@ async def list_messages(
 async def send_message(
     session_id: str,
     body: ChatMessageCreate,
+    request: Request,
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
     idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
 ):
     session = await _owned_session(db, current_user.id, session_id)
+    try:
+        await enforce_chat_request_limits(current_user.id, client_ip(request))
+    except QuotaExceeded as exc:
+        raise HTTPException(status_code=429, detail=exc.code) from exc
+    except QuotaConfigurationError as exc:
+        raise HTTPException(status_code=503, detail=exc.code) from exc
     try:
         turn = await start_turn(
             db, session, current_user, body.content.strip(), idempotency_key
