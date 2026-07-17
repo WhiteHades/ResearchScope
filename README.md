@@ -254,12 +254,18 @@ python src/pipeline.py --conferences-only
 # Run tests
 python -m pytest tests/ -v
 
-# Serve the frontend with production-style extensionless routes
-python scripts/serve_site.py --port 8080
+# Serve the frontend
+cd site && python -m http.server 8080
+
+# Serve the frontend with production-style extensionless routes (from the repository root)
+cd .. && python scripts/serve_site.py --port 8080
 
 # Run the API locally
 cd backend
 pip install -r requirements.txt
+DATABASE_URL=postgresql://... uvicorn app.main:app --reload
+
+# Alternatively, use DATABASE_URL from the repository-root .env
 uvicorn app.main:app --reload
 ```
 
@@ -329,7 +335,9 @@ ResearchScope ──── "Discover more papers on this topic"
 | [OpenReview](https://openreview.net) | Public API |
 | [CVF](https://openaccess.thecvf.com) | Public access |
 
-ResearchScope's public dataset stores bibliographic metadata. When Chat with Paper is enabled, the authenticated backend may fetch an allowlisted PDF, discard the PDF bytes after processing, and persist page-aware extracted text chunks for grounded answers. User conversations remain private to their account until deleted.
+ResearchScope stores only bibliographic metadata — no full text or PDFs.
+
+The statement above describes the public dataset. When Chat with Paper is enabled, the authenticated backend may fetch an allowlisted PDF, discard the PDF bytes after processing, and persist page-aware extracted text chunks for grounded answers. User conversations remain private to their account until deleted.
 
 ---
 
