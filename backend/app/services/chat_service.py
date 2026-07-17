@@ -102,6 +102,14 @@ class ChatError(RuntimeError):
         self.status_code = status_code
 
 
+def daily_message_limit() -> int:
+    return int(os.environ.get("CHAT_DAILY_MESSAGE_LIMIT", "20"))
+
+
+def max_concurrent_turns_per_user() -> int:
+    return int(os.environ.get("CHAT_MAX_CONCURRENT_TURNS_PER_USER", "2"))
+
+
 @dataclass
 class ChatTurn:
     session: ChatSession
@@ -415,7 +423,7 @@ async def start_turn(
         raise ChatError("paper_not_ready", 409)
 
     usage = await db.get(ChatUsageDaily, (user.id, date.today()))
-    daily_limit = int(os.environ.get("CHAT_DAILY_MESSAGE_LIMIT", "50"))
+    daily_limit = daily_message_limit()
     if usage and usage.request_count >= daily_limit:
         raise ChatError("daily_limit_reached", 429)
 
@@ -551,7 +559,7 @@ async def start_turn(
             .where(ChatSession.user_id == user.id, ChatMessage.status == "pending")
         )
     ).scalar_one()
-    if user_pending >= 2:
+    if user_pending >= max_concurrent_turns_per_user():
         raise ChatError("user_generation_limit", 409)
 
     if client_request_id:

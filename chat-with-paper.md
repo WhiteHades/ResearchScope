@@ -288,9 +288,10 @@ Defaults enforced by the backend:
 
 - 4,000 input characters per message;
 - 1,200 output tokens;
-- 50 completed requests per user per day;
+- 20 completed requests per user per day;
 - one active generation per session;
-- two active generations per user;
+- two active generations per user, configurable with
+  `CHAT_MAX_CONCURRENT_TURNS_PER_USER`;
 - 15 MB maximum PDF size;
 - 60-second PDF timeout;
 - two concurrent preparations per process;
@@ -307,6 +308,8 @@ DATABASE_URL=postgresql://...
 JWT_SECRET=replace-with-a-long-random-secret
 JWT_TTL_HOURS=72
 CHAT_ENABLED=true
+CHAT_DAILY_MESSAGE_LIMIT=20
+CHAT_MAX_CONCURRENT_TURNS_PER_USER=2
 OPENAI_API_KEY=replace-with-server-side-key
 ALLOWED_ORIGINS=https://kishormorol.github.io,http://127.0.0.1:8080,http://localhost:8080
 ```

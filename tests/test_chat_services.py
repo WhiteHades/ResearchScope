@@ -20,6 +20,8 @@ from app.services.chat_service import (  # noqa: E402
     build_system_prompt,
     build_user_prompt,
     citations_from_answer,
+    daily_message_limit,
+    max_concurrent_turns_per_user,
     normalize_answer_formatting,
     repair_missing_citations,
     retain_cited_answer,
@@ -63,6 +65,20 @@ from app.services.retrieval_service import (  # noqa: E402
     cosine_similarity,
     reciprocal_rank_fusion,
 )
+
+
+def test_chat_limits_have_expected_defaults(monkeypatch):
+    monkeypatch.delenv("CHAT_DAILY_MESSAGE_LIMIT", raising=False)
+    monkeypatch.delenv("CHAT_MAX_CONCURRENT_TURNS_PER_USER", raising=False)
+    assert daily_message_limit() == 20
+    assert max_concurrent_turns_per_user() == 2
+
+
+def test_chat_limits_use_environment_overrides(monkeypatch):
+    monkeypatch.setenv("CHAT_DAILY_MESSAGE_LIMIT", "12")
+    monkeypatch.setenv("CHAT_MAX_CONCURRENT_TURNS_PER_USER", "3")
+    assert daily_message_limit() == 12
+    assert max_concurrent_turns_per_user() == 3
 
 
 def test_pdf_host_allowlist_blocks_untrusted_hosts():
