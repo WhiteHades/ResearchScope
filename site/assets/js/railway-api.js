@@ -54,12 +54,16 @@ const _auth = {
 async function _apiFetch(path, opts = {}) {
   const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
   const token = _auth.token();
-  if (token) headers['Authorization'] = `Bearer ${token}`;
+  if (token && !headers.Authorization) headers.Authorization = `Bearer ${token}`;
 
   const res = await fetch(`${RS_API}${path}`, { ...opts, headers });
   if (!res.ok) {
     const err = await res.json().catch(() => ({ detail: res.statusText }));
-    throw Object.assign(new Error(err.detail || 'API error'), { status: res.status });
+    const expired = _expireStoredSession(res.status, headers.Authorization, token);
+    const message = expired
+      ? 'Your session has expired. Please sign in again.'
+      : (err.detail || 'API error');
+    throw Object.assign(new Error(message), { status: res.status, authExpired: expired });
   }
   return res.status === 204 ? null : res.json();
 }
@@ -78,13 +82,31 @@ async function _papersListFetch(params) {
 async function _apiFetchRaw(path, opts = {}) {
   const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
   const token = _auth.token();
-  if (token) headers.Authorization = `Bearer ${token}`;
+  if (token && !headers.Authorization) headers.Authorization = `Bearer ${token}`;
   const res = await fetch(`${RS_API}${path}`, { ...opts, headers });
   if (!res.ok) {
     const err = await res.json().catch(() => ({ detail: res.statusText }));
-    throw Object.assign(new Error(err.detail || 'API error'), { status: res.status });
+    const expired = _expireStoredSession(res.status, headers.Authorization, token);
+    const message = expired
+      ? 'Your session has expired. Please sign in again.'
+      : (err.detail || 'API error');
+    throw Object.assign(new Error(message), { status: res.status, authExpired: expired });
   }
   return res;
+}
+
+function _expireStoredSession(status, authorization, storedToken) {
+  if (
+    status !== 401 ||
+    !storedToken ||
+    authorization !== `Bearer ${storedToken}` ||
+    _auth.token() !== storedToken
+  ) return false;
+
+  _auth.clear();
+  _updateAuthNav();
+  window.dispatchEvent?.(new CustomEvent('rs:auth-expired'));
+  return true;
 }
 
 // ── Papers ────────────────────────────────────────────────────────────────────
