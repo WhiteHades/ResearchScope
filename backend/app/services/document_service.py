@@ -17,7 +17,7 @@ from urllib.parse import parse_qs, urljoin, urlparse
 import fitz
 import httpx
 import tiktoken
-from sqlalchemy import delete, func, select, update
+from sqlalchemy import delete, select
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 
 from app.database import get_session_factory
@@ -269,36 +269,6 @@ async def _download_pdf_uncached(url: str) -> bytes:
                     raise DocumentPreparationError("pdf_invalid")
                 return result
     raise DocumentPreparationError("pdf_redirect_limit")
-
-
-def chunk_pages(
-    pages: list[str], *, target_chars: int = 3500, overlap_chars: int = 400
-) -> list[ExtractedChunk]:
-    chunks: list[ExtractedChunk] = []
-    index = 0
-    for page_number, raw in enumerate(pages, start=1):
-        text = "\n\n".join(
-            " ".join(block.split()) for block in raw.split("\n\n") if block.strip()
-        ).strip()
-        if not text:
-            continue
-        start = 0
-        while start < len(text):
-            end = min(len(text), start + target_chars)
-            if end < len(text):
-                boundary = max(
-                    text.rfind("\n\n", start, end), text.rfind(". ", start, end)
-                )
-                if boundary > start + target_chars // 2:
-                    end = boundary + (2 if text[boundary : boundary + 2] == ". " else 0)
-            content = text[start:end].strip()
-            if content:
-                chunks.append(ExtractedChunk(index, page_number, page_number, content))
-                index += 1
-            if end >= len(text):
-                break
-            start = max(start + 1, end - overlap_chars)
-    return chunks
 
 
 _HEADING_RE = re.compile(
@@ -628,13 +598,6 @@ async def prepare_document(paper_id: str) -> None:
                         )
                     )
                 await db.flush()
-                await db.execute(
-                    update(PaperChunk)
-                    .where(PaperChunk.paper_id == paper_id)
-                    .values(
-                        search_vector=func.to_tsvector("english", PaperChunk.content)
-                    )
-                )
                 document.source_url = url
                 document.content_hash = digest
                 document.page_count = page_count

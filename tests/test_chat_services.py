@@ -14,12 +14,15 @@ from sqlalchemy.dialects import postgresql
 BACKEND = Path(__file__).resolve().parents[1] / "backend"
 sys.path.insert(0, str(BACKEND))
 
+from app.database import _enable_pgvector_index  # noqa: E402
 from app.main import app  # noqa: E402
 from app.models import Paper, PaperDocument  # noqa: E402
 from app.routers.paper_documents import _status  # noqa: E402
 from app.services import document_service  # noqa: E402
 from app.services.chat_service import (  # noqa: E402
+    _daily_limit_exhausted,
     _reap_stale_pending_messages,
+    _reload_locked_turn_state,
     answer_has_citation_coverage,
     build_system_prompt,
     build_user_prompt,
@@ -35,7 +38,6 @@ from app.services.document_service import (  # noqa: E402
     EXTRACTOR_VERSION,
     PageBlock,
     _host_allowed,
-    chunk_pages,
     chunk_structured_pages,
     clear_pdf_cache,
     download_pdf,
@@ -73,8 +75,9 @@ from app.services.provider_service import (  # noqa: E402
 from app.services.quota_service import _window_start  # noqa: E402
 from app.services.retrieval_service import (  # noqa: E402
     RetrievedChunk,
+    _embedding_parameter,
+    _semantic_search_statement,
     classify_query,
-    cosine_similarity,
     reciprocal_rank_fusion,
 )
 
@@ -127,6 +130,42 @@ def test_stale_pending_assistant_messages_are_reaped_for_user():
     assert "chat_messages.created_at < '2026-07-18 11:45:00+00:00'" in sql
     assert "chat_sessions.user_id = 7" in sql
     assert "status='failed'" in sql.replace(" ", "")
+
+
+def test_locked_turn_state_bypasses_the_identity_map():
+    document = object()
+    usage = object()
+
+    class _FakeSession:
+        def __init__(self):
+            self.calls = []
+
+        async def get(self, model, identity, **kwargs):
+            self.calls.append((model, identity, kwargs))
+            return document if model is PaperDocument else usage
+
+    db = _FakeSession()
+    loaded = asyncio.run(
+        _reload_locked_turn_state(db, "paper-1", 7, datetime(2026, 7, 19).date())
+    )
+
+    assert loaded == (document, usage)
+    assert len(db.calls) == 2
+    assert all(call[2] == {"populate_existing": True} for call in db.calls)
+
+
+@pytest.mark.parametrize(
+    ("completed", "pending", "limit", "expected"),
+    [
+        (19, 0, 20, False),
+        (19, 1, 20, True),
+        (20, 0, 20, True),
+    ],
+)
+def test_daily_limit_counts_active_pending_turns(
+    completed, pending, limit, expected
+):
+    assert _daily_limit_exhausted(completed, pending, limit) is expected
 
 
 def test_pdf_host_allowlist_blocks_untrusted_hosts():
@@ -238,17 +277,6 @@ def test_old_prepared_documents_are_reported_for_automatic_upgrade(monkeypatch):
     assert _status(paper, old).status == "not_prepared"
 
 
-def test_chunk_pages_is_page_aware_and_deterministic():
-    pages = ["First paragraph. " * 120, "Second page text. " * 100]
-    first = chunk_pages(pages, target_chars=500, overlap_chars=50)
-    second = chunk_pages(pages, target_chars=500, overlap_chars=50)
-    assert first == second
-    assert len(first) > 2
-    assert {chunk.page_start for chunk in first} == {1, 2}
-    assert all(chunk.page_start == chunk.page_end for chunk in first)
-    assert [chunk.chunk_index for chunk in first] == list(range(len(first)))
-
-
 def test_structured_chunking_creates_section_aware_parent_child_chunks():
     blocks = [
         PageBlock(
@@ -279,14 +307,74 @@ def test_structured_chunking_creates_section_aware_parent_child_chunks():
     )
 
 
-def test_adaptive_query_classifier_and_cosine_similarity():
+def test_adaptive_query_classifier_and_rank_fusion():
     assert classify_query("Summarize the entire paper") == "global"
     assert classify_query("What does Figure 3 show?") == "visual"
     assert classify_query("Which optimizer was used?") == "local"
-    assert cosine_similarity([1.0, 0.0], [1.0, 0.0]) == pytest.approx(1.0)
-    assert cosine_similarity([1.0, 0.0], [0.0, 1.0]) == pytest.approx(0.0)
     fused = reciprocal_rank_fusion([[1, 2, 3], [2, 3, 4], [2, 5]])
     assert max(fused, key=fused.get) == 2
+
+
+def test_semantic_search_is_limited_and_ranked_inside_postgresql():
+    vector_sql = str(
+        _semantic_search_statement(
+            dimensions=256, pgvector=True, filter_model=True
+        )
+    )
+    assert "embedding::vector(256)" in vector_sql
+    assert "<=> CAST(:query_embedding AS vector(256))" in vector_sql
+    assert "ORDER BY" in vector_sql
+    assert "LIMIT :semantic_limit" in vector_sql
+    assert "embedding_model = :embedding_model" in vector_sql
+
+    array_sql = str(
+        _semantic_search_statement(
+            dimensions=256, pgvector=False, filter_model=False
+        )
+    )
+    assert "unnest(" in array_sql
+    assert "similarity.score DESC" in array_sql
+    assert "LIMIT :semantic_limit" in array_sql
+    assert "embedding_model = :embedding_model" not in array_sql
+
+    for dimensions in (0, 3073):
+        with pytest.raises(ValueError, match="embedding dimensions"):
+            _semantic_search_statement(
+                dimensions=dimensions, pgvector=False, filter_model=False
+            )
+
+
+def test_embedding_parameters_are_bound_data_not_sql_fragments():
+    assert _embedding_parameter([1, 0.5], pgvector=True) == "[1.0,0.5]"
+    assert _embedding_parameter([1, 0.5], pgvector=False) == [1.0, 0.5]
+    with pytest.raises(ValueError):
+        _embedding_parameter([float("nan")], pgvector=True)
+
+
+def test_pgvector_setup_failure_falls_back_without_aborting_database_init():
+    class _Savepoint:
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, exc_type, exc, traceback):
+            return False
+
+    class _Connection:
+        @staticmethod
+        def begin_nested():
+            return _Savepoint()
+
+        @staticmethod
+        async def scalar(_statement):
+            return True
+
+        @staticmethod
+        async def execute(_statement):
+            from sqlalchemy.exc import SQLAlchemyError
+
+            raise SQLAlchemyError("extension permission denied")
+
+    assert asyncio.run(_enable_pgvector_index(_Connection())) is False
 
 
 def test_pymupdf_extraction_and_visual_rendering_stay_page_aware():
