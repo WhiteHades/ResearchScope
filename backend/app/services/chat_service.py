@@ -116,6 +116,10 @@ def max_concurrent_turns_per_user() -> int:
     return int(os.environ.get("CHAT_MAX_CONCURRENT_TURNS_PER_USER", "2"))
 
 
+def _daily_limit_exhausted(completed: int, pending: int, limit: int) -> bool:
+    return completed + pending >= limit
+
+
 async def _reap_stale_pending_messages(
     db: AsyncSession, user_id: int, *, now: datetime | None = None
 ) -> int:
@@ -135,6 +139,16 @@ async def _reap_stale_pending_messages(
         .execution_options(synchronize_session=False)
     )
     return len(result.scalars().all())
+
+
+async def _reload_locked_turn_state(
+    db: AsyncSession, paper_id: str, user_id: int, usage_date: date
+) -> tuple[PaperDocument | None, ChatUsageDaily | None]:
+    document = await db.get(PaperDocument, paper_id, populate_existing=True)
+    usage = await db.get(
+        ChatUsageDaily, (user_id, usage_date), populate_existing=True
+    )
+    return document, usage
 
 
 @dataclass
@@ -449,7 +463,7 @@ async def start_turn(
 
     usage = await db.get(ChatUsageDaily, (user.id, date.today()))
     daily_limit = daily_message_limit()
-    if usage and usage.request_count >= daily_limit:
+    if _daily_limit_exhausted(usage.request_count if usage else 0, 0, daily_limit):
         raise ChatError("daily_limit_reached", 429)
 
     if client_request_id:
@@ -564,11 +578,12 @@ async def start_turn(
 
     await _reap_stale_pending_messages(db, user.id)
 
-    document = await db.get(PaperDocument, session.paper_id)
+    document, usage = await _reload_locked_turn_state(
+        db, session.paper_id, user.id, date.today()
+    )
     if not document or document.status != "ready" or not document_is_current(document):
         raise ChatError("paper_not_ready", 409)
-    usage = await db.get(ChatUsageDaily, (user.id, date.today()))
-    if usage and usage.request_count >= daily_limit:
+    if _daily_limit_exhausted(usage.request_count if usage else 0, 0, daily_limit):
         raise ChatError("daily_limit_reached", 429)
 
     session_pending = (
@@ -591,6 +606,9 @@ async def start_turn(
             .where(ChatSession.user_id == user.id, ChatMessage.status == "pending")
         )
     ).scalar_one()
+    completed_requests = usage.request_count if usage else 0
+    if _daily_limit_exhausted(completed_requests, user_pending, daily_limit):
+        raise ChatError("daily_limit_reached", 429)
     if user_pending >= max_concurrent_turns_per_user():
         raise ChatError("user_generation_limit", 409)
 
