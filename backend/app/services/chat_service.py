@@ -456,12 +456,13 @@ async def start_turn(
     intent = classify_intent(content)
     if intent.action == "block":
         raise ChatError("request_blocked", 422)
+    usage_date = date.today()
 
     document = await db.get(PaperDocument, session.paper_id)
     if not document or document.status != "ready" or not document_is_current(document):
         raise ChatError("paper_not_ready", 409)
 
-    usage = await db.get(ChatUsageDaily, (user.id, date.today()))
+    usage = await db.get(ChatUsageDaily, (user.id, usage_date))
     daily_limit = daily_message_limit()
     if _daily_limit_exhausted(usage.request_count if usage else 0, 0, daily_limit):
         raise ChatError("daily_limit_reached", 429)
@@ -579,7 +580,7 @@ async def start_turn(
     await _reap_stale_pending_messages(db, user.id)
 
     document, usage = await _reload_locked_turn_state(
-        db, session.paper_id, user.id, date.today()
+        db, session.paper_id, user.id, usage_date
     )
     if not document or document.status != "ready" or not document_is_current(document):
         raise ChatError("paper_not_ready", 409)

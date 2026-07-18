@@ -89,34 +89,47 @@ async def get_db():
 async def _enable_pgvector_index(conn) -> bool:
     """Enable optional HNSW acceleration without requiring pgvector in prod."""
     from sqlalchemy import text
+    from sqlalchemy.exc import SQLAlchemyError
 
-    available = await conn.scalar(
-        text(
-            """
-            SELECT EXISTS (
-                SELECT 1 FROM pg_available_extensions WHERE name = 'vector'
+    try:
+        async with conn.begin_nested():
+            available = await conn.scalar(
+                text(
+                    """
+                    SELECT EXISTS (
+                        SELECT 1 FROM pg_available_extensions WHERE name = 'vector'
+                    )
+                    """
+                )
             )
-            """
+            if not available:
+                log.info(
+                    "pgvector is unavailable; using PostgreSQL array cosine search."
+                )
+                return False
+
+            await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+            await conn.execute(
+                text(
+                    f"""
+                    CREATE INDEX IF NOT EXISTS ix_paper_chunks_embedding_hnsw_256
+                    ON paper_chunks USING hnsw (
+                        (embedding::vector({_PGVECTOR_INDEX_DIMENSIONS}))
+                        vector_cosine_ops
+                    )
+                    WHERE embedding IS NOT NULL
+                      AND array_length(embedding, 1) = {_PGVECTOR_INDEX_DIMENSIONS}
+                    """
+                )
+            )
+    except SQLAlchemyError as exc:
+        log.warning(
+            "pgvector acceleration could not be enabled; using PostgreSQL "
+            "array cosine search: %s",
+            exc,
         )
-    )
-    if not available:
-        log.info("pgvector is unavailable; using PostgreSQL array cosine search.")
         return False
 
-    await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
-    await conn.execute(
-        text(
-            f"""
-            CREATE INDEX IF NOT EXISTS ix_paper_chunks_embedding_hnsw_256
-            ON paper_chunks USING hnsw (
-                (embedding::vector({_PGVECTOR_INDEX_DIMENSIONS}))
-                vector_cosine_ops
-            )
-            WHERE embedding IS NOT NULL
-              AND array_length(embedding, 1) = {_PGVECTOR_INDEX_DIMENSIONS}
-            """
-        )
-    )
     return True
 
 

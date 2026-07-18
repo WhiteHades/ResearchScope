@@ -14,6 +14,7 @@ from sqlalchemy.dialects import postgresql
 BACKEND = Path(__file__).resolve().parents[1] / "backend"
 sys.path.insert(0, str(BACKEND))
 
+from app.database import _enable_pgvector_index  # noqa: E402
 from app.main import app  # noqa: E402
 from app.models import Paper, PaperDocument  # noqa: E402
 from app.routers.paper_documents import _status  # noqa: E402
@@ -74,10 +75,9 @@ from app.services.provider_service import (  # noqa: E402
 from app.services.quota_service import _window_start  # noqa: E402
 from app.services.retrieval_service import (  # noqa: E402
     RetrievedChunk,
-    _embedding_literal,
+    _embedding_parameter,
     _semantic_search_statement,
     classify_query,
-    cosine_similarity,
     reciprocal_rank_fusion,
 )
 
@@ -307,12 +307,10 @@ def test_structured_chunking_creates_section_aware_parent_child_chunks():
     )
 
 
-def test_adaptive_query_classifier_and_cosine_similarity():
+def test_adaptive_query_classifier_and_rank_fusion():
     assert classify_query("Summarize the entire paper") == "global"
     assert classify_query("What does Figure 3 show?") == "visual"
     assert classify_query("Which optimizer was used?") == "local"
-    assert cosine_similarity([1.0, 0.0], [1.0, 0.0]) == pytest.approx(1.0)
-    assert cosine_similarity([1.0, 0.0], [0.0, 1.0]) == pytest.approx(0.0)
     fused = reciprocal_rank_fusion([[1, 2, 3], [2, 3, 4], [2, 5]])
     assert max(fused, key=fused.get) == 2
 
@@ -339,12 +337,44 @@ def test_semantic_search_is_limited_and_ranked_inside_postgresql():
     assert "LIMIT :semantic_limit" in array_sql
     assert "embedding_model = :embedding_model" not in array_sql
 
+    for dimensions in (0, 3073):
+        with pytest.raises(ValueError, match="embedding dimensions"):
+            _semantic_search_statement(
+                dimensions=dimensions, pgvector=False, filter_model=False
+            )
 
-def test_embedding_literals_are_bound_data_not_sql_fragments():
-    assert _embedding_literal([1, 0.5], pgvector=True) == "[1.0,0.5]"
-    assert _embedding_literal([1, 0.5], pgvector=False) == [1.0, 0.5]
+
+def test_embedding_parameters_are_bound_data_not_sql_fragments():
+    assert _embedding_parameter([1, 0.5], pgvector=True) == "[1.0,0.5]"
+    assert _embedding_parameter([1, 0.5], pgvector=False) == [1.0, 0.5]
     with pytest.raises(ValueError):
-        _embedding_literal([float("nan")], pgvector=True)
+        _embedding_parameter([float("nan")], pgvector=True)
+
+
+def test_pgvector_setup_failure_falls_back_without_aborting_database_init():
+    class _Savepoint:
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, exc_type, exc, traceback):
+            return False
+
+    class _Connection:
+        @staticmethod
+        def begin_nested():
+            return _Savepoint()
+
+        @staticmethod
+        async def scalar(_statement):
+            return True
+
+        @staticmethod
+        async def execute(_statement):
+            from sqlalchemy.exc import SQLAlchemyError
+
+            raise SQLAlchemyError("extension permission denied")
+
+    assert asyncio.run(_enable_pgvector_index(_Connection())) is False
 
 
 def test_pymupdf_extraction_and_visual_rendering_stay_page_aware():

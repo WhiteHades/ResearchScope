@@ -54,18 +54,7 @@ def classify_query(question: str) -> str:
     return "local"
 
 
-def cosine_similarity(left: list[float], right: list[float]) -> float:
-    if not left or len(left) != len(right):
-        return -1.0
-    dot = math.fsum(a * b for a, b in zip(left, right, strict=True))
-    left_norm = math.sqrt(math.fsum(value * value for value in left))
-    right_norm = math.sqrt(math.fsum(value * value for value in right))
-    if not left_norm or not right_norm:
-        return -1.0
-    return dot / (left_norm * right_norm)
-
-
-def _embedding_literal(
+def _embedding_parameter(
     values: list[float], *, pgvector: bool
 ) -> str | list[float]:
     normalized = [float(value) for value in values]
@@ -79,6 +68,8 @@ def _embedding_literal(
 def _semantic_search_statement(
     *, dimensions: int, pgvector: bool, filter_model: bool
 ):
+    if not 1 <= dimensions <= 3072:
+        raise ValueError("embedding dimensions must be between 1 and 3072")
     model_filter = "AND pc.embedding_model = :embedding_model" if filter_model else ""
     if pgvector:
         vector_type = f"vector({dimensions})" if dimensions == 256 else "vector"
@@ -243,7 +234,7 @@ async def retrieve_chunks(
         parameters = {
             "paper_id": paper_id,
             "dimensions": len(query_embedding),
-            "query_embedding": _embedding_literal(
+            "query_embedding": _embedding_parameter(
                 query_embedding, pgvector=use_pgvector
             ),
             "semantic_limit": semantic_limit,
