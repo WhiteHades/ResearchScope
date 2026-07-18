@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import asyncio
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 import fitz
 import httpx
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy.dialects import postgresql
 
 BACKEND = Path(__file__).resolve().parents[1] / "backend"
 sys.path.insert(0, str(BACKEND))
@@ -17,6 +19,7 @@ from app.models import Paper, PaperDocument  # noqa: E402
 from app.routers.paper_documents import _status  # noqa: E402
 from app.services import document_service  # noqa: E402
 from app.services.chat_service import (  # noqa: E402
+    _reap_stale_pending_messages,
     answer_has_citation_coverage,
     build_system_prompt,
     build_user_prompt,
@@ -88,6 +91,42 @@ def test_chat_limits_use_environment_overrides(monkeypatch):
     monkeypatch.setenv("CHAT_MAX_CONCURRENT_TURNS_PER_USER", "3")
     assert daily_message_limit() == 12
     assert max_concurrent_turns_per_user() == 3
+
+
+def test_stale_pending_assistant_messages_are_reaped_for_user():
+    class _ScalarResult:
+        @staticmethod
+        def all():
+            return ["stale-message-id"]
+
+    class _ExecuteResult:
+        @staticmethod
+        def scalars():
+            return _ScalarResult()
+
+    class _FakeSession:
+        statement = None
+
+        async def execute(self, statement):
+            self.statement = statement
+            return _ExecuteResult()
+
+    db = _FakeSession()
+    now = datetime(2026, 7, 18, 12, tzinfo=timezone.utc)
+    reaped = asyncio.run(_reap_stale_pending_messages(db, 7, now=now))
+
+    assert reaped == 1
+    sql = str(
+        db.statement.compile(
+            dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True}
+        )
+    )
+    assert "UPDATE chat_messages" in sql
+    assert "chat_messages.role = 'assistant'" in sql
+    assert "chat_messages.status = 'pending'" in sql
+    assert "chat_messages.created_at < '2026-07-18 11:45:00+00:00'" in sql
+    assert "chat_sessions.user_id = 7" in sql
+    assert "status='failed'" in sql.replace(" ", "")
 
 
 def test_pdf_host_allowlist_blocks_untrusted_hosts():

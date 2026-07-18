@@ -8,9 +8,9 @@ import time
 import uuid
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -98,6 +98,7 @@ _INSUFFICIENT_EVIDENCE_RESPONSE = (
     "I couldn't find enough evidence in this paper to answer that. "
     "Try asking about a specific section, method, experiment, or result."
 )
+_STALE_PENDING_AFTER = timedelta(minutes=15)
 
 
 class ChatError(RuntimeError):
@@ -113,6 +114,27 @@ def daily_message_limit() -> int:
 
 def max_concurrent_turns_per_user() -> int:
     return int(os.environ.get("CHAT_MAX_CONCURRENT_TURNS_PER_USER", "2"))
+
+
+async def _reap_stale_pending_messages(
+    db: AsyncSession, user_id: int, *, now: datetime | None = None
+) -> int:
+    cutoff = (now or datetime.now(timezone.utc)) - _STALE_PENDING_AFTER
+    result = await db.execute(
+        update(ChatMessage)
+        .where(
+            ChatMessage.role == "assistant",
+            ChatMessage.status == "pending",
+            ChatMessage.created_at < cutoff,
+            ChatMessage.session_id.in_(
+                select(ChatSession.id).where(ChatSession.user_id == user_id)
+            ),
+        )
+        .values(status="failed", content="")
+        .returning(ChatMessage.id)
+        .execution_options(synchronize_session=False)
+    )
+    return len(result.scalars().all())
 
 
 @dataclass
@@ -539,6 +561,8 @@ async def start_turn(
         raise ChatError("chat_session_not_found", 404)
     user = locked_user
     session = locked_session
+
+    await _reap_stale_pending_messages(db, user.id)
 
     document = await db.get(PaperDocument, session.paper_id)
     if not document or document.status != "ready" or not document_is_current(document):
