@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, field_validator
 
 # ── Paper ─────────────────────────────────────────────────────────────────────
 
@@ -31,6 +31,27 @@ class PaperOut(BaseModel):
     one_line_takeaway: str | None = None
 
     model_config = {"from_attributes": True}
+
+    # These columns are nullable in the database, but a field default only
+    # applies when the key is absent — a present-but-NULL value is validated
+    # against the annotation and raises. Because PaperList.results is a
+    # list[PaperOut], a single row with a NULL here would otherwise 500 the
+    # entire listing, not just that paper. Coerce NULL to the default so
+    # partially-populated rows degrade instead of taking the endpoint down.
+    @field_validator("authors", "tags", "topics", mode="before")
+    @classmethod
+    def _null_to_empty_list(cls, value: object) -> object:
+        return [] if value is None else value
+
+    @field_validator("citations", mode="before")
+    @classmethod
+    def _null_to_zero(cls, value: object) -> object:
+        return 0 if value is None else value
+
+    @field_validator("paper_score", mode="before")
+    @classmethod
+    def _null_to_zero_score(cls, value: object) -> object:
+        return 0.0 if value is None else value
 
 
 class PaperList(BaseModel):

@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class DocumentStatusOut(BaseModel):
@@ -13,6 +13,15 @@ class DocumentStatusOut(BaseModel):
     chunk_count: int = 0
     viewer_url: str | None = None
     error_code: str | None = None
+
+    # paper_documents.page_count / chunk_count are nullable, and a field
+    # default does not cover a present-but-NULL value. Coerce so a document
+    # row written before those columns were populated cannot 500 the status
+    # endpoint the chat UI polls.
+    @field_validator("page_count", "chunk_count", mode="before")
+    @classmethod
+    def _null_to_zero(cls, value: object) -> object:
+        return 0 if value is None else value
 
 
 class ChatSessionCreate(BaseModel):
