@@ -34,6 +34,55 @@ The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** o
 
 ---
 
+## Install the CLI
+
+The `researchscope` package ships a lightweight command-line tool for searching, saving, and analysing papers locally. It requires **Python 3.10+**.
+
+```bash
+pip install researchscope
+```
+
+This installs the `researchscope` command. Run it with no arguments to see all commands and options:
+
+```bash
+researchscope --help
+```
+
+### Usage
+
+**Search** arXiv (or Semantic Scholar) and print ranked results:
+
+```bash
+# Top 10 arXiv results for a query
+researchscope search "graph neural networks"
+
+# Limit results and save them to a local store for later analysis
+researchscope search "diffusion models" --limit 25 --save
+
+# Use Semantic Scholar as the source
+researchscope search "retrieval augmented generation" --source semantic_scholar
+```
+
+**List** the papers you've saved locally:
+
+```bash
+researchscope list-papers          # all saved papers, ranked
+researchscope list-papers --limit 20
+```
+
+**Gaps** — surface the least-covered topics across your saved papers:
+
+```bash
+researchscope gaps                 # top 10 gap topics
+researchscope gaps --top-n 25
+```
+
+> **Note:** `search --save` persists results to a local store first; `list-papers` and `gaps` operate on those saved papers. Run a save before using them.
+
+> The CLI is a self-contained prototype. The full ResearchScope platform — 100K+ papers, venue recommenders, and the web dashboard — lives at the links above and in [`src/`](src/).
+
+---
+
 ## What's New
 
 | Date | Highlight |
