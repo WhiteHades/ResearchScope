@@ -9,7 +9,13 @@ from dataclasses import dataclass
 from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.database import PGVECTOR_INDEX_DIMENSIONS
 from app.models import PaperChunk
+
+# Whether the connected database exposes the pgvector `vector` type. This cannot
+# change while the process runs — the extension is created (or found missing)
+# once during init_db — so probe once instead of per query.
+_pgvector_supported: bool | None = None
 
 
 @dataclass(frozen=True)
@@ -72,7 +78,13 @@ def _semantic_search_statement(
         raise ValueError("embedding dimensions must be between 1 and 3072")
     model_filter = "AND pc.embedding_model = :embedding_model" if filter_model else ""
     if pgvector:
-        vector_type = f"vector({dimensions})" if dimensions == 256 else "vector"
+        # Only the index width can use the typed cast; anything else must fall
+        # back to an untyped vector, which cannot hit the HNSW index.
+        vector_type = (
+            f"vector({dimensions})"
+            if dimensions == PGVECTOR_INDEX_DIMENSIONS
+            else "vector"
+        )
         distance = (
             f"(pc.embedding::{vector_type}) <=> "
             f"CAST(:query_embedding AS {vector_type})"
@@ -117,11 +129,20 @@ def _semantic_search_statement(
 
 
 async def _pgvector_available(db: AsyncSession) -> bool:
-    return bool(
-        (
-            await db.execute(text("SELECT to_regtype('vector') IS NOT NULL"))
-        ).scalar_one()
-    )
+    global _pgvector_supported
+    if _pgvector_supported is None:
+        _pgvector_supported = bool(
+            (
+                await db.execute(text("SELECT to_regtype('vector') IS NOT NULL"))
+            ).scalar_one()
+        )
+    return _pgvector_supported
+
+
+def reset_pgvector_support_cache() -> None:
+    """Forget the probed pgvector support. Primarily for deterministic tests."""
+    global _pgvector_supported
+    _pgvector_supported = None
 
 
 def reciprocal_rank_fusion(

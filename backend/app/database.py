@@ -8,7 +8,18 @@ from sqlalchemy.orm import DeclarativeBase
 
 log = logging.getLogger(__name__)
 
-_PGVECTOR_INDEX_DIMENSIONS = 256
+# Dimension the optional pgvector HNSW index is built for. The retrieval query
+# must cast to the same typed `vector(N)` for the index to be usable, so this is
+# the single source of truth for both — import it rather than repeating 256.
+PGVECTOR_INDEX_DIMENSIONS = 256
+
+
+def configured_embedding_dimensions() -> int:
+    """Embedding width the app is configured to produce, or the default."""
+    try:
+        return int(os.environ.get("OPENAI_EMBEDDING_DIMENSIONS", "256"))
+    except ValueError:
+        return PGVECTOR_INDEX_DIMENSIONS
 
 
 def _database_url() -> str:
@@ -108,17 +119,31 @@ async def _enable_pgvector_index(conn) -> bool:
                 )
                 return False
 
+            configured = configured_embedding_dimensions()
+            if configured != PGVECTOR_INDEX_DIMENSIONS:
+                # The index is typed vector(PGVECTOR_INDEX_DIMENSIONS); a query
+                # embedding of a different width cannot use it, so retrieval
+                # silently degrades to a sequential scan. Say so out loud.
+                log.warning(
+                    "OPENAI_EMBEDDING_DIMENSIONS=%s does not match the pgvector "
+                    "index width %s; semantic search will not use the HNSW index. "
+                    "Rebuild the index for %s dimensions or revert the setting.",
+                    configured,
+                    PGVECTOR_INDEX_DIMENSIONS,
+                    configured,
+                )
+
             await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
             await conn.execute(
                 text(
                     f"""
                     CREATE INDEX IF NOT EXISTS ix_paper_chunks_embedding_hnsw_256
                     ON paper_chunks USING hnsw (
-                        (embedding::vector({_PGVECTOR_INDEX_DIMENSIONS}))
+                        (embedding::vector({PGVECTOR_INDEX_DIMENSIONS}))
                         vector_cosine_ops
                     )
                     WHERE embedding IS NOT NULL
-                      AND array_length(embedding, 1) = {_PGVECTOR_INDEX_DIMENSIONS}
+                      AND array_length(embedding, 1) = {PGVECTOR_INDEX_DIMENSIONS}
                     """
                 )
             )
