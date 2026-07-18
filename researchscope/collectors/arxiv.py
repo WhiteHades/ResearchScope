@@ -12,6 +12,42 @@ from researchscope.models.paper import Paper
 _ARXIV_API = "https://export.arxiv.org/api/query"
 _NS = {"atom": "http://www.w3.org/2005/Atom", "arxiv": "http://arxiv.org/schemas/atom"}
 
+# arXiv field prefixes and boolean operators. If a raw query already uses any of
+# these, we treat the caller as a power user and pass the query through untouched.
+_FIELD_PREFIXES = (
+    "ti:", "abs:", "au:", "cat:", "all:", "co:", "jr:", "rn:", "id:",
+)
+_BOOL_OPS = (" AND ", " OR ", " ANDNOT ")
+
+
+def _build_search_query(query: str) -> str:
+    """Turn a user query into a relevance-tight arXiv ``search_query``.
+
+    A bare multi-word query (e.g. ``"large language models"``) is otherwise
+    interpreted loosely by the arXiv API — matching papers that contain *any*
+    of the words in *any* field — which, combined with newest-first sorting,
+    surfaces unrelated recent papers. To tighten it we require every word to
+    appear (``all:large AND all:language AND all:models``).
+
+    Queries that already use arXiv field syntax or boolean operators, or that
+    are wrapped in quotes for an exact-phrase match, are passed through
+    unchanged so power users keep full control.
+    """
+    q = query.strip()
+    if not q:
+        return q
+    lowered = q.lower()
+    if any(prefix in lowered for prefix in _FIELD_PREFIXES):
+        return q
+    if any(op in f" {q} " for op in _BOOL_OPS):
+        return q
+    if q.startswith('"') and q.endswith('"') and len(q) > 1:
+        return f"all:{q}"
+    terms = q.split()
+    if len(terms) <= 1:
+        return f"all:{q}"
+    return " AND ".join(f"all:{term}" for term in terms)
+
 
 class ArxivCollector:
     """Fetch papers from the arXiv public API."""
@@ -37,7 +73,7 @@ class ArxivCollector:
         """
         max_results = min(max_results, 100)
         params = {
-            "search_query": query,
+            "search_query": _build_search_query(query),
             "start": start,
             "max_results": max_results,
             "sortBy": "submittedDate",
