@@ -10,6 +10,7 @@ sys.path.insert(0, str(BACKEND))
 
 from app.database import (  # noqa: E402
     PGVECTOR_INDEX_DIMENSIONS,
+    _ssl_mode,
     configured_embedding_dimensions,
 )
 from app.services import retrieval_service  # noqa: E402
@@ -103,6 +104,15 @@ def test_configured_embedding_dimensions_reads_env(monkeypatch):
 
     monkeypatch.setenv("OPENAI_EMBEDDING_DIMENSIONS", "not-a-number")
     assert configured_embedding_dimensions() == PGVECTOR_INDEX_DIMENSIONS
+
+
+def test_ssl_mode_checks_hostname_not_credentials(monkeypatch):
+    monkeypatch.delenv("DATABASE_SSL", raising=False)
+
+    remote = "postgresql+asyncpg://user:localhost@db.example.test/app"
+    assert _ssl_mode(remote) == "require"
+    assert _ssl_mode("postgresql+asyncpg://user:secret@localhost/app") == "disable"
+    assert _ssl_mode("postgresql+asyncpg://user:secret@[::1]/app") == "disable"
 
 
 def teardown_module(_module):

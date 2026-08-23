@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import os
+from urllib.parse import urlsplit
 
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
@@ -56,7 +57,8 @@ def _database_url() -> str:
 
 def _ssl_mode(url: str) -> str:
     # Local connections don't have SSL; Railway's public proxy requires it.
-    if any(h in url for h in ("localhost", "127.0.0.1", "[::1]")):
+    hostname = (urlsplit(url).hostname or "").lower()
+    if hostname in {"localhost", "127.0.0.1", "::1"}:
         return "disable"
     return os.environ.get("DATABASE_SSL", "require")
 
