@@ -11,6 +11,7 @@ from src.connectors.openreview_connector import (
     _epoch_ms_to_iso_date,
     _parse_presentation_type,
 )
+from src.normalization.schema import Paper
 
 
 def _note(venue: str, *, title: str = "A Paper", pdate: int | None = None,
@@ -105,3 +106,35 @@ class TestNoteToPaper:
     def test_tags_not_polluted(self):
         # Raw OpenReview keywords must NOT become tags (the tagger owns that).
         assert self._map(_note("ICLR 2024 poster")).tags == []
+
+
+def test_search_fallback_keeps_papers_returned_by_venue_fetch(monkeypatch):
+    """A failed search request must use the venue fallback without remapping papers."""
+    connector = OpenReviewConnector(venues=["ICLR.cc/2024/Conference"])
+    fallback = [Paper(id="openreview:fallback", title="Fallback paper")]
+
+    def fail_search(_url):
+        raise RuntimeError("search unavailable")
+
+    monkeypatch.setattr(connector, "_get", fail_search)
+    monkeypatch.setattr(connector, "_fetch_venue_all", lambda _venue_id: fallback)
+
+    assert connector._fetch_venue_search(
+        "attention", "ICLR.cc/2024/Conference", max_results=1
+    ) == fallback
+
+
+def test_fetch_caps_results_across_venues(monkeypatch):
+    """The connector-wide result limit applies after merging venue results."""
+    connector = OpenReviewConnector(
+        venues=["ICLR.cc/2024/Conference", "ICLR.cc/2023/Conference"]
+    )
+
+    def venue_results(_query, venue_id, _max_results):
+        return [Paper(id=f"{venue_id}:{index}", title="Paper") for index in range(3)]
+
+    monkeypatch.setattr(connector, "_fetch_venue_search", venue_results)
+
+    result = connector.fetch("attention", max_results=3)
+
+    assert len(result) == 3

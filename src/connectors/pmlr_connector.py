@@ -62,6 +62,7 @@ class _PMLRParser(HTMLParser):
         self._in_authors = False
         self._in_abstract = False
         self._tag_stack: list[str] = []
+        self._paper_div_depth = 0
 
     def handle_starttag(self, tag: str, attrs: list) -> None:
         attr_dict = dict(attrs)
@@ -70,7 +71,10 @@ class _PMLRParser(HTMLParser):
 
         if tag == "div" and "paper" in cls:
             self._current = {"title": "", "authors": [], "abstract": "", "url": ""}
+            self._paper_div_depth = 1
         elif self._current is not None:
+            if tag == "div":
+                self._paper_div_depth += 1
             if tag == "p" and cls == "title":
                 self._in_title = True
             elif tag == "p" and cls == "authors":
@@ -89,9 +93,12 @@ class _PMLRParser(HTMLParser):
             self._in_title = False
             self._in_authors = False
             self._in_abstract = False
-        if tag == "div" and self._current and self._current.get("title"):
-            self.papers.append(self._current)
-            self._current = None
+        if tag == "div" and self._current:
+            self._paper_div_depth -= 1
+            if self._paper_div_depth == 0:
+                if self._current.get("title"):
+                    self.papers.append(self._current)
+                self._current = None
 
     def handle_data(self, data: str) -> None:
         if self._current is None:
