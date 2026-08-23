@@ -145,18 +145,57 @@ async function _queryPapers({
     console.warn('[railway] queryPapers failed, falling back to static JSON:', e.message);
   }
 
-  // 2. Last resort — static JSON (already capped at 1 000 by the generator)
+  // 2. Last resort — use the matching generated section instead of always
+  // falling back to the arXiv-only papers snapshot.
   try {
-    const res = await fetch('data/papers.json');
+    const staticPath = source === 'conference'
+      ? 'data/conferences.json'
+      : source === 'journal'
+        ? 'data/journals.json'
+        : 'data/papers.json';
+    const res = await fetch(staticPath);
     const all = await res.json();
-    const filtered = search
-      ? all.filter(p => (p.title||'').toLowerCase().includes(search.toLowerCase()) ||
-                        (p.abstract||'').toLowerCase().includes(search.toLowerCase()))
-      : all;
+    const query = search.toLowerCase();
+    const wantedTag = tagNormalizeMap[tag] || tag;
+    const difficultyNames = {
+      L1: 'beginner', L2: 'intermediate', L3: 'advanced', L4: 'frontier',
+    };
+    const filtered = all.filter((paper) => {
+      const paperTags = (paper.tags || []).map((item) => tagNormalizeMap[item] || item);
+      const matchesSearch = !query || [
+        paper.title, paper.abstract, ...(paper.authors || []),
+      ].some((value) => String(value || '').toLowerCase().includes(query));
+      const matchesDifficulty = !difficulty ||
+        paper.difficulty_level === difficulty ||
+        paper.difficulty === difficultyNames[difficulty];
+      return matchesSearch &&
+        (!wantedTag || paperTags.includes(wantedTag)) &&
+        matchesDifficulty &&
+        (!type || paper.paper_type === type) &&
+        (!year || String(paper.year || '') === String(year)) &&
+        (!rank || paper.conference_rank === rank) &&
+        (!venue || String(paper.venue || '').toLowerCase() === venue.toLowerCase());
+    });
+    const numericSortFields = {
+      paper_score: 'paper_score',
+      read_first: 'read_first_score',
+      content: 'content_potential_score',
+      year: 'year',
+      citations: 'citations',
+    };
+    filtered.sort((left, right) => {
+      if (sortBy === 'title') {
+        return String(left.title || '').localeCompare(String(right.title || '')) ||
+          String(left.id || '').localeCompare(String(right.id || ''));
+      }
+      const field = numericSortFields[sortBy] || 'paper_score';
+      return (Number(right[field]) || 0) - (Number(left[field]) || 0) ||
+        String(left.id || '').localeCompare(String(right.id || ''));
+    });
     const count = Math.min(filtered.length, SECTION_CAP);
     return { data: filtered.slice(start, Math.min(start + pageSize, SECTION_CAP)), count, error: null };
   } catch (e) {
-    console.warn('[static] papers.json failed:', e.message);
+    console.warn(`[static] ${source || 'papers'} data failed:`, e.message);
   }
 
   return { data: [], count: 0, error: null };
@@ -423,8 +462,26 @@ function _showUserMenu() {
 
 // ── Auth navigation helpers ───────────────────────────────────────────────────
 
+function _safeReturnTo(value, baseHref) {
+  const raw = String(value || '').trim();
+  if (!raw) return './';
+  try {
+    const base = new URL(baseHref || window.location?.href || window.location?.origin);
+    const target = new URL(raw, base);
+    if (target.origin !== base.origin) return './';
+    return `${target.pathname}${target.search}${target.hash}` || './';
+  } catch (_) {
+    return './';
+  }
+}
+
+window.rsSafeReturnTo = _safeReturnTo;
+
 window.rsOpenModal = function(returnTo) {
-  const page = returnTo || window.location.pathname.split('/').pop() || './';
+  const page = _safeReturnTo(
+    returnTo || window.location.pathname.split('/').pop() || './',
+    window.location.href,
+  );
   window.location.href = `signin.html?returnTo=${encodeURIComponent(page)}`;
 };
 

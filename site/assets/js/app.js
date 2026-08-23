@@ -55,6 +55,15 @@ function paperWorkspaceUrl(paper) {
 }
 window.paperWorkspaceUrl = paperWorkspaceUrl;
 
+function authorPaperCount(author) {
+  const count = author?.paper_count;
+  if (count !== null && count !== undefined && Number.isFinite(Number(count))) {
+    return Number(count);
+  }
+  return Array.isArray(author?.paper_ids) ? author.paper_ids.length : 0;
+}
+window.authorPaperCount = authorPaperCount;
+
 function toggleDisclosure(button, targetId) {
   const target = document.getElementById(targetId);
   if (!target) return;
@@ -267,6 +276,26 @@ function showEmpty(containerId, msg = 'No data available') {
 
 // ── Global Search ─────────────────────────────────────────────────────
 let _searchData = null;
+let _staticSearchPapers = null;
+
+function searchStaticPapers(papers, query, limit = 5) {
+  const q = String(query || '').toLowerCase().trim();
+  if (!q || !Array.isArray(papers)) return [];
+  return papers
+    .filter(p => p.title?.toLowerCase().includes(q) ||
+                 p.abstract?.toLowerCase().includes(q) ||
+                 p.authors?.some(a => a.toLowerCase().includes(q)))
+    .slice(0, limit);
+}
+
+async function loadStaticSearchPapers() {
+  if (_staticSearchPapers) return _staticSearchPapers;
+  _staticSearchPapers = await fetch('data/search_index.json')
+    .then(r => r.json())
+    .then(data => Array.isArray(data) ? data : [])
+    .catch(() => []);
+  return _staticSearchPapers;
+}
 
 async function loadSearchData() {
   if (_searchData) return _searchData;
@@ -277,7 +306,7 @@ async function loadSearchData() {
     fetch('data/authors.json').then(r => r.json()).catch(() => []),
     fetch('data/topics.json').then(r => r.json()).catch(() => []),
   ]);
-  _searchData = { papers: [], authors, topics, _useApi: !!window._rs_data };
+  _searchData = { authors, topics, _useApi: !!window._rs_data };
   return _searchData;
 }
 
@@ -289,12 +318,17 @@ async function runSearch(query, data, limit = 5) {
   let papers = [];
   if (data._useApi) {
     papers = await window._rs_data.searchPapersQuick(q, limit);
+    if (!papers.length) {
+      const fallback = Array.isArray(data.papers)
+        ? data.papers
+        : await loadStaticSearchPapers();
+      papers = searchStaticPapers(fallback, q, limit);
+    }
   } else {
-    papers = (data.papers || [])
-      .filter(p => p.title?.toLowerCase().includes(q) ||
-                   p.abstract?.toLowerCase().includes(q) ||
-                   p.authors?.some(a => a.toLowerCase().includes(q)))
-      .slice(0, limit);
+    const fallback = Array.isArray(data.papers)
+      ? data.papers
+      : await loadStaticSearchPapers();
+    papers = searchStaticPapers(fallback, q, limit);
   }
 
   const authors = (data.authors || [])
@@ -308,6 +342,10 @@ async function runSearch(query, data, limit = 5) {
 
   return { papers, authors, topics };
 }
+
+window.ResearchScopeSearch = {
+  authorPaperCount, loadSearchData, runSearch, searchStaticPapers,
+};
 
 function renderDropdown(results, query, dropdown) {
   const { papers, authors, topics } = results;
@@ -336,7 +374,7 @@ function renderDropdown(results, query, dropdown) {
     authors.forEach(a => {
       html += `<a id="rs-search-option-${optionIndex++}" class="search-result-item" role="option" href="authors.html?q=${encodeURIComponent(a.name)}">
         <div class="sr-title">${escHtml(a.name)}</div>
-        <div class="sr-meta">${a.paper_ids?.length || 0} papers</div>
+        <div class="sr-meta">${authorPaperCount(a)} papers</div>
       </a>`;
     });
   }

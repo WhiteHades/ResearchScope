@@ -746,8 +746,8 @@
   </div>
 </footer>
 
-<script src="assets/js/app.js?v=ui-integrity-18"></script>
-<script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
+<script src="assets/js/app.js?v=20260824-audit"></script>
+<script src="assets/js/railway-api.js?v=20260824-audit"></script>
 <script>
 const GAP_TYPE_LABELS = { explicit: 'Explicit', pattern: 'Pattern', starter: 'Starter' };
 const GAP_TYPE_COLOR  = { explicit: 'gap-card-explicit', pattern: 'gap-card-pattern', starter: 'gap-card-starter' };
@@ -922,7 +922,7 @@ function renderEditorial(ed) {
               </div>
               <div>
                 <div style="font-family:var(--rs-font-display);font-weight:700;font-size:0.92rem;color:var(--rs-ink);letter-spacing:-0.01em">${escHtml(a.name)}</div>
-                <div style="font-size:0.74rem;color:var(--rs-ink-faint);font-family:var(--rs-font-mono)">${(a.paper_ids||[]).length} papers</div>
+                <div style="font-size:0.74rem;color:var(--rs-ink-faint);font-family:var(--rs-font-mono)">${window.authorPaperCount(a)} papers</div>
               </div>
             </div>
             <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem">

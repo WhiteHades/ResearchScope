@@ -5,6 +5,27 @@ assert.equal(
   core.workspaceUrl('arxiv:2501.12/34', 'session 1'),
   'chat-paper?id=arxiv%3A2501.12%2F34&session=session+1'
 );
+assert.equal(
+  core.sessionUrlIfPaperMismatch('arxiv:2501.1', {
+    paper_id: 'arxiv:2501.2',
+    id: 'session-2',
+  }),
+  'chat-paper?id=arxiv%3A2501.2&session=session-2'
+);
+assert.equal(
+  core.sessionUrlIfPaperMismatch('arxiv:2501.1', {
+    paper_id: 'arxiv:2501.1',
+    id: 'session-1',
+  }),
+  ''
+);
+assert.equal(
+  core.sessionUrlIfPaperMismatch('', {
+    paper_id: 'arxiv:2501.2',
+    id: 'session-2',
+  }),
+  'chat-paper?id=arxiv%3A2501.2&session=session-2'
+);
 
 const first = core.consumeSse(
   'event: delta\ndata: {"text":"Hello"}\n\n' +

@@ -284,12 +284,12 @@
   </div>
 </main>
 
-<script src="assets/js/app.js?v=ui-integrity-18"></script>
-<script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
+<script src="assets/js/app.js?v=20260824-audit"></script>
+<script src="assets/js/railway-api.js?v=20260824-audit"></script>
 <script>
 (function () {
   const params   = new URLSearchParams(window.location.search);
-  const returnTo = params.get('returnTo') || './';
+  const returnTo = window.rsSafeReturnTo(params.get('returnTo'), window.location.href);
 
   // Already logged in — skip the page
   if (window._rs_api.auth.isLoggedIn()) {

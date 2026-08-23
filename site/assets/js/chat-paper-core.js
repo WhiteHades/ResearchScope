@@ -9,6 +9,14 @@
     return `chat-paper${params.size ? `?${params}` : ''}`;
   }
 
+  function sessionUrlIfPaperMismatch(currentPaperId, session) {
+    const sessionPaperId = session && session.paper_id;
+    if (!sessionPaperId || String(sessionPaperId) === String(currentPaperId || '')) {
+      return '';
+    }
+    return workspaceUrl(sessionPaperId, session.id);
+  }
+
   function consumeSse(buffer) {
     const normalized = buffer.replace(/\r\n/g, '\n');
     const blocks = normalized.split('\n\n');
@@ -119,6 +127,7 @@
 
   return {
     citationPage, claimSendSlot, clampViewerPage, clampViewerZoom, consumeSse, displayAnswerText,
-    displayCitationLabels, paperLoadPercent, removeSessionById, safeViewerUrl, workspaceUrl,
+    displayCitationLabels, paperLoadPercent, removeSessionById, safeViewerUrl,
+    sessionUrlIfPaperMismatch, workspaceUrl,
   };
 });

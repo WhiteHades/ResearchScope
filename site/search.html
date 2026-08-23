@@ -141,8 +141,8 @@
   </p>
 </footer>
 
-<script src="assets/js/app.js?v=ui-integrity-18"></script>
-<script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
+<script src="assets/js/app.js?v=20260824-audit"></script>
+<script src="assets/js/railway-api.js?v=20260824-audit"></script>
 <script>
 (async () => {
   const input   = document.getElementById('search-page-input');
@@ -174,7 +174,7 @@
       <div class="rs-card p-4 flex items-center justify-between">
         <div>
           <span class="font-medium">${escHtml(a.name)}</span>
-          <span class="text-xs ml-2" style="color:var(--rs-muted)">${a.paper_ids?.length || 0} papers</span>
+          <span class="text-xs ml-2" style="color:var(--rs-muted)">${window.authorPaperCount(a)} papers</span>
         </div>
         <a href="authors.html?q=${encodeURIComponent(a.name)}" class="text-xs font-medium hover:underline" style="color:var(--rs-primary)">View →</a>
       </div>`).join('');
