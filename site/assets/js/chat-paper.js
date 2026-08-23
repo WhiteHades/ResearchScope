@@ -377,8 +377,9 @@
 
   async function openSession(sessionId, navigate) {
     const detail = await api.chat.getSession(sessionId);
-    if (navigate && detail.paper_id !== state.paperId) {
-      location.href = core.workspaceUrl(detail.paper_id, detail.id);
+    const mismatchUrl = core.sessionUrlIfPaperMismatch(state.paperId, detail);
+    if (mismatchUrl) {
+      location.href = mismatchUrl;
       return;
     }
     state.session = detail;
