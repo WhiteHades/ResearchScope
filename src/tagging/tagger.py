@@ -202,7 +202,8 @@ class PaperTagger:
 
     def tag(self, paper: Paper) -> Paper:
         haystack = f"{paper.title} {paper.abstract}"
-        existing = set(paper.tags)
+        existing_order = list(dict.fromkeys(paper.tags))
+        existing = set(existing_order)
 
         for pattern, tag_name in _COMPILED_TAGS:
             if tag_name not in existing and pattern.search(haystack):
@@ -213,10 +214,14 @@ class PaperTagger:
             if specific in existing:
                 existing -= set(redundant)
 
-        # Cap at 5 tags: builtin tags in rule-priority order, then any pre-existing custom tags
+        # Cap at 5 tags: built-ins in rule priority, then existing custom tags.
         builtin_names = {tag for _, tag in _BUILTIN_RULES}
         ordered = [tag for _, tag in _BUILTIN_RULES if tag in existing]
-        custom = [t for t in existing if t not in builtin_names]
+        custom = [
+            tag
+            for tag in existing_order
+            if tag in existing and tag not in builtin_names
+        ]
         paper.tags = (ordered + custom)[:5]
 
         if not paper.paper_type:

@@ -77,6 +77,16 @@ class TestPaperTagger:
         assert "NLP" in result.tags
         assert "Transformers" in result.tags
 
+    def test_existing_custom_tag_order_is_preserved(self):
+        p = _paper(
+            "No built-in topic matches.",
+            tags=["Custom B", "Custom A", "Custom C"],
+        )
+
+        result = self.tagger.tag(p)
+
+        assert result.tags == ["Custom B", "Custom A", "Custom C"]
+
     def test_max_five_tags(self):
         p = self.tagger.tag(_paper(
             "We study large language models with reinforcement learning, diffusion models, "
