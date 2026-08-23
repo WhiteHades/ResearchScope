@@ -88,8 +88,8 @@ def select_papers(
 def _pdf_size(url: str) -> int | None:
     """HEAD the PDF to read Content-Length without downloading the body.
 
-    Returns the size in bytes, or None if it can't be determined (caller then
-    falls back to downloading and enforcing the cap post-hoc).
+    Returns the size in bytes, or None if it can't be determined. The download
+    path independently enforces the cap while reading the response body.
     """
     try:
         req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": _UA})
@@ -100,11 +100,15 @@ def _pdf_size(url: str) -> int | None:
         return None
 
 
-def _download_pdf(url: str) -> bytes | None:
+def _download_pdf(url: str, max_bytes: int = _MAX_PDF_BYTES) -> bytes | None:
     try:
         req = urllib.request.Request(url, headers={"User-Agent": _UA})
         with urllib.request.urlopen(req, timeout=_DOWNLOAD_TIMEOUT) as r:
-            return r.read()
+            payload = r.read(max_bytes + 1)
+            if len(payload) > max_bytes:
+                log.info("[fulltext] skip oversized PDF while downloading: %s", url)
+                return None
+            return payload
     except Exception as exc:
         log.warning("[fulltext] download failed %s: %s", url, exc)
         return None
@@ -141,7 +145,7 @@ def build_rows(paper: dict, max_pdf_bytes: int = _MAX_PDF_BYTES) -> list[dict]:
         log.info("[fulltext] skip oversized PDF (%d bytes, HEAD): %s",
                  head_size, paper.get("id"))
         return []
-    pdf = _download_pdf(url)
+    pdf = _download_pdf(url, max_bytes=max_pdf_bytes)
     if not pdf:
         return []
     if len(pdf) > max_pdf_bytes:
