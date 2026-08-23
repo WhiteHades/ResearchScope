@@ -38,6 +38,30 @@ class TestDeduplicator:
         assert len(result) == 1
         assert result[0].id == "p2"
 
+    def test_title_match_merges_loser_metadata_when_existing_wins(self):
+        p1 = _paper("Shared Title", "p1")
+        p1.authors = ["Ada Lovelace"]
+        p2 = _paper("Shared Title", "p2", abstract="A full abstract here.")
+
+        result = self.dedup.deduplicate([p1, p2])
+
+        assert len(result) == 1
+        assert result[0].authors == ["Ada Lovelace"]
+        assert result[0].abstract == "A full abstract here."
+
+    def test_title_match_merges_loser_metadata_when_new_paper_wins(self):
+        p1 = _paper("Shared Title", "p1")
+        p1.authors = ["Ada Lovelace"]
+        p2 = _paper("Shared Title", "p2", abstract="A full abstract here.")
+        p2.tags = ["LLMs", "RAG"]
+
+        result = self.dedup.deduplicate([p1, p2])
+
+        assert len(result) == 1
+        assert result[0].id == "p2"
+        assert result[0].authors == ["Ada Lovelace"]
+        assert result[0].abstract == "A full abstract here."
+
     def test_empty_list(self):
         assert self.dedup.deduplicate([]) == []
 

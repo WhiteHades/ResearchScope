@@ -77,14 +77,27 @@ def _similarity(a: str, b: str) -> float:
 
 def _merge(winner: Paper, loser: Paper) -> Paper:
     """Fill missing fields in winner from loser where winner is empty."""
-    if not winner.abstract and loser.abstract:
-        winner.abstract = loser.abstract
-    if not winner.pdf_url and loser.pdf_url:
-        winner.pdf_url = loser.pdf_url
-    if not winner.affiliations_raw and loser.affiliations_raw:
-        winner.affiliations_raw = loser.affiliations_raw
-    if not winner.citations and loser.citations:
-        winner.citations = loser.citations
+    scalar_fields = (
+        "abstract", "pdf_url", "summary", "key_contribution", "why_it_matters",
+        "content_hook", "plain_english_explanation", "technical_summary",
+        "tweet_thread", "linkedin_post", "newsletter_blurb", "video_script_outline",
+        "one_line_takeaway", "biggest_caveat", "read_this_if", "difficulty_reason",
+    )
+    for field in scalar_fields:
+        if not getattr(winner, field) and getattr(loser, field):
+            setattr(winner, field, getattr(loser, field))
+
+    list_fields = (
+        "authors", "author_ids", "affiliations_raw", "lab_ids", "university_ids",
+        "topics", "tags", "prerequisites", "limitations", "future_work",
+        "research_gap_signals",
+    )
+    for field in list_fields:
+        values = [*getattr(winner, field), *getattr(loser, field)]
+        combined = list(dict.fromkeys(values))
+        setattr(winner, field, combined)
+
+    winner.citations = max(winner.citations, loser.citations)
     return winner
 
 
@@ -156,5 +169,7 @@ class Deduplicator:
                 existing = result[best_match]
                 if _completeness(result[i]) > _completeness(existing):
                     result[best_match] = _merge(result[i], existing)
+                else:
+                    _merge(existing, result[i])
 
         return [result[i] for i in kept]
