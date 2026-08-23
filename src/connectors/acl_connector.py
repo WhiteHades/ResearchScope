@@ -160,7 +160,7 @@ class ACLAnthologyConnector(BaseConnector):
 
             # Extract field = {value} or field = "value"
             field_re = re.compile(
-                r'\n\s{4}(\w+)\s*=\s*(?:\{((?:[^{}]|\{[^{}]*\})*)\}|"([^"]*)")',
+                r'\n[ \t]+(\w+)\s*=\s*(?:\{((?:[^{}]|\{[^{}]*\})*)\}|"([^"]*)")',
                 re.DOTALL,
             )
             for fm in field_re.finditer(block):
@@ -181,11 +181,11 @@ class ACLAnthologyConnector(BaseConnector):
         try:
             papers = self._search(query, max_results)
             if papers:
-                return papers
+                return papers[:max_results]
         except Exception as exc:
             log.debug("[acl] search API failed: %s", exc)
         try:
-            return self._fallback_venue_json(max_results)
+            return self._fallback_venue_json(max_results)[:max_results]
         except Exception as exc:
             log.debug("[acl] venue JSON fallback failed: %s", exc)
         return []
@@ -230,7 +230,7 @@ class ACLAnthologyConnector(BaseConnector):
                         papers.append(p)
             except Exception as exc:
                 log.debug("[acl] venue fallback '%s' failed: %s", venue, exc)
-        return papers
+        return papers[:max_results]
 
     # ── Normalise: export format ──────────────────────────────────────────────
 
