@@ -36,7 +36,7 @@ from src.clustering.clusterer import TopicClusterer
 from src.connectors.acl_connector import ACLAnthologyConnector
 from src.connectors.arxiv_connector import ArxivConnector
 from src.connectors.cvf_connector import CVFConnector
-from src.connectors.openalex_connector import OpenAlexConnector
+from src.connectors.openalex_connector import OpenAlexConnector, OpenAlexFetchError
 from src.connectors.openreview_connector import OpenReviewConnector
 from src.connectors.pmlr_connector import PMLRConnector
 from src.connectors.semantic_scholar_connector import SemanticScholarConnector
@@ -71,7 +71,7 @@ def _enrich_affiliations_from_s2(papers: list[Paper], batch_size: int = 500) -> 
     import time
     import urllib.request
 
-    key = os.getenv("SEMANTIC_SCHOLAR_KEY", "")
+    key = os.getenv("SEMANTIC_SCHOLAR_API_KEY") or os.getenv("SEMANTIC_SCHOLAR_KEY", "")
     headers = {
         "User-Agent":   "ResearchScope/1.0",
         "Content-Type": "application/json",
@@ -93,7 +93,7 @@ def _enrich_affiliations_from_s2(papers: list[Paper], batch_size: int = 500) -> 
     for i in range(0, len(ids), batch_size):
         chunk = ids[i : i + batch_size]
         body = _json.dumps({"ids": chunk}).encode()
-        url  = "https://api.semanticscholar.org/graph/v1/paper/batch?fields=authors.name,authors.affiliations"
+        url  = "https://api.semanticscholar.org/graph/v1/paper/batch?fields=externalIds,authors.name,authors.affiliations"
         req  = urllib.request.Request(url, data=body, headers=headers, method="POST")
         try:
             with urllib.request.urlopen(req, timeout=60) as resp:
@@ -291,7 +291,7 @@ _DEFAULT_QUERIES = [
 # ── Pipeline ──────────────────────────────────────────────────────────────────
 
 def _fetch_journal_papers(since: str | None = None) -> list[Paper]:
-    """Bulk-fetch top CS journals via OpenAlex (keyless, systematic by source id).
+    """Bulk fetch top CS journals through OpenAlex, filtered by source id.
 
     ``since`` (YYYY-MM-DD) restricts the fetch to works OpenAlex indexed on or
     after that date — the incremental path. It is only set when the complete
@@ -314,6 +314,12 @@ def _fetch_journal_papers(since: str | None = None) -> list[Paper]:
         journal_papers = OpenAlexConnector().fetch_journals(from_created_date=since)
         log.info("    → %d journal papers (openalex)", len(journal_papers))
         fetch_ok = True
+    except OpenAlexFetchError as exc:
+        journal_papers.extend(exc.papers)
+        log.warning(
+            "  [openalex] journal fetch incomplete; retained %d partial papers: %s",
+            len(exc.papers), exc,
+        )
     except Exception as exc:
         log.warning("  [openalex] journal fetch failed: %s", exc)
 
@@ -521,6 +527,18 @@ def run_pipeline(
                 fetched = OpenAlexConnector(from_year=2022).fetch_all(from_created_date=journal_since)
                 log.info("    → %d papers", len(fetched))
                 all_papers.extend(fetched)
+            except OpenAlexFetchError as exc:
+                seen = {paper.id for paper in all_papers}
+                retained = 0
+                for paper in exc.papers:
+                    if paper.id not in seen:
+                        seen.add(paper.id)
+                        all_papers.append(paper)
+                        retained += 1
+                log.warning(
+                    "  [openalex] fetch_all incomplete; retained %d partial papers: %s",
+                    retained, exc,
+                )
             except Exception as exc:
                 log.warning("  [openalex] fetch_all failed: %s", exc)
         else:

@@ -2,7 +2,8 @@
 OpenAlex connector.
 
 Fetches CS/ML/AI/NLP/CV papers from the OpenAlex open catalogue.
-No API key required; polite-pool header raises rate limit significantly.
+OPENALEX_API_KEY enables cursor pagination beyond the first page. Small
+keyword searches and first cursor pages remain public. OpenAlex data is free.
 
 Docs: https://docs.openalex.org/api-entities/works/filter-works
 """
@@ -10,7 +11,9 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
@@ -22,10 +25,17 @@ from src.normalization.schema import Paper
 log = logging.getLogger(__name__)
 
 _BASE   = "https://api.openalex.org"
-_EMAIL  = "mdkishor.morol@stonybrook.edu"   # polite-pool identifier
-_AGENT  = f"ResearchScope/1.0 (mailto:{_EMAIL})"
-_DELAY  = 0.12   # ~8 req/s — well within polite-pool limits
-_PAGE   = 200    # max per page
+_AGENT  = "ResearchScope/1.0"
+_DELAY  = 0.12   # About 8 requests per second, below the 10 request keyless limit.
+_PAGE   = 100    # Supported maximum per page.
+
+
+class OpenAlexFetchError(RuntimeError):
+    """A bulk fetch failed after possibly collecting some records."""
+
+    def __init__(self, message: str, papers: list[Paper]) -> None:
+        super().__init__(message)
+        self.papers = papers
 
 # Fields we need — keeps response payload small
 _SELECT = (
@@ -35,6 +45,8 @@ _SELECT = (
 )
 
 # OpenAlex concept IDs for CS subfields (OR-combined per request)
+# Concepts are deprecated in favor of Topics; these IDs stay unchanged to
+# preserve current coverage until a Topics migration is evaluated.
 _CONCEPT_GROUPS: dict[str, list[str]] = {
     "ML":  ["C119857082", "C48824518", "C108827166"],   # ML, Deep Learning, RL
     "NLP": ["C204321447"],                                # NLP
@@ -82,7 +94,7 @@ _VENUE_MAP: dict[str, tuple[str, str]] = {
 
 # OpenAlex source IDs for the top CS journals → (canonical short name, rank).
 # Used by fetch_journals() to pull every paper from a journal by venue, the
-# keyless counterpart to SemanticScholarConnector.fetch_journals().
+# counterpart to SemanticScholarConnector.fetch_journals().
 # Resolved via the OpenAlex /sources endpoint (display-name search).
 # Note: JMLR and TMLR are indexed poorly by OpenAlex for recent years
 # (they publish open-access / on OpenReview); coverage there is sparse.
@@ -247,10 +259,13 @@ class OpenAlexConnector(BaseConnector):
                         seen.add(p.id)
                         all_papers.append(p)
             except Exception as exc:
-                log.warning("[openalex] %s failed: %s", group, exc)
+                partial = getattr(exc, "papers", [])
+                raise OpenAlexFetchError(
+                    f"{group} pagination failed: {exc}", all_papers + partial
+                ) from exc
         return all_papers
 
-    # ── Journal bulk fetch (keyless S2 fetch_journals replacement) ───────────
+    # ── Journal bulk fetch using cursor pagination ────────────────────────────
 
     def fetch_journals(
         self,
@@ -265,7 +280,8 @@ class OpenAlexConnector(BaseConnector):
         Paginates OpenAlex works filtered to each journal's source id, so
         coverage of a given journal is systematic — unlike fetch_all(), which
         ranks by citations across a whole concept. Sets source_type='journal'
-        and stamps the canonical venue/rank. Requires no API key.
+        and stamps the canonical venue/rank. The first cursor page is public;
+        later pages require an API key.
 
         When ``from_created_date`` (YYYY-MM-DD) is given, only works *indexed by
         OpenAlex on or after that date* are returned — an incremental sync that
@@ -297,7 +313,17 @@ class OpenAlexConnector(BaseConnector):
                     p.source_type     = "journal"
                     all_papers.append(p)
             except Exception as exc:
-                log.warning("[openalex] journal %s failed: %s", short, exc)
+                partial = getattr(exc, "papers", [])
+                for p in partial:
+                    p.venue = short
+                    p.conference_rank = rank
+                    p.source_type = "journal"
+                    if p.id not in seen:
+                        seen.add(p.id)
+                        all_papers.append(p)
+                raise OpenAlexFetchError(
+                    f"journal {short} pagination failed: {exc}", all_papers
+                ) from exc
 
         return all_papers
 
@@ -320,10 +346,13 @@ class OpenAlexConnector(BaseConnector):
             params = urllib.parse.urlencode({
                 "filter":   base_filter,
                 "select":   _SELECT,
-                "per-page": _PAGE,
+                "per_page": _PAGE,
                 "cursor":   cursor,
             })
-            data    = self._get(f"{_BASE}/works?{params}")
+            try:
+                data = self._get(f"{_BASE}/works?{params}")
+            except Exception as exc:
+                raise OpenAlexFetchError(str(exc), papers) from exc
             results = data.get("results", [])
             for work in results:
                 p = self._to_paper(work)
@@ -347,7 +376,7 @@ class OpenAlexConnector(BaseConnector):
             "search":   query,
             "filter":   f"type:article,publication_year:>={self._from_year}",
             "select":   _SELECT,
-            "per-page": min(max_results, _PAGE),
+            "per_page": min(max_results, _PAGE),
         })
         try:
             data   = self._get(f"{_BASE}/works?{params}")
@@ -356,6 +385,8 @@ class OpenAlexConnector(BaseConnector):
             log.info("[openalex] '%s' → %d papers", query, len(papers))
             return papers[:max_results]
         except Exception as exc:
+            if isinstance(exc, urllib.error.HTTPError) and exc.code in {401, 403}:
+                raise
             log.warning("[openalex] search '%s' failed: %s", query, exc)
             return []
 
@@ -375,11 +406,14 @@ class OpenAlexConnector(BaseConnector):
             params = urllib.parse.urlencode({
                 "filter":   base_filter,
                 "select":   _SELECT,
-                "per-page": _PAGE,
+                "per_page": _PAGE,
                 "cursor":   cursor,
                 "sort":     "cited_by_count:desc",
             })
-            data    = self._get(f"{_BASE}/works?{params}")
+            try:
+                data = self._get(f"{_BASE}/works?{params}")
+            except Exception as exc:
+                raise OpenAlexFetchError(str(exc), papers) from exc
             results = data.get("results", [])
             for work in results:
                 p = self._to_paper(work)
@@ -399,6 +433,21 @@ class OpenAlexConnector(BaseConnector):
         return _work_to_paper(work)
 
     def _get(self, url: str) -> dict:
-        req = urllib.request.Request(url, headers={"User-Agent": _AGENT})
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return json.loads(resp.read())
+        headers = {"User-Agent": _AGENT}
+        key = os.getenv("OPENALEX_API_KEY", "")
+        if key:
+            headers["Authorization"] = f"Bearer {key}"
+        for attempt in range(3):
+            req = urllib.request.Request(url, headers=headers)
+            try:
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    return json.loads(resp.read())
+            except urllib.error.HTTPError as exc:
+                if exc.code not in {429, 500, 502, 503, 504} or attempt == 2:
+                    raise
+                retry_after = exc.headers.get("Retry-After", "")
+                try:
+                    delay = min(30.0, max(0.0, float(retry_after)))
+                except ValueError:
+                    delay = 2 ** attempt
+                time.sleep(delay)

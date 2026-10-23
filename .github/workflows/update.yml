@@ -40,6 +40,8 @@ jobs:
           python src/pipeline.py --today
         env:
           PYTHONPATH: ${{ github.workspace }}
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           RAILWAY_DATABASE_URL: ${{ secrets.RAILWAY_DATABASE_URL }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
 

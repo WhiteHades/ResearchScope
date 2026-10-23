@@ -332,6 +332,7 @@ already supplied by the shell or deployment environment.
 | `JWT_SECRET` | Railway Env | Secret key for JWT signing |
 | `HF_TOKEN` | GH Secret | HuggingFace write token for dataset push |
 | `SEMANTIC_SCHOLAR_API_KEY` | GH Secret | Raises S2 rate limit 1→10 req/s |
+| `OPENALEX_API_KEY` | GH Secret or local env | Free API key for cursor pages after the first page. See [authentication](https://help.openalex.org/api/authentication/) and [cursor paging](https://help.openalex.org/api/paging/). Accessed 2026 10 23. |
 | `OPENREVIEW_EMAIL` | GH Secret | For OpenReview authenticated access |
 | `OPENREVIEW_PASSWORD` | GH Secret | For OpenReview authenticated access |
 | `DISCORD_WEBHOOK_URL` | GH Secret | Paper of the Day → Discord |

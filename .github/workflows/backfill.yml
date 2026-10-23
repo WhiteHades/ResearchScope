@@ -48,6 +48,7 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}
           SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
 
       - name: Commit backfilled data
         run: |
