@@ -151,7 +151,9 @@ function renderGap(g, papersById) {
   } else {
     coverage = `Legacy heuristic value: ${escHtml(String(g.confidence ?? ''))}, not calibrated`;
   }
-  const evidencePapers = (g.evidence_paper_ids || g.source_paper_ids || []).map(id=>papersById[id]).filter(Boolean);
+  const evidenceIds = [...new Set(g.evidence_paper_ids || g.source_paper_ids || [])];
+  const evidencePapers = evidenceIds.map(id=>papersById[id]).filter(Boolean);
+  const shownEvidencePapers = evidencePapers.slice(0,3);
   return `
   <div class="gap-card ${cls} mb-4">
     <div class="flex flex-wrap items-center gap-2 mb-2">
@@ -171,13 +173,13 @@ function renderGap(g, papersById) {
     <ul class="text-sm space-y-1 list-disc list-inside">
       ${(g.suggested_projects).slice(0,3).map(p=>`<li>${escHtml(p)}</li>`).join('')}
     </ul>` : ''}
-    ${evidencePapers.length ? `
-    <p class="text-xs font-semibold uppercase mt-3 mb-2" style="color:var(--rs-muted)">Example papers (${evidencePapers.length})</p>
+    ${evidenceIds.length ? `
+    <p class="text-xs font-semibold uppercase mt-3 mb-2" style="color:var(--rs-muted)">Example papers (${shownEvidencePapers.length} shown, ${evidencePapers.length} attached, ${evidenceIds.length} reference${evidenceIds.length!==1?'s':''})</p>
     <div class="space-y-1">
-      ${evidencePapers.slice(0,3).map(p=>{
+      ${shownEvidencePapers.map(p=>{
         const url = paperWorkspaceUrl(p);
         return `<a href="${escHtml(url)}" class="block text-xs hover:underline" style="color:var(--rs-primary)">${escHtml(p.title)}</a>`;
-      }).join('')}
+      }).join('') || 'No referenced papers are attached in this snapshot.'}
     </div>` : ''}
   </div>`;
 }
@@ -216,15 +218,19 @@ function applyFilters(papersById) {
 }
 
 (async () => {
-  const [gaps, papers] = await Promise.all([
+  const [gaps, papers, gapEvidenceById] = await Promise.all([
     window._rs_data.fetchAllGaps(),
     window._rs_data.fetchTopPapers(1000),
+    fetch('data/gap_evidence.json').then(r=>r.ok?r.json():{}).catch(()=>({})),
   ]);
   if (!gaps || !gaps.length) { showEmpty('gaps-list','No results yet. Run the pipeline.'); return; }
 
   allGaps = gaps;
-  const papersById = {};
+  const papersById = Object.create(null);
   (papers||[]).forEach(p => { papersById[p.id] = p; });
+  Object.values(gapEvidenceById || {}).flat().forEach(p => {
+    if (p?.id && !papersById[p.id]) papersById[p.id] = p;
+  });
 
   // Populate topic filter
   const topics = [...new Set(gaps.map(g=>g.topic).filter(Boolean))].sort();

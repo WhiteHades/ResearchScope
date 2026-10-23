@@ -102,7 +102,33 @@ class SiteGenerator:
         top_topics = sorted(topics, key=lambda t: (-t.trend_score, -len(t.paper_ids)))
         self._write(output_dir, "topics.json",      [t.to_dict() for t in top_topics[: self.MAX_TOPICS]])
         top_gaps = sorted(gaps, key=lambda g: (-g.frequency, g.gap_type, g.topic.casefold(), g.title.casefold(), g.gap_id))
-        self._write(output_dir, "gaps.json",        [g.to_dict() for g in top_gaps[: self.MAX_GAPS]])
+        published_gaps = top_gaps[: self.MAX_GAPS]
+        self._write(output_dir, "gaps.json", [g.to_dict() for g in published_gaps])
+
+        # Gap references can fall outside the smaller browser paper subsets.
+        paper_by_id: dict[str, Paper] = {}
+        for paper in papers:
+            if paper.id:
+                paper_by_id.setdefault(paper.id, paper)
+        gap_evidence = {}
+        for gap in published_gaps:
+            attached = []
+            seen_ids = set()
+            for paper_id in gap.evidence_paper_ids:
+                if not paper_id or paper_id in seen_ids:
+                    continue
+                seen_ids.add(paper_id)
+                paper = paper_by_id.get(paper_id)
+                if paper is None:
+                    continue
+                entry = self._search_entry(paper)
+                entry["source"] = paper.source
+                entry["pdf_url"] = paper.pdf_url
+                attached.append(entry)
+                if len(attached) == 3:
+                    break
+            gap_evidence[gap.gap_id] = attached
+        self._write(output_dir, "gap_evidence.json", gap_evidence)
         self._write(output_dir, "labs.json",        [l.to_dict() for l in (labs or [])])
         self._write(output_dir, "universities.json",[u.to_dict() for u in (universities or [])])
         self._write(output_dir, "editorial.json",   editorial or {})
