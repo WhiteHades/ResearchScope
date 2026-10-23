@@ -4,7 +4,7 @@
 
 **CS Research Intelligence Platform — 250,000+ papers, scored, ranked, and searchable.**
 
-Stop skimming paper lists. ResearchScope scores papers by impact, surfaces research gaps, recommends venues, and tracks who's driving the frontier — updated daily.
+ResearchScope collects paper records, computes scores, and recommends venues. It also groups text cues and suggests projects that need review in the original papers.
 
 [![Live Site](https://img.shields.io/badge/Live%20Site-kishormorol.github.io%2FResearchScope-7c3aed?style=for-the-badge&logo=github)](https://kishormorol.github.io/ResearchScope/)
 [![API](https://img.shields.io/badge/API-Railway-0B0D0E?style=for-the-badge&logo=railway)](https://researchscope-production.up.railway.app/docs)
@@ -25,7 +25,7 @@ Stop skimming paper lists. ResearchScope scores papers by impact, surfaces resea
 
 ## What is ResearchScope?
 
-ResearchScope is an **open research intelligence platform** for computer science and AI. A daily GitHub Actions pipeline fetches papers from **6 data sources** (arXiv, OpenAlex, ACL Anthology, OpenReview, PMLR, CVF, Semantic Scholar), enriches them with multi-signal scores, detects research gaps, and syncs to two backends:
+ResearchScope collects computer science and AI paper records from seven sources: arXiv, OpenAlex, ACL Anthology, OpenReview, PMLR, CVF, and Semantic Scholar. Scheduled workflows compute scores, extract text cues, and suggest projects. The workflows can sync records to these services:
 
 - **Railway PostgreSQL** — full dataset, powers the REST API with full-text search and live browser queries
 - **Hugging Face Hub** — public JSONL dataset for LLM training
@@ -114,11 +114,18 @@ researchscope gaps --top-n 25
 | 🔍 **Full-text search** | PostgreSQL `tsvector` search across 100K+ papers via Railway API |
 | 👤 **User accounts** | JWT auth, favourites synced across devices via Railway backend |
 | 💬 **Chat with Paper** | Authenticated split-screen PDF chat with page citations and cross-device history (provider-configured) |
-| 🕳 **Research gaps** | 3-layer extraction: explicit, pattern-detected, and starter ideas |
+| 🕳 **Research gaps** | Abstract cues, recurring cues, and generated projects. Novelty is not assessed. |
 | 👩‍🔬 **Author intelligence** | 5,000+ researchers ranked by momentum score |
 | 🤗 **LLM training data** | `papers.jsonl` + `instruct.jsonl` on HuggingFace Hub |
 | 🔗 **CiteLens** | One-click handoff to citation analysis for arXiv papers |
 | 🎨 **Three themes** | Atelier Zero, Industrial Brutalist, and Field Notes — switch from the nav, persists with no flash |
+
+Gap cues are text matches, not verified author statements or proof of a new
+research question. New gap records identify their numeric basis with
+`confidence_basis=evidence_coverage_v1`. For those records, `confidence` is a
+coverage fraction with an explicit `coverage_denominator`, not a probability.
+Older records have uncalibrated heuristic values. New deterministic group IDs
+replace the older random IDs, so existing links to those old IDs can change.
 
 ### ⏰ Conference Deadline Tracker
 

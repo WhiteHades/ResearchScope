@@ -1,17 +1,13 @@
-"""
-Research Gap Engine — three-layer extraction.
+"""Extract abstract cues, recurring cues, and generated project ideas.
 
-Layer 1  Explicit gaps   — direct quotes from limitations/future-work language
-Layer 2  Pattern gaps    — inferred by recurring weakness patterns across papers
-Layer 3  Starter gaps    — beginner-friendly research directions and ideas
-
-Outputs are presented as grounded *signals*, not absolute truth.
+The cues need review in the original papers. The project ideas are suggestions,
+not findings from the papers. No novelty search is done.
 """
 from __future__ import annotations
 
 import re
 import uuid
-from collections import defaultdict
+from collections import Counter, defaultdict
 
 from src.normalization.schema import Paper, ResearchGap
 
@@ -30,29 +26,29 @@ _EXPLICIT_PATTERN = re.compile(
 )
 
 # ── Layer 2: Pattern gap signals ─────────────────────────────────────────────
-# (label, regex) — label is used to group recurring weaknesses across papers
+# Each label groups similar text matches across papers.
 
 _PATTERN_SIGNALS: list[tuple[str, re.Pattern[str]]] = [
     ("Benchmark overfitting",
-     re.compile(r"\b(overfit|dataset.specific|not generaliz|narrow benchmark)\b", re.IGNORECASE)),
+     re.compile(r"\b(overfit(?:ting)? (?:to|on)|overfitting remains|fails? to generaliz\w*|does not generaliz\w*|not generaliz\w*|narrow benchmark coverage)\b", re.IGNORECASE)),
     ("Weak robustness testing",
-     re.compile(r"\b(robustness|adversarial|distribution shift|out.of.domain|OOD)\b", re.IGNORECASE)),
+     re.compile(r"\b(lack of robustness|not robust|poor robustness|no adversarial (?:testing|evaluation)|not tested under distribution shift|distribution shift (?:is|remains) untested|out.of.domain performance (?:is|remains) limited)\b", re.IGNORECASE)),
     ("Missing low-resource coverage",
-     re.compile(r"\b(low.resource|under.represented|minority language|low.data)\b", re.IGNORECASE)),
+     re.compile(r"\b(lack of low.resource coverage|low.resource coverage (?:is|remains) limited|does not include low.resource|no (?:low.resource|underrepresented) languages?)\b", re.IGNORECASE)),
     ("Narrow evaluation domains",
-     re.compile(r"\b(English only|single domain|limited domain|domain.specific)\b", re.IGNORECASE)),
+     re.compile(r"\b(only (?:evaluates?|tests?) (?:in )?English|limited to (?:one|a single) domain|single.domain evaluation|limited domain coverage)\b", re.IGNORECASE)),
     ("High compute cost",
-     re.compile(r"\b(computationally expensive|high cost|resource.intensive|GPU.intensive)\b", re.IGNORECASE)),
+     re.compile(r"\b(computationally expensive|high computational cost|resource.intensive|GPU.intensive)\b", re.IGNORECASE)),
     ("Lack of interpretability",
-     re.compile(r"\b(black.box|lack.*interpret|not interpretable|opaque)\b", re.IGNORECASE)),
+     re.compile(r"\b(lack(?:s|ing)? of interpret\w*|not interpretable|opaque model|black.box model)\b", re.IGNORECASE)),
     ("Missing long-form evaluation",
-     re.compile(r"\b(long.form|extended context|long document|long context)\b", re.IGNORECASE)),
+     re.compile(r"\b(lack of long.form evaluation|not evaluated on long.documents?|no extended.context evaluation|long.context evaluation is missing)\b", re.IGNORECASE)),
     ("Dataset bias / fairness",
-     re.compile(r"\b(bias|fairness|stereotyp|gender bias|racial)\b", re.IGNORECASE)),
+     re.compile(r"\b(dataset bias remains|biased dataset|gender bias remains|racial bias remains|fairness is not evaluated|fairness is not addressed|lack of fairness evaluation)\b", re.IGNORECASE)),
     ("Limited multilinguality",
-     re.compile(r"\b(multilingual|cross.lingual|non.English|language transfer)\b", re.IGNORECASE)),
+     re.compile(r"\b(lack of multilingual coverage|not evaluated in non.English|does not cover non.English|only English(?: data| evaluation)?|limited cross.lingual evaluation)\b", re.IGNORECASE)),
     ("Hallucination / factuality",
-     re.compile(r"\bhallucin|\bfactual error\b|\bfactuality\b|\bconfabulation\b", re.IGNORECASE)),
+     re.compile(r"\b(hallucinations? (?:remain|persist|occur)|factual errors? (?:remain|occur)|hallucination (?:is|remains) unresolved|factuality (?:is|remains) limited|cannot ensure factuality|confabulations? remain)\b", re.IGNORECASE)),
 ]
 
 # ── Layer 3: Starter idea templates ──────────────────────────────────────────
@@ -120,42 +116,55 @@ _STARTER_ALIASES: dict[str, str] = {
     "AI Agents":      "AI Agents & Tool Use",
     "Code Generation":"Code Generation & Synthesis",
 }
+_STARTER_ALIASES = {tag.casefold(): topic for tag, topic in _STARTER_ALIASES.items()}
 
 def _starter_projects(tags: list[str]) -> list[str]:
     for tag in tags:
-        resolved = _STARTER_ALIASES.get(tag, tag)
+        resolved = _STARTER_ALIASES.get(tag.casefold(), tag)
         if resolved in _STARTER_TEMPLATES:
             return _STARTER_TEMPLATES[resolved]
     return _STARTER_TEMPLATES["_default"]
+
+
+def _gap_id(gap_type: str, topic: str, title: str) -> str:
+    key = "\0".join((gap_type, topic, title))
+    return str(uuid.uuid5(uuid.NAMESPACE_URL, f"researchscope/gap/{key}"))
 
 
 
 # ── GapExtractor ─────────────────────────────────────────────────────────────
 
 class GapExtractor:
-    """Extract research gaps using all three layers."""
+    """Extract review cues and generated project ideas."""
 
     def extract(self, papers: list[Paper]) -> list[ResearchGap]:
+        papers = sorted(papers, key=lambda p: (p.id, p.title, p.abstract))
         gaps: list[ResearchGap] = []
         gaps.extend(self._layer1_explicit(papers))
         gaps.extend(self._layer2_patterns(papers))
         gaps.extend(self._layer3_starters(papers))
 
-        # Deduplicate by (topic, gap_type) — keep highest frequency
-        seen: dict[tuple[str, str], ResearchGap] = {}
+        # Deduplicate by the full public identity, not a truncated title.
+        seen: dict[tuple[str, str, str], ResearchGap] = {}
         for g in gaps:
-            key = (g.topic, g.gap_type, g.title[:40])
+            key = (g.topic, g.gap_type, g.title)
             if key not in seen or g.frequency > seen[key].frequency:
                 seen[key] = g
 
-        result = sorted(seen.values(), key=lambda g: (-g.frequency, g.gap_type))
+        result = sorted(
+            seen.values(),
+            key=lambda g: (-g.frequency, g.gap_type, g.topic.casefold(), g.title.casefold(), g.gap_id),
+        )
         return result
 
     # ── Layer 1 ───────────────────────────────────────────────────────────────
 
     def _layer1_explicit(self, papers: list[Paper]) -> list[ResearchGap]:
         topic_buckets: dict[str, dict] = defaultdict(
-            lambda: {"descs": [], "paper_ids": [], "tags": []}
+            lambda: {"examples": [], "paper_ids": [], "tags": set()}
+        )
+        topic_totals: Counter[str] = Counter(
+            paper.tags[0] if paper.tags else "General AI" for paper in papers
         )
 
         for paper in papers:
@@ -169,30 +178,48 @@ class GapExtractor:
             topic = paper.tags[0] if paper.tags else "General AI"
             bucket = topic_buckets[topic]
             bucket["paper_ids"].append(paper.id)
-            bucket["tags"] = paper.tags
+            bucket["tags"].update(paper.tags)
             for m in matches:
                 clean = m.strip()
-                if clean and clean not in bucket["descs"]:
-                    bucket["descs"].append(clean)
+                example = (paper.id, clean)
+                if clean and example not in bucket["examples"]:
+                    bucket["examples"].append(example)
 
         gaps = []
         for topic, bucket in topic_buckets.items():
-            freq = len(bucket["paper_ids"])
+            paper_ids = sorted(set(bucket["paper_ids"]))
+            freq = len(paper_ids)
             if freq < 3:          # require at least 3 papers for an explicit gap
                 continue
-            desc = bucket["descs"][0] if bucket["descs"] else f"Open challenges in {topic}"
-            title = self._make_title(desc, topic)
+            examples_by_paper: dict[str, str] = {}
+            for paper_id, excerpt in bucket["examples"]:
+                examples_by_paper.setdefault(paper_id, excerpt)
+            examples = list(examples_by_paper.items())[:3]
+            title = f"Abstract cues in {topic}"
+            description = (
+                f"Abstract text has limitation or future work cues in {freq} of "
+                f"{topic_totals[topic]} input papers whose first tag is {topic}. "
+                f"Check these cues in the original papers. No novelty search was done. "
+                f"Examples:\n"
+                + "\n".join(f'{paper_id}: "{excerpt}"' for paper_id, excerpt in examples)
+            )
+            starter_projects = _starter_projects(
+                sorted(bucket["tags"], key=lambda tag: (tag.casefold(), tag))
+            )
             gaps.append(ResearchGap(
-                gap_id=str(uuid.uuid4()),
+                gap_id=_gap_id("explicit", topic, title),
                 topic=topic,
                 title=title,
-                description=str(desc),
-                evidence_paper_ids=bucket["paper_ids"],
+                description=description,
+                evidence_paper_ids=paper_ids,
                 gap_type="explicit",
-                confidence=0.8,
-                starter_idea=_starter_projects(bucket["tags"])[0],
+                # Kept for compatibility. The basis marker defines the value as coverage.
+                confidence=round(freq / topic_totals[topic], 2),
+                confidence_basis="evidence_coverage_v1",
+                coverage_denominator=topic_totals[topic],
+                starter_idea=starter_projects[0],
                 frequency=freq,
-                suggested_projects=_starter_projects(bucket["tags"]),
+                suggested_projects=starter_projects,
             ))
         return gaps
 
@@ -200,7 +227,7 @@ class GapExtractor:
 
     def _layer2_patterns(self, papers: list[Paper]) -> list[ResearchGap]:
         signal_buckets: dict[str, dict] = defaultdict(
-            lambda: {"paper_ids": [], "tags": set()}
+            lambda: {"paper_ids": [], "tags": Counter()}
         )
 
         for paper in papers:
@@ -208,27 +235,32 @@ class GapExtractor:
             for label, pattern in _PATTERN_SIGNALS:
                 if pattern.search(text):
                     signal_buckets[label]["paper_ids"].append(paper.id)
-                    signal_buckets[label]["tags"].update(paper.tags)
+                    signal_buckets[label]["tags"].update(set(paper.tags))
 
         gaps = []
         for label, bucket in signal_buckets.items():
-            freq = len(bucket["paper_ids"])
+            paper_ids = sorted(set(bucket["paper_ids"]))
+            freq = len(paper_ids)
             if freq < 2:
                 continue  # require at least 2 papers for a pattern gap
-            tags = list(bucket["tags"])
+            tags = sorted(bucket["tags"], key=lambda tag: (-bucket["tags"][tag], tag.casefold(), tag))
             topic = tags[0] if tags else "General AI"
             gaps.append(ResearchGap(
-                gap_id=str(uuid.uuid4()),
+                gap_id=_gap_id("pattern", topic, label),
                 topic=topic,
                 title=label,
                 description=(
-                    f"Pattern detected across {freq} papers: '{label}' is a recurring "
-                    f"challenge in {topic} research. Papers frequently mention this as a "
-                    f"limitation or unsolved problem."
+                    f"The signal '{label}' matched in titles or abstracts for {freq} of "
+                    f"{len(papers)} input papers. It is a cue for review, not proof of a "
+                    f"limitation or an unstudied area. Check the cues in the original "
+                    f"papers. No novelty search was done. At most 10 paper IDs are attached."
                 ),
-                evidence_paper_ids=bucket["paper_ids"][:10],
+                evidence_paper_ids=paper_ids[:10],
                 gap_type="pattern",
-                confidence=min(0.4 + freq * 0.05, 0.9),
+                # Kept for compatibility. The basis marker defines the value as coverage.
+                confidence=round(freq / len(papers), 2) if papers else 0.0,
+                confidence_basis="evidence_coverage_v1",
+                coverage_denominator=len(papers),
                 starter_idea=_starter_projects(tags)[0] if tags else _STARTER_TEMPLATES["_default"][0],
                 frequency=freq,
                 suggested_projects=_starter_projects(tags),
@@ -238,48 +270,39 @@ class GapExtractor:
     # ── Layer 3 ───────────────────────────────────────────────────────────────
 
     def _layer3_starters(self, papers: list[Paper]) -> list[ResearchGap]:
-        """Generate beginner-friendly research directions from prevalent topics."""
+        """Suggest projects based on frequent topic tags."""
         tag_count: dict[str, list[str]] = defaultdict(list)
         for paper in papers:
-            for tag in paper.tags:
+            for tag in dict.fromkeys(paper.tags):
                 tag_count[tag].append(paper.id)
 
         gaps = []
-        for tag, paper_ids in sorted(tag_count.items(), key=lambda x: -len(x[1])):
-            resolved = _STARTER_ALIASES.get(tag, tag)
+        for tag, paper_ids in sorted(
+            tag_count.items(), key=lambda x: (-len(x[1]), x[0].casefold(), x[0])
+        ):
+            resolved = _STARTER_ALIASES.get(tag.casefold(), tag)
             if resolved not in _STARTER_TEMPLATES:
                 continue
             ideas = _STARTER_TEMPLATES[resolved]
             for i, idea in enumerate(ideas[:2]):
                 gaps.append(ResearchGap(
-                    gap_id=str(uuid.uuid4()),
+                    gap_id=_gap_id("starter", tag, f"Starter idea: {idea}"),
                     topic=tag,
                     title=f"Starter idea: {idea}",
                     description=(
-                        f"Beginner-friendly research direction in {tag}. "
-                        f"Based on {len(paper_ids)} tracked papers in this area. "
-                        f"Idea: {idea}"
+                        f"Suggested project for {tag}, which appears in {len(set(paper_ids))} "
+                        f"tracked papers. The first five paper IDs are attached as examples. "
+                        f"This is a generated suggestion, not a finding from the papers. "
+                        f"No novelty search was done."
                     ),
-                    evidence_paper_ids=paper_ids[:5],
+                    evidence_paper_ids=sorted(set(paper_ids))[:5],
                     gap_type="starter",
-                    confidence=0.7,
+                    # Kept for compatibility. The basis marker defines the value as coverage.
+                    confidence=round(len(set(paper_ids)) / len(papers), 2) if papers else 0.0,
+                    confidence_basis="evidence_coverage_v1",
+                    coverage_denominator=len(papers),
                     starter_idea=idea,
-                    frequency=len(paper_ids),
+                    frequency=len(set(paper_ids)),
                     suggested_projects=ideas,
                 ))
         return gaps
-
-    # ── Helpers ───────────────────────────────────────────────────────────────
-
-    @staticmethod
-    def _make_title(description: str, topic: str) -> str:
-        """Turn a raw limitation sentence into a short gap title."""
-        desc = description.strip().rstrip(".!?")
-        # try to extract the first meaningful phrase
-        if len(desc) <= 60:
-            return desc.capitalize()
-        # shorten to first clause
-        for sep in [";", ",", "—", "–", " but ", " and "]:
-            if sep in desc[:80]:
-                return desc[:desc.index(sep, 0, 80)].strip().capitalize()
-        return f"Open challenge in {topic}"

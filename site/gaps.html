@@ -68,37 +68,37 @@
   </div>
 </nav>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <h1 class="text-2xl font-bold mb-2"> Research Gap Explorer</h1>
+  <h1 class="text-2xl font-bold mb-2">Research cues and project ideas</h1>
   <p class="text-sm mb-6" style="color:var(--rs-muted)">
-    Gaps are extracted in three layers: <strong>Explicit</strong> (directly stated limitations),
-    <strong>Pattern</strong> (recurring weaknesses across papers), and
-    <strong>Starter</strong> (beginner-friendly research directions). All are signals, not guarantees.
+    This page shows abstract cues, recurring cues, and generated projects. Abstract cues are phrases
+    matched in abstracts that may point to limitations or future work. Recurring cues are matches in
+    paper titles or abstracts. Generated projects are suggestions based on topic tags, not findings
+    from the papers. Check cues in the original papers. No novelty search was done.
   </p>
 
   <!-- Legend -->
   <div class="flex flex-wrap gap-3 mb-6">
-    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:var(--rs-coral)"></div><span> Explicit — directly extracted</span></div>
-    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:var(--rs-warning)"></div><span> Pattern — inferred from repeated signals</span></div>
-    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:var(--rs-success)"></div><span> Starter — beginner-friendly ideas</span></div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:var(--rs-coral)"></div><span> Abstract cues</span></div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:var(--rs-warning)"></div><span> Recurring cues</span></div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:var(--rs-success)"></div><span> Generated projects</span></div>
   </div>
 
   <!-- Filters -->
   <div class="rs-card p-4 mb-6">
     <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-      <input id="search-gaps" class="rs-input sm:col-span-2" type="text" placeholder="Search gaps…"/>
+      <input id="search-gaps" class="rs-input sm:col-span-2" type="text" placeholder="Search cues and projects"/>
       <select id="filter-type" class="rs-select">
-        <option value="">All Types</option>
-        <option value="explicit">Explicit</option>
-        <option value="pattern">Pattern</option>
-        <option value="starter">Starter</option>
+        <option value="">All results</option>
+        <option value="explicit">Abstract cues</option>
+        <option value="pattern">Recurring cues</option>
+        <option value="starter">Generated projects</option>
       </select>
       <select id="filter-topic" class="rs-select"><option value="">All Topics</option></select>
     </div>
     <div class="flex flex-wrap items-center gap-3 mt-3">
       <span class="text-xs font-medium" style="color:var(--rs-muted)">Sort by:</span>
       <div class="flex flex-wrap gap-2" id="sort-btns">
-        <button class="badge sort-btn active" data-sort="frequency">Most Evidence</button>
-        <button class="badge sort-btn" data-sort="confidence">Confidence</button>
+        <button class="badge sort-btn active" data-sort="frequency">Most papers</button>
         <button class="badge sort-btn" data-sort="type">Type</button>
         <button class="badge sort-btn" data-sort="topic">Topic A–Z</button>
       </div>
@@ -128,10 +128,8 @@
 <script src="assets/js/app.js?v=20260824-audit"></script>
 <script src="assets/js/railway-api.js?v=20260824-audit"></script>
 <script>
-const TYPE_LABELS = {explicit:' Explicit',pattern:' Pattern',starter:' Starter'};
+const TYPE_LABELS = {explicit:'Abstract cues',pattern:'Recurring cues',starter:'Generated projects'};
 const TYPE_CLS    = {explicit:'gap-card-explicit',pattern:'gap-card-pattern',starter:'gap-card-starter'};
-const CONF_LABELS = v => v >= 0.8 ? 'High' : v >= 0.6 ? 'Medium' : 'Low';
-
 let allGaps = [];
 let currentSort = 'frequency';
 let currentPage = 1;
@@ -139,30 +137,42 @@ const PAGE_SIZE  = 20;
 
 function renderGap(g, papersById) {
   const cls = TYPE_CLS[g.gap_type] || '';
-  const label = TYPE_LABELS[g.gap_type] || g.gap_type;
-  const conf = CONF_LABELS(g.confidence || 0.5);
+  const label = escHtml(TYPE_LABELS[g.gap_type] || g.gap_type || 'Unknown');
+  const frequency = Number(g.frequency) || 0;
+  const frequencyText = escHtml(String(frequency));
+  const denominatorText = escHtml(String(g.coverage_denominator ?? 0));
+  let coverage;
+  if (g.confidence_basis === 'evidence_coverage_v1' && g.gap_type === 'explicit') {
+    coverage = `Evidence coverage: ${frequencyText} of ${denominatorText} input papers whose first tag is ${escHtml(g.topic)}`;
+  } else if (g.confidence_basis === 'evidence_coverage_v1' && g.gap_type === 'starter') {
+    coverage = `Topic coverage: ${frequencyText} papers tagged ${escHtml(g.topic)} out of ${denominatorText} input papers`;
+  } else if (g.confidence_basis === 'evidence_coverage_v1') {
+    coverage = `Cue coverage: ${frequencyText} matching papers out of ${denominatorText} input papers`;
+  } else {
+    coverage = `Legacy heuristic value: ${escHtml(String(g.confidence ?? ''))}, not calibrated`;
+  }
   const evidencePapers = (g.evidence_paper_ids || g.source_paper_ids || []).map(id=>papersById[id]).filter(Boolean);
   return `
   <div class="gap-card ${cls} mb-4">
     <div class="flex flex-wrap items-center gap-2 mb-2">
       <span class="text-xs font-bold">${label}</span>
       <span class="badge badge-tag">${escHtml(g.topic)}</span>
-      <span class="text-xs" style="color:var(--rs-muted)">${g.frequency} paper${g.frequency!==1?'s':''} · Confidence: ${conf}</span>
+      <span class="text-xs" style="color:var(--rs-muted)">${frequencyText} paper${frequency!==1?'s':''}: ${coverage}</span>
     </div>
     <h3 class="font-semibold mb-2">${escHtml(g.title || g.topic)}</h3>
     <p class="text-sm mb-3" style="color:var(--rs-muted)">${escHtml(g.description || '')}</p>
     ${g.starter_idea ? `
     <div class="p-3 rounded-lg mb-3" style="background:var(--rs-success-bg);border:1px solid var(--rs-success-line)">
-      <p class="text-xs font-bold mb-1" style="color:var(--rs-success)"> Starter Idea</p>
+      <p class="text-xs font-bold mb-1" style="color:var(--rs-success)">Generated project</p>
       <p class="text-sm">${escHtml(g.starter_idea)}</p>
     </div>` : ''}
     ${(g.suggested_projects||[]).length ? `
-    <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Project Ideas</p>
+    <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Generated project ideas</p>
     <ul class="text-sm space-y-1 list-disc list-inside">
       ${(g.suggested_projects).slice(0,3).map(p=>`<li>${escHtml(p)}</li>`).join('')}
     </ul>` : ''}
     ${evidencePapers.length ? `
-    <p class="text-xs font-semibold uppercase mt-3 mb-2" style="color:var(--rs-muted)">Evidence Papers (${evidencePapers.length})</p>
+    <p class="text-xs font-semibold uppercase mt-3 mb-2" style="color:var(--rs-muted)">Example papers (${evidencePapers.length})</p>
     <div class="space-y-1">
       ${evidencePapers.slice(0,3).map(p=>{
         const url = paperWorkspaceUrl(p);
@@ -186,7 +196,6 @@ function applyFilters(papersById) {
 
   const TYPE_ORDER = {explicit:0, pattern:1, starter:2};
   if      (currentSort === 'frequency')  filtered.sort((a,b) => (b.frequency||0)-(a.frequency||0));
-  else if (currentSort === 'confidence') filtered.sort((a,b) => (b.confidence||0)-(a.confidence||0));
   else if (currentSort === 'type')       filtered.sort((a,b) => (TYPE_ORDER[a.gap_type]||0)-(TYPE_ORDER[b.gap_type]||0));
   else if (currentSort === 'topic')      filtered.sort((a,b) => (a.topic||'').localeCompare(b.topic||''));
 
@@ -195,11 +204,11 @@ function applyFilters(papersById) {
   const pageItems = filtered.slice((currentPage-1)*PAGE_SIZE, currentPage*PAGE_SIZE);
 
   document.getElementById('gap-count').textContent =
-    `${filtered.length} gap${filtered.length!==1?'s':''} · page ${currentPage} of ${totalPages}`;
+    `${filtered.length} result${filtered.length!==1?'s':''}, page ${currentPage} of ${totalPages}`;
 
   document.getElementById('gaps-list').innerHTML = filtered.length
     ? pageItems.map(g => renderGap(g, papersById)).join('')
-    : '<div class="empty-state"><p>No gaps match your filters.</p></div>';
+    : '<div class="empty-state"><p>No results match your filters.</p></div>';
 
   renderPaginator('gaps-paginator', currentPage, totalPages,
     `function(p){currentPage=p;applyFilters(window._papersById);}`);
@@ -211,7 +220,7 @@ function applyFilters(papersById) {
     window._rs_data.fetchAllGaps(),
     window._rs_data.fetchTopPapers(1000),
   ]);
-  if (!gaps || !gaps.length) { showEmpty('gaps-list','No gaps yet. Run the pipeline.'); return; }
+  if (!gaps || !gaps.length) { showEmpty('gaps-list','No results yet. Run the pipeline.'); return; }
 
   allGaps = gaps;
   const papersById = {};

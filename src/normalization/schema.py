@@ -292,6 +292,8 @@ class ResearchGap:
     evidence_paper_ids: list[str] = field(default_factory=list)
     gap_type: str = "explicit"   # "explicit" | "pattern" | "starter"
     confidence: float = 0.5
+    confidence_basis: str = "legacy_heuristic"
+    coverage_denominator: int = 0
     starter_idea: str = ""
     frequency: int = 1
     suggested_projects: list[str] = field(default_factory=list)

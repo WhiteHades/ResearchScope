@@ -626,17 +626,17 @@ def run_pipeline(
     for paper in papers:
         content_gen.enrich(paper)
 
-    # ── Stage 7: Topic clustering ─────────────────────────────────────────────
-    log.info("Stage 7/11 — Clustering topics …")
-    clusterer = TopicClusterer()
-    topics = clusterer.cluster(papers)
-    log.info("  %d topics", len(topics))
-
-    # ── Stage 8: Research gaps ────────────────────────────────────────────────
-    log.info("Stage 8/11 — Extracting research gaps …")
+    # Stage 7: Research gaps
+    log.info("Stage 7 of 11: Extracting research gaps")
     gap_extractor = GapExtractor()
     gaps = gap_extractor.extract(papers)
     log.info("  %d gaps extracted", len(gaps))
+
+    # Stage 8: Topic clustering
+    log.info("Stage 8 of 11: Clustering topics")
+    clusterer = TopicClusterer()
+    topics = clusterer.cluster(papers, gaps)
+    log.info("  %d topics", len(topics))
 
     # ── Stage 9: Aggregate authors / labs / universities ─────────────────────
     log.info("Stage 9/11 — Aggregating authors, labs, universities …")

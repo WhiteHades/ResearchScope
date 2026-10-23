@@ -365,8 +365,8 @@ class EditorialQueue:
 
     @staticmethod
     def _pick_gap(gaps: list[ResearchGap]) -> dict | None:
-        # Prefer high-confidence explicit gaps
-        explicit = [g for g in gaps if g.gap_type == "explicit" and g.confidence >= 0.7]
+        # Prefer explicit evidence without treating coverage as calibrated confidence.
+        explicit = [g for g in gaps if g.gap_type == "explicit"]
         pool = explicit or gaps
         if not pool:
             return None

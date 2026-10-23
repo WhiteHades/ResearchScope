@@ -101,7 +101,7 @@ class SiteGenerator:
         # Cap topics and gaps — raw OpenReview keywords can explode these counts
         top_topics = sorted(topics, key=lambda t: (-t.trend_score, -len(t.paper_ids)))
         self._write(output_dir, "topics.json",      [t.to_dict() for t in top_topics[: self.MAX_TOPICS]])
-        top_gaps = sorted(gaps, key=lambda g: (-g.frequency, -g.confidence))
+        top_gaps = sorted(gaps, key=lambda g: (-g.frequency, g.gap_type, g.topic.casefold(), g.title.casefold(), g.gap_id))
         self._write(output_dir, "gaps.json",        [g.to_dict() for g in top_gaps[: self.MAX_GAPS]])
         self._write(output_dir, "labs.json",        [l.to_dict() for l in (labs or [])])
         self._write(output_dir, "universities.json",[u.to_dict() for u in (universities or [])])
