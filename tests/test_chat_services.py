@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -13,6 +14,7 @@ from sqlalchemy.dialects import postgresql
 
 BACKEND = Path(__file__).resolve().parents[1] / "backend"
 sys.path.insert(0, str(BACKEND))
+os.environ["JWT_SECRET"] = "local_test_signing_secret_not_for_deployment"
 
 from app.database import _enable_pgvector_index  # noqa: E402
 from app.main import app  # noqa: E402
