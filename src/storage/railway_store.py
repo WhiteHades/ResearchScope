@@ -92,13 +92,17 @@ def _upsert_papers(cur, rows: list[dict]) -> None:
             if delay:
                 log.warning("[railway] retrying batch %d in %ds…", i, delay)
                 time.sleep(delay)
+            cur.execute("SAVEPOINT railway_upsert_batch")
             try:
-                cur.executemany(sql, [list(r.values()) for r in batch])
-                break
-            except Exception as exc:
+                cur.executemany(sql, [[row[col] for col in cols] for row in batch])
+            except Exception:
+                cur.execute("ROLLBACK TO SAVEPOINT railway_upsert_batch")
+                cur.execute("RELEASE SAVEPOINT railway_upsert_batch")
                 if attempt < len(_RETRY):
                     continue
                 raise
+            cur.execute("RELEASE SAVEPOINT railway_upsert_batch")
+            break
         log.info("[railway] upserted %d/%d papers", min(i + _BATCH, len(rows)), len(rows))
 
 
