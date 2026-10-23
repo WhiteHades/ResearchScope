@@ -134,6 +134,12 @@ coverage fraction with an explicit `coverage_denominator`, not a probability.
 Older records have uncalibrated heuristic values. New deterministic group IDs
 replace the older random IDs, so existing links to those old IDs can change.
 
+Current normalized records retain affiliations only at paper level. They do
+not retain each author to organization association, so generated author records
+leave affiliations empty. Organization lists count papers with source supplied
+affiliations and their coauthors, not employees. Existing generated snapshots
+need regeneration to reflect the repair.
+
 ### ⏰ Conference Deadline Tracker
 
 Live countdowns to top CS conference deadlines — filter by area, track abstract vs. paper deadlines, and review past cycles.
