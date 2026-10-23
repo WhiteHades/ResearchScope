@@ -347,6 +347,13 @@ The local API requires `JWT_SECRET` and a database connection. It loads the
 root `.env` file without overriding variables already supplied by the shell
 or deployment environment.
 
+Browse tag aliases are defined in `backend/app/tag_aliases.json`. After editing
+the aliases, run `python scripts/build_tag_aliases.py` from the repository root
+and commit the generated browser asset with the source. The API matches both
+current and listed older labels without changing stored records. Unlisted
+labels still match exactly. Speech recognition and speech synthesis remain
+separate topics.
+
 Before deploying a pipeline writer or API version that uses
 `read_first_score` or `content_potential_score`, run
 `backend/migrations/006_reader_scores.sql` against PostgreSQL. The old

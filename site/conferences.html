@@ -172,6 +172,7 @@
     &middot; MIT License &copy; 2026 Md Kishor Morol
   </p>
 </footer>
+<script src="assets/js/tag-aliases.js"></script>
 <script src="assets/js/app.js?v=20260824-audit"></script>
 <script src="assets/js/library.js"></script>
 <script src="assets/js/railway-api.js?v=20260824-audit"></script>
@@ -190,16 +191,7 @@ const libraryButtons = libraryApi
     })
   : null;
 
-const TAG_NORMALIZE = {
-  'Large Language Models':'LLMs','large language models':'LLMs',
-  'Diffusion Models':'Diffusion','diffusion models':'Diffusion',
-  'Transformer Architectures':'Transformers','AI Agents & Tool Use':'AI Agents',
-  'AI Safety & Alignment':'AI Safety','Reasoning & Chain-of-Thought':'Reasoning',
-  'Vision-Language Models':'VLMs','Retrieval-Augmented Generation':'RAG',
-  'Reinforcement Learning':'RL','reinforcement learning':'RL',
-  'Code Generation & Synthesis':'Code Generation','Multimodal Learning':'Multimodal',
-  'Benchmarking & Evaluation':'Evaluation','Fine-Tuning & PEFT':'Fine-Tuning',
-};
+const TAG_NORMALIZE = window.ResearchScopeTagAliases;
 function normalizeTags(tags) {
   const seen = new Set(), r = [];
   for (const t of (tags||[])) { const c = TAG_NORMALIZE[t]||t; if (!seen.has(c)){seen.add(c);r.push(c);} }

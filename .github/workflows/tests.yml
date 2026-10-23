@@ -9,6 +9,9 @@ on:
       - 'config/**'
       - 'requirements.txt'
       - 'backend/requirements.txt'
+      - 'backend/app/tag_aliases.json'
+      - 'site/assets/js/tag-aliases.js'
+      - 'scripts/build_tag_aliases.py'
   pull_request:
     branches: [main]
 
@@ -29,6 +32,9 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt -r backend/requirements.txt pytest
+
+      - name: Check browser tag aliases
+        run: python scripts/build_tag_aliases.py --check
 
       - name: Run tests
         run: |

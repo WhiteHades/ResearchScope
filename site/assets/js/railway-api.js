@@ -116,7 +116,7 @@ async function _queryPapers({
   search = '', tag = '', difficulty = '', type = '',
   source = '', year = '', sortBy = 'paper_score',
   rank = '', venue = '',
-  tagNormalizeMap = {},
+  tagNormalizeMap = window.ResearchScopeTagAliases || Object.create(null),
 } = {}) {
   const params = new URLSearchParams({ page, page_size: pageSize });
   search = String(search || '').trim();

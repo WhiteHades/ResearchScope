@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import os
+from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
 from fastapi.responses import StreamingResponse
@@ -42,6 +44,10 @@ DIFFICULTY_LEVELS = {
     "l4": "L4", "frontier": "L4",
     "unknown": "Unknown",
 }
+TAG_ALIASES = json.loads((Path(__file__).resolve().parents[1] / "tag_aliases.json").read_text())
+TAG_GROUPS: dict[str, list[str]] = {}
+for alias, canonical in TAG_ALIASES.items():
+    TAG_GROUPS.setdefault(canonical, []).append(alias)
 
 
 @router.get("", response_model=PaperList)
@@ -77,7 +83,11 @@ async def list_papers(
     if rank:
         q = q.where(Paper.conference_rank == rank)
     if tag:
-        q = q.where(Paper.tags.contains([tag]))
+        canonical = TAG_ALIASES.get(tag, tag)
+        q = q.where(or_(*(
+            Paper.tags.contains([alias])
+            for alias in TAG_GROUPS.get(canonical, [tag])
+        )))
     if search:
         term = search.strip().replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
         author_names = (

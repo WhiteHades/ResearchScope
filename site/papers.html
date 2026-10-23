@@ -184,6 +184,7 @@
   </p>
 </footer>
 
+<script src="assets/js/tag-aliases.js"></script>
 <script src="assets/js/app.js?v=20260824-audit"></script>
 <script src="assets/js/library.js"></script>
 <script src="assets/js/chat-arxiv-core.js?v=20260718-paper-chat"></script>
@@ -206,31 +207,7 @@ const libraryButtons = libraryApi
   : null;
 
 // ── Tag normalisation map ─────────────────────────────────────────────────────
-const TAG_NORMALIZE = {
-  'Large Language Models': 'LLMs',          'large language models': 'LLMs',
-  'Benchmarking & Evaluation': 'Evaluation', 'Diffusion Models': 'Diffusion',
-  'diffusion models': 'Diffusion',           'Reasoning & Chain-of-Thought': 'Reasoning',
-  'Transformer Architectures': 'Transformers','AI Agents & Tool Use': 'AI Agents',
-  'AI Safety & Alignment': 'AI Safety',      'Adversarial Robustness': 'Adversarial',
-  '3D Vision & Scene Understanding': '3D Vision', 'Biomedical & Clinical AI': 'Biomedical AI',
-  'Code Generation & Synthesis': 'Code Generation', 'Dialogue Systems': 'Dialogue',
-  'Bias, Fairness & Ethics': 'Fairness & Ethics', 'Fine-Tuning & PEFT': 'Fine-Tuning',
-  'GNN': 'GNNs',                             'Graph Neural Networks': 'GNNs',
-  'Information Extraction': 'Info Extraction','Interpretability & Explainability': 'Interpretability',
-  'Knowledge Graphs & Representation': 'Knowledge Graphs', 'meta learning': 'Meta Learning',
-  'Model Compression & Efficiency': 'Model Compression', 'Multimodal Learning': 'Multimodal',
-  'Object Detection & Segmentation': 'Object Detection', 'Prompting & In-Context Learning': 'Prompting',
-  'Retrieval-Augmented Generation': 'RAG',   'Reinforcement Learning': 'RL',
-  'reinforcement learning': 'RL',            'deep reinforcement learning': 'RL',
-  'RLHF & Preference Alignment': 'RLHF',    'Robotics & Embodied AI': 'Robotics',
-  'Self-Supervised & Contrastive Learning': 'Self-Supervised', 'Speech Recognition': 'Speech',
-  'ASR': 'Speech',                           'State Space Models': 'SSMs',
-  'Text-to-Image Generation': 'Text-to-Image','transfer learning': 'Transfer Learning',
-  'Vision-Language Models': 'VLMs',          'Video Understanding & Generation': 'Video AI',
-  'IR': 'Information Retrieval',             'NLG': 'Natural Language Generation',
-  'Federated & Privacy-Preserving Learning': 'Federated Learning',
-  'Text Embeddings & Semantic Similarity': 'Embeddings',
-};
+const TAG_NORMALIZE = window.ResearchScopeTagAliases;
 
 function normalizeTags(tags) {
   const seen = new Set(), result = [];
