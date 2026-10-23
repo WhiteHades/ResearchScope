@@ -23,6 +23,15 @@ def configured_embedding_dimensions() -> int:
         return PGVECTOR_INDEX_DIMENSIONS
 
 
+def database_connection_source() -> str:
+    for key in ("DATABASE_URL", "DATABASE_PRIVATE_URL", "DATABASE_PUBLIC_URL"):
+        if os.environ.get(key, "").strip():
+            return key
+    if os.environ.get("PGHOST", "").strip():
+        return "PGHOST"
+    return "none"
+
+
 def _database_url() -> str:
     """
     Resolve the database URL from environment variables.
@@ -30,15 +39,15 @@ def _database_url() -> str:
     or as individual PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE variables.
     """
     # 1. Standard DATABASE_URL
-    for key in ("DATABASE_URL", "DATABASE_PRIVATE_URL", "DATABASE_PUBLIC_URL"):
-        url = os.environ.get(key, "").strip()
-        if url:
-            log.info("Using database URL from %s", key)
-            return url.replace("postgresql://", "postgresql+asyncpg://")
+    source = database_connection_source()
+    if source in {"DATABASE_URL", "DATABASE_PRIVATE_URL", "DATABASE_PUBLIC_URL"}:
+        url = os.environ[source].strip()
+        log.info("Using database URL from %s", source)
+        return url.replace("postgresql://", "postgresql+asyncpg://")
 
     # 2. Individual PG* variables (Railway injects these too)
-    host = os.environ.get("PGHOST", "").strip()
-    if host:
+    if source == "PGHOST":
+        host = os.environ["PGHOST"].strip()
         port = os.environ.get("PGPORT", "5432").strip()
         user = os.environ.get("PGUSER", "postgres").strip()
         password = os.environ.get("PGPASSWORD", "").strip()
@@ -231,5 +240,5 @@ async def init_db() -> None:
             )
         log.info("Database tables initialised.")
     except Exception as exc:
-        log.error("Database init failed: %s", exc)
+        log.error("Database init failed (%s)", type(exc).__name__)
         raise

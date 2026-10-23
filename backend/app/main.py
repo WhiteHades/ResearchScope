@@ -16,11 +16,13 @@ log = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    app.state.db_initialized = False
     try:
         from app.database import init_db
         await init_db()
+        app.state.db_initialized = True
     except Exception as exc:
-        log.error("DB init failed (app still starting): %s", exc)
+        log.error("DB init failed; API is not ready (%s)", type(exc).__name__)
     yield
 
 
@@ -63,26 +65,36 @@ app.include_router(pipeline.router)
 
 @app.get("/health")
 async def health():
-    db_url  = os.environ.get("DATABASE_URL", "")
-    db_priv = os.environ.get("DATABASE_PRIVATE_URL", "")
-    pg_host = os.environ.get("PGHOST", "")
-    via     = "DATABASE_URL" if db_url else ("DATABASE_PRIVATE_URL" if db_priv else ("PGHOST" if pg_host else "none"))
-
     db_live = False
     try:
-        from app.database import get_engine
+        from app.database import get_engine, database_connection_source
         from sqlalchemy import text
         async with get_engine().connect() as conn:
-            await conn.execute(text("SELECT 1"))
+            await conn.execute(text("SELECT 1 FROM papers LIMIT 0"))
         db_live = True
     except Exception:
         pass
 
     return {
-        "status": "ok", "db_configured": via != "none", "db_live": db_live,
-        "via": via, "chat_enabled": chat_enabled(),
+        "status": "ok", "db_configured": database_connection_source() != "none",
+        "db_live": db_live, "via": database_connection_source(),
+        "chat_enabled": chat_enabled(),
         "chat_provider_configured": provider_configured(),
     }
+
+
+@app.get("/ready")
+async def ready(request: Request):
+    if not request.app.state.db_initialized:
+        return JSONResponse(status_code=503, content={"status": "not_ready"})
+    try:
+        from app.database import get_engine
+        from sqlalchemy import text
+        async with get_engine().connect() as conn:
+            await conn.execute(text("SELECT 1 FROM papers LIMIT 0"))
+    except Exception:
+        return JSONResponse(status_code=503, content={"status": "not_ready"})
+    return {"status": "ready"}
 
 
 @app.get("/")
