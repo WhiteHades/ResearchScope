@@ -16,6 +16,15 @@ jobs:
     name: Register sections config
     runs-on: ubuntu-latest
     steps:
+      - name: Require main branch
+        env:
+          PUBLICATION_REF: "${{ github.ref }}"
+        run: |
+          if [ "$PUBLICATION_REF" != "refs/heads/main" ]; then
+            echo "This workflow publishes only from main." >&2
+            exit 1
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@v7
 

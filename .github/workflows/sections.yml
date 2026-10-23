@@ -42,6 +42,15 @@ jobs:
           - 8070:8070
 
     steps:
+      - name: Require main branch
+        env:
+          PUBLICATION_REF: "${{ github.ref }}"
+        run: |
+          if [ "$PUBLICATION_REF" != "refs/heads/main" ]; then
+            echo "This workflow publishes only from main." >&2
+            exit 1
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@v7
 

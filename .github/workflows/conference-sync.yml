@@ -27,6 +27,15 @@ jobs:
     if: github.repository == 'kishormorol/ResearchScope' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
+      - name: Require main branch
+        env:
+          PUBLICATION_REF: "${{ github.ref }}"
+        run: |
+          if [ "$PUBLICATION_REF" != "refs/heads/main" ]; then
+            echo "This workflow publishes only from main." >&2
+            exit 1
+          fi
+
       - uses: actions/checkout@v7
 
       - uses: actions/setup-python@v6
@@ -113,6 +122,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Require main branch
+        env:
+          PUBLICATION_REF: "${{ github.ref }}"
+        run: |
+          if [ "$PUBLICATION_REF" != "refs/heads/main" ]; then
+            echo "This workflow publishes only from main." >&2
+            exit 1
+          fi
+
       - uses: actions/checkout@v7
         with:
           ref: main
