@@ -1,11 +1,7 @@
-"""
-Difficulty assessor: assigns L1–L4 levels with a plain-English reason.
+"""Estimate a reading level from paper text and type cues.
 
-Levels:
-  L1  Beginner     — no ML background needed; surveys, overviews, tutorials
-  L2  Intermediate — undergraduate ML/NLP; most applied papers
-  L3  Advanced     — graduate-level math/ML; architecture papers, theory
-  L4  Frontier     — cutting-edge research requiring domain mastery
+The estimates are not validated against reader studies or prerequisite checks.
+Papers without a clear cue remain Unknown.
 """
 from __future__ import annotations
 
@@ -42,57 +38,53 @@ _L3_POSITIVE = re.compile(
     re.IGNORECASE,
 )
 
-_L1_TAGS = {
-    "Sentiment Analysis", "Summarization", "QA",
-    "Translation", "Prompting",
-    "Classification", "Evaluation",
-}
-_L3_TAGS = {
-    "Diffusion", "RL", "GNNs",
-    "Federated Learning", "Continual Learning",
-    "AI Safety", "MoE", "SSMs",
-    "RLHF",
-}
-_L4_TAGS = set()  # reserved; currently detected by text patterns only
-
-
 class DifficultyAssessor:
-    """Assign L1–L4 difficulty level with a plain-English reason."""
+    """Estimate paper difficulty from text and type cues.
+
+    This estimate has not been validated against reader studies.
+    """
 
     def assess(self, paper: Paper) -> Paper:
         text = f"{paper.title} {paper.abstract}"
-        level, reason = self._classify(text, paper.tags, paper.paper_type)
+        level, reason = self._classify(text, paper.paper_type)
         paper.difficulty_level = level
         paper.difficulty_reason = reason
         return paper
 
     @staticmethod
-    def _classify(text: str, tags: list[str], paper_type: str) -> tuple[str, str]:
-        tag_set = set(tags)
+    def _classify(text: str, paper_type: str) -> tuple[str, str]:
+        paper_type = str(paper_type or "").strip().lower()
 
-        # ── L1 ────────────────────────────────────────────────────────────────
-        if _L1_POSITIVE.search(text):
-            return "L1", "Survey, tutorial, or introductory material — accessible to beginners."
-        if paper_type in ("survey", "tutorial") and not _L3_POSITIVE.search(text):
-            return "L1", f"Paper type is '{paper_type}' with no advanced technical content."
-        if tag_set & _L1_TAGS and not (_L3_POSITIVE.search(text) or _L4_POSITIVE.search(text)):
-            matched = sorted(tag_set & _L1_TAGS)
-            return "L1", f"Applied NLP/ML topic ({', '.join(matched[:2])}) with no advanced math."
+        # Advanced text cues take priority over survey or tutorial framing.
+        match = _L4_POSITIVE.search(text)
+        if match:
+            return (
+                "L4",
+                f"Title or abstract contains the cue '{match.group(0)}'. "
+                "This is an unvalidated level estimate.",
+            )
 
-        # ── L4 ────────────────────────────────────────────────────────────────
-        if _L4_POSITIVE.search(text):
-            m = _L4_POSITIVE.search(text)
-            kw = m.group(0) if m else "frontier methods"
-            return "L4", f"Requires deep theoretical background — uses {kw.lower()} and related concepts."
+        match = _L3_POSITIVE.search(text)
+        if match:
+            return (
+                "L3",
+                f"Title or abstract contains the cue '{match.group(0)}'. "
+                "This is an unvalidated level estimate.",
+            )
 
-        # ── L3 ────────────────────────────────────────────────────────────────
-        if _L3_POSITIVE.search(text) or (tag_set & _L3_TAGS):
-            if tag_set & _L3_TAGS:
-                matched = sorted(tag_set & _L3_TAGS)
-                return "L3", f"Advanced topic ({', '.join(matched[:2])}) requiring graduate-level background."
-            m = _L3_POSITIVE.search(text)
-            kw = m.group(0) if m else "advanced methods"
-            return "L3", f"Uses {kw.lower()} — requires solid ML/DL background."
+        match = _L1_POSITIVE.search(text)
+        if match:
+            return (
+                "L1",
+                f"Title or abstract contains the cue '{match.group(0)}'. "
+                "This is an unvalidated level estimate.",
+            )
 
-        # ── L2 default ────────────────────────────────────────────────────────
-        return "L2", "Intermediate: suitable for readers with undergraduate ML/NLP background."
+        if paper_type in ("survey", "tutorial"):
+            return "L1", f"Paper type is '{paper_type}'. This is an unvalidated level estimate."
+
+        return (
+            "Unknown",
+            "The title, abstract, and paper type provide no level cue. "
+            "A level cannot be estimated.",
+        )

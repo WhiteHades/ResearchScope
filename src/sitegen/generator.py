@@ -249,7 +249,7 @@ class SiteGenerator:
         for p in papers:
             venues[p.venue] = venues.get(p.venue, 0) + 1
             sources[p.source] = sources.get(p.source, 0) + 1
-            dl = p.difficulty_level or "L2"
+            dl = p.difficulty_level or "Unknown"
             difficulty_dist[dl] = difficulty_dist.get(dl, 0) + 1
             pt = p.paper_type or "methods"
             type_dist[pt] = type_dist.get(pt, 0) + 1

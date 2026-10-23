@@ -89,12 +89,15 @@ function truncate(str, max = 120) {
 
 // ── Difficulty badge ───────────────────────────────────────────────────
 function difficultyBadge(paper) {
-  const lvl = paper.difficulty_level || paper.difficulty || 'L2';
-  const labels = { L1: 'L1 Beginner', L2: 'L2 Intermediate', L3: 'L3 Advanced', L4: 'L4 Frontier',
-                   beginner: 'L1 Beginner', intermediate: 'L2 Intermediate', advanced: 'L3 Advanced', frontier: 'L4 Frontier' };
-  const cls = { L1: 'badge-l1', L2: 'badge-l2', L3: 'badge-l3', L4: 'badge-l4',
+  const value = String(paper.difficulty_level || paper.difficulty || 'Unknown').trim();
+  const key = value.toLowerCase();
+  const labels = { l1: 'L1 Beginner', l2: 'L2 Intermediate', l3: 'L3 Advanced', l4: 'L4 Frontier',
+                   beginner: 'L1 Beginner', intermediate: 'L2 Intermediate', advanced: 'L3 Advanced', frontier: 'L4 Frontier', unknown: 'Unknown' };
+  const cls = { l1: 'badge-l1', l2: 'badge-l2', l3: 'badge-l3', l4: 'badge-l4',
                 beginner: 'badge-l1', intermediate: 'badge-l2', advanced: 'badge-l3', frontier: 'badge-l4' };
-  return `<span class="badge ${cls[lvl] || 'badge-l2'}">${labels[lvl] || lvl}</span>`;
+  const badgeClass = cls[key];
+  const label = labels[key] || value || 'Unknown';
+  return `<span class="badge${badgeClass ? ` ${badgeClass}` : ''}">${escHtml(label)}</span>`;
 }
 
 // ── Conference rank badge ──────────────────────────────────────────────

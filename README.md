@@ -120,6 +120,13 @@ researchscope gaps --top-n 25
 | 🔗 **CiteLens** | One-click handoff to citation analysis for arXiv papers |
 | 🎨 **Three themes** | Atelier Zero, Industrial Brutalist, and Field Notes — switch from the nav, persists with no flash |
 
+Paper reading levels are unvalidated estimates from title, abstract and paper
+type cues. A topic tag alone does not set a paper's level. Papers without cues
+remain `Unknown` and have a separate topic reading list. The current rules do
+not generate `L2`, but older `L2` records remain supported. Existing snapshots
+need regeneration to show new levels. Topic levels still use a separate static
+mapping and are not paper prerequisite assessments.
+
 Gap cues are text matches, not verified author statements or proof of a new
 research question. New gap records identify their numeric basis with
 `confidence_basis=evidence_coverage_v1`. For those records, `confidence` is a

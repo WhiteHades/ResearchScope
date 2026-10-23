@@ -14,6 +14,7 @@
     l2: 'L2',
     l3: 'L3',
     l4: 'L4',
+    unknown: 'Unknown',
   };
 
   const DENSITY = {
@@ -50,7 +51,7 @@
 
   function normalizeDifficulty(value) {
     const key = toKey(value);
-    return DIFFICULTY_MAP[key] || (String(value || '').match(/^L[1-4]$/) ? value : 'L2');
+    return DIFFICULTY_MAP[key] || (String(value || '').match(/^L[1-4]$/) ? value : 'Unknown');
   }
 
   function unique(values) {

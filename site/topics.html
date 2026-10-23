@@ -237,6 +237,7 @@ function renderTopicAccordion(t, papersById, renderId = t.id) {
   const diff = DIFF_NORM[t.difficulty] || 'L2';
   const starters = (t.starter_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
   const frontier = (t.frontier_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
+  const unclassified = (t.unclassified_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
   const prereqs  = (t.prerequisites||[]).join(', ') || '—';
   const paperCount = (t.paper_ids||[]).length;
 
@@ -269,7 +270,8 @@ function renderTopicAccordion(t, papersById, renderId = t.id) {
         <div>
           ${starters.length ? `<p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-success)"> Start Here</p>${starters.slice(0,3).map(p=>paperStub(p,'')).join('')}` : ''}
           ${frontier.length ? `<p class="text-xs font-semibold uppercase mb-2 mt-4" style="color:var(--rs-coral)"> Frontier</p>${frontier.slice(0,3).map(p=>paperStub(p,'')).join('')}` : ''}
-          ${!starters.length && !frontier.length ? `<p class="text-sm" style="color:var(--rs-muted)">No papers assigned yet.</p>` : ''}
+          ${unclassified.length ? `<p>Level not estimated</p>${unclassified.slice(0,3).map(p=>paperStub(p,'')).join('')}` : ''}
+          ${!starters.length && !frontier.length && !unclassified.length ? `<p class="text-sm" style="color:var(--rs-muted)">No papers assigned yet.</p>` : ''}
         </div>
       </div>
     </div>

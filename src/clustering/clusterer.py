@@ -158,6 +158,13 @@ class TopicClusterer:
                 [p for p in tag_papers if p.difficulty_level in ("L3", "L4")],
                 key=lambda p: -p.paper_score,
             )[:5]
+            unclassified = sorted(
+                [
+                    p for p in tag_papers
+                    if p.difficulty_level not in ("L1", "L2", "L3", "L4")
+                ],
+                key=lambda p: -p.read_first_score,
+            )[:5]
 
             trend_score = self._trend_score(tag, tag_papers)
             gap_summary = self._gap_summary(tag, tag_papers, gaps)
@@ -171,6 +178,7 @@ class TopicClusterer:
                 gap_summary=gap_summary,
                 starter_pack_ids=[p.id for p in starter],
                 frontier_pack_ids=[p.id for p in frontier],
+                unclassified_pack_ids=[p.id for p in unclassified],
                 difficulty=diff_label,
                 prerequisites=_PREREQUISITES.get(tag, []),
                 related_topics=related,

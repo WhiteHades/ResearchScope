@@ -56,7 +56,7 @@ class Paper:
     #                    systems | theory | tutorial | position |
     #                    negative_result | replication
 
-    difficulty_level: str = "L2"     # L1 | L2 | L3 | L4
+    difficulty_level: str = "Unknown"  # L1 | L2 | L3 | L4 | Unknown
     difficulty_reason: str = ""
     prerequisites: list[str] = field(default_factory=list)
     maturity_stage: str = "emerging"
@@ -106,13 +106,25 @@ class Paper:
     @property
     def difficulty(self) -> str:
         """Return human-readable difficulty label (backward compat)."""
-        _map = {"L1": "beginner", "L2": "intermediate", "L3": "advanced", "L4": "frontier"}
-        return _map.get(self.difficulty_level, "intermediate")
+        _map = {
+            "L1": "beginner",
+            "L2": "intermediate",
+            "L3": "advanced",
+            "L4": "frontier",
+            "Unknown": "Unknown",
+        }
+        return _map.get(self.difficulty_level, "Unknown")
 
     @difficulty.setter
     def difficulty(self, v: str) -> None:
-        _map = {"beginner": "L1", "intermediate": "L2", "advanced": "L3", "frontier": "L4"}
-        self.difficulty_level = _map.get(v, "L2")
+        _map = {
+            "beginner": "L1",
+            "intermediate": "L2",
+            "advanced": "L3",
+            "frontier": "L4",
+            "unknown": "Unknown",
+        }
+        self.difficulty_level = _map.get(str(v or "").strip().lower(), "Unknown")
 
     def to_dict(self) -> dict[str, Any]:
         d = asdict(self)
@@ -129,8 +141,15 @@ class Paper:
             data = dict(data, paper_url=data["url"])
         # handle legacy "difficulty" string
         if "difficulty" in data and "difficulty_level" not in data:
-            _map = {"beginner": "L1", "intermediate": "L2", "advanced": "L3", "frontier": "L4"}
-            data = dict(data, difficulty_level=_map.get(data.get("difficulty", ""), "L2"))
+            _map = {
+                "beginner": "L1",
+                "intermediate": "L2",
+                "advanced": "L3",
+                "frontier": "L4",
+                "unknown": "Unknown",
+            }
+            difficulty = str(data.get("difficulty", "")).strip().lower()
+            data = dict(data, difficulty_level=_map.get(difficulty, "Unknown"))
         filtered = {k: v for k, v in data.items() if k in known}
         return cls(**filtered)
 
@@ -268,6 +287,7 @@ class Topic:
     difficulty: str = "intermediate"
     prerequisites: list[str] = field(default_factory=list)
     related_topics: list[str] = field(default_factory=list)
+    unclassified_pack_ids: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
