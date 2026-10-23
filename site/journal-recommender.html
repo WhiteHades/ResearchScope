@@ -81,6 +81,7 @@
         Results show topic fit, scope, impact, acceptance rate, review timeline, and similar accepted papers.
         Fit labels are advisory — not acceptance predictions. Impact = OpenAlex 2-year mean citedness;
         acceptance rates are approximate (most journals don't publish official figures).
+        Journal quartile data is unavailable.
       </p>
     </div>
     <a href="conference-recommender.html"
@@ -153,26 +154,12 @@ const { tokenize, extractBigrams, inferField, draftQuality, analyzeAbstract,
 
 let recommenderIndex = null;
 
-function qBadge(q) {
-  if (!q) return '';
-  const cls = q === 'Q1' ? 'rs-status--success' : 'rs-status--warning';
-  return `<span class="rs-status ${cls}">${escHtml(q)}</span>`;
-}
-
 function contribAdjust(venue, contribType) {
   if (contribType === 'any') return 0;
   if (contribType === 'survey' && ['CSUR','ACM Computing Surveys'].includes(venue.short)) return 10;
   if (contribType === 'extended') return 2;
   if (contribType === 'empirical') return 1;
   return 0;
-}
-
-function ifContext(ifVal) {
-  if (ifVal == null) return '';
-  if (ifVal >= 20)   return `<span class="text-xs" style="color:var(--rs-success);font-weight:600">Top 1% in CS</span>`;
-  if (ifVal >= 10)   return `<span class="text-xs" style="color:var(--rs-info);font-weight:600">Top 5% in CS</span>`;
-  if (ifVal >= 6)    return `<span class="text-xs" style="color:var(--rs-coral);font-weight:600">Q1 journal</span>`;
-  return '';
 }
 
 function recommendJournals() {
@@ -268,13 +255,11 @@ function renderResult(item, index) {
         ${v.scope ? `<p class="text-sm mt-1" style="color:var(--rs-muted)">${escHtml(v.scope)}</p>` : ''}
         <div class="flex gap-1 flex-wrap items-center mt-1.5">
           <span class="badge ${item.fit.cls}">${item.fit.label}</span>
-          ${v.rank ? qBadge(v.rank==='A*'?'Q1':v.rank==='A'?'Q2':v.rank) : ''}
           <span class="badge badge-tag">${escHtml(v.field)}</span>
           ${ifBadge} ${accBadge} ${oa}
         </div>
         <div class="flex items-center gap-2 mt-1 flex-wrap">
           ${v.publisher ? `<p class="text-xs" style="color:var(--rs-muted)">${escHtml(v.publisher)}</p>` : ''}
-          ${ifContext(v.impact_factor)}
           ${v.h_index != null ? `<span class="text-xs" style="color:var(--rs-muted)">h-index ${v.h_index}</span>` : ''}
         </div>
         ${websiteLink ? `<div class="mt-1">${websiteLink}</div>` : ''}

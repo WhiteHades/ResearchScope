@@ -20,7 +20,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src.benchmark import MIN_VENUE_SUPPORT
 from src.benchmark.features import extract_features
 from src.benchmark.reference import fit_corpus
-from src.benchmark.venues import venue_tier_map
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 log = logging.getLogger(__name__)
@@ -60,7 +59,7 @@ def main() -> None:
     log.info("read %d papers; %d skipped (missing venue or <%d chars)",
              total, skipped, _MIN_ABSTRACT_CHARS)
 
-    refs = fit_corpus(by_venue, venue_tier_map(), args.min_support)
+    refs = fit_corpus(by_venue, min_support=args.min_support)
     refs.save(out)
 
     log.info("\n%-18s %8s  %s", "reference", "n", "kind")
@@ -74,7 +73,7 @@ def main() -> None:
 
     dropped = [v for v in by_venue if refs.get(v, args.section) is None]
     if dropped:
-        log.info("\nno reference (too thin even pooled): %s",
+        log.info("\nno reference (insufficient venue support): %s",
                  ", ".join(sorted(dropped)))
     log.info("\nwrote %s", out)
 

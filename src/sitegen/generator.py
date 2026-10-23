@@ -32,7 +32,7 @@ class SiteGenerator:
     MAX_FRONTEND_ARXIV = 1_000
     # Section 2: A* conference papers only  (conferences.json)
     MAX_FRONTEND_CONF  = 1_000
-    # Section 3: Q1 journal papers  (journals.json)
+    # Section 3: journal papers (journals.json)
     MAX_FRONTEND_JOURNAL = 1_000
 
     # ── GitHub hard limit: 100 MB per file ────────────────────────────────────
@@ -83,7 +83,7 @@ class SiteGenerator:
         self._write(output_dir, "conferences.json",
                     [self._slim(p) for p in a_star_papers[: self.MAX_FRONTEND_CONF]])
 
-        # ── Section 3: Q1 journal papers — top 1 000 by paper_score ─────────────
+        # Section 3: journal papers, top 1 000 by paper_score
         self._write(output_dir, "journals.json",
                     [self._slim(p) for p in journal_papers[: self.MAX_FRONTEND_JOURNAL]])
 

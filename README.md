@@ -91,11 +91,11 @@ researchscope gaps --top-n 25
 |---|---|
 | **Jul 2026** | **Three-theme interface** — pick **Atelier Zero** (warm editorial), **Industrial Brutalist** (high-contrast), or **Field Notes** (tactile) from the nav; selection persists across pages and reloads with no flash. Rebuilt responsive navigation + modular CSS architecture |
 | **Jun 2026** | **OpenReview Acceptance Tiers** — oral/spotlight/poster signals captured for ICLR, NeurIPS, ICML & COLM; oral/spotlight boost paper scores and show as badges. Coverage extended through ICLR 2026, NeurIPS 2025, ICML 2025 |
-| **Jun 2026** | **Journal Recommender** — paste title + abstract to match against 20 Q1 journals (JMLR, TPAMI, Nature MI, CSUR…) with impact factor, review timeline, and open access info |
+| **Jun 2026** | **Journal recommender** matches a title and abstract against indexed journal profiles. Quartile data is unavailable. |
 | **Jun 2026** | **FastAPI Backend on Railway** — full REST API with JWT auth, favourites, PostgreSQL full-text search (100K+ papers). User accounts synced across devices |
 | **Jun 2026** | **OpenAlex Integration** — 250M+ work catalogue added as a data source, covering ML/NLP/CV/IR concept groups |
 | **Jun 2026** | **Hugging Face dataset**: selected paper records, source abstracts, generated fields, and generated instruction text |
-| **Jun 2026** | **20 Q1 Journals** — JMLR, TMLR, TACL, TPAMI, IJCV, AIJ, TNNLS, Nature MI, CSUR, TIP, MLJ, TKDE, DAMI, NN, PR, CL, IPM, JACM, NatComms, TOIS |
+| **Jun 2026** | **Journal profiles** include TPAMI, TACL, IJCV, Nature Machine Intelligence, and other indexed journals. |
 | **May 2026** | **Complete A* Coverage** — AAAI, IJCAI, CHI, SIGIR, WWW, KDD, WSDM, SIGMOD, ICSE bulk-fetched via Semantic Scholar |
 | **Apr 2026** | **Conference Recommender** — TF-IDF venue matching with deadline info and reviewer expectations |
 | **Apr 2026** | **CiteLens Integration** — one-click citation analysis for any arXiv paper |
@@ -108,7 +108,7 @@ researchscope gaps --top-n 25
 |---|---|
 | 📄 **100K+ papers** | Scored by recency, venue rank, acceptance tier (oral/spotlight), novelty, author prestige, and citation quality |
 | 🎓 **A* Conference coverage** | NeurIPS, ICML, ICLR, CVPR, ACL, EMNLP, AAAI, IJCAI, CHI, SIGIR, WWW, KDD and more |
-| 📖 **20 Q1 Journals** | JMLR, TMLR, TACL, TPAMI, Nature MI, and 15 more — with IF, review time, OA status |
+| 📖 **Journal discovery** | Browse indexed journal papers and compare manuscript topic matches. |
 | 🎯 **Venue Recommenders** | Conference + Journal recommenders: paste abstract → ranked matches with expectations |
 | ⏰ **Deadline tracker** | Live countdowns to A*/A conference deadlines across 10 CS areas — abstract, paper, and notification dates |
 | 🔍 **Full-text search** | PostgreSQL `tsvector` search across 100K+ papers via Railway API |
@@ -285,7 +285,7 @@ src/
   sitegen/
     generator.py
     conference_recommender.py
-    journal_recommender.py  # NEW — 20 Q1 journals
+    journal_recommender.py  # Journal topic profiles
 config/
   venues.yaml             # conferences + journals registry
   topics.yaml             # topic taxonomy
@@ -294,7 +294,7 @@ site/                     # static frontend (GitHub Pages)
   index.html              # homepage
   papers.html             # paper browser
   conferences.html        # A* conference papers
-  journals.html           # Q1 journal papers
+  journals.html           # Journal papers
   journal-recommender.html    # NEW
   conference-recommender.html
   topics.html / authors.html / labs.html
