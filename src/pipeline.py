@@ -12,8 +12,8 @@ The pipeline runs the following stages in order:
   4. Assess  — assign difficulty level
   5. Score   — compute all four score types
   6. Enrich  — generate content fields
-  7. Cluster — group papers into topic clusters
-  8. Gaps    — extract research gaps (3 layers)
+  7. Gaps: extract review cues and suggest projects
+  8. Cluster: group papers into topics using extracted cues
   9. Aggregate — build author / lab / university objects
  10. Editorial — build daily editorial queue
  11. Site gen — write JSON for the static frontend
