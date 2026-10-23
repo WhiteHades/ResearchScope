@@ -10,39 +10,6 @@ from datetime import datetime, timezone
 from src.content.llm_cache import LLMFieldCache
 from src.normalization.schema import Author, Lab, Paper, ResearchGap, Topic
 
-# ── Template tables ───────────────────────────────────────────────────────────
-
-_WHY_MATTERS: dict[str, str] = {
-    "Large Language Models":              "advances our understanding of large language models, which are reshaping how we build AI systems and interact with knowledge",
-    "Transformer Architectures":          "extends Transformer capabilities — the architecture underpinning virtually every modern NLP and vision model",
-    "Diffusion Models":                   "pushes the frontier of generative AI, enabling higher-quality and more controllable content creation",
-    "Reinforcement Learning":             "contributes to reinforcement learning — a key paradigm for training agents that make sequential decisions",
-    "Graph Neural Networks":              "broadens the applicability of graph neural networks for structured data and relational reasoning",
-    "Retrieval-Augmented Generation":     "improves how language models ground their responses in verified, up-to-date knowledge",
-    "Computer Vision":                    "advances machine perception, enabling better visual understanding in real-world applications",
-    "Speech Recognition":                 "improves speech recognition, making voice interfaces more accessible and accurate",
-    "Speech Synthesis":                   "advances speech synthesis, enabling more natural and expressive voice AI",
-    "Code Generation & Synthesis":        "reduces the barrier to software development by automating code writing and understanding",
-    "Multimodal Learning":                "bridges vision and language, enabling richer AI applications that reason across modalities",
-    "Federated & Privacy-Preserving Learning": "enables privacy-preserving machine learning across distributed data sources without sharing raw data",
-    "Model Compression & Efficiency":     "makes powerful models practical on resource-constrained devices and reduces deployment costs",
-    "AI Safety & Alignment":              "advances the critical goal of making AI systems safer, more reliable, and aligned with human values",
-    "AI Agents & Tool Use":               "moves AI from passive text generators to active problem-solvers that use tools and reason over time",
-    "Prompting & In-Context Learning":    "unlocks new capabilities from existing models without any additional training",
-    "Text-to-Image Generation":           "advances AI-generated imagery, enabling more creative and controllable visual content",
-    "Information Retrieval":              "improves how systems find and rank relevant information at scale",
-    "_default":                           "represents a meaningful contribution to its field and opens new research directions",
-}
-
-_HOOK_PATTERNS: dict[str, str] = {
-    "Large Language Models":     "What if your AI assistant could {title_lower}? New research shows it's closer than you think.",
-    "Diffusion Models":          "The images AI can generate just got dramatically better — here's why.",
-    "Reinforcement Learning":    "Teaching machines to make better decisions — one paper at a time.",
-    "AI Safety & Alignment":     "Making AI systems safer is one of the most important problems in tech right now.",
-    "AI Agents & Tool Use":      "AI that takes action, not just text — a new step forward.",
-    "_default":                  "A new paper that could change how we think about {tag}.",
-}
-
 
 def _first_sentences(text: str, n: int = 2) -> str:
     sentences = re.split(r"(?<=[.!?])\s+", text.strip())
@@ -56,10 +23,10 @@ def _truncate(text: str, max_chars: int = 300) -> str:
 
 
 class ContentGenerator:
-    """Generate all creator-facing content fields for a Paper.
+    """Generate paper text and editorial fields.
 
-    Five reader-facing fields prefer model-written text from the LLM cache (see
-    src/content/llm_cache.py) and fall back to the templates below.
+    Five paper text fields prefer cached model output. Missing entries use
+    excerpts or explicit notices.
     """
 
     def __init__(self, llm_cache: LLMFieldCache | None = None):
@@ -118,19 +85,10 @@ class ContentGenerator:
     def _why_it_matters(self, paper: Paper) -> str:
         if cached := self._cached(paper, "why_it_matters"):
             return cached
-        title = paper.title or "This work"
-        for tag in paper.tags:
-            if tag in _WHY_MATTERS:
-                return f"{title} {_WHY_MATTERS[tag]}."
-        return f"{title} {_WHY_MATTERS['_default']}."
+        return "The significance of this paper has not been verified from the available text."
 
     def _hook(self, paper: Paper) -> str:
-        tag = paper.tags[0] if paper.tags else "_default"
-        template = _HOOK_PATTERNS.get(tag, _HOOK_PATTERNS["_default"])
-        return template.format(
-            title_lower=(paper.title or "").lower(),
-            tag=tag,
-        )
+        return paper.title or "Paper title unavailable."
 
     def _plain_english(self, paper: Paper) -> str:
         if cached := self._cached(paper, "plain_english_explanation"):
@@ -138,7 +96,7 @@ class ContentGenerator:
         if not paper.abstract:
             return ""
         summary = _first_sentences(paper.abstract, 3)
-        return f"In plain terms: {summary}"
+        return f"Abstract excerpt, not a simplified explanation: {summary}"
 
     def _technical_summary(self, paper: Paper) -> str:
         if not paper.abstract:
@@ -155,17 +113,17 @@ class ContentGenerator:
 
     def _biggest_caveat(self, paper: Paper) -> str:
         if paper.limitations:
-            return paper.limitations[0]
+            return f"Provided limitation text: {paper.limitations[0]}"
         # try to extract from abstract
         caveat_re = re.compile(
-            r"(?:limitation|caveat|however|but|note that|does not|cannot)[^.!?]{5,150}[.!?]",
+            r"\b(?:limitations?|caveats?|however|but|note that|does not|cannot)\b[^.!?]{5,150}[.!?]",
             re.IGNORECASE,
         )
         if paper.abstract:
             m = caveat_re.search(paper.abstract)
             if m:
-                return m.group(0).strip()
-        return "Results may not generalise beyond the tested benchmarks."
+                return f"Abstract excerpt: {m.group(0).strip()}"
+        return "No paper specific caveat was verified from the available text. Check the full paper."
 
     def _read_this_if(self, paper: Paper) -> str:
         level = {"L1": "a beginner", "L2": "familiar with ML", "L3": "an advanced practitioner",
