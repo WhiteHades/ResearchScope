@@ -134,7 +134,11 @@ def _make_input(paper: dict, section: str, preceding: str) -> str:
     return "\n".join(parts).strip()
 
 
-def build_rows(paper: dict, max_pdf_bytes: int = _MAX_PDF_BYTES) -> list[dict]:
+def build_rows(
+    paper: dict,
+    max_pdf_bytes: int = _MAX_PDF_BYTES,
+    report: dict | None = None,
+) -> list[dict]:
     """Resolve, fetch, parse and segment one paper into section rows."""
     url = resolve_pdf_url(paper)
     if not url:
@@ -155,7 +159,7 @@ def build_rows(paper: dict, max_pdf_bytes: int = _MAX_PDF_BYTES) -> list[dict]:
     tei = process_fulltext(pdf)
     if not tei:
         return []
-    sections = segment(tei)
+    sections = segment(tei, report)
 
     rows: list[dict] = []
     context_blocks: list[str] = []   # preceding sections, in canonical order
@@ -175,9 +179,13 @@ def build_rows(paper: dict, max_pdf_bytes: int = _MAX_PDF_BYTES) -> list[dict]:
                 "input":       _make_input(paper, section, preceding),
                 "output":      text,
             })
+        elif text and report is not None:
+            report["short_sections"] += 1
         # Add this section to the running context for later sections. Abstract
         # is skipped — it already appears in the metadata header of every input.
         if text and section != "abstract":
+            if len(text) > _CONTEXT_CHARS_PER_SECTION and report is not None:
+                report["truncated_context_sections"] += 1
             block = f"## {_SECTION_TITLE[section]}\n{_truncate(text, _CONTEXT_CHARS_PER_SECTION)}"
             context_blocks.append(block)
     return rows
@@ -209,12 +217,14 @@ def build_dataset(
 
     max_pdf_bytes = int(max_pdf_mb * 1024 * 1024)
     stats = {"papers": 0, "ok": 0, "skipped": 0, "rows": 0,
+             "unclassified_sections": 0, "short_sections": 0,
+             "truncated_context_sections": 0,
              "by_section": {s: 0 for s in CANONICAL_SECTIONS}}
 
     with out_path.open("a" if append else "w", encoding="utf-8") as fh:
         for paper in papers:
             stats["papers"] += 1
-            rows = build_rows(paper, max_pdf_bytes=max_pdf_bytes)
+            rows = build_rows(paper, max_pdf_bytes=max_pdf_bytes, report=stats)
             if not rows:
                 stats["skipped"] += 1
             else:

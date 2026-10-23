@@ -62,7 +62,7 @@ def _text_of(elem: ET.Element) -> str:
     return re.sub(r"\s+", " ", "".join(elem.itertext())).strip()
 
 
-def segment(tei_xml: str) -> dict[str, str]:
+def segment(tei_xml: str, report: dict | None = None) -> dict[str, str]:
     """Return {canonical_section: text} for the sections found in the TEI."""
     try:
         root = ET.fromstring(tei_xml)
@@ -79,16 +79,21 @@ def segment(tei_xml: str) -> dict[str, str]:
 
     body = root.find(f".//tei:text/tei:body", _NS)
     if body is not None:
-        for div in body.iterfind("tei:div", _NS):
+        def collect(div: ET.Element, owner: str | None = None) -> None:
             head_el = div.find("tei:head", _NS)
-            if head_el is None:
-                continue
-            bucket = _classify("".join(head_el.itertext()))
-            if bucket is None:
-                continue
-            paras = [_text_of(p) for p in div.iterfind("tei:p", _NS)]
-            text = " ".join(t for t in paras if t)
-            if text:
-                buckets[bucket].append(text)
+            if head_el is not None:
+                owner = _classify("".join(head_el.itertext()))
+                if owner is None and report is not None:
+                    report["unclassified_sections"] += 1
+            for child in div:
+                if child.tag == f"{{{_TEI_NS}}}p":
+                    text = _text_of(child)
+                    if owner and text:
+                        buckets[owner].append(text)
+                elif child.tag == f"{{{_TEI_NS}}}div":
+                    collect(child, owner)
+
+        for div in body.iterfind("tei:div", _NS):
+            collect(div)
 
     return {k: "\n\n".join(v) for k, v in buckets.items() if v}
