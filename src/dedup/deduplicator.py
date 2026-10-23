@@ -1,16 +1,11 @@
-"""Deduplication logic for Paper objects.
+"""Merge repeated records and likely paper versions.
 
-Two-pass strategy:
-  1. Exact arXiv-ID match  — most conference papers also appear on arXiv;
-     S2 returns the arXiv ID via externalIds / paper_url, so this catches the
-     most common conference↔preprint duplicate cheaply and reliably.
-  2. Title Jaccard similarity — catches remaining near-duplicates where no
-     shared arXiv ID exists (e.g. two conference versions, or an ACL paper
-     that was never on arXiv).
+Pass one matches exact nonempty record IDs or shared arXiv IDs. Pass two
+compares title word overlap among records that share a title bigram.
 
-When two papers are merged we keep the one with the richer metadata, but
-always prefer a non-arXiv venue/rank when merging an arXiv preprint with
-its accepted conference version.
+The representative uses a metadata completeness heuristic. Venue and rank
+contribute to that heuristic but do not override every other field. Title
+matching does not verify version relationships.
 """
 from __future__ import annotations
 
@@ -110,22 +105,34 @@ class Deduplicator:
         self.threshold = threshold
 
     def deduplicate(self, papers: list[Paper]) -> list[Paper]:
-        # ── Pass 1: exact arXiv-ID match ──────────────────────────────────────
+        # Pass 1: exact record ID or arXiv ID match
         arxiv_index: dict[str, int] = {}   # arXiv ID → index in `result`
+        record_index: dict[str, int] = {}  # exact nonempty record ID to result index
         result: list[Paper] = []
 
         for paper in papers:
+            record_id = paper.id if paper.id and paper.id.strip() else ""
             aid = _arxiv_id(paper)
-            if aid and aid in arxiv_index:
-                existing = result[arxiv_index[aid]]
+            match_idx = record_index.get(record_id) if record_id else None
+            if match_idx is None and aid:
+                match_idx = arxiv_index.get(aid)
+
+            if match_idx is not None:
+                existing = result[match_idx]
                 if _completeness(paper) > _completeness(existing):
-                    result[arxiv_index[aid]] = _merge(paper, existing)
+                    result[match_idx] = _merge(paper, existing)
                 else:
                     _merge(existing, paper)
+                if record_id:
+                    record_index[record_id] = match_idx
+                if aid:
+                    arxiv_index[aid] = match_idx
                 continue
 
             idx = len(result)
             result.append(paper)
+            if record_id:
+                record_index[record_id] = idx
             if aid:
                 arxiv_index[aid] = idx
 
@@ -156,7 +163,7 @@ class Deduplicator:
 
             # Check Jaccard only against candidates
             best_match: int | None = None
-            for j in candidates:
+            for j in sorted(candidates):
                 if _similarity(normalised[i], normalised[j]) >= self.threshold:
                     best_match = j
                     break
@@ -169,6 +176,18 @@ class Deduplicator:
                 existing = result[best_match]
                 if _completeness(result[i]) > _completeness(existing):
                     result[best_match] = _merge(result[i], existing)
+                    previous_words = normalised[best_match].split()
+                    previous_bigrams = (
+                        [(previous_words[k], previous_words[k + 1])
+                         for k in range(len(previous_words) - 1)]
+                        if len(previous_words) >= 2
+                        else [(w, "") for w in previous_words]
+                    )
+                    normalised[best_match] = normalised[i]
+                    for bg in set(previous_bigrams):
+                        bigram_idx[bg].remove(best_match)
+                    for bg in set(bigrams):
+                        bigram_idx[bg].append(best_match)
                 else:
                     _merge(existing, result[i])
 
