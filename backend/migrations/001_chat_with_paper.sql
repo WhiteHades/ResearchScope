@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS paper_documents (
     content_hash TEXT,
     page_count INTEGER NOT NULL DEFAULT 0,
     chunk_count INTEGER NOT NULL DEFAULT 0,
-    extractor_version TEXT NOT NULL DEFAULT 'pypdf-v1',
+    extractor_version TEXT NOT NULL DEFAULT 'pymupdf-hybrid-v2',
     error_code TEXT,
     prepared_at TIMESTAMPTZ,
     last_accessed_at TIMESTAMPTZ DEFAULT now(),

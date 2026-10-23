@@ -10,7 +10,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS papers_search_vector_trigger ON papers;
-CREATE TRIGGER papers_search_vector_trigger
-BEFORE INSERT OR UPDATE ON papers
-FOR EACH ROW EXECUTE FUNCTION papers_search_vector_update();
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_trigger
+        WHERE tgname = 'papers_search_vector_trigger'
+          AND tgrelid = 'papers'::regclass
+          AND NOT tgisinternal
+    ) THEN
+        CREATE TRIGGER papers_search_vector_trigger
+        BEFORE INSERT OR UPDATE OF title, abstract ON papers
+        FOR EACH ROW EXECUTE FUNCTION papers_search_vector_update();
+    END IF;
+END;
+$$;

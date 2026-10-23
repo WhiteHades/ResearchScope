@@ -238,6 +238,38 @@ async def init_db() -> None:
                 FOR EACH ROW EXECUTE FUNCTION paper_chunks_search_vector_update()
             """)
             )
+            await conn.execute(
+                text("""
+                CREATE OR REPLACE FUNCTION papers_search_vector_update()
+                RETURNS trigger AS $$
+                BEGIN
+                    NEW.search_vector := to_tsvector(
+                        'english', coalesce(NEW.title, '') || ' ' ||
+                        coalesce(NEW.abstract, '')
+                    );
+                    RETURN NEW;
+                END;
+                $$ LANGUAGE plpgsql
+                """)
+            )
+            await conn.execute(
+                text("""
+                DO $$
+                BEGIN
+                    IF NOT EXISTS (
+                        SELECT 1 FROM pg_trigger
+                        WHERE tgname = 'papers_search_vector_trigger'
+                          AND tgrelid = 'papers'::regclass
+                          AND NOT tgisinternal
+                    ) THEN
+                        CREATE TRIGGER papers_search_vector_trigger
+                        BEFORE INSERT OR UPDATE OF title, abstract ON papers
+                        FOR EACH ROW EXECUTE FUNCTION papers_search_vector_update();
+                    END IF;
+                END;
+                $$
+                """)
+            )
         log.info("Database tables initialised.")
     except Exception as exc:
         log.error("Database init failed (%s)", type(exc).__name__)
