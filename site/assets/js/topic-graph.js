@@ -698,7 +698,7 @@
         <p>${escapeHtml(truncate(nodeOrEdge.summary, 260))}</p>
         <div class="topic-graph-chip-row">${tags}</div>
         <div class="topic-graph-action-row">
-          ${nodeOrEdge.url ? `<a class="topic-graph-action" target="_blank" rel="noopener" href="${escapeHtml(nodeOrEdge.url)}">Open paper</a>` : ''}
+          ${window.safePaperUrl(nodeOrEdge.url) !== '#' ? `<a class="topic-graph-action" target="_blank" rel="noopener" href="${escapeHtml(window.safePaperUrl(nodeOrEdge.url))}">Open paper</a>` : ''}
           <a class="topic-graph-action secondary" href="${escapeHtml(paperSearchUrl)}">Find in Papers</a>
         </div>
       </div>`;

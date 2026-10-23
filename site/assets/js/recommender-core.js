@@ -327,7 +327,7 @@
       return `<p class="text-xs" style="color:var(--rs-muted)">${escHtml(emptyMsg)}</p>`;
     return similar.map((p) => `
       <div class="recommender-paper">
-        <a href="${escHtml(p.url || '#')}" target="_blank" rel="noopener" class="text-sm font-semibold hover:underline">${escHtml(p.title)}</a>
+        <a href="${escHtml(window.safePaperUrl(p.url))}" target="_blank" rel="noopener" class="text-sm font-semibold hover:underline">${escHtml(p.title)}</a>
         <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${escHtml(p.venue || fallbackVenueShort)} ${escHtml(String(p.year || ''))}</div>
         ${p.abstract ? `<div class="paper-abstract-snippet">${escHtml(p.abstract.slice(0, 160))}…</div>` : ''}
       </div>`).join('');

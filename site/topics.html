@@ -216,7 +216,7 @@ const DIFF_CLS = {L1:'badge-l1',L2:'badge-l2',L3:'badge-l3',L4:'badge-l4',
   beginner:'badge-l1',intermediate:'badge-l2',advanced:'badge-l3',frontier:'badge-l4'};
 
 function paperStub(p, icon='') {
-  const url = p.paper_url || p.url || '#';
+  const url = safePaperUrl(p.paper_url || p.url);
   return `<div class="reading-path-step">
     ${icon ? `<div class="path-number">${icon}</div>` : ''}
     <div class="flex-1 min-w-0">

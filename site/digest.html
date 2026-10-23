@@ -208,7 +208,7 @@ function digestTopicLabel(name, short = false) {
 
 function renderDigestPaperCard(paper) {
   const url = paperWorkspaceUrl(paper);
-  const externalUrl = paper.paper_url || paper.url || '#';
+  const externalUrl = safePaperUrl(paper.paper_url || paper.url);
   const venue = [paper.venue, paper.year].filter(Boolean).join(' · ');
   const authors = (paper.authors || []).slice(0, 3).join(', ');
   const extra = (paper.authors || []).length > 3 ? ` +${paper.authors.length - 3}` : '';

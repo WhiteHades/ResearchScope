@@ -11,11 +11,11 @@
       : '';
     const tags = uniqueTags(paper.tags).slice(0, 4);
     const links = [
-      paper.paper_url
-        ? `<a href="${escHtml(paper.paper_url)}" target="_blank" rel="noopener" class="rs-action-link">Paper</a>`
+      window.safePaperUrl(paper.paper_url) !== '#'
+        ? `<a href="${escHtml(window.safePaperUrl(paper.paper_url))}" target="_blank" rel="noopener" class="rs-action-link">Paper</a>`
         : '',
-      paper.pdf_url
-        ? `<a href="${escHtml(paper.pdf_url)}" target="_blank" rel="noopener" class="rs-action-link">PDF</a>`
+      window.safePaperUrl(paper.pdf_url) !== '#'
+        ? `<a href="${escHtml(window.safePaperUrl(paper.pdf_url))}" target="_blank" rel="noopener" class="rs-action-link">PDF</a>`
         : '',
     ].filter(Boolean).join('');
 

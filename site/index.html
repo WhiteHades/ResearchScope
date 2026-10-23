@@ -766,7 +766,7 @@ function renderEditorial(ed) {
   if (p) {
     html += `<div class="editorial-card col-span-full lg:col-span-1">
       <p class="rs-feature-eyebrow"><span class="rs-num">I.</span><span>Paper of the Day</span></p>
-      <a href="${escHtml(p.paper_url || '#')}" target="_blank" class="rs-display-3 hover:underline" style="display:block;margin-top:0.5rem">${escHtml(p.title)}</a>
+      <a href="${escHtml(safePaperUrl(p.paper_url))}" target="_blank" class="rs-display-3 hover:underline" style="display:block;margin-top:0.5rem">${escHtml(p.title)}</a>
       <div class="flex gap-1 flex-wrap mt-2 mb-2">
         ${(p.tags || []).slice(0,3).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
         ${difficultyBadge(p)}
@@ -815,7 +815,7 @@ function renderEditorial(ed) {
   if (u) {
     html += `<div class="editorial-card">
       <p class="rs-feature-eyebrow"><span class="rs-num">V.</span><span>Underrated Paper</span></p>
-      <a href="${escHtml(u.paper_url||'#')}" target="_blank" style="display:block;margin-top:0.5rem;font-family:var(--rs-font-display);font-weight:600;color:var(--rs-ink);font-size:0.95rem;line-height:1.35">${escHtml(u.title)}</a>
+      <a href="${escHtml(safePaperUrl(u.paper_url))}" target="_blank" style="display:block;margin-top:0.5rem;font-family:var(--rs-font-display);font-weight:600;color:var(--rs-ink);font-size:0.95rem;line-height:1.35">${escHtml(u.title)}</a>
       <p style="font-size:0.82rem;color:var(--rs-ink-mute);margin-top:0.5rem;line-height:1.55">${escHtml(u.reason||'')}</p>
     </div>`;
   }
@@ -831,7 +831,7 @@ function renderEditorial(ed) {
       html += `<div class="rs-card" style="padding:1rem;display:flex;align-items:center;gap:1rem">
         <span style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral);font-size:1.5rem;min-width:2rem;text-align:center">${i+1}</span>
         <div style="flex:1;min-width:0">
-          <a href="${escHtml(p.paper_url||'#')}" target="_blank" style="font-family:var(--rs-font-display);font-weight:600;font-size:0.92rem;color:var(--rs-ink);text-decoration:none;display:block">${escHtml(p.title)}</a>
+          <a href="${escHtml(safePaperUrl(p.paper_url))}" target="_blank" style="font-family:var(--rs-font-display);font-weight:600;font-size:0.92rem;color:var(--rs-ink);text-decoration:none;display:block">${escHtml(p.title)}</a>
           <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.4rem">
             ${(p.tags||[]).slice(0,2).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
             <span class="badge badge-score">${(+p.paper_score||0).toFixed(1)}</span>

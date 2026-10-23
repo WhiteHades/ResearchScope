@@ -91,7 +91,7 @@
     }
     grid.innerHTML = papers.map((paper) => {
       const chatUrl = `chat-paper?id=${encodeURIComponent(paper.id)}`;
-      const externalUrl = paper.paper_url || paper.pdf_url || '#';
+      const externalUrl = window.safePaperUrl(paper.paper_url || paper.pdf_url);
       const authors = (paper.authors || []).slice(0, 3).join(', ');
       const extra = (paper.authors || []).length > 3 ? ` +${paper.authors.length - 3}` : '';
       return `<article class="arxiv-paper-card">

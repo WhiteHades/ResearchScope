@@ -50,8 +50,18 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+function safePaperUrl(value) {
+  try {
+    const url = new URL(value);
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : '#';
+  } catch (_) {
+    return '#';
+  }
+}
+window.safePaperUrl = safePaperUrl;
+
 function paperWorkspaceUrl(paper) {
-  return paper?.paper_url || paper?.url || paper?.pdf_url || '#';
+  return safePaperUrl(paper?.paper_url || paper?.url || paper?.pdf_url);
 }
 window.paperWorkspaceUrl = paperWorkspaceUrl;
 
@@ -556,7 +566,7 @@ function tweetPaperUrl(paper) {
 function renderPotdCard(paper) {
   if (!paper) return '';
   const url     = paperWorkspaceUrl(paper);
-  const externalUrl = paper.paper_url || paper.url || '#';
+  const externalUrl = safePaperUrl(paper.paper_url || paper.url);
   const venue   = [paper.venue, paper.year].filter(Boolean).join(' · ');
   const authors = (paper.authors || []).slice(0, 3).join(', ');
   const extra   = (paper.authors || []).length > 3 ? ` +${paper.authors.length - 3}` : '';
@@ -591,19 +601,27 @@ function renderPotdCard(paper) {
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.738-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         Share
       </a>
-      <button onclick="copyPotdLink('${escHtml(url)}',this)" class="potd-btn potd-btn-ghost">Copy Link</button>
+      <button data-copy-potd-link class="potd-btn potd-btn-ghost">Copy Link</button>
       <span class="potd-next">${nextLabel}</span>
     </div>
   </div>`;
 }
 
-function copyPotdLink(url, btn) {
+function copyPotdLink(btn) {
+  const link = btn.closest('.potd-wrap')?.querySelector('.potd-title a');
+  if (!link || link.getAttribute('href') === '#') return;
+  const url = link.href;
   navigator.clipboard.writeText(url).then(() => {
     const orig = btn.textContent;
     btn.textContent = 'Copied!';
     setTimeout(() => btn.textContent = orig, 2000);
   });
 }
+
+document.addEventListener('click', event => {
+  const button = event.target.closest('[data-copy-potd-link]');
+  if (button) copyPotdLink(button);
+});
 
 // ── Nav builder ────────────────────────────────────────────────────────
 function buildDropdownNav() {

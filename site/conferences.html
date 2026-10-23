@@ -258,8 +258,8 @@ function renderRows(papers, startIdx=0) {
             <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Score Breakdown</p>
             ${scoreBar('Paper Score',p.paper_score)}${scoreBar('Read First',p.read_first_score)}${scoreBar('Content',p.content_potential_score)}
             <div class="mt-3 flex flex-wrap gap-2">
-              ${p.paper_url?`<a href="${escHtml(p.paper_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)"> Paper</a>`:''}
-              ${p.pdf_url?`<a href="${escHtml(p.pdf_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)"> PDF</a>`:''}
+              ${safePaperUrl(p.paper_url) !== '#' ? `<a href="${escHtml(safePaperUrl(p.paper_url))}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)"> Paper</a>` : ''}
+              ${safePaperUrl(p.pdf_url) !== '#' ? `<a href="${escHtml(safePaperUrl(p.pdf_url))}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)"> PDF</a>` : ''}
             </div>
           </div>
         </div>
