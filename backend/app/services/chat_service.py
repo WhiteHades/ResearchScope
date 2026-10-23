@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import os
 import re
 import time
@@ -10,7 +11,7 @@ from collections.abc import AsyncIterator
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 
-from sqlalchemy import func, select, update
+from sqlalchemy import delete, func, select, update
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -30,6 +31,7 @@ from app.services.document_service import (
     resolve_pdf_url,
 )
 from app.services.guardrail_service import (
+    GuardrailDecision,
     SAFE_COMPLETION_GUIDANCE,
     classify_intent,
     redact_secrets,
@@ -99,6 +101,7 @@ _INSUFFICIENT_EVIDENCE_RESPONSE = (
     "Try asking about a specific section, method, experiment, or result."
 )
 _STALE_PENDING_AFTER = timedelta(minutes=15)
+log = logging.getLogger(__name__)
 
 
 class ChatError(RuntimeError):
@@ -458,14 +461,56 @@ async def start_turn(
         raise ChatError("request_blocked", 422)
     usage_date = date.today()
 
-    document = await db.get(PaperDocument, session.paper_id)
+    locked_user = (
+        await db.execute(select(User).where(User.id == user.id).with_for_update())
+    ).scalar_one_or_none()
+    locked_session = (
+        await db.execute(
+            select(ChatSession)
+            .where(ChatSession.id == session.id, ChatSession.user_id == user.id)
+            .with_for_update()
+        )
+    ).scalar_one_or_none()
+    if not locked_user or not locked_session:
+        raise ChatError("chat_session_not_found", 404)
+    user = locked_user
+    session = locked_session
+
+    await _reap_stale_pending_messages(db, user.id)
+    daily_limit = daily_message_limit()
+    document, usage = await _reload_locked_turn_state(
+        db, session.paper_id, user.id, usage_date
+    )
     if not document or document.status != "ready" or not document_is_current(document):
         raise ChatError("paper_not_ready", 409)
-
-    usage = await db.get(ChatUsageDaily, (user.id, usage_date))
-    daily_limit = daily_message_limit()
     if _daily_limit_exhausted(usage.request_count if usage else 0, 0, daily_limit):
         raise ChatError("daily_limit_reached", 429)
+
+    session_pending = (
+        await db.execute(
+            select(func.count())
+            .select_from(ChatMessage)
+            .where(
+                ChatMessage.session_id == session.id, ChatMessage.status == "pending"
+            )
+        )
+    ).scalar_one()
+    if session_pending:
+        raise ChatError("session_generation_active", 409)
+
+    user_pending = (
+        await db.execute(
+            select(func.count())
+            .select_from(ChatMessage)
+            .join(ChatSession, ChatSession.id == ChatMessage.session_id)
+            .where(ChatSession.user_id == user.id, ChatMessage.status == "pending")
+        )
+    ).scalar_one()
+    completed_requests = usage.request_count if usage else 0
+    if _daily_limit_exhausted(completed_requests, user_pending, daily_limit):
+        raise ChatError("daily_limit_reached", 429)
+    if user_pending >= max_concurrent_turns_per_user():
+        raise ChatError("user_generation_limit", 409)
 
     if client_request_id:
         existing = (
@@ -479,10 +524,21 @@ async def start_turn(
         if existing:
             raise ChatError("duplicate_request", 409)
 
-    paper = await db.get(Paper, session.paper_id)
-    if not paper:
-        raise ChatError("paper_not_found", 404)
-
+    user_message = ChatMessage(
+        id=str(uuid.uuid4()),
+        session_id=session.id,
+        role="user",
+        content=content,
+        status="complete",
+        client_request_id=client_request_id,
+    )
+    assistant_message = ChatMessage(
+        id=str(uuid.uuid4()),
+        session_id=session.id,
+        role="assistant",
+        content="",
+        status="pending",
+    )
     history = list(
         (
             await db.execute(
@@ -499,6 +555,50 @@ async def start_turn(
         .all()
     )
     history.reverse()
+    paper = await db.get(Paper, session.paper_id)
+    if not paper:
+        raise ChatError("paper_not_found", 404)
+
+    message_ids = (user_message.id, assistant_message.id)
+    session_id = session.id
+    try:
+        db.add_all([user_message, assistant_message])
+        await db.commit()
+        return await _prepare_admitted_turn(
+            db,
+            session,
+            paper,
+            content,
+            intent,
+            history,
+            user_message,
+            assistant_message,
+        )
+    except BaseException:
+        await db.rollback()
+        try:
+            await db.execute(
+                delete(ChatMessage).where(
+                    ChatMessage.id.in_(message_ids)
+                )
+            )
+            await db.commit()
+        except Exception:
+            await db.rollback()
+            log.exception("Failed to release chat turn admission for %s", session_id)
+        raise
+
+
+async def _prepare_admitted_turn(
+    db: AsyncSession,
+    session: ChatSession,
+    paper: Paper,
+    content: str,
+    intent: GuardrailDecision,
+    history: list[ChatMessage],
+    user_message: ChatMessage,
+    assistant_message: ChatMessage,
+) -> ChatTurn:
     retrieval_context = " ".join(
         [
             redact_secrets(message.content).text
@@ -562,68 +662,22 @@ async def start_turn(
             except DocumentPreparationError:
                 visual_pages = []
 
-    locked_user = (
-        await db.execute(select(User).where(User.id == user.id).with_for_update())
-    ).scalar_one_or_none()
-    locked_session = (
+    session = (
         await db.execute(
             select(ChatSession)
-            .where(ChatSession.id == session.id, ChatSession.user_id == user.id)
+            .where(
+                ChatSession.id == session.id,
+                ChatSession.user_id == session.user_id,
+            )
             .with_for_update()
+            .execution_options(populate_existing=True)
         )
     ).scalar_one_or_none()
-    if not locked_user or not locked_session:
+    if not session:
         raise ChatError("chat_session_not_found", 404)
-    user = locked_user
-    session = locked_session
-
-    await _reap_stale_pending_messages(db, user.id)
-
-    document, usage = await _reload_locked_turn_state(
-        db, session.paper_id, user.id, usage_date
-    )
+    document = await db.get(PaperDocument, session.paper_id, populate_existing=True)
     if not document or document.status != "ready" or not document_is_current(document):
         raise ChatError("paper_not_ready", 409)
-    if _daily_limit_exhausted(usage.request_count if usage else 0, 0, daily_limit):
-        raise ChatError("daily_limit_reached", 429)
-
-    session_pending = (
-        await db.execute(
-            select(func.count())
-            .select_from(ChatMessage)
-            .where(
-                ChatMessage.session_id == session.id, ChatMessage.status == "pending"
-            )
-        )
-    ).scalar_one()
-    if session_pending:
-        raise ChatError("session_generation_active", 409)
-
-    user_pending = (
-        await db.execute(
-            select(func.count())
-            .select_from(ChatMessage)
-            .join(ChatSession, ChatSession.id == ChatMessage.session_id)
-            .where(ChatSession.user_id == user.id, ChatMessage.status == "pending")
-        )
-    ).scalar_one()
-    completed_requests = usage.request_count if usage else 0
-    if _daily_limit_exhausted(completed_requests, user_pending, daily_limit):
-        raise ChatError("daily_limit_reached", 429)
-    if user_pending >= max_concurrent_turns_per_user():
-        raise ChatError("user_generation_limit", 409)
-
-    if client_request_id:
-        existing = (
-            await db.execute(
-                select(ChatMessage).where(
-                    ChatMessage.session_id == session.id,
-                    ChatMessage.client_request_id == client_request_id,
-                )
-            )
-        ).scalar_one_or_none()
-        if existing:
-            raise ChatError("duplicate_request", 409)
 
     config = get_provider_config()
     conversation = [
@@ -667,24 +721,8 @@ async def start_turn(
         raise ChatError(exc.code, 503) from exc
 
     now = datetime.now(timezone.utc)
-    user_message = ChatMessage(
-        id=str(uuid.uuid4()),
-        session_id=session.id,
-        role="user",
-        content=content,
-        status="complete",
-        client_request_id=client_request_id,
-    )
-    assistant_message = ChatMessage(
-        id=str(uuid.uuid4()),
-        session_id=session.id,
-        role="assistant",
-        content="",
-        status="pending",
-        provider=config.provider,
-        model=config.model,
-    )
-    db.add_all([user_message, assistant_message])
+    assistant_message.provider = config.provider
+    assistant_message.model = config.model
     if session.title == "New chat":
         session.title = content.strip().replace("\n", " ")[:80]
     session.last_message_at = now
