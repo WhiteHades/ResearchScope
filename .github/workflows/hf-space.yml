@@ -1,7 +1,7 @@
 name: Sync Hugging Face Space
 
 # Mirrors the published site to https://huggingface.co/spaces/kishormorol/ResearchScope
-# after each successful Pages deploy, so the Space never drifts from GitHub.
+# from the recorded source of each successful Pages deploy.
 on:
   # Follow the Pages deploy, so the Space only ever gets a site that shipped.
   workflow_run:
@@ -12,6 +12,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 # Never let two uploads race for the same Space; don't cancel one mid-upload.
 concurrency:
@@ -20,26 +21,63 @@ concurrency:
 
 jobs:
   sync:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.repository == 'kishormorol/ResearchScope')
     runs-on: ubuntu-latest
     steps:
       - name: Require main source branch
         env:
+          EVENT_NAME: "${{ github.event_name }}"
+          GH_REPO: "${{ github.repository }}"
           PUBLICATION_REF: "${{ github.ref }}"
           WORKFLOW_RUN_HEAD_BRANCH: "${{ github.event.workflow_run.head_branch }}"
+          WORKFLOW_RUN_REPOSITORY: "${{ github.event.workflow_run.repository.full_name }}"
+          WORKFLOW_RUN_HEAD_REPOSITORY: "${{ github.event.workflow_run.head_repository.full_name }}"
         run: |
           if [ "$PUBLICATION_REF" != "refs/heads/main" ]; then
             echo "This workflow publishes only from main." >&2
             exit 1
           fi
-          if [ -n "$WORKFLOW_RUN_HEAD_BRANCH" ] && [ "$WORKFLOW_RUN_HEAD_BRANCH" != "main" ]; then
-            echo "The source workflow did not run from main." >&2
+          if [ "$EVENT_NAME" = "workflow_run" ] && { [ "$WORKFLOW_RUN_HEAD_BRANCH" != "main" ] || [ "$WORKFLOW_RUN_REPOSITORY" != "$GH_REPO" ] || [ "$WORKFLOW_RUN_HEAD_REPOSITORY" != "$GH_REPO" ]; }; then
+            echo "The source workflow repository or branch is invalid." >&2
             exit 1
           fi
 
+      - name: Download Pages source metadata
+        id: source
+        if: github.event_name == 'workflow_run'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          WORKFLOW_RUN_ID: "${{ github.event.workflow_run.id }}"
+          WORKFLOW_RUN_ATTEMPT: "${{ github.event.workflow_run.run_attempt }}"
+        run: |
+          set -euo pipefail
+          if [[ ! "$WORKFLOW_RUN_ID" =~ ^[1-9][0-9]*$ ]]; then
+            echo "The source workflow run ID is invalid." >&2
+            exit 1
+          fi
+          if [[ ! "$WORKFLOW_RUN_ATTEMPT" =~ ^[1-9][0-9]*$ ]]; then
+            echo "The source workflow attempt is invalid." >&2
+            exit 1
+          fi
+          source_dir="$RUNNER_TEMP/pages-source"
+          mkdir -p "$source_dir"
+          gh run download "$WORKFLOW_RUN_ID" --name "pages-source-$WORKFLOW_RUN_ATTEMPT" --dir "$source_dir" --repo "$GH_REPO"
+          source_file="$source_dir/source-sha.txt"
+          if [ ! -f "$source_file" ] || [ "$(wc -c < "$source_file")" -ne 41 ]; then
+            echo "The Pages source metadata artifact is invalid." >&2
+            exit 1
+          fi
+          IFS= read -r source_sha < "$source_file"
+          if [[ ! "$source_sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "The Pages source SHA is invalid." >&2
+            exit 1
+          fi
+          printf 'source_sha=%s\n' "$source_sha" >> "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          ref: ${{ github.event_name == 'workflow_run' && steps.source.outputs.source_sha || github.sha }}
 
       - name: Stage the site
         run: |
@@ -81,7 +119,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           SPACE: kishormorol/ResearchScope
-          SOURCE_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+          SOURCE_SHA: ${{ github.event_name == 'workflow_run' && steps.source.outputs.source_sha || github.sha }}
         run: |
           python - <<'PY'
           import os, shutil

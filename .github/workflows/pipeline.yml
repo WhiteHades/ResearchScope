@@ -20,14 +20,15 @@ on:
         default: 'false'
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
 jobs:
   pipeline:
     if: github.repository == 'kishormorol/ResearchScope' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: write
     steps:
       - name: Require main branch
         env:
@@ -132,33 +133,12 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
 
-  deploy:
-    needs: pipeline
-    if: github.repository == 'kishormorol/ResearchScope'
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Require main branch
+      - name: Dispatch Pages deployment
+        if: success() && github.repository == 'kishormorol/ResearchScope'
         env:
-          PUBLICATION_REF: "${{ github.ref }}"
-        run: |
-          if [ "$PUBLICATION_REF" != "refs/heads/main" ]; then
-            echo "This workflow publishes only from main." >&2
-            exit 1
-          fi
-
-      - uses: actions/checkout@v7
-        with:
-          ref: main
-      - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5
-        with:
-          path: site/
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh workflow run deploy.yml --ref main --repo "$GH_REPO"
 
   # Per-section fine-tuning dataset for A* papers. Runs in parallel — does not
   # block the data refresh or Pages deploy. Uses the committed conferences_db.json

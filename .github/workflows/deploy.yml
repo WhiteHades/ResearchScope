@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -32,6 +32,20 @@ jobs:
           fi
 
       - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - name: Record Pages source SHA
+        run: |
+          set -euo pipefail
+          source_sha=$(git rev-parse HEAD)
+          if [[ ! "$source_sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "The checked out source SHA is invalid." >&2
+            exit 1
+          fi
+          mkdir -p "$RUNNER_TEMP/pages-source"
+          printf '%s\n' "$source_sha" > "$RUNNER_TEMP/pages-source/source-sha.txt"
+
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
@@ -39,3 +53,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+      - name: Upload Pages source metadata
+        uses: actions/upload-artifact@v7
+        with:
+          name: pages-source-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/pages-source/source-sha.txt
+          retention-days: 14
+          if-no-files-found: error
