@@ -271,7 +271,6 @@ class ACLAnthologyConnector(BaseConnector):
             abstract=abstract,
             authors=authors,
             year=year,
-            published_date=f"{year}-01-01" if year else "",
             venue=venue_name,
             conference_rank=rank,
             paper_url=paper_url,

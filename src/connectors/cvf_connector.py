@@ -266,7 +266,6 @@ class CVFConnector(BaseConnector):
             abstract=rec.get("abstract", "").strip(),
             authors=rec.get("authors", []),
             year=year,
-            published_date=f"{year}-01-01",
             venue=venue,
             conference_rank=rank,
             paper_url=paper_url,

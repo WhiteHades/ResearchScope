@@ -244,6 +244,18 @@ sections = load_dataset("kishormorol/researchscope-papers", "sections", split="t
 | **CVF** | CVPR (2021–25), ICCV (2021+23), ECCV (2020+22+24) | Monthly |
 | **Semantic Scholar** | AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE + journals | Monthly |
 
+`published_date` keeps a source supplied calendar date as `YYYY-MM-DD`, or an
+empty string when no valid full date is available. `year` remains separate.
+OpenAlex and Semantic Scholar dates reflect their catalog records, not an
+independent publisher check. The connectors do not turn a year or month into
+January 1. Existing archived dates need source refresh; they are not cleared
+because January 1 can also be a valid publication date.
+
+When fresh and archived copies have the same record ID, the first available
+valid date is kept even if the archived copy has more metadata. The pipeline
+loads fresh copies first. A date is not copied between different record IDs
+matched only by title or an arXiv version link.
+
 ---
 
 ## Project Layout

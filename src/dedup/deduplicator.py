@@ -13,6 +13,7 @@ import re
 import unicodedata
 from collections import defaultdict
 
+from src.normalization.dates import normalize_publication_date
 from src.normalization.schema import Paper
 
 
@@ -119,10 +120,18 @@ class Deduplicator:
 
             if match_idx is not None:
                 existing = result[match_idx]
+                same_record = bool(record_id and record_id == existing.id)
+                # Fresh records precede archives; dates must not cross publication versions.
+                source_date = (
+                    normalize_publication_date(existing.published_date)
+                    or normalize_publication_date(paper.published_date)
+                ) if same_record else None
                 if _completeness(paper) > _completeness(existing):
                     result[match_idx] = _merge(paper, existing)
                 else:
                     _merge(existing, paper)
+                if source_date is not None:
+                    result[match_idx].published_date = source_date
                 if record_id:
                     record_index[record_id] = match_idx
                 if aid:

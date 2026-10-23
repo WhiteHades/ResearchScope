@@ -18,6 +18,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 from src.connectors.base import BaseConnector
+from src.normalization.dates import normalize_publication_date
 from src.normalization.schema import Paper
 
 log = logging.getLogger(__name__)
@@ -26,7 +27,7 @@ _API_BASE      = "https://api.semanticscholar.org/graph/v1/paper/search"
 _API_BULK      = "https://api.semanticscholar.org/graph/v1/paper/search/bulk"
 _FIELDS        = (
     "paperId,title,abstract,authors.name,authors.affiliations,"
-    "year,venue,citationCount,externalIds,openAccessPdf,publicationVenue,fieldsOfStudy"
+    "year,publicationDate,venue,citationCount,externalIds,openAccessPdf,publicationVenue,fieldsOfStudy"
 )
 
 # Venues to bulk-fetch in fetch_all using the S2 bulk cursor endpoint.
@@ -333,7 +334,7 @@ class SemanticScholarConnector(BaseConnector):
             authors=authors,
             affiliations_raw=affiliations_raw,
             year=int(year),
-            published_date=f"{year}-01-01" if year else "",
+            published_date=normalize_publication_date(rec.get("publicationDate")),
             venue=venue_name,
             conference_rank=rank,
             paper_url=paper_url,

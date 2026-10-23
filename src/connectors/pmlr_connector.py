@@ -214,7 +214,6 @@ class PMLRConnector(BaseConnector):
             abstract=abstract,
             authors=authors,
             year=year,
-            published_date=f"{year}-01-01",
             venue=venue,
             conference_rank=rank,
             paper_url=paper_url,

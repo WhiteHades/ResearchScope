@@ -37,7 +37,7 @@ class Paper:
     lab_ids: list[str] = field(default_factory=list)
     university_ids: list[str] = field(default_factory=list)
     year: int = 0
-    published_date: str = ""         # ISO date
+    published_date: str = ""         # Source calendar date (YYYY-MM-DD), empty if unknown.
     venue: str = ""                  # human-readable: "arXiv" | "ACL 2024" | …
     conference_rank: str = ""        # "A*" | "A" | "B" | "C" | ""
     presentation_type: str = ""      # "oral" | "spotlight" | "poster" | "" (accepted-tier signal)
