@@ -5,7 +5,7 @@ import os
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
 from fastapi.responses import StreamingResponse
-from sqlalchemy import func, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_db
@@ -27,6 +27,22 @@ from app.services.quota_service import (
 
 router = APIRouter(prefix="/papers", tags=["papers"])
 
+PAPER_SORTS = {
+    "paper_score": Paper.paper_score,
+    "read_first": Paper.read_first_score,
+    "content": Paper.content_potential_score,
+    "year": Paper.year,
+    "citations": Paper.citations,
+    "title": Paper.title,
+}
+DIFFICULTY_LEVELS = {
+    "l1": "L1", "beginner": "L1",
+    "l2": "L2", "intermediate": "L2",
+    "l3": "L3", "advanced": "L3",
+    "l4": "L4", "frontier": "L4",
+    "unknown": "Unknown",
+}
+
 
 @router.get("", response_model=PaperList)
 async def list_papers(
@@ -37,8 +53,20 @@ async def list_papers(
     year: int | None = None,
     rank: str | None = None,  # A* | A | B
     tag: str | None = None,
+    search: str | None = Query(None, max_length=300),
+    difficulty: str | None = None,
+    paper_type: str | None = None,
+    sort_by: str = "paper_score",
     db: AsyncSession = Depends(get_db),
 ):
+    if sort_by not in PAPER_SORTS:
+        raise HTTPException(status_code=422, detail="invalid_sort")
+    level = None
+    if difficulty:
+        level = DIFFICULTY_LEVELS.get(difficulty.strip().lower())
+        if not level:
+            raise HTTPException(status_code=422, detail="invalid_difficulty")
+
     q = select(Paper)
     if source_type:
         q = q.where(Paper.source_type == source_type)
@@ -50,15 +78,36 @@ async def list_papers(
         q = q.where(Paper.conference_rank == rank)
     if tag:
         q = q.where(Paper.tags.contains([tag]))
+    if search:
+        term = search.strip().replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+        author_names = (
+            func.jsonb_array_elements_text(Paper.authors)
+            .table_valued("name").render_derived()
+        )
+        q = q.where(or_(
+            Paper.title.ilike(f"%{term}%", escape="\\"),
+            Paper.abstract.ilike(f"%{term}%", escape="\\"),
+            select(1).select_from(author_names).where(
+                author_names.c.name.ilike(f"%{term}%", escape="\\")
+            ).exists(),
+        ))
+    if level == "Unknown":
+        q = q.where(or_(
+            Paper.difficulty_level.is_(None),
+            Paper.difficulty_level.in_(["", "Unknown"]),
+        ))
+    elif level:
+        q = q.where(Paper.difficulty_level == level)
+    if paper_type:
+        q = q.where(Paper.paper_type == paper_type)
 
     total_q = select(func.count()).select_from(q.subquery())
     total = (await db.execute(total_q)).scalar_one()
 
-    q = (
-        q.order_by(Paper.paper_score.desc())
-        .offset((page - 1) * page_size)
-        .limit(page_size)
-    )
+    sort = PAPER_SORTS[sort_by]
+    ordering = sort.asc() if sort_by == "title" else sort.desc().nulls_last()
+    q = q.order_by(ordering, Paper.id.asc())
+    q = q.offset((page - 1) * page_size).limit(page_size)
     rows = (await db.execute(q)).scalars().all()
 
     return PaperList(total=total, page=page, page_size=page_size, results=rows)

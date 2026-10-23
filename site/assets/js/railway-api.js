@@ -119,8 +119,12 @@ async function _queryPapers({
   tagNormalizeMap = {},
 } = {}) {
   const params = new URLSearchParams({ page, page_size: pageSize });
+  search = String(search || '').trim();
   if (search) params.set('search', search);
-  if (tag)    params.set('tag', tag);
+  if (difficulty) params.set('difficulty', difficulty);
+  if (type) params.set('paper_type', type);
+  params.set('sort_by', sortBy);
+  if (tag)    params.set('tag', tagNormalizeMap[tag] || tag);
   if (year)   params.set('year', year);
   if (rank)   params.set('rank', rank);
   if (venue)  params.set('venue', venue);
@@ -157,17 +161,30 @@ async function _queryPapers({
     const all = await res.json();
     const query = search.toLowerCase();
     const wantedTag = tagNormalizeMap[tag] || tag;
-    const difficultyNames = {
-      L1: 'beginner', L2: 'intermediate', L3: 'advanced', L4: 'frontier',
+    const difficultyLevels = {
+      l1: 'L1', beginner: 'L1', l2: 'L2', intermediate: 'L2',
+      l3: 'L3', advanced: 'L3', l4: 'L4', frontier: 'L4',
+      unknown: 'Unknown',
     };
+    const level = difficulty ? difficultyLevels[difficulty.trim().toLowerCase()] : '';
+    if (difficulty && !level) return { data: [], count: 0, error: new Error('Invalid difficulty') };
+    const numericSortFields = {
+      paper_score: 'paper_score',
+      read_first: 'read_first_score',
+      content: 'content_potential_score',
+      year: 'year',
+      citations: 'citations',
+    };
+    if (sortBy !== 'title' && !Object.prototype.hasOwnProperty.call(numericSortFields, sortBy)) {
+      return { data: [], count: 0, error: new Error('Invalid sort') };
+    }
     const filtered = all.filter((paper) => {
       const paperTags = (paper.tags || []).map((item) => tagNormalizeMap[item] || item);
       const matchesSearch = !query || [
         paper.title, paper.abstract, ...(paper.authors || []),
       ].some((value) => String(value || '').toLowerCase().includes(query));
-      const matchesDifficulty = !difficulty ||
-        paper.difficulty_level === difficulty ||
-        paper.difficulty === difficultyNames[difficulty];
+      const actualLevel = difficultyLevels[String(paper.difficulty_level || paper.difficulty || 'unknown').toLowerCase()];
+      const matchesDifficulty = !level || actualLevel === level;
       return matchesSearch &&
         (!wantedTag || paperTags.includes(wantedTag)) &&
         matchesDifficulty &&
@@ -176,20 +193,16 @@ async function _queryPapers({
         (!rank || paper.conference_rank === rank) &&
         (!venue || String(paper.venue || '').toLowerCase() === venue.toLowerCase());
     });
-    const numericSortFields = {
-      paper_score: 'paper_score',
-      read_first: 'read_first_score',
-      content: 'content_potential_score',
-      year: 'year',
-      citations: 'citations',
-    };
     filtered.sort((left, right) => {
       if (sortBy === 'title') {
         return String(left.title || '').localeCompare(String(right.title || '')) ||
           String(left.id || '').localeCompare(String(right.id || ''));
       }
-      const field = numericSortFields[sortBy] || 'paper_score';
-      return (Number(right[field]) || 0) - (Number(left[field]) || 0) ||
+      const field = numericSortFields[sortBy];
+      const leftValue = left[field] == null ? NaN : Number(left[field]);
+      const rightValue = right[field] == null ? NaN : Number(right[field]);
+      return Number(!Number.isFinite(leftValue)) - Number(!Number.isFinite(rightValue)) ||
+        (rightValue - leftValue || 0) ||
         String(left.id || '').localeCompare(String(right.id || ''));
     });
     const count = Math.min(filtered.length, SECTION_CAP);
