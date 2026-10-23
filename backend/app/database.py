@@ -270,6 +270,10 @@ async def init_db() -> None:
                 $$
                 """)
             )
+        async with get_engine().connect() as conn:
+            await conn.execute(text(
+                "SELECT read_first_score, content_potential_score FROM papers LIMIT 0"
+            ))
         log.info("Database tables initialised.")
     except Exception as exc:
         log.error("Database init failed (%s)", type(exc).__name__)

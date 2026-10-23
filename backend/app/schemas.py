@@ -23,6 +23,8 @@ class PaperOut(BaseModel):
     tags: list[str] = []
     topics: list[str] = []
     paper_score: float = 0.0
+    read_first_score: float | None = None
+    content_potential_score: float | None = None
     paper_type: str | None = None
     difficulty_level: str | None = None
     summary: str | None = None

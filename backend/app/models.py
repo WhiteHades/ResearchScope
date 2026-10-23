@@ -43,6 +43,8 @@ class Paper(Base):
     tags = Column(JSONB, default=list)
     topics = Column(JSONB, default=list)
     paper_score = Column(Float, default=0.0, index=True)
+    read_first_score = Column(Float, nullable=True)
+    content_potential_score = Column(Float, nullable=True)
     paper_type = Column(String)
     difficulty_level = Column(String)
     summary = Column(Text)

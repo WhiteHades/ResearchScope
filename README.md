@@ -323,6 +323,13 @@ uvicorn app.main:app --reload
 The local API loads the repository-root `.env` without overriding variables
 already supplied by the shell or deployment environment.
 
+Before deploying a pipeline writer or API version that uses
+`read_first_score` or `content_potential_score`, run
+`backend/migrations/006_reader_scores.sql` against PostgreSQL. The old
+application can remain live while the nullable columns are added. Rolling back
+the application leaves those columns in place. Do not estimate scores for old
+rows. A null value means the score is not available.
+
 ### Environment variables
 
 | Variable | Where | Description |

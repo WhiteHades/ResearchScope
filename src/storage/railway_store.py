@@ -37,6 +37,7 @@ _PAPER_COLS = {
     "id", "source", "source_type", "title", "abstract", "authors",
     "year", "published_date", "venue", "conference_rank", "paper_url",
     "pdf_url", "citations", "tags", "topics", "paper_score", "paper_type",
+    "read_first_score", "content_potential_score",
     "difficulty_level", "summary", "key_contribution", "why_it_matters",
     "one_line_takeaway", "fetched_at",
 }
