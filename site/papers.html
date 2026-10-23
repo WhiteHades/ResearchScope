@@ -288,7 +288,7 @@ function renderRows(papers, startIdx = 0) {
       <td>
         <span class="badge badge-score font-bold">${scoreVal.toFixed(1)}</span>
         <div class="text-xs mt-0.5" style="color:var(--rs-muted)">
-           ${(p.read_first_score||0).toFixed(1)} ·  ${(p.content_potential_score||0).toFixed(1)}
+           Read first: ${scoreText(p.read_first_score)}, Content: ${scoreText(p.content_potential_score)}
         </div>
       </td>
       <td class="library-cell">${libBtn}</td>

@@ -123,12 +123,22 @@ function sourceBadge(paper) {
 }
 
 // ── Score bar ──────────────────────────────────────────────────────────
+function scoreText(score) {
+  if (score === null || score === undefined || (typeof score === 'string' && !score.trim())) {
+    return 'Unavailable';
+  }
+  const value = Number(score);
+  return Number.isFinite(value) ? value.toFixed(1) : 'Unavailable';
+}
+
 function scoreBar(label, score, max = 10) {
-  const pct = Math.round((score || 0) / max * 100);
+  const display = scoreText(score);
+  const value = display === 'Unavailable' ? 0 : Number(score);
+  const pct = Math.round(value / max * 100);
   return `<div class="score-bar-wrap">
     <span style="font-size:0.72rem;color:var(--rs-muted);min-width:9rem">${escHtml(label)}</span>
     <div class="score-bar-bg"><div class="score-bar-fill" style="width:${pct}%"></div></div>
-    <span class="score-bar-label">${(+score || 0).toFixed(1)}</span>
+    <span class="score-bar-label">${display}</span>
   </div>`;
 }
 
