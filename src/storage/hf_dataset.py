@@ -1,16 +1,13 @@
 """
 Hugging Face Hub dataset pusher.
 
-Exports all ResearchScope papers to JSONL and pushes to
+Exports selected fields from available paper records to JSONL for
 kishormorol/researchscope-papers on the HF Hub.
 
 Three splits are uploaded:
-  papers.jsonl         — raw metadata (all fields, good for pretraining)
-  instruct.jsonl       — instruction-tuning format (summary, key contribution,
-                         why_it_matters tasks)
-  sections.jsonl       — per-section fine-tuning rows for A* papers (real
-                         introduction / related_work / method / … body text),
-                         produced by scripts/build_sections.py
+  papers.jsonl: selected metadata, source abstracts, URLs, and generated fields
+  instruct.jsonl: generated or template text with paper IDs and no source URLs
+  sections.jsonl: selected extracted text with paper IDs and no source URLs
 
 Run automatically when HF_TOKEN env var is set.
 """
@@ -29,7 +26,7 @@ log = logging.getLogger(__name__)
 _REPO_ID   = "kishormorol/researchscope-papers"
 _REPO_TYPE = "dataset"
 
-# Fields kept in the raw training split
+# Selected fields kept in the papers split
 _RAW_FIELDS = {
     "id", "source", "source_type", "title", "abstract",
     "authors", "year", "published_date", "venue", "conference_rank",
@@ -253,7 +250,7 @@ def push(papers: list[dict] | None = None) -> bool:
 
 
 def push_sections(jsonl_path: str | Path = "data/sections.jsonl") -> bool:
-    """Upload the per-section fine-tuning split (built by build_sections.py)."""
+    """Upload selected extracted text rows built by build_sections.py."""
     token = os.environ.get("HF_TOKEN", "").strip()
     if not token:
         log.info("[hf] HF_TOKEN not set — skipping sections push.")
@@ -338,7 +335,6 @@ def _push_card(api: Any, n_papers: int, n_instruct: int,
     n_conf  = by_source.get("conference", 0)
     n_journal = by_source.get("journal", 0)
     card = f"""---
-license: cc-by-4.0
 language:
   - en
 task_categories:
@@ -353,8 +349,6 @@ tags:
   - nlp
   - computer-vision
   - ai
-size_categories:
-  - 100K<n<1M
 configs:
   - config_name: papers
     data_files:
@@ -391,25 +385,25 @@ ds = load_dataset("kishormorol/researchscope-papers", "papers", split="train")
 print(ds[0])
 ```
 
-See [Usage](#usage) below for per-source splits, instruction-tuning, and the per-section fine-tuning data.
+See [Usage](#usage) below for per-source splits, generated instruction text, and extracted section text.
 
 ## Stats
 
-- **{n_papers:,}** papers (raw metadata) — **{n_arxiv:,}** arXiv · **{n_conf:,}** conference · **{n_journal:,}** journal
-- **{n_instruct:,}** instruction-tuning rows
-- Sources: arXiv, OpenAlex, ACL Anthology, OpenReview, PMLR, CVF, Semantic Scholar
-- Venues: NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR, AAAI, IJCAI, JMLR, TMLR, TACL, TPAMI, NMI and more
+The export contains {n_papers:,} selected paper records and {n_instruct:,} generated instruction rows. Paper records include metadata, source abstracts, URLs, and generated fields.
+
+1. Publication type groups contain {n_arxiv:,} preprint or unclassified records, {n_conf:,} conference records, and {n_journal:,} journal records. The arxiv split name does not guarantee arXiv provenance.
+2. The pipeline supports arXiv, OpenAlex, ACL Anthology, OpenReview, PMLR, CVF, and Semantic Scholar. Source coverage depends on the available input records.
 
 ## Files
 
 | File | Description |
 |------|-------------|
-| `data/papers.jsonl` | Raw paper metadata — title, abstract, authors, venue, year, tags, scores (all sources combined) |
-| `data/papers_arxiv.jsonl` | arXiv / preprint papers only |
+| `data/papers.jsonl` | Selected metadata, source abstracts, paper and PDF URLs, and generated fields such as summaries and explanations |
+| `data/papers_arxiv.jsonl` | Preprint or unclassified records, not a guarantee of arXiv provenance |
 | `data/papers_conference.jsonl` | Conference papers only (NeurIPS, ICML, ICLR, ACL, CVPR, …) |
 | `data/papers_journal.jsonl` | Journal papers only (JMLR, TPAMI, NMI, TACL, …) |
-| `data/instruct.jsonl` | Instruction-tuning pairs — summarize, key contribution, why it matters, plain English |
-| `data/sections.jsonl` | Per-section fine-tuning rows for A* papers — real body text of `abstract`, `introduction`, `related_work`, `method`, `experiments`, `results`, `conclusion`. Filter by the `section` field to train a per-section writing agent. |
+| `data/instruct.jsonl` | Generated or template instruction text for summary, contribution, importance, plain language, and takeaway tasks. Outputs are not human reference answers. Rows have paper IDs and no source URLs. |
+| `data/sections.jsonl` | Selected text extracted from A* paper PDFs. Sections shorter than 200 characters are dropped. The preceding context is capped at 2500 characters per section. The builder default PDF size cap is 5 MiB. The daily workflow uses 10 MiB. The manual workflow lets users set a different cap. Rows have paper IDs and no source URLs. |
 
 ## Usage
 
@@ -419,23 +413,27 @@ from datasets import load_dataset
 # All papers (combined)
 papers = load_dataset("kishormorol/researchscope-papers", "papers", split="train")
 
-# Just one source — arXiv, conference, or journal papers
+# One publication type split
 arxiv      = load_dataset("kishormorol/researchscope-papers", "papers", split="arxiv")
 conference = load_dataset("kishormorol/researchscope-papers", "papers", split="conference")
 journal    = load_dataset("kishormorol/researchscope-papers", "papers", split="journal")
 
-# Instruction tuning
+# Generated instruction text
 instruct = load_dataset("kishormorol/researchscope-papers", "instruct", split="train")
 
-# Per-section fine-tuning (A* papers) — e.g. train an Introduction-writing agent
+# Extracted section text for A* papers
 sections = load_dataset("kishormorol/researchscope-papers", "sections", split="train")
 intros = sections.filter(lambda r: r["section"] == "introduction")
 ```
 
 ## License
 
-Paper metadata is aggregated from open sources. Text content follows the original licenses of each source (arXiv CC0, ACL CC BY, etc.).
-Dataset schema: CC BY 4.0.
+The dataset has no per item permission record. Access, redistribution, and training can have different conditions. Check the terms that apply to each item before using it. The links below describe source policies or API terms. They do not establish permission for every dataset row. Accessed 2026 10 23.
+
+1. [arXiv license information](https://info.arxiv.org/help/license/index.html)
+2. [ACL Anthology copyright FAQ](https://aclanthology.org/faq/copyright/)
+3. [PMLR license agreement](https://proceedings.mlr.press/pmlr-license-agreement.html)
+4. [Semantic Scholar API license](https://www.semanticscholar.org/product/api/license)
 """
     _upload_with_retry(
         api,

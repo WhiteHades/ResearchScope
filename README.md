@@ -25,10 +25,10 @@ ResearchScope collects paper records, computes scores, and recommends venues. It
 
 ## What is ResearchScope?
 
-ResearchScope collects computer science and AI paper records from seven sources: arXiv, OpenAlex, ACL Anthology, OpenReview, PMLR, CVF, and Semantic Scholar. Scheduled workflows compute scores, extract text cues, and suggest projects. The workflows can sync records to these services:
+ResearchScope collects computer science and AI paper records from seven sources: arXiv, OpenAlex, ACL Anthology, OpenReview, PMLR, CVF, and Semantic Scholar. Scheduled workflows compute scores, extract text cues, and suggest projects. They can sync data to two services when configured.
 
-- **Railway PostgreSQL** — full dataset, powers the REST API with full-text search and live browser queries
-- **Hugging Face Hub** — public JSONL dataset for LLM training
+1. **Railway PostgreSQL** stores paper records and extracted text chunks used by the REST API and grounded chat.
+2. **Hugging Face Hub** hosts JSONL exports with selected paper records, source abstracts, generated fields, and selected extracted text.
 
 The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** on Railway.
 
@@ -94,7 +94,7 @@ researchscope gaps --top-n 25
 | **Jun 2026** | **Journal Recommender** — paste title + abstract to match against 20 Q1 journals (JMLR, TPAMI, Nature MI, CSUR…) with impact factor, review timeline, and open access info |
 | **Jun 2026** | **FastAPI Backend on Railway** — full REST API with JWT auth, favourites, PostgreSQL full-text search (100K+ papers). User accounts synced across devices |
 | **Jun 2026** | **OpenAlex Integration** — 250M+ work catalogue added as a data source, covering ML/NLP/CV/IR concept groups |
-| **Jun 2026** | **HuggingFace Training Dataset** — `kishormorol/researchscope-papers` auto-pushed after every pipeline run: raw metadata JSONL + instruction-tuning pairs |
+| **Jun 2026** | **Hugging Face dataset**: selected paper records, source abstracts, generated fields, and generated instruction text |
 | **Jun 2026** | **20 Q1 Journals** — JMLR, TMLR, TACL, TPAMI, IJCV, AIJ, TNNLS, Nature MI, CSUR, TIP, MLJ, TKDE, DAMI, NN, PR, CL, IPM, JACM, NatComms, TOIS |
 | **May 2026** | **Complete A* Coverage** — AAAI, IJCAI, CHI, SIGIR, WWW, KDD, WSDM, SIGMOD, ICSE bulk-fetched via Semantic Scholar |
 | **Apr 2026** | **Conference Recommender** — TF-IDF venue matching with deadline info and reviewer expectations |
@@ -198,20 +198,21 @@ Interactive docs: **[/docs](https://researchscope-production.up.railway.app/docs
 
 ---
 
-## LLM Training Dataset
+## Hugging Face dataset
 
-The paper dataset is published on HuggingFace and auto-updated after every pipeline run.
+The paper dataset is published on Hugging Face and updated by the project workflows. Its files contain different kinds of data. The papers rows include selected metadata, source abstracts, URLs, and generated fields. Instruction rows contain generated or template text, not human reference answers. Section rows contain selected text extracted from papers. Instruction and section rows have paper IDs but no source URLs.
 
 ```python
 from datasets import load_dataset
 
-# 100K+ raw paper records (pretraining / RAG)
-papers = load_dataset("kishormorol/researchscope-papers",
-                      data_files="data/papers.jsonl", split="train")
+# Selected paper records
+papers = load_dataset("kishormorol/researchscope-papers", "papers", split="train")
 
-# Instruction-tuning pairs (summarize, key contribution, why it matters…)
-instruct = load_dataset("kishormorol/researchscope-papers",
-                        data_files="data/instruct.jsonl", split="train")
+# Generated instruction rows, not human reference answers
+instruct = load_dataset("kishormorol/researchscope-papers", "instruct", split="train")
+
+# Extracted paper sections
+sections = load_dataset("kishormorol/researchscope-papers", "sections", split="train")
 ```
 
 → **[huggingface.co/datasets/kishormorol/researchscope-papers](https://huggingface.co/datasets/kishormorol/researchscope-papers)**
@@ -397,21 +398,21 @@ ResearchScope ──── "Discover more papers on this topic"
 
 ---
 
-## Acknowledgments
+## Dataset rights and sources
 
-| Source | License |
-|---|---|
-| [arXiv](https://arxiv.org) | Metadata: CC0 |
-| [OpenAlex](https://openalex.org) | CC0 |
-| [ACL Anthology](https://aclanthology.org) | CC BY 4.0 |
-| [PMLR](https://proceedings.mlr.press) | CC BY 4.0 |
-| [Semantic Scholar](https://www.semanticscholar.org) | S2 API License |
-| [OpenReview](https://openreview.net) | Public API |
-| [CVF](https://openaccess.thecvf.com) | Public access |
+The dataset has no per item permission record. Access, redistribution, and training can have different conditions. Check the terms that apply to each item before using it. The links below describe source policies or API terms. They do not establish permission for every dataset row. Accessed 2026 10 23.
 
-ResearchScope stores only bibliographic metadata — no full text or PDFs.
+1. [arXiv license information](https://info.arxiv.org/help/license/index.html)
+2. [ACL Anthology copyright FAQ](https://aclanthology.org/faq/copyright/)
+3. [PMLR license agreement](https://proceedings.mlr.press/pmlr-license-agreement.html)
+4. [Semantic Scholar API license](https://www.semanticscholar.org/product/api/license)
+5. [OpenAlex](https://openalex.org)
+6. [OpenReview](https://openreview.net)
+7. [CVF open access](https://openaccess.thecvf.com)
 
-The statement above describes the public dataset. When Chat with Paper is enabled, the authenticated backend may fetch an allowlisted PDF, discard the PDF bytes after processing, and persist page-aware extracted text chunks for grounded answers. User conversations remain private to their account until deleted.
+ResearchScope has two separate data paths. Railway stores bibliographic records and extracted text chunks used by the API and grounded chat. The Hugging Face dataset also includes selected text extracted from paper PDFs in its sections file.
+
+For Chat with Paper, the authenticated backend may fetch an allowlisted PDF, discard the PDF bytes after processing, and retain page aware extracted text chunks for grounded answers. User conversations remain private to their account until deleted.
 
 ---
 
