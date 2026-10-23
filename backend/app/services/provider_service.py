@@ -227,6 +227,9 @@ async def stream_provider(
                         if event[0] == "provider_error":
                             raise ProviderRequestError("provider_stream_error")
                         yield event
+                        if event[0] == "usage":
+                            return
+                raise ProviderRequestError("provider_incomplete_response")
     except httpx.TimeoutException as exc:
         raise ProviderRequestError("provider_timeout") from exc
     except httpx.HTTPError as exc:
