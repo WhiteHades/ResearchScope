@@ -71,11 +71,44 @@ jobs:
       - name: Commit updated data
         if: steps.check.outputs.changed == 'true'
         run: |
+          set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
           git commit -m "chore: update research data [$(date -u +%Y-%m-%d)]"
-          git pull --rebase --autostash origin main
-          git push
+          RECOVERY_DIR=publication-recovery
+          GENERATED_COMMIT=$(git rev-parse HEAD)
+          BASE_COMMIT=$(git rev-parse HEAD^)
+          mkdir -p "$RECOVERY_DIR"
+          printf '%s\n' "$GENERATED_COMMIT" > "$RECOVERY_DIR/generated_commit_sha"
+          printf '%s\n' "$BASE_COMMIT" > "$RECOVERY_DIR/base_commit_sha"
+          git format-patch --binary --stdout "$BASE_COMMIT..$GENERATED_COMMIT" > "$RECOVERY_DIR/generated.patch"
+
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "Generated data pushed to main."
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              echo "Push failed after three attempts. Recovery files are ready for upload." >&2
+              exit 1
+            fi
+            git fetch origin main
+            git rebase origin/main
+            sleep 5
+          done
+
+      - name: Upload generated data recovery
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: update-generated-data-${{ github.run_id }}-${{ github.run_attempt }}
+          path: publication-recovery/
+          retention-days: 14
+          if-no-files-found: ignore
 
   deploy-pages:
     name: Deploy to GitHub Pages

@@ -104,15 +104,37 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "chore: monthly conference sync [$(date -u +%Y-%m)]"
-            for i in 1 2 3; do
-              git push origin main && break
-              echo "Push attempt $i failed, retrying with rebase (theirs)…"
-              # Use -X theirs so the conference sync data wins over any
-              # concurrent daily arXiv commit — conference data is the superset.
-              git pull --rebase --autostash -X theirs origin main
+            RECOVERY_DIR=publication-recovery
+            GENERATED_COMMIT=$(git rev-parse HEAD)
+            BASE_COMMIT=$(git rev-parse HEAD^)
+            mkdir -p "$RECOVERY_DIR"
+            printf '%s\n' "$GENERATED_COMMIT" > "$RECOVERY_DIR/generated_commit_sha"
+            printf '%s\n' "$BASE_COMMIT" > "$RECOVERY_DIR/base_commit_sha"
+            git format-patch --binary --stdout "$BASE_COMMIT..$GENERATED_COMMIT" > "$RECOVERY_DIR/generated.patch"
+
+            for attempt in 1 2 3; do
+              if git push origin HEAD:main; then
+                echo "Generated data pushed to main."
+                exit 0
+              fi
+              if [ "$attempt" -eq 3 ]; then
+                echo "Push failed after three attempts. Recovery files are ready for upload." >&2
+                exit 1
+              fi
+              git fetch origin main
+              git rebase origin/main
               sleep 5
             done
           fi
+
+      - name: Upload generated data recovery
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: conference-sync-generated-data-${{ github.run_id }}-${{ github.run_attempt }}
+          path: publication-recovery/
+          retention-days: 14
+          if-no-files-found: ignore
 
   deploy:
     needs: conference-sync
