@@ -60,6 +60,27 @@ static int equal(Doc *a, yaml_node_t *x, Doc *b, yaml_node_t *y) {
     return 1;
 }
 static yaml_node_t *job(Doc *d, const char *name) { return field(d, field(d, d->root, "jobs"), name); }
+static int publication_step(Doc *d, yaml_node_t *step) {
+    yaml_node_t *name = field(d, step, "name");
+    return text(name, "Require main branch") || text(name, "Commit updated data") ||
+        text(name, "Commit backfilled data") || text(name, "Upload generated data recovery");
+}
+static int generation_equal(Doc *a, yaml_node_t *x, Doc *b, yaml_node_t *y) {
+    for (yaml_node_pair_t *p = x->data.mapping.pairs.start; p < x->data.mapping.pairs.top; p++) {
+        yaml_node_t *key = yaml_document_get_node(&a->doc, p->key);
+        if (!text(key, "steps") && !equal(a, yaml_document_get_node(&a->doc, p->value),
+            b, field(b, y, (char *)key->data.scalar.value))) return 0;
+    }
+    yaml_node_t *xs = field(a, x, "steps"), *ys = field(b, y, "steps");
+    yaml_node_item_t *i = xs->data.sequence.items.start, *j = ys->data.sequence.items.start;
+    for (;;) {
+        while (i < xs->data.sequence.items.top && publication_step(a, yaml_document_get_node(&a->doc, *i))) i++;
+        while (j < ys->data.sequence.items.top && publication_step(b, yaml_document_get_node(&b->doc, *j))) j++;
+        if (i == xs->data.sequence.items.top || j == ys->data.sequence.items.top)
+            return i == xs->data.sequence.items.top && j == ys->data.sequence.items.top;
+        if (!equal(a, yaml_document_get_node(&a->doc, *i++), b, yaml_document_get_node(&b->doc, *j++))) return 0;
+    }
+}
 static yaml_node_t *step(Doc *d, yaml_node_t *j, const char *key, const char *value) {
     yaml_node_t *s = field(d, j, "steps"); assert(s && s->type == YAML_SEQUENCE_NODE);
     for (yaml_node_item_t *p = s->data.sequence.items.start; p < s->data.sequence.items.top; p++) {
@@ -105,7 +126,7 @@ int main(int argc, char **argv) {
         {"conference-sync","conference-sync","deploy"}, {"journal-sync","journal-sync","deploy"}};
     for (size_t i = 0; i < sizeof(producers)/sizeof(*producers); i++) {
         Doc a = load(argv[1], producers[i][0]), b = load(argv[2], producers[i][0]);
-        assert(equal(&a, job(&a, producers[i][1]), &b, job(&b, producers[i][1])));
+        assert(generation_equal(&a, job(&a, producers[i][1]), &b, job(&b, producers[i][1])));
         assert(equal(&a, field(&a, a.root, "on"), &b, field(&b, b.root, "on")));
         yaml_node_t *old = job(&a, producers[i][2]), *call = job(&b, producers[i][2]);
         assert(equal(&a, field(&a, old, "if"), &b, field(&b, call, "if")));
@@ -120,7 +141,7 @@ int main(int argc, char **argv) {
         assert(text(field(&b, field(&b, call, "secrets"), "HF_TOKEN"), "${{ secrets.HF_TOKEN }}"));
         if (!i) emit(argv[3], "old-overlay.sh", field(&a, step(&a, old, "name", "Copy data into site/data/"), "run"));
         if (!strcmp(producers[i][0], "pipeline"))
-            assert(equal(&a, job(&a, "build-sections"), &b, job(&b, "build-sections")));
+            assert(generation_equal(&a, job(&a, "build-sections"), &b, job(&b, "build-sections")));
         yaml_document_delete(&a.doc); yaml_document_delete(&b.doc);
     }
     Doc d = load(argv[2], "deploy"), h = load(argv[2], "hf-space");
@@ -174,6 +195,6 @@ int main(int argc, char **argv) {
         yaml_document_delete(&w.doc);
     }
     closedir(dir); assert(owners == 1);
-    puts("PASS unchanged producer jobs=6 triggers=6 independent sections=1 calls=6 guards=18 Pages action owners=1");
+    puts("PASS preserved generation steps in 6 producers, triggers=6 independent sections=1 calls=6 guards=18 Pages action owners=1");
     return 0;
 }

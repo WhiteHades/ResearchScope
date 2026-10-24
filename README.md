@@ -173,7 +173,11 @@ After Pages succeeds, the publisher calls the existing Space sync with the exact
 
 Automatic Pages publication and its mirror stay in the same queue until both finish. The Space job has a ten minute budget instead of [GitHub's default six hours](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idtimeout-minutes), checked on 2026 October 24. If the mirror fails or times out, Pages remains published and the workflow reports failure. A later successful sync can update the Space. Manual Space sync uses the same job limit.
 
-Pages and Space each use a shared concurrency group with no cancellation of running work. Their queues hold up to 100 pending runs; order depends on when runs enter the queue. See [GitHub's concurrency rules](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency), checked on 2026 October 24. Existing data generation queues and commit failure handling are unchanged.
+Pages and Space each use a shared concurrency group with no cancellation of running work. Their queues hold up to 100 pending runs; order depends on when runs enter the queue. See [GitHub's concurrency rules](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency), checked on 2026 October 24. Existing data generation queues are unchanged.
+
+Data workflows stage their own output and use `scripts/publish_generated_data.sh` to commit and publish it. The helper makes up to three push attempts. It stops on a rebase conflict instead of selecting one writer's data automatically. Before retrying, it records the original generated commit, its parent and a binary patch in `publication-recovery/`. A failed job uploads those files as an artifact retained for fourteen days. A failed generation, staging or commit has no generated commit to recover. No changes means no commit or push.
+
+To recover a failed publication, download its recovery artifact and inspect `generated.patch`. Apply it on a separate branch based on `base_commit_sha`, then reconcile it with current main through normal review. The artifact can contain an older catalog snapshot, so do not apply it directly over newer data. No database or Hugging Face dataset rollback is included.
 
 Before merging a change to these workflows, let legacy publisher runs finish. Reverting the workflow change restores its definitions but does not restore content already published to Pages or the Space.
 

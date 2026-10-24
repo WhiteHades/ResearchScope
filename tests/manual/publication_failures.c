@@ -22,7 +22,7 @@ static const Workflow flows[] = {
     {"conference-backfill", ".github/workflows/conference-backfill.yml", "backfill", 0},
     {"journal-sync", ".github/workflows/journal-sync.yml", "journal-sync", 0}
 };
-static const char *cases[] = {"success", "reject", "transient", "clean", "commit-fail", "stage-fail"};
+static const char *cases[] = {"success", "reject", "transient", "clean", "commit-fail", "stage-fail", "conflict"};
 static char root[PATH_MAX], source[PATH_MAX], sleep_bin[PATH_MAX];
 
 static void die(const char *s) { perror(s); abort(); }
@@ -108,6 +108,14 @@ static void setup(const Workflow *w, const char *which, char *repo, char *bare, 
     path(p, sizeof p, repo, "site/data"); mkdir_ok(p);
     path(p, sizeof p, repo, "data"); mkdir_ok(p);
     path(p, sizeof p, repo, ".git/hooks"); mkdir_ok(p);
+    path(p, sizeof p, repo, "scripts"); mkdir_ok(p);
+    char helper_path[PATH_MAX], helper[8192];
+    path(helper_path, sizeof helper_path, source, "scripts/publish_generated_data.sh");
+    FILE *helper_file = fopen(helper_path, "r"); need(helper_file != NULL, "open publisher");
+    size_t helper_len = fread(helper, 1, sizeof helper - 1, helper_file);
+    need(!ferror(helper_file) && feof(helper_file), "publisher exceeds fixture bound");
+    helper[helper_len] = 0; fclose(helper_file);
+    path(p, sizeof p, repo, "scripts/publish_generated_data.sh"); write_file(p, helper, 0600);
     path(p, sizeof p, repo, "site/data/probe.json"); write_file(p, "original\n", 0600);
     path(p, sizeof p, repo, "data/probe.json"); write_file(p, "original\n", 0600);
     char *add[] = {"git", "-C", repo, "add", "site/data/probe.json", "data/probe.json", NULL};
@@ -116,6 +124,18 @@ static void setup(const Workflow *w, const char *which, char *repo, char *bare, 
     char *push[] = {"git", "-C", repo, "push", "-u", "origin", "main", NULL};
     need(!run(add, NULL, NULL, log, NULL, NULL) && !run(commit, NULL, NULL, log, NULL, NULL) &&
          !run(remote, NULL, NULL, log, NULL, NULL) && !run(push, NULL, NULL, log, NULL, NULL), "seed Git repository");
+    if (!strcmp(which, "conflict")) {
+        char peer[PATH_MAX]; snprintf(name, sizeof name, "%s-peer", w->id); path(peer, sizeof peer, root, name);
+        char *clone[] = {"git", "clone", "--template=", bare, peer, NULL};
+        need(!run(clone, NULL, NULL, log, NULL, NULL), "clone concurrent writer");
+        path(p, sizeof p, peer, "site/data/probe.json"); write_file(p, "concurrent\n", 0600);
+        char *peer_add[] = {"git", "add", "site/data/probe.json", NULL};
+        char *peer_commit[] = {"git", "commit", "-m", "concurrent writer", NULL};
+        char *peer_push[] = {"git", "push", "origin", "main", NULL};
+        need(!run(peer_add, peer, NULL, log, NULL, NULL) &&
+             !run(peer_commit, peer, NULL, log, NULL, NULL) &&
+             !run(peer_push, peer, NULL, log, NULL, NULL), "publish concurrent writer");
+    }
     if (strcmp(which, "clean")) { path(p, sizeof p, repo, "site/data/probe.json"); write_file(p, "generated\n", 0600); }
     if (!strcmp(which, "commit-fail")) { path(p, sizeof p, repo, ".git/hooks/commit-msg"); write_file(p, "#!/bin/sh\nexit 1\n", 0700); }
     if (!strcmp(which, "stage-fail")) { path(p, sizeof p, repo, ".git/index.lock"); write_file(p, "locked\n", 0600); }
@@ -150,6 +170,7 @@ int main(int argc, char **argv) {
     setenv("GIT_CONFIG_NOSYSTEM", "1", 1); setenv("GIT_CONFIG_GLOBAL", "/dev/null", 1); setenv("GIT_TERMINAL_PROMPT", "0", 1);
     setenv("GIT_AUTHOR_NAME", "test", 1); setenv("GIT_AUTHOR_EMAIL", "test@example.invalid", 1);
     setenv("GIT_COMMITTER_NAME", "test", 1); setenv("GIT_COMMITTER_EMAIL", "test@example.invalid", 1);
+    setenv("GITHUB_REF", "refs/heads/main", 1);
     int failures = 0;
     for (size_t wi = 0; wi < sizeof flows / sizeof flows[0]; wi++) {
         char *script = read_run(&flows[wi]);
@@ -162,15 +183,39 @@ int main(int argc, char **argv) {
             snprintf(outname, sizeof outname, "%s.sha.remote.before", tag); path(out, sizeof out, root, outname); sha(bare, log, out, "refs/heads/main"); contents(out, after, sizeof after);
             char *bash[] = {"/bin/bash", "--noprofile", "--norc", "-e", "-c", script, NULL};
             int status = run(bash, repo, NULL, log, trace, cases[ci]), npush = pushes(trace);
+            if (!strcmp(cases[ci], "conflict")) {
+                path(out, sizeof out, repo, "publication-recovery/base_commit_sha");
+                contents(out, val, sizeof val); need(!strcmp(before, val), "conflict recovery base changed");
+                path(out, sizeof out, repo, "publication-recovery/generated_commit_sha");
+                char generated[128]; contents(out, generated, sizeof generated);
+                generated[strcspn(generated, "\n")] = 0;
+                char object[256]; snprintf(object, sizeof object, "%s:site/data/probe.json", generated);
+                path(out, sizeof out, repo, ".git/generated-content");
+                need(!capture(repo, log, out, "show", object), "read original generated commit");
+                contents(out, val, sizeof val); need(!strcmp(val, "generated\n"), "original generated data lost");
+                path(out, sizeof out, repo, ".git/remote-after"); sha(bare, log, out, "refs/heads/main"); contents(out, val, sizeof val);
+                int ok = status != 0 && npush == 1 && !strcmp(after, val);
+                printf("%s/conflict status=%d pushes=%d original_generated_data_saved=true remote_unchanged=%s\n", flows[wi].id, status, npush, ok ? "true" : "false");
+                if (!ok) failures++;
+                continue;
+            }
             snprintf(outname, sizeof outname, "%s.sha.after", tag); path(out, sizeof out, root, outname); sha(repo, log, out, "HEAD"); contents(out, val, sizeof val); int lc = strcmp(before, val) != 0;
             snprintf(outname, sizeof outname, "%s.sha.remote.after", tag); path(out, sizeof out, root, outname); sha(bare, log, out, "refs/heads/main"); contents(out, val, sizeof val); int rc = strcmp(after, val) != 0;
             snprintf(outname, sizeof outname, "%s.local.data", tag); path(out, sizeof out, root, outname); need(!capture(repo, log, out, "show", "HEAD:site/data/probe.json"), "git show local data"); contents(out, val, sizeof val); int ld = !strcmp(val, "generated\n");
             snprintf(outname, sizeof outname, "%s.remote.data", tag); path(out, sizeof out, root, outname); need(!capture(bare, log, out, "show", "refs/heads/main:site/data/probe.json"), "git show remote data"); contents(out, val, sizeof val); int rd = !strcmp(val, "generated\n");
-            int want_fail = !strcmp(cases[ci], "reject") || (!strcmp(cases[ci], "transient") && flows[wi].pipeline) || !strcmp(cases[ci], "commit-fail") || !strcmp(cases[ci], "stage-fail");
-            int wp = !strcmp(cases[ci], "success") ? 1 : !strcmp(cases[ci], "reject") ? flows[wi].pipeline ? 1 : 3 :
-                !strcmp(cases[ci], "transient") ? flows[wi].pipeline ? 1 : 3 : 0;
+            int want_fail = !strcmp(cases[ci], "reject") || !strcmp(cases[ci], "commit-fail") || !strcmp(cases[ci], "stage-fail");
+            int wp = !strcmp(cases[ci], "success") ? 1 :
+                (!strcmp(cases[ci], "reject") || !strcmp(cases[ci], "transient")) ? 3 : 0;
             int wl = !strcmp(cases[ci], "success") || !strcmp(cases[ci], "reject") || !strcmp(cases[ci], "transient");
-            int wr = !strcmp(cases[ci], "success") || (!strcmp(cases[ci], "transient") && !flows[wi].pipeline);
+            int wr = !strcmp(cases[ci], "success") || !strcmp(cases[ci], "transient");
+            if (wl) {
+                path(out, sizeof out, repo, "publication-recovery/base_commit_sha");
+                contents(out, val, sizeof val); need(!strcmp(before, val), "recovery base changed");
+                path(out, sizeof out, repo, "publication-recovery/generated_commit_sha");
+                contents(out, val, sizeof val); need(strcmp(before, val) != 0, "recovery commit missing");
+                char *check[] = {"git", "apply", "--check", "--reverse", "publication-recovery/generated.patch", NULL};
+                need(!run(check, repo, NULL, log, NULL, NULL), "generated patch cannot recover change");
+            }
             int ok = (!!status == want_fail) && npush == wp && lc == wl && rc == wr && ld == wl && rd == wr;
             printf("%s/%s status=%d pushes=%d local_changed=%d remote_changed=%d ok=%s\n", flows[wi].id, cases[ci], status, npush, lc, rc, ok ? "true" : "false");
             if (!ok) { fprintf(stderr, "details: %s\n", log); failures++; }

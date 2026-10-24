@@ -96,23 +96,16 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add site/data/
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore: monthly conference sync [$(date -u +%Y-%m)]"
-            for i in 1 2 3; do
-              git push origin main && break
-              if [ "$i" -eq 3 ]; then
-                echo "::error::Could not publish data after three attempts."
-                exit 1
-              fi
-              echo "Push attempt $i failed, retrying with rebase (theirs)…"
-              # Use -X theirs so the conference sync data wins over any
-              # concurrent daily arXiv commit — conference data is the superset.
-              git pull --rebase --autostash -X theirs origin main
-              sleep 5
-            done
-          fi
+          bash scripts/publish_generated_data.sh "chore: monthly conference sync [$(date -u +%Y-%m)]"
+
+      - name: Upload generated data recovery
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: conference-sync-generated-data-${{ github.run_id }}-${{ github.run_attempt }}
+          path: publication-recovery/
+          retention-days: 14
+          if-no-files-found: ignore
 
   deploy:
     needs: conference-sync
